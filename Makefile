@@ -3,6 +3,7 @@ PWD = $(shell pwd)
 
 # constants
 GOLANGCI_VERSION = 1.47.2
+OPENAPI_GENERATOR_VERSION=v6.0.1
 DOCKER_REPO = stackit-argus-cli
 DOCKER_TAG = latest
 
@@ -66,12 +67,26 @@ out/report.json: out
 	@go test -count 1 ./... -coverprofile=out/cover.out --json | tee "$(@)"
 
 clean: ## Cleans up everything
-	@rm -rf bin out 
+	@rm -rf bin out
 
 docker: ## Builds docker image
 	docker buildx build -t $(DOCKER_REPO):$(DOCKER_TAG) .
 
 ci: lint-reports test-reports ## Executes lint and test and generates reports
+
+.PHONY: clean-generate-files
+clean-generate-files:
+	rm -rf ./pkg/client
+
+.PHONY: generate-client
+generate-client: clean-generate-files
+	docker run --rm \
+		-v ${PWD}:/local openapitools/openapi-generator-cli:${OPENAPI_GENERATOR_VERSION} generate \
+		-i /local/api/ARGUS.openapi.v1.json \
+		-g go \
+		--additional-properties=packageName=argus \
+		-o /local/pkg/client \
+		--skip-validate-spec
 
 help: ## Shows the help
 	@echo 'Usage: make <OPTIONS> ... <TARGETS>'
