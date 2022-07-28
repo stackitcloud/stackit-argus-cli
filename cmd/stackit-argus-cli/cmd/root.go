@@ -11,7 +11,7 @@ import (
 )
 
 // rootCmd represents the base command when called without any subcommands
-var rootCmd = &cobra.Command{
+var rootCmd = &cobra.Command{ //nolint:gochecknoglobals // CLI command
 	Use:   "stackit-argus-cli",
 	Short: "Manage ARGUS resources",
 	Long: `A longer description that spans multiple lines and likely contains
