@@ -12,6 +12,16 @@ Whenever you need help regarding the available actions, just use the following c
 make help
 ```
 
+## Update Client
+
+The Client will be generated through the OpenAPI Spec file from ARGUS with [openapi-generator.tech](https://openapi-generator.tech/).
+
+To update the generated code, run:
+
+```bash
+make generate-client-code
+```
+
 ## Setup
 
 To get your setup up and running the only thing you have to do is
