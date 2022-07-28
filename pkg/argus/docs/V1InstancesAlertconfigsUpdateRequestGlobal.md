@@ -4,14 +4,13 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ResolveTimeout** | Pointer to **string** | ResolveTimeout is the default value used by alertmanager if the alert does not include EndsAt, after this time passes it can declare the alert as resolved if it has not been updated. This has no impact on alerts from Prometheus, as they always include EndsAt.  &#x60;Additional Validators:&#x60; * must be a valid time format | [optional] [default to "5m"]
-**SmtpFrom** | Pointer to **string** | The default SMTP From header field.  &#x60;Additional Validators:&#x60; * must be a syntactically valid email address | [optional] 
-**SmtpSmarthost** | Pointer to **string** | The default SMTP smarthost used for sending emails, including port number. Port number usually is 25, or 587 for SMTP over TLS (sometimes referred to as STARTTLS). Example: smtp.example.org:587  &#x60;Additional Validators:&#x60; * should only include the characters: a-zA-Z0-9_./@&amp;?:- | [optional] 
+**ResolveTimeout** | Pointer to **string** | ResolveTimeout is the default value used by alertmanager if the alert does not include EndsAt, after this time passes it can declare the alert as resolved if it has not been updated. This has no impact on alerts from Prometheus, as they always include EndsAt. | [optional] [default to "5m"]
+**SmtpFrom** | Pointer to **string** | The default SMTP From header field. | [optional] 
+**SmtpSmarthost** | Pointer to **string** | The default SMTP smarthost used for sending emails, including port number. Port number usually is 25, or 587 for SMTP over TLS (sometimes referred to as STARTTLS). Example: smtp.example.org:587 | [optional] 
 **SmtpAuthUsername** | Pointer to **string** | SMTP Auth using CRAM-MD5, LOGIN and PLAIN. If empty, Alertmanager doesn&#39;t authenticate to the SMTP server. | [optional] 
 **SmtpAuthPassword** | Pointer to **string** | SMTP Auth using LOGIN and PLAIN. | [optional] 
-**SmtpAuthIdentity** | Pointer to **string** | Auth identity. &#x60;Additional Validators:&#x60; * must be a syntactically valid email address | [optional] 
-**OpsgenieApiKey** | Pointer to **string** | Opsgenie api key &#x60;Additional Validators:&#x60; * should only include the characters: a-zA-Z0-9- | [optional] 
-**OpsgenieApiUrl** | Pointer to **string** | Opsgenie api url &#x60;Additional Validators:&#x60; * must be a syntactically valid url address | [optional] 
+**OpsgenieApiKey** | Pointer to **string** | Opsgenie api key | [optional] 
+**OpsgenieApiUrl** | Pointer to **string** | Opsgenie api url | [optional] 
 
 ## Methods
 
@@ -156,31 +155,6 @@ SetSmtpAuthPassword sets SmtpAuthPassword field to given value.
 `func (o *V1InstancesAlertconfigsUpdateRequestGlobal) HasSmtpAuthPassword() bool`
 
 HasSmtpAuthPassword returns a boolean if a field has been set.
-
-### GetSmtpAuthIdentity
-
-`func (o *V1InstancesAlertconfigsUpdateRequestGlobal) GetSmtpAuthIdentity() string`
-
-GetSmtpAuthIdentity returns the SmtpAuthIdentity field if non-nil, zero value otherwise.
-
-### GetSmtpAuthIdentityOk
-
-`func (o *V1InstancesAlertconfigsUpdateRequestGlobal) GetSmtpAuthIdentityOk() (*string, bool)`
-
-GetSmtpAuthIdentityOk returns a tuple with the SmtpAuthIdentity field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetSmtpAuthIdentity
-
-`func (o *V1InstancesAlertconfigsUpdateRequestGlobal) SetSmtpAuthIdentity(v string)`
-
-SetSmtpAuthIdentity sets SmtpAuthIdentity field to given value.
-
-### HasSmtpAuthIdentity
-
-`func (o *V1InstancesAlertconfigsUpdateRequestGlobal) HasSmtpAuthIdentity() bool`
-
-HasSmtpAuthIdentity returns a boolean if a field has been set.
 
 ### GetOpsgenieApiKey
 

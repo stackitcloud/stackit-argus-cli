@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Name** | **string** | &#x60;Additional Validators:&#x60; * must be unique * should only include the characters: a-zA-Z0-9- | 
-**EmailConfigs** | Pointer to [**[]V1InstancesAlertconfigsUpdateRequestReceiversInnerEmailConfigsInner**](V1InstancesAlertconfigsUpdateRequestReceiversInnerEmailConfigsInner.md) | Email configurations | [optional] 
+**Name** | **string** | The unique name of the receiver. | 
+**EmailConfigs** | Pointer to [**[]V1InstancesAlertconfigsUpdateRequestReceiversInnerEmailConfigsInner**](V1InstancesAlertconfigsUpdateRequestReceiversInnerEmailConfigsInner.md) | Configurations for emails | [optional] 
 **OpsgenieConfigs** | Pointer to [**[]V1InstancesAlertconfigsUpdateRequestReceiversInnerOpsgenieConfigsInner**](V1InstancesAlertconfigsUpdateRequestReceiversInnerOpsgenieConfigsInner.md) | Configuration for ops genie. | [optional] 
 **WebHookConfigs** | Pointer to [**[]V1InstancesAlertconfigsUpdateRequestReceiversInnerWebHookConfigsInner**](V1InstancesAlertconfigsUpdateRequestReceiversInnerWebHookConfigsInner.md) |  | [optional] 
 

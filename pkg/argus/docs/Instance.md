@@ -8,9 +8,9 @@ Name | Type | Description | Notes
 **Instance** | **string** |  | 
 **Name** | Pointer to **string** |  | [optional] 
 **Plan** | [**PlanModel**](PlanModel.md) |  | 
-**MetricsRetentionTimeRaw** | **int32** |  | 
-**MetricsRetentionTime5m** | **int32** |  | 
-**MetricsRetentionTime1h** | **int32** |  | 
+**BucketRetentionTimeRaw** | **int32** |  | 
+**BucketRetentionTime5m** | **int32** |  | 
+**BucketRetentionTime1h** | **int32** |  | 
 **State** | Pointer to **string** |  | [optional] 
 **GrafanaPublicReadAccess** | **bool** |  | 
 
@@ -18,7 +18,7 @@ Name | Type | Description | Notes
 
 ### NewInstance
 
-`func NewInstance(cluster string, instance string, plan PlanModel, metricsRetentionTimeRaw int32, metricsRetentionTime5m int32, metricsRetentionTime1h int32, grafanaPublicReadAccess bool, ) *Instance`
+`func NewInstance(cluster string, instance string, plan PlanModel, bucketRetentionTimeRaw int32, bucketRetentionTime5m int32, bucketRetentionTime1h int32, grafanaPublicReadAccess bool, ) *Instance`
 
 NewInstance instantiates a new Instance object
 This constructor will assign default values to properties that have it defined,
@@ -118,64 +118,64 @@ and a boolean to check if the value has been set.
 SetPlan sets Plan field to given value.
 
 
-### GetMetricsRetentionTimeRaw
+### GetBucketRetentionTimeRaw
 
-`func (o *Instance) GetMetricsRetentionTimeRaw() int32`
+`func (o *Instance) GetBucketRetentionTimeRaw() int32`
 
-GetMetricsRetentionTimeRaw returns the MetricsRetentionTimeRaw field if non-nil, zero value otherwise.
+GetBucketRetentionTimeRaw returns the BucketRetentionTimeRaw field if non-nil, zero value otherwise.
 
-### GetMetricsRetentionTimeRawOk
+### GetBucketRetentionTimeRawOk
 
-`func (o *Instance) GetMetricsRetentionTimeRawOk() (*int32, bool)`
+`func (o *Instance) GetBucketRetentionTimeRawOk() (*int32, bool)`
 
-GetMetricsRetentionTimeRawOk returns a tuple with the MetricsRetentionTimeRaw field if it's non-nil, zero value otherwise
+GetBucketRetentionTimeRawOk returns a tuple with the BucketRetentionTimeRaw field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetMetricsRetentionTimeRaw
+### SetBucketRetentionTimeRaw
 
-`func (o *Instance) SetMetricsRetentionTimeRaw(v int32)`
+`func (o *Instance) SetBucketRetentionTimeRaw(v int32)`
 
-SetMetricsRetentionTimeRaw sets MetricsRetentionTimeRaw field to given value.
+SetBucketRetentionTimeRaw sets BucketRetentionTimeRaw field to given value.
 
 
-### GetMetricsRetentionTime5m
+### GetBucketRetentionTime5m
 
-`func (o *Instance) GetMetricsRetentionTime5m() int32`
+`func (o *Instance) GetBucketRetentionTime5m() int32`
 
-GetMetricsRetentionTime5m returns the MetricsRetentionTime5m field if non-nil, zero value otherwise.
+GetBucketRetentionTime5m returns the BucketRetentionTime5m field if non-nil, zero value otherwise.
 
-### GetMetricsRetentionTime5mOk
+### GetBucketRetentionTime5mOk
 
-`func (o *Instance) GetMetricsRetentionTime5mOk() (*int32, bool)`
+`func (o *Instance) GetBucketRetentionTime5mOk() (*int32, bool)`
 
-GetMetricsRetentionTime5mOk returns a tuple with the MetricsRetentionTime5m field if it's non-nil, zero value otherwise
+GetBucketRetentionTime5mOk returns a tuple with the BucketRetentionTime5m field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetMetricsRetentionTime5m
+### SetBucketRetentionTime5m
 
-`func (o *Instance) SetMetricsRetentionTime5m(v int32)`
+`func (o *Instance) SetBucketRetentionTime5m(v int32)`
 
-SetMetricsRetentionTime5m sets MetricsRetentionTime5m field to given value.
+SetBucketRetentionTime5m sets BucketRetentionTime5m field to given value.
 
 
-### GetMetricsRetentionTime1h
+### GetBucketRetentionTime1h
 
-`func (o *Instance) GetMetricsRetentionTime1h() int32`
+`func (o *Instance) GetBucketRetentionTime1h() int32`
 
-GetMetricsRetentionTime1h returns the MetricsRetentionTime1h field if non-nil, zero value otherwise.
+GetBucketRetentionTime1h returns the BucketRetentionTime1h field if non-nil, zero value otherwise.
 
-### GetMetricsRetentionTime1hOk
+### GetBucketRetentionTime1hOk
 
-`func (o *Instance) GetMetricsRetentionTime1hOk() (*int32, bool)`
+`func (o *Instance) GetBucketRetentionTime1hOk() (*int32, bool)`
 
-GetMetricsRetentionTime1hOk returns a tuple with the MetricsRetentionTime1h field if it's non-nil, zero value otherwise
+GetBucketRetentionTime1hOk returns a tuple with the BucketRetentionTime1h field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetMetricsRetentionTime1h
+### SetBucketRetentionTime1h
 
-`func (o *Instance) SetMetricsRetentionTime1h(v int32)`
+`func (o *Instance) SetBucketRetentionTime1h(v int32)`
 
-SetMetricsRetentionTime1h sets MetricsRetentionTime1h field to given value.
+SetBucketRetentionTime1h sets BucketRetentionTime1h field to given value.
 
 
 ### GetState

@@ -4,22 +4,20 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Receiver** | **string** |  | 
+**Receiver** | Pointer to **string** |  | [optional] 
 **GroupBy** | Pointer to **[]string** |  | [optional] 
 **GroupWait** | Pointer to **string** |  | [optional] [default to "30s"]
 **GroupInterval** | Pointer to **string** |  | [optional] [default to "5m"]
 **RepeatInterval** | Pointer to **string** |  | [optional] [default to "4h"]
 **Match** | Pointer to **map[string]string** |  | [optional] 
 **MatchRe** | Pointer to **map[string]string** |  | [optional] 
-**Matchers** | Pointer to **[]string** |  | [optional] 
-**Routes** | Pointer to **[]map[string]string** |  | [optional] 
 **Continue** | Pointer to **bool** |  | [optional] [default to false]
 
 ## Methods
 
 ### NewRouteSerializer2
 
-`func NewRouteSerializer2(receiver string, ) *RouteSerializer2`
+`func NewRouteSerializer2() *RouteSerializer2`
 
 NewRouteSerializer2 instantiates a new RouteSerializer2 object
 This constructor will assign default values to properties that have it defined,
@@ -53,6 +51,11 @@ and a boolean to check if the value has been set.
 
 SetReceiver sets Receiver field to given value.
 
+### HasReceiver
+
+`func (o *RouteSerializer2) HasReceiver() bool`
+
+HasReceiver returns a boolean if a field has been set.
 
 ### GetGroupBy
 
@@ -203,56 +206,6 @@ SetMatchRe sets MatchRe field to given value.
 `func (o *RouteSerializer2) HasMatchRe() bool`
 
 HasMatchRe returns a boolean if a field has been set.
-
-### GetMatchers
-
-`func (o *RouteSerializer2) GetMatchers() []string`
-
-GetMatchers returns the Matchers field if non-nil, zero value otherwise.
-
-### GetMatchersOk
-
-`func (o *RouteSerializer2) GetMatchersOk() (*[]string, bool)`
-
-GetMatchersOk returns a tuple with the Matchers field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetMatchers
-
-`func (o *RouteSerializer2) SetMatchers(v []string)`
-
-SetMatchers sets Matchers field to given value.
-
-### HasMatchers
-
-`func (o *RouteSerializer2) HasMatchers() bool`
-
-HasMatchers returns a boolean if a field has been set.
-
-### GetRoutes
-
-`func (o *RouteSerializer2) GetRoutes() []map[string]string`
-
-GetRoutes returns the Routes field if non-nil, zero value otherwise.
-
-### GetRoutesOk
-
-`func (o *RouteSerializer2) GetRoutesOk() (*[]map[string]string, bool)`
-
-GetRoutesOk returns a tuple with the Routes field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetRoutes
-
-`func (o *RouteSerializer2) SetRoutes(v []map[string]string)`
-
-SetRoutes sets Routes field to given value.
-
-### HasRoutes
-
-`func (o *RouteSerializer2) HasRoutes() bool`
-
-HasRoutes returns a boolean if a field has been set.
 
 ### GetContinue
 

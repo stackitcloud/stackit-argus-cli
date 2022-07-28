@@ -33,7 +33,7 @@ import (
 
 func main() {
     instanceId := "instanceId_example" // string | 
-    authorization := "authorization_example" // string | Accepts technical credentials and api gateway access.
+    authorization := "authorization_example" // string | Accepts admin basic + token auth and oauth token and authenticated api user.
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -63,7 +63,7 @@ Other parameters are passed through a pointer to a apiV1InstancesGrafanaConfigsL
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **authorization** | **string** | Accepts technical credentials and api gateway access. | 
+ **authorization** | **string** | Accepts admin basic + token auth and oauth token and authenticated api user. | 
 
 ### Return type
 
@@ -71,7 +71,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Basic](../README.md#Basic)
+[Basic](../README.md#Basic), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -85,7 +85,7 @@ Name | Type | Description  | Notes
 
 ## V1InstancesGrafanaConfigsUpdate
 
-> Message V1InstancesGrafanaConfigsUpdate(ctx, instanceId).Authorization(authorization).Data(data).Execute()
+> Message V1InstancesGrafanaConfigsUpdate(ctx, instanceId).Authorization(authorization).V1InstancesGrafanaConfigsUpdateRequest(v1InstancesGrafanaConfigsUpdateRequest).Execute()
 
 
 
@@ -105,12 +105,12 @@ import (
 
 func main() {
     instanceId := "instanceId_example" // string | 
-    authorization := "authorization_example" // string | Accepts technical credentials and api gateway access.
-    data := *openapiclient.NewV1InstancesGrafanaConfigsUpdateRequest() // V1InstancesGrafanaConfigsUpdateRequest | 
+    authorization := "authorization_example" // string | Accepts admin basic + token auth and oauth token and authenticated api user.
+    v1InstancesGrafanaConfigsUpdateRequest := *openapiclient.NewV1InstancesGrafanaConfigsUpdateRequest(false) // V1InstancesGrafanaConfigsUpdateRequest | 
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.GrafanaConfigsApi.V1InstancesGrafanaConfigsUpdate(context.Background(), instanceId).Authorization(authorization).Data(data).Execute()
+    resp, r, err := apiClient.GrafanaConfigsApi.V1InstancesGrafanaConfigsUpdate(context.Background(), instanceId).Authorization(authorization).V1InstancesGrafanaConfigsUpdateRequest(v1InstancesGrafanaConfigsUpdateRequest).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `GrafanaConfigsApi.V1InstancesGrafanaConfigsUpdate``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -136,8 +136,8 @@ Other parameters are passed through a pointer to a apiV1InstancesGrafanaConfigsU
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **authorization** | **string** | Accepts technical credentials and api gateway access. | 
- **data** | [**V1InstancesGrafanaConfigsUpdateRequest**](V1InstancesGrafanaConfigsUpdateRequest.md) |  | 
+ **authorization** | **string** | Accepts admin basic + token auth and oauth token and authenticated api user. | 
+ **v1InstancesGrafanaConfigsUpdateRequest** | [**V1InstancesGrafanaConfigsUpdateRequest**](V1InstancesGrafanaConfigsUpdateRequest.md) |  | 
 
 ### Return type
 
@@ -145,7 +145,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Basic](../README.md#Basic)
+[Basic](../README.md#Basic), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -180,7 +180,7 @@ import (
 func main() {
     instanceId := "instanceId_example" // string | 
     projectId := "projectId_example" // string | 
-    authorization := "authorization_example" // string | Accepts technical credentials and api gateway access.
+    authorization := "authorization_example" // string | Accepts admin basic + token auth and oauth token and authenticated api user.
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -212,7 +212,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
 
- **authorization** | **string** | Accepts technical credentials and api gateway access. | 
+ **authorization** | **string** | Accepts admin basic + token auth and oauth token and authenticated api user. | 
 
 ### Return type
 
@@ -220,7 +220,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Basic](../README.md#Basic)
+[Basic](../README.md#Basic), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -234,7 +234,7 @@ Name | Type | Description  | Notes
 
 ## V1ProjectsInstancesGrafanaConfigsUpdate
 
-> Message V1ProjectsInstancesGrafanaConfigsUpdate(ctx, instanceId, projectId).Authorization(authorization).Data(data).Execute()
+> Message V1ProjectsInstancesGrafanaConfigsUpdate(ctx, instanceId, projectId).Authorization(authorization).V1InstancesGrafanaConfigsUpdateRequest(v1InstancesGrafanaConfigsUpdateRequest).Execute()
 
 
 
@@ -255,12 +255,12 @@ import (
 func main() {
     instanceId := "instanceId_example" // string | 
     projectId := "projectId_example" // string | 
-    authorization := "authorization_example" // string | Accepts technical credentials and api gateway access.
-    data := *openapiclient.NewV1InstancesGrafanaConfigsUpdateRequest() // V1InstancesGrafanaConfigsUpdateRequest | 
+    authorization := "authorization_example" // string | Accepts admin basic + token auth and oauth token and authenticated api user.
+    v1InstancesGrafanaConfigsUpdateRequest := *openapiclient.NewV1InstancesGrafanaConfigsUpdateRequest(false) // V1InstancesGrafanaConfigsUpdateRequest | 
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.GrafanaConfigsApi.V1ProjectsInstancesGrafanaConfigsUpdate(context.Background(), instanceId, projectId).Authorization(authorization).Data(data).Execute()
+    resp, r, err := apiClient.GrafanaConfigsApi.V1ProjectsInstancesGrafanaConfigsUpdate(context.Background(), instanceId, projectId).Authorization(authorization).V1InstancesGrafanaConfigsUpdateRequest(v1InstancesGrafanaConfigsUpdateRequest).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `GrafanaConfigsApi.V1ProjectsInstancesGrafanaConfigsUpdate``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -288,8 +288,8 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
 
- **authorization** | **string** | Accepts technical credentials and api gateway access. | 
- **data** | [**V1InstancesGrafanaConfigsUpdateRequest**](V1InstancesGrafanaConfigsUpdateRequest.md) |  | 
+ **authorization** | **string** | Accepts admin basic + token auth and oauth token and authenticated api user. | 
+ **v1InstancesGrafanaConfigsUpdateRequest** | [**V1InstancesGrafanaConfigsUpdateRequest**](V1InstancesGrafanaConfigsUpdateRequest.md) |  | 
 
 ### Return type
 
@@ -297,7 +297,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Basic](../README.md#Basic)
+[Basic](../README.md#Basic), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 

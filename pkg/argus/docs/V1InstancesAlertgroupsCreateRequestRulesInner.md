@@ -4,17 +4,17 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Alert** | **string** | The name of the alert. &#x60;Additional Validators:&#x60; * is the identifier and so unique in the group * should only include the characters: a-zA-Z0-9- | 
+**Alert** | **string** | The name of the alert. Must be unique. | 
 **Expr** | **string** | The PromQL expression to evaluate. Every evaluation cycle this is evaluated at the current time, and all resultant time series become pending/firing alerts. | 
-**For** | Pointer to **string** | Alerts are considered firing once they have been returned for this long. Alerts which have not yet fired for long enough are considered pending. &#x60;Additional Validators:&#x60; * must be a valid time string | [optional] [default to "0s"]
-**Labels** | Pointer to **map[string]interface{}** | map of key:value. Labels to add or overwrite for each alert. &#x60;Additional Validators:&#x60; * should not contain more than 10 keys * each key and value should not be longer than 200 characters | [optional] 
-**Annotations** | Pointer to **map[string]interface{}** | map of key:value. Annotations to add to each alert. &#x60;Additional Validators:&#x60; * should not contain more than 5 keys * each key and value should not be longer than 200 characters | [optional] 
+**For** | Pointer to **string** | Alerts are considered firing once they have been returned for this long. Alerts which have not yet fired for long enough are considered pending. | [optional] [default to "0s"]
+**Labels** | **map[string]interface{}** | map of key:value. Labels to add or overwrite for each alert. | 
+**Annotations** | **map[string]interface{}** | map of key:value. Annotations to add to each alert. | 
 
 ## Methods
 
 ### NewV1InstancesAlertgroupsCreateRequestRulesInner
 
-`func NewV1InstancesAlertgroupsCreateRequestRulesInner(alert string, expr string, ) *V1InstancesAlertgroupsCreateRequestRulesInner`
+`func NewV1InstancesAlertgroupsCreateRequestRulesInner(alert string, expr string, labels map[string]interface{}, annotations map[string]interface{}, ) *V1InstancesAlertgroupsCreateRequestRulesInner`
 
 NewV1InstancesAlertgroupsCreateRequestRulesInner instantiates a new V1InstancesAlertgroupsCreateRequestRulesInner object
 This constructor will assign default values to properties that have it defined,
@@ -113,11 +113,6 @@ and a boolean to check if the value has been set.
 
 SetLabels sets Labels field to given value.
 
-### HasLabels
-
-`func (o *V1InstancesAlertgroupsCreateRequestRulesInner) HasLabels() bool`
-
-HasLabels returns a boolean if a field has been set.
 
 ### GetAnnotations
 
@@ -138,11 +133,6 @@ and a boolean to check if the value has been set.
 
 SetAnnotations sets Annotations field to given value.
 
-### HasAnnotations
-
-`func (o *V1InstancesAlertgroupsCreateRequestRulesInner) HasAnnotations() bool`
-
-HasAnnotations returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

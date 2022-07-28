@@ -20,15 +20,14 @@ import (
 	"strings"
 )
 
-
 // GrafanaPluginsApiService GrafanaPluginsApi service
 type GrafanaPluginsApiService service
 
 type ApiV1GrafanaPluginsCreateRequest struct {
-	ctx context.Context
-	ApiService *GrafanaPluginsApiService
+	ctx           context.Context
+	ApiService    *GrafanaPluginsApiService
 	authorization *string
-	data *V1GrafanaPluginsCreateRequest
+	data          *V1GrafanaPluginsCreateRequest
 }
 
 // Accepts admin auth.
@@ -57,7 +56,7 @@ Create grafana plugins for instance.
 func (a *GrafanaPluginsApiService) V1GrafanaPluginsCreate(ctx context.Context) ApiV1GrafanaPluginsCreateRequest {
 	return ApiV1GrafanaPluginsCreateRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -65,10 +64,10 @@ func (a *GrafanaPluginsApiService) V1GrafanaPluginsCreate(ctx context.Context) A
 //  @return GrafanaPluginSingle
 func (a *GrafanaPluginsApiService) V1GrafanaPluginsCreateExecute(r ApiV1GrafanaPluginsCreateRequest) (*GrafanaPluginSingle, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *GrafanaPluginSingle
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *GrafanaPluginSingle
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "GrafanaPluginsApiService.V1GrafanaPluginsCreate")
@@ -165,9 +164,9 @@ func (a *GrafanaPluginsApiService) V1GrafanaPluginsCreateExecute(r ApiV1GrafanaP
 }
 
 type ApiV1GrafanaPluginsDeleteRequest struct {
-	ctx context.Context
-	ApiService *GrafanaPluginsApiService
-	pluginName string
+	ctx           context.Context
+	ApiService    *GrafanaPluginsApiService
+	pluginName    string
 	authorization *string
 }
 
@@ -193,7 +192,7 @@ Delete grafana plugin.
 func (a *GrafanaPluginsApiService) V1GrafanaPluginsDelete(ctx context.Context, pluginName string) ApiV1GrafanaPluginsDeleteRequest {
 	return ApiV1GrafanaPluginsDeleteRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 		pluginName: pluginName,
 	}
 }
@@ -202,10 +201,10 @@ func (a *GrafanaPluginsApiService) V1GrafanaPluginsDelete(ctx context.Context, p
 //  @return Message
 func (a *GrafanaPluginsApiService) V1GrafanaPluginsDeleteExecute(r ApiV1GrafanaPluginsDeleteRequest) (*Message, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *Message
+		localVarHTTPMethod  = http.MethodDelete
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Message
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "GrafanaPluginsApiService.V1GrafanaPluginsDelete")
@@ -298,8 +297,8 @@ func (a *GrafanaPluginsApiService) V1GrafanaPluginsDeleteExecute(r ApiV1GrafanaP
 }
 
 type ApiV1GrafanaPluginsListRequest struct {
-	ctx context.Context
-	ApiService *GrafanaPluginsApiService
+	ctx           context.Context
+	ApiService    *GrafanaPluginsApiService
 	authorization *string
 }
 
@@ -324,7 +323,7 @@ Get grafana plugins for instance.
 func (a *GrafanaPluginsApiService) V1GrafanaPluginsList(ctx context.Context) ApiV1GrafanaPluginsListRequest {
 	return ApiV1GrafanaPluginsListRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -332,10 +331,10 @@ func (a *GrafanaPluginsApiService) V1GrafanaPluginsList(ctx context.Context) Api
 //  @return GrafanaPlugin
 func (a *GrafanaPluginsApiService) V1GrafanaPluginsListExecute(r ApiV1GrafanaPluginsListRequest) (*GrafanaPlugin, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *GrafanaPlugin
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *GrafanaPlugin
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "GrafanaPluginsApiService.V1GrafanaPluginsList")
@@ -417,9 +416,9 @@ func (a *GrafanaPluginsApiService) V1GrafanaPluginsListExecute(r ApiV1GrafanaPlu
 }
 
 type ApiV1GrafanaPluginsReadRequest struct {
-	ctx context.Context
-	ApiService *GrafanaPluginsApiService
-	pluginName string
+	ctx           context.Context
+	ApiService    *GrafanaPluginsApiService
+	pluginName    string
 	authorization *string
 }
 
@@ -445,7 +444,7 @@ Get grafana plugin.
 func (a *GrafanaPluginsApiService) V1GrafanaPluginsRead(ctx context.Context, pluginName string) ApiV1GrafanaPluginsReadRequest {
 	return ApiV1GrafanaPluginsReadRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 		pluginName: pluginName,
 	}
 }
@@ -454,10 +453,10 @@ func (a *GrafanaPluginsApiService) V1GrafanaPluginsRead(ctx context.Context, plu
 //  @return GrafanaPluginSingle
 func (a *GrafanaPluginsApiService) V1GrafanaPluginsReadExecute(r ApiV1GrafanaPluginsReadRequest) (*GrafanaPluginSingle, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *GrafanaPluginSingle
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *GrafanaPluginSingle
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "GrafanaPluginsApiService.V1GrafanaPluginsRead")
@@ -550,11 +549,11 @@ func (a *GrafanaPluginsApiService) V1GrafanaPluginsReadExecute(r ApiV1GrafanaPlu
 }
 
 type ApiV1GrafanaPluginsUpdateRequest struct {
-	ctx context.Context
-	ApiService *GrafanaPluginsApiService
-	pluginName string
+	ctx           context.Context
+	ApiService    *GrafanaPluginsApiService
+	pluginName    string
 	authorization *string
-	data *V1GrafanaPluginsUpdateRequest
+	data          *V1GrafanaPluginsUpdateRequest
 }
 
 // Accepts admin auth.
@@ -584,7 +583,7 @@ Update grafana plugin.
 func (a *GrafanaPluginsApiService) V1GrafanaPluginsUpdate(ctx context.Context, pluginName string) ApiV1GrafanaPluginsUpdateRequest {
 	return ApiV1GrafanaPluginsUpdateRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 		pluginName: pluginName,
 	}
 }
@@ -593,10 +592,10 @@ func (a *GrafanaPluginsApiService) V1GrafanaPluginsUpdate(ctx context.Context, p
 //  @return GrafanaPluginSingle
 func (a *GrafanaPluginsApiService) V1GrafanaPluginsUpdateExecute(r ApiV1GrafanaPluginsUpdateRequest) (*GrafanaPluginSingle, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPut
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *GrafanaPluginSingle
+		localVarHTTPMethod  = http.MethodPut
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *GrafanaPluginSingle
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "GrafanaPluginsApiService.V1GrafanaPluginsUpdate")

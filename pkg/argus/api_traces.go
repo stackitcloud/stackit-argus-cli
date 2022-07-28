@@ -20,14 +20,13 @@ import (
 	"strings"
 )
 
-
 // TracesApiService TracesApi service
 type TracesApiService service
 
 type ApiV1InstancesTracesConfigsListRequest struct {
-	ctx context.Context
-	ApiService *TracesApiService
-	instanceId string
+	ctx           context.Context
+	ApiService    *TracesApiService
+	instanceId    string
 	authorization *string
 }
 
@@ -53,7 +52,7 @@ Get traces config.
 func (a *TracesApiService) V1InstancesTracesConfigsList(ctx context.Context, instanceId string) ApiV1InstancesTracesConfigsListRequest {
 	return ApiV1InstancesTracesConfigsListRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 		instanceId: instanceId,
 	}
 }
@@ -62,10 +61,10 @@ func (a *TracesApiService) V1InstancesTracesConfigsList(ctx context.Context, ins
 //  @return TracesConfigResponse
 func (a *TracesApiService) V1InstancesTracesConfigsListExecute(r ApiV1InstancesTracesConfigsListRequest) (*TracesConfigResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *TracesConfigResponse
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *TracesConfigResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TracesApiService.V1InstancesTracesConfigsList")
@@ -148,11 +147,11 @@ func (a *TracesApiService) V1InstancesTracesConfigsListExecute(r ApiV1InstancesT
 }
 
 type ApiV1InstancesTracesConfigsUpdateRequest struct {
-	ctx context.Context
-	ApiService *TracesApiService
-	instanceId string
+	ctx           context.Context
+	ApiService    *TracesApiService
+	instanceId    string
 	authorization *string
-	data *V1InstancesTracesConfigsUpdateRequest
+	data          *V1InstancesTracesConfigsUpdateRequest
 }
 
 // Accepts technical credentials and api gateway access.
@@ -182,7 +181,7 @@ Update traces config.
 func (a *TracesApiService) V1InstancesTracesConfigsUpdate(ctx context.Context, instanceId string) ApiV1InstancesTracesConfigsUpdateRequest {
 	return ApiV1InstancesTracesConfigsUpdateRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 		instanceId: instanceId,
 	}
 }
@@ -191,10 +190,10 @@ func (a *TracesApiService) V1InstancesTracesConfigsUpdate(ctx context.Context, i
 //  @return Message
 func (a *TracesApiService) V1InstancesTracesConfigsUpdateExecute(r ApiV1InstancesTracesConfigsUpdateRequest) (*Message, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPut
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *Message
+		localVarHTTPMethod  = http.MethodPut
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Message
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TracesApiService.V1InstancesTracesConfigsUpdate")
@@ -292,10 +291,10 @@ func (a *TracesApiService) V1InstancesTracesConfigsUpdateExecute(r ApiV1Instance
 }
 
 type ApiV1ProjectsInstancesTracesConfigsListRequest struct {
-	ctx context.Context
-	ApiService *TracesApiService
-	instanceId string
-	projectId string
+	ctx           context.Context
+	ApiService    *TracesApiService
+	instanceId    string
+	projectId     string
 	authorization *string
 }
 
@@ -322,9 +321,9 @@ Get traces config.
 func (a *TracesApiService) V1ProjectsInstancesTracesConfigsList(ctx context.Context, instanceId string, projectId string) ApiV1ProjectsInstancesTracesConfigsListRequest {
 	return ApiV1ProjectsInstancesTracesConfigsListRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 		instanceId: instanceId,
-		projectId: projectId,
+		projectId:  projectId,
 	}
 }
 
@@ -332,10 +331,10 @@ func (a *TracesApiService) V1ProjectsInstancesTracesConfigsList(ctx context.Cont
 //  @return TracesConfigResponse
 func (a *TracesApiService) V1ProjectsInstancesTracesConfigsListExecute(r ApiV1ProjectsInstancesTracesConfigsListRequest) (*TracesConfigResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *TracesConfigResponse
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *TracesConfigResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TracesApiService.V1ProjectsInstancesTracesConfigsList")
@@ -419,12 +418,12 @@ func (a *TracesApiService) V1ProjectsInstancesTracesConfigsListExecute(r ApiV1Pr
 }
 
 type ApiV1ProjectsInstancesTracesConfigsUpdateRequest struct {
-	ctx context.Context
-	ApiService *TracesApiService
-	instanceId string
-	projectId string
+	ctx           context.Context
+	ApiService    *TracesApiService
+	instanceId    string
+	projectId     string
 	authorization *string
-	data *V1InstancesTracesConfigsUpdateRequest
+	data          *V1InstancesTracesConfigsUpdateRequest
 }
 
 // Accepts technical credentials and api gateway access.
@@ -455,9 +454,9 @@ Update traces config.
 func (a *TracesApiService) V1ProjectsInstancesTracesConfigsUpdate(ctx context.Context, instanceId string, projectId string) ApiV1ProjectsInstancesTracesConfigsUpdateRequest {
 	return ApiV1ProjectsInstancesTracesConfigsUpdateRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 		instanceId: instanceId,
-		projectId: projectId,
+		projectId:  projectId,
 	}
 }
 
@@ -465,10 +464,10 @@ func (a *TracesApiService) V1ProjectsInstancesTracesConfigsUpdate(ctx context.Co
 //  @return Message
 func (a *TracesApiService) V1ProjectsInstancesTracesConfigsUpdateExecute(r ApiV1ProjectsInstancesTracesConfigsUpdateRequest) (*Message, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPut
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *Message
+		localVarHTTPMethod  = http.MethodPut
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Message
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TracesApiService.V1ProjectsInstancesTracesConfigsUpdate")

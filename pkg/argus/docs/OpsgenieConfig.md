@@ -7,8 +7,7 @@ Name | Type | Description | Notes
 **ApiKey** | Pointer to **string** |  | [optional] 
 **ApiUrl** | Pointer to **string** |  | [optional] 
 **Tags** | Pointer to **string** |  | [optional] 
-**SendResolved** | Pointer to **bool** |  | [optional] [default to true]
-**Priority** | Pointer to **string** |  | [optional] 
+**HttpConfig** | Pointer to [**HttpConfig**](HttpConfig.md) |  | [optional] 
 
 ## Methods
 
@@ -104,55 +103,30 @@ SetTags sets Tags field to given value.
 
 HasTags returns a boolean if a field has been set.
 
-### GetSendResolved
+### GetHttpConfig
 
-`func (o *OpsgenieConfig) GetSendResolved() bool`
+`func (o *OpsgenieConfig) GetHttpConfig() HttpConfig`
 
-GetSendResolved returns the SendResolved field if non-nil, zero value otherwise.
+GetHttpConfig returns the HttpConfig field if non-nil, zero value otherwise.
 
-### GetSendResolvedOk
+### GetHttpConfigOk
 
-`func (o *OpsgenieConfig) GetSendResolvedOk() (*bool, bool)`
+`func (o *OpsgenieConfig) GetHttpConfigOk() (*HttpConfig, bool)`
 
-GetSendResolvedOk returns a tuple with the SendResolved field if it's non-nil, zero value otherwise
+GetHttpConfigOk returns a tuple with the HttpConfig field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetSendResolved
+### SetHttpConfig
 
-`func (o *OpsgenieConfig) SetSendResolved(v bool)`
+`func (o *OpsgenieConfig) SetHttpConfig(v HttpConfig)`
 
-SetSendResolved sets SendResolved field to given value.
+SetHttpConfig sets HttpConfig field to given value.
 
-### HasSendResolved
+### HasHttpConfig
 
-`func (o *OpsgenieConfig) HasSendResolved() bool`
+`func (o *OpsgenieConfig) HasHttpConfig() bool`
 
-HasSendResolved returns a boolean if a field has been set.
-
-### GetPriority
-
-`func (o *OpsgenieConfig) GetPriority() string`
-
-GetPriority returns the Priority field if non-nil, zero value otherwise.
-
-### GetPriorityOk
-
-`func (o *OpsgenieConfig) GetPriorityOk() (*string, bool)`
-
-GetPriorityOk returns a tuple with the Priority field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetPriority
-
-`func (o *OpsgenieConfig) SetPriority(v string)`
-
-SetPriority sets Priority field to given value.
-
-### HasPriority
-
-`func (o *OpsgenieConfig) HasPriority() bool`
-
-HasPriority returns a boolean if a field has been set.
+HasHttpConfig returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

@@ -5,19 +5,17 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **StaticConfigs** | [**[]V1InstancesScrapeconfigsCreateRequestStaticConfigsInner**](V1InstancesScrapeconfigsCreateRequestStaticConfigsInner.md) | A list of scrape configurations. | 
-**JobName** | **string** | The job name assigned to scraped metrics by default. &#x60;Additional Validators:&#x60; * must be unique * key and values should only include the characters: a-zA-Z0-9- | 
+**ProxyUrl** | Pointer to **string** | Proxy url | [optional] 
+**JobName** | **string** | The job name assigned to scraped metrics by default. | 
 **Scheme** | **string** | Configures the protocol scheme used for requests. https or http | 
-**ScrapeInterval** | **string** | How frequently to scrape targets from this job. E.g. 5m &#x60;Additional Validators:&#x60; * must be a valid time format* must be &gt;&#x3D; 60s | 
-**ScrapeTimeout** | **string** | Per-scrape timeout when scraping this job. &#x60;Additional Validators:&#x60; * must be a valid time format* must be smaller than scrapeInterval | 
-**MetricsPath** | Pointer to **string** | The HTTP resource path on which to fetch metrics from targets. E.g. /metrics | [optional] [default to "/metrics"]
-**SampleLimit** | Pointer to **float32** | Per-scrape limit on number of scraped samples that will be accepted. If more than this number of samples are present after metric relabeling the entire scrape will be treated as failed. The total limit depends on the service plan target limits * samples | [optional] 
+**ScrapeInterval** | **string** | How frequently to scrape targets from this job. E.g. 5m | 
+**ScrapeTimeout** | **string** | Per-scrape timeout when scraping this job. | 
+**MetricsPath** | **string** | The HTTP resource path on which to fetch metrics from targets. E.g. /metrics | [default to "/metrics"]
 **BasicAuth** | Pointer to [**V1InstancesScrapeconfigsCreateRequestBasicAuth**](V1InstancesScrapeconfigsCreateRequestBasicAuth.md) |  | [optional] 
-**Oauth2** | Pointer to [**V1InstancesScrapeconfigsCreateRequestOauth2**](V1InstancesScrapeconfigsCreateRequestOauth2.md) |  | [optional] 
-**TlsConfig** | Pointer to [**V1InstancesScrapeconfigsCreateRequestOauth2TlsConfig**](V1InstancesScrapeconfigsCreateRequestOauth2TlsConfig.md) |  | [optional] 
-**BearerToken** | Pointer to **string** | Sets the &#39;Authorization&#39; header on every scrape request with the configured bearer token. It is mutually exclusive with &#39;bearer_token_file&#39;. &#x60;Additional Validators:&#x60; * needs to be a valid bearer token * if bearerToken is in the body no other authentication method should be in the body | [optional] 
+**TlsConfig** | Pointer to [**V1InstancesScrapeconfigsCreateRequestTlsConfig**](V1InstancesScrapeconfigsCreateRequestTlsConfig.md) |  | [optional] 
+**BearerToken** | Pointer to **string** | Sets the &#x60;Authorization&#x60; header on every scrape request with the configured bearer token. It is mutually exclusive with &#x60;bearer_token_file&#x60;. | [optional] 
 **MetricsRelabelConfigs** | Pointer to [**[]V1InstancesScrapeconfigsCreateRequestMetricsRelabelConfigsInner**](V1InstancesScrapeconfigsCreateRequestMetricsRelabelConfigsInner.md) | List of metric relabel configurations | [optional] 
-**Params** | Pointer to **map[string]interface{}** | Optional http params &#x60;Additional Validators:&#x60; * should not contain more than 5 keys * each key and value should not have more than 200 characters | [optional] 
-**HttpSDConfigs** | Pointer to [**[]V1InstancesScrapeconfigsCreateRequestHttpSDConfigsInner**](V1InstancesScrapeconfigsCreateRequestHttpSDConfigsInner.md) | HTTP-based service discovery provides a more generic way to configure static targets and serves as an interface to plug in custom service discovery mechanisms. | [optional] 
+**Params** | Pointer to [**V1InstancesScrapeconfigsCreateRequestParams**](V1InstancesScrapeconfigsCreateRequestParams.md) |  | [optional] 
 **HonorLabels** | Pointer to **bool** | Note that any globally configured &#39;external_labels&#39; are unaffected by this setting. In communication with external systems, they are always applied only when a time series does not have a given label yet and are ignored otherwise. | [optional] [default to false]
 **HonorTimeStamps** | Pointer to **bool** | honor_timestamps controls whether Prometheus respects the timestamps present in scraped data. If honor_timestamps is set to &#39;true&#39;, the timestamps of the metrics exposed by the target will be used. | [optional] [default to false]
 
@@ -25,7 +23,7 @@ Name | Type | Description | Notes
 
 ### NewV1InstancesScrapeconfigsCreateRequest
 
-`func NewV1InstancesScrapeconfigsCreateRequest(staticConfigs []V1InstancesScrapeconfigsCreateRequestStaticConfigsInner, jobName string, scheme string, scrapeInterval string, scrapeTimeout string, ) *V1InstancesScrapeconfigsCreateRequest`
+`func NewV1InstancesScrapeconfigsCreateRequest(staticConfigs []V1InstancesScrapeconfigsCreateRequestStaticConfigsInner, jobName string, scheme string, scrapeInterval string, scrapeTimeout string, metricsPath string, ) *V1InstancesScrapeconfigsCreateRequest`
 
 NewV1InstancesScrapeconfigsCreateRequest instantiates a new V1InstancesScrapeconfigsCreateRequest object
 This constructor will assign default values to properties that have it defined,
@@ -59,6 +57,31 @@ and a boolean to check if the value has been set.
 
 SetStaticConfigs sets StaticConfigs field to given value.
 
+
+### GetProxyUrl
+
+`func (o *V1InstancesScrapeconfigsCreateRequest) GetProxyUrl() string`
+
+GetProxyUrl returns the ProxyUrl field if non-nil, zero value otherwise.
+
+### GetProxyUrlOk
+
+`func (o *V1InstancesScrapeconfigsCreateRequest) GetProxyUrlOk() (*string, bool)`
+
+GetProxyUrlOk returns a tuple with the ProxyUrl field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetProxyUrl
+
+`func (o *V1InstancesScrapeconfigsCreateRequest) SetProxyUrl(v string)`
+
+SetProxyUrl sets ProxyUrl field to given value.
+
+### HasProxyUrl
+
+`func (o *V1InstancesScrapeconfigsCreateRequest) HasProxyUrl() bool`
+
+HasProxyUrl returns a boolean if a field has been set.
 
 ### GetJobName
 
@@ -159,36 +182,6 @@ and a boolean to check if the value has been set.
 
 SetMetricsPath sets MetricsPath field to given value.
 
-### HasMetricsPath
-
-`func (o *V1InstancesScrapeconfigsCreateRequest) HasMetricsPath() bool`
-
-HasMetricsPath returns a boolean if a field has been set.
-
-### GetSampleLimit
-
-`func (o *V1InstancesScrapeconfigsCreateRequest) GetSampleLimit() float32`
-
-GetSampleLimit returns the SampleLimit field if non-nil, zero value otherwise.
-
-### GetSampleLimitOk
-
-`func (o *V1InstancesScrapeconfigsCreateRequest) GetSampleLimitOk() (*float32, bool)`
-
-GetSampleLimitOk returns a tuple with the SampleLimit field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetSampleLimit
-
-`func (o *V1InstancesScrapeconfigsCreateRequest) SetSampleLimit(v float32)`
-
-SetSampleLimit sets SampleLimit field to given value.
-
-### HasSampleLimit
-
-`func (o *V1InstancesScrapeconfigsCreateRequest) HasSampleLimit() bool`
-
-HasSampleLimit returns a boolean if a field has been set.
 
 ### GetBasicAuth
 
@@ -215,47 +208,22 @@ SetBasicAuth sets BasicAuth field to given value.
 
 HasBasicAuth returns a boolean if a field has been set.
 
-### GetOauth2
-
-`func (o *V1InstancesScrapeconfigsCreateRequest) GetOauth2() V1InstancesScrapeconfigsCreateRequestOauth2`
-
-GetOauth2 returns the Oauth2 field if non-nil, zero value otherwise.
-
-### GetOauth2Ok
-
-`func (o *V1InstancesScrapeconfigsCreateRequest) GetOauth2Ok() (*V1InstancesScrapeconfigsCreateRequestOauth2, bool)`
-
-GetOauth2Ok returns a tuple with the Oauth2 field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetOauth2
-
-`func (o *V1InstancesScrapeconfigsCreateRequest) SetOauth2(v V1InstancesScrapeconfigsCreateRequestOauth2)`
-
-SetOauth2 sets Oauth2 field to given value.
-
-### HasOauth2
-
-`func (o *V1InstancesScrapeconfigsCreateRequest) HasOauth2() bool`
-
-HasOauth2 returns a boolean if a field has been set.
-
 ### GetTlsConfig
 
-`func (o *V1InstancesScrapeconfigsCreateRequest) GetTlsConfig() V1InstancesScrapeconfigsCreateRequestOauth2TlsConfig`
+`func (o *V1InstancesScrapeconfigsCreateRequest) GetTlsConfig() V1InstancesScrapeconfigsCreateRequestTlsConfig`
 
 GetTlsConfig returns the TlsConfig field if non-nil, zero value otherwise.
 
 ### GetTlsConfigOk
 
-`func (o *V1InstancesScrapeconfigsCreateRequest) GetTlsConfigOk() (*V1InstancesScrapeconfigsCreateRequestOauth2TlsConfig, bool)`
+`func (o *V1InstancesScrapeconfigsCreateRequest) GetTlsConfigOk() (*V1InstancesScrapeconfigsCreateRequestTlsConfig, bool)`
 
 GetTlsConfigOk returns a tuple with the TlsConfig field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetTlsConfig
 
-`func (o *V1InstancesScrapeconfigsCreateRequest) SetTlsConfig(v V1InstancesScrapeconfigsCreateRequestOauth2TlsConfig)`
+`func (o *V1InstancesScrapeconfigsCreateRequest) SetTlsConfig(v V1InstancesScrapeconfigsCreateRequestTlsConfig)`
 
 SetTlsConfig sets TlsConfig field to given value.
 
@@ -317,20 +285,20 @@ HasMetricsRelabelConfigs returns a boolean if a field has been set.
 
 ### GetParams
 
-`func (o *V1InstancesScrapeconfigsCreateRequest) GetParams() map[string]interface{}`
+`func (o *V1InstancesScrapeconfigsCreateRequest) GetParams() V1InstancesScrapeconfigsCreateRequestParams`
 
 GetParams returns the Params field if non-nil, zero value otherwise.
 
 ### GetParamsOk
 
-`func (o *V1InstancesScrapeconfigsCreateRequest) GetParamsOk() (*map[string]interface{}, bool)`
+`func (o *V1InstancesScrapeconfigsCreateRequest) GetParamsOk() (*V1InstancesScrapeconfigsCreateRequestParams, bool)`
 
 GetParamsOk returns a tuple with the Params field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetParams
 
-`func (o *V1InstancesScrapeconfigsCreateRequest) SetParams(v map[string]interface{})`
+`func (o *V1InstancesScrapeconfigsCreateRequest) SetParams(v V1InstancesScrapeconfigsCreateRequestParams)`
 
 SetParams sets Params field to given value.
 
@@ -339,31 +307,6 @@ SetParams sets Params field to given value.
 `func (o *V1InstancesScrapeconfigsCreateRequest) HasParams() bool`
 
 HasParams returns a boolean if a field has been set.
-
-### GetHttpSDConfigs
-
-`func (o *V1InstancesScrapeconfigsCreateRequest) GetHttpSDConfigs() []V1InstancesScrapeconfigsCreateRequestHttpSDConfigsInner`
-
-GetHttpSDConfigs returns the HttpSDConfigs field if non-nil, zero value otherwise.
-
-### GetHttpSDConfigsOk
-
-`func (o *V1InstancesScrapeconfigsCreateRequest) GetHttpSDConfigsOk() (*[]V1InstancesScrapeconfigsCreateRequestHttpSDConfigsInner, bool)`
-
-GetHttpSDConfigsOk returns a tuple with the HttpSDConfigs field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetHttpSDConfigs
-
-`func (o *V1InstancesScrapeconfigsCreateRequest) SetHttpSDConfigs(v []V1InstancesScrapeconfigsCreateRequestHttpSDConfigsInner)`
-
-SetHttpSDConfigs sets HttpSDConfigs field to given value.
-
-### HasHttpSDConfigs
-
-`func (o *V1InstancesScrapeconfigsCreateRequest) HasHttpSDConfigs() bool`
-
-HasHttpSDConfigs returns a boolean if a field has been set.
 
 ### GetHonorLabels
 

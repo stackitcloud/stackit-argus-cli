@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Targets** | **[]string** | The targets specified by the static config. | 
-**Labels** | Pointer to **map[string]interface{}** | Labels assigned to all metrics scraped from the targets. &#x60;Additional Validators:&#x60; * should not contain more than 10 keys * each key and value should not be longer than 200 characters | [optional] 
+**Labels** | Pointer to **map[string]interface{}** | Labels assigned to all metrics scraped from the targets. | [optional] 
 
 ## Methods
 

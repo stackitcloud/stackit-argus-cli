@@ -4,16 +4,16 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**MetricsRetentionTimeRaw** | **string** |  | 
-**MetricsRetentionTime5m** | **string** |  | 
-**MetricsRetentionTime1h** | **string** |  | 
+**BucketRetentionTimeRaw** | **string** |  | 
+**BucketRetentionTime5m** | **string** |  | 
+**BucketRetentionTime1h** | **string** |  | 
 **Message** | **string** |  | 
 
 ## Methods
 
 ### NewBucketRetentionTimeRespond
 
-`func NewBucketRetentionTimeRespond(metricsRetentionTimeRaw string, metricsRetentionTime5m string, metricsRetentionTime1h string, message string, ) *BucketRetentionTimeRespond`
+`func NewBucketRetentionTimeRespond(bucketRetentionTimeRaw string, bucketRetentionTime5m string, bucketRetentionTime1h string, message string, ) *BucketRetentionTimeRespond`
 
 NewBucketRetentionTimeRespond instantiates a new BucketRetentionTimeRespond object
 This constructor will assign default values to properties that have it defined,
@@ -28,64 +28,64 @@ NewBucketRetentionTimeRespondWithDefaults instantiates a new BucketRetentionTime
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetMetricsRetentionTimeRaw
+### GetBucketRetentionTimeRaw
 
-`func (o *BucketRetentionTimeRespond) GetMetricsRetentionTimeRaw() string`
+`func (o *BucketRetentionTimeRespond) GetBucketRetentionTimeRaw() string`
 
-GetMetricsRetentionTimeRaw returns the MetricsRetentionTimeRaw field if non-nil, zero value otherwise.
+GetBucketRetentionTimeRaw returns the BucketRetentionTimeRaw field if non-nil, zero value otherwise.
 
-### GetMetricsRetentionTimeRawOk
+### GetBucketRetentionTimeRawOk
 
-`func (o *BucketRetentionTimeRespond) GetMetricsRetentionTimeRawOk() (*string, bool)`
+`func (o *BucketRetentionTimeRespond) GetBucketRetentionTimeRawOk() (*string, bool)`
 
-GetMetricsRetentionTimeRawOk returns a tuple with the MetricsRetentionTimeRaw field if it's non-nil, zero value otherwise
+GetBucketRetentionTimeRawOk returns a tuple with the BucketRetentionTimeRaw field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetMetricsRetentionTimeRaw
+### SetBucketRetentionTimeRaw
 
-`func (o *BucketRetentionTimeRespond) SetMetricsRetentionTimeRaw(v string)`
+`func (o *BucketRetentionTimeRespond) SetBucketRetentionTimeRaw(v string)`
 
-SetMetricsRetentionTimeRaw sets MetricsRetentionTimeRaw field to given value.
+SetBucketRetentionTimeRaw sets BucketRetentionTimeRaw field to given value.
 
 
-### GetMetricsRetentionTime5m
+### GetBucketRetentionTime5m
 
-`func (o *BucketRetentionTimeRespond) GetMetricsRetentionTime5m() string`
+`func (o *BucketRetentionTimeRespond) GetBucketRetentionTime5m() string`
 
-GetMetricsRetentionTime5m returns the MetricsRetentionTime5m field if non-nil, zero value otherwise.
+GetBucketRetentionTime5m returns the BucketRetentionTime5m field if non-nil, zero value otherwise.
 
-### GetMetricsRetentionTime5mOk
+### GetBucketRetentionTime5mOk
 
-`func (o *BucketRetentionTimeRespond) GetMetricsRetentionTime5mOk() (*string, bool)`
+`func (o *BucketRetentionTimeRespond) GetBucketRetentionTime5mOk() (*string, bool)`
 
-GetMetricsRetentionTime5mOk returns a tuple with the MetricsRetentionTime5m field if it's non-nil, zero value otherwise
+GetBucketRetentionTime5mOk returns a tuple with the BucketRetentionTime5m field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetMetricsRetentionTime5m
+### SetBucketRetentionTime5m
 
-`func (o *BucketRetentionTimeRespond) SetMetricsRetentionTime5m(v string)`
+`func (o *BucketRetentionTimeRespond) SetBucketRetentionTime5m(v string)`
 
-SetMetricsRetentionTime5m sets MetricsRetentionTime5m field to given value.
+SetBucketRetentionTime5m sets BucketRetentionTime5m field to given value.
 
 
-### GetMetricsRetentionTime1h
+### GetBucketRetentionTime1h
 
-`func (o *BucketRetentionTimeRespond) GetMetricsRetentionTime1h() string`
+`func (o *BucketRetentionTimeRespond) GetBucketRetentionTime1h() string`
 
-GetMetricsRetentionTime1h returns the MetricsRetentionTime1h field if non-nil, zero value otherwise.
+GetBucketRetentionTime1h returns the BucketRetentionTime1h field if non-nil, zero value otherwise.
 
-### GetMetricsRetentionTime1hOk
+### GetBucketRetentionTime1hOk
 
-`func (o *BucketRetentionTimeRespond) GetMetricsRetentionTime1hOk() (*string, bool)`
+`func (o *BucketRetentionTimeRespond) GetBucketRetentionTime1hOk() (*string, bool)`
 
-GetMetricsRetentionTime1hOk returns a tuple with the MetricsRetentionTime1h field if it's non-nil, zero value otherwise
+GetBucketRetentionTime1hOk returns a tuple with the BucketRetentionTime1h field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetMetricsRetentionTime1h
+### SetBucketRetentionTime1h
 
-`func (o *BucketRetentionTimeRespond) SetMetricsRetentionTime1h(v string)`
+`func (o *BucketRetentionTimeRespond) SetBucketRetentionTime1h(v string)`
 
-SetMetricsRetentionTime1h sets MetricsRetentionTime1h field to given value.
+SetBucketRetentionTime1h sets BucketRetentionTime1h field to given value.
 
 
 ### GetMessage

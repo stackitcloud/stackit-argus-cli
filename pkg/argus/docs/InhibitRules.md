@@ -6,10 +6,8 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **SourceMatch** | Pointer to **map[string]string** |  | [optional] 
 **SourceMatchRe** | Pointer to **map[string]string** |  | [optional] 
-**SourceMatchers** | Pointer to **[]string** |  | [optional] 
 **TargetMatch** | Pointer to **map[string]string** |  | [optional] 
 **TargetMatchRe** | Pointer to **map[string]string** |  | [optional] 
-**TargetMatchers** | Pointer to **[]string** |  | [optional] 
 **Equal** | Pointer to **[]string** |  | [optional] 
 
 ## Methods
@@ -81,31 +79,6 @@ SetSourceMatchRe sets SourceMatchRe field to given value.
 
 HasSourceMatchRe returns a boolean if a field has been set.
 
-### GetSourceMatchers
-
-`func (o *InhibitRules) GetSourceMatchers() []string`
-
-GetSourceMatchers returns the SourceMatchers field if non-nil, zero value otherwise.
-
-### GetSourceMatchersOk
-
-`func (o *InhibitRules) GetSourceMatchersOk() (*[]string, bool)`
-
-GetSourceMatchersOk returns a tuple with the SourceMatchers field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetSourceMatchers
-
-`func (o *InhibitRules) SetSourceMatchers(v []string)`
-
-SetSourceMatchers sets SourceMatchers field to given value.
-
-### HasSourceMatchers
-
-`func (o *InhibitRules) HasSourceMatchers() bool`
-
-HasSourceMatchers returns a boolean if a field has been set.
-
 ### GetTargetMatch
 
 `func (o *InhibitRules) GetTargetMatch() map[string]string`
@@ -155,31 +128,6 @@ SetTargetMatchRe sets TargetMatchRe field to given value.
 `func (o *InhibitRules) HasTargetMatchRe() bool`
 
 HasTargetMatchRe returns a boolean if a field has been set.
-
-### GetTargetMatchers
-
-`func (o *InhibitRules) GetTargetMatchers() []string`
-
-GetTargetMatchers returns the TargetMatchers field if non-nil, zero value otherwise.
-
-### GetTargetMatchersOk
-
-`func (o *InhibitRules) GetTargetMatchersOk() (*[]string, bool)`
-
-GetTargetMatchersOk returns a tuple with the TargetMatchers field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetTargetMatchers
-
-`func (o *InhibitRules) SetTargetMatchers(v []string)`
-
-SetTargetMatchers sets TargetMatchers field to given value.
-
-### HasTargetMatchers
-
-`func (o *InhibitRules) HasTargetMatchers() bool`
-
-HasTargetMatchers returns a boolean if a field has been set.
 
 ### GetEqual
 

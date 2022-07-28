@@ -20,14 +20,13 @@ import (
 	"strings"
 )
 
-
 // MetricsStorageRetentionApiService MetricsStorageRetentionApi service
 type MetricsStorageRetentionApiService service
 
 type ApiV1InstancesMetricsStorageRetentionsListRequest struct {
-	ctx context.Context
-	ApiService *MetricsStorageRetentionApiService
-	instanceId string
+	ctx           context.Context
+	ApiService    *MetricsStorageRetentionApiService
+	instanceId    string
 	authorization *string
 }
 
@@ -53,7 +52,7 @@ Get metric storage retention time.
 func (a *MetricsStorageRetentionApiService) V1InstancesMetricsStorageRetentionsList(ctx context.Context, instanceId string) ApiV1InstancesMetricsStorageRetentionsListRequest {
 	return ApiV1InstancesMetricsStorageRetentionsListRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 		instanceId: instanceId,
 	}
 }
@@ -62,10 +61,10 @@ func (a *MetricsStorageRetentionApiService) V1InstancesMetricsStorageRetentionsL
 //  @return BucketRetentionTimeRespond
 func (a *MetricsStorageRetentionApiService) V1InstancesMetricsStorageRetentionsListExecute(r ApiV1InstancesMetricsStorageRetentionsListRequest) (*BucketRetentionTimeRespond, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *BucketRetentionTimeRespond
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *BucketRetentionTimeRespond
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricsStorageRetentionApiService.V1InstancesMetricsStorageRetentionsList")
@@ -148,11 +147,11 @@ func (a *MetricsStorageRetentionApiService) V1InstancesMetricsStorageRetentionsL
 }
 
 type ApiV1InstancesMetricsStorageRetentionsUpdateRequest struct {
-	ctx context.Context
-	ApiService *MetricsStorageRetentionApiService
-	instanceId string
+	ctx           context.Context
+	ApiService    *MetricsStorageRetentionApiService
+	instanceId    string
 	authorization *string
-	data *V1InstancesMetricsStorageRetentionsUpdateRequest
+	data          *V1InstancesMetricsStorageRetentionsUpdateRequest
 }
 
 // Accepts technical credentials and api gateway access.
@@ -182,7 +181,7 @@ Update metric update retention time.
 func (a *MetricsStorageRetentionApiService) V1InstancesMetricsStorageRetentionsUpdate(ctx context.Context, instanceId string) ApiV1InstancesMetricsStorageRetentionsUpdateRequest {
 	return ApiV1InstancesMetricsStorageRetentionsUpdateRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 		instanceId: instanceId,
 	}
 }
@@ -191,10 +190,10 @@ func (a *MetricsStorageRetentionApiService) V1InstancesMetricsStorageRetentionsU
 //  @return Message
 func (a *MetricsStorageRetentionApiService) V1InstancesMetricsStorageRetentionsUpdateExecute(r ApiV1InstancesMetricsStorageRetentionsUpdateRequest) (*Message, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPut
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *Message
+		localVarHTTPMethod  = http.MethodPut
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Message
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricsStorageRetentionApiService.V1InstancesMetricsStorageRetentionsUpdate")
@@ -292,10 +291,10 @@ func (a *MetricsStorageRetentionApiService) V1InstancesMetricsStorageRetentionsU
 }
 
 type ApiV1ProjectsInstancesMetricsStorageRetentionsListRequest struct {
-	ctx context.Context
-	ApiService *MetricsStorageRetentionApiService
-	instanceId string
-	projectId string
+	ctx           context.Context
+	ApiService    *MetricsStorageRetentionApiService
+	instanceId    string
+	projectId     string
 	authorization *string
 }
 
@@ -322,9 +321,9 @@ Get metric storage retention time.
 func (a *MetricsStorageRetentionApiService) V1ProjectsInstancesMetricsStorageRetentionsList(ctx context.Context, instanceId string, projectId string) ApiV1ProjectsInstancesMetricsStorageRetentionsListRequest {
 	return ApiV1ProjectsInstancesMetricsStorageRetentionsListRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 		instanceId: instanceId,
-		projectId: projectId,
+		projectId:  projectId,
 	}
 }
 
@@ -332,10 +331,10 @@ func (a *MetricsStorageRetentionApiService) V1ProjectsInstancesMetricsStorageRet
 //  @return BucketRetentionTimeRespond
 func (a *MetricsStorageRetentionApiService) V1ProjectsInstancesMetricsStorageRetentionsListExecute(r ApiV1ProjectsInstancesMetricsStorageRetentionsListRequest) (*BucketRetentionTimeRespond, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *BucketRetentionTimeRespond
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *BucketRetentionTimeRespond
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricsStorageRetentionApiService.V1ProjectsInstancesMetricsStorageRetentionsList")
@@ -419,12 +418,12 @@ func (a *MetricsStorageRetentionApiService) V1ProjectsInstancesMetricsStorageRet
 }
 
 type ApiV1ProjectsInstancesMetricsStorageRetentionsUpdateRequest struct {
-	ctx context.Context
-	ApiService *MetricsStorageRetentionApiService
-	instanceId string
-	projectId string
+	ctx           context.Context
+	ApiService    *MetricsStorageRetentionApiService
+	instanceId    string
+	projectId     string
 	authorization *string
-	data *V1InstancesMetricsStorageRetentionsUpdateRequest
+	data          *V1InstancesMetricsStorageRetentionsUpdateRequest
 }
 
 // Accepts technical credentials and api gateway access.
@@ -455,9 +454,9 @@ Update metric update retention time.
 func (a *MetricsStorageRetentionApiService) V1ProjectsInstancesMetricsStorageRetentionsUpdate(ctx context.Context, instanceId string, projectId string) ApiV1ProjectsInstancesMetricsStorageRetentionsUpdateRequest {
 	return ApiV1ProjectsInstancesMetricsStorageRetentionsUpdateRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 		instanceId: instanceId,
-		projectId: projectId,
+		projectId:  projectId,
 	}
 }
 
@@ -465,10 +464,10 @@ func (a *MetricsStorageRetentionApiService) V1ProjectsInstancesMetricsStorageRet
 //  @return Message
 func (a *MetricsStorageRetentionApiService) V1ProjectsInstancesMetricsStorageRetentionsUpdateExecute(r ApiV1ProjectsInstancesMetricsStorageRetentionsUpdateRequest) (*Message, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPut
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *Message
+		localVarHTTPMethod  = http.MethodPut
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Message
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricsStorageRetentionApiService.V1ProjectsInstancesMetricsStorageRetentionsUpdate")

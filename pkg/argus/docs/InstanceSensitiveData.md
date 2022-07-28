@@ -7,32 +7,25 @@ Name | Type | Description | Notes
 **Cluster** | **string** |  | 
 **Instance** | **string** |  | 
 **GrafanaUrl** | **string** |  | 
-**Name** | Pointer to **string** |  | [optional] [default to ""]
+**Name** | Pointer to **string** |  | [optional] 
 **DashboardUrl** | **string** |  | 
 **GrafanaAdminPassword** | **string** |  | 
 **GrafanaAdminUser** | **string** |  | 
 **Plan** | [**PlanModel**](PlanModel.md) |  | 
-**MetricsRetentionTimeRaw** | **int32** |  | 
-**MetricsRetentionTime5m** | **int32** |  | 
-**MetricsRetentionTime1h** | **int32** |  | 
+**BucketRetentionTimeRaw** | **int32** |  | 
+**BucketRetentionTime5m** | **int32** |  | 
+**BucketRetentionTime1h** | **int32** |  | 
 **MetricsUrl** | **string** |  | 
 **State** | Pointer to **string** |  | [optional] 
 **GrafanaPublicReadAccess** | **bool** |  | 
 **TargetsUrl** | **string** |  | 
 **AlertingUrl** | **string** |  | 
-**PushMetricsUrl** | **string** |  | 
-**LogsUrl** | **string** |  | 
-**LogsPushUrl** | **string** |  | 
-**JaegerTracesUrl** | **string** |  | 
-**OtlpTracesUrl** | **string** |  | 
-**ZipkinSpansUrl** | **string** |  | 
-**JaegerUiUrl** | **string** |  | 
 
 ## Methods
 
 ### NewInstanceSensitiveData
 
-`func NewInstanceSensitiveData(cluster string, instance string, grafanaUrl string, dashboardUrl string, grafanaAdminPassword string, grafanaAdminUser string, plan PlanModel, metricsRetentionTimeRaw int32, metricsRetentionTime5m int32, metricsRetentionTime1h int32, metricsUrl string, grafanaPublicReadAccess bool, targetsUrl string, alertingUrl string, pushMetricsUrl string, logsUrl string, logsPushUrl string, jaegerTracesUrl string, otlpTracesUrl string, zipkinSpansUrl string, jaegerUiUrl string, ) *InstanceSensitiveData`
+`func NewInstanceSensitiveData(cluster string, instance string, grafanaUrl string, dashboardUrl string, grafanaAdminPassword string, grafanaAdminUser string, plan PlanModel, bucketRetentionTimeRaw int32, bucketRetentionTime5m int32, bucketRetentionTime1h int32, metricsUrl string, grafanaPublicReadAccess bool, targetsUrl string, alertingUrl string, ) *InstanceSensitiveData`
 
 NewInstanceSensitiveData instantiates a new InstanceSensitiveData object
 This constructor will assign default values to properties that have it defined,
@@ -212,64 +205,64 @@ and a boolean to check if the value has been set.
 SetPlan sets Plan field to given value.
 
 
-### GetMetricsRetentionTimeRaw
+### GetBucketRetentionTimeRaw
 
-`func (o *InstanceSensitiveData) GetMetricsRetentionTimeRaw() int32`
+`func (o *InstanceSensitiveData) GetBucketRetentionTimeRaw() int32`
 
-GetMetricsRetentionTimeRaw returns the MetricsRetentionTimeRaw field if non-nil, zero value otherwise.
+GetBucketRetentionTimeRaw returns the BucketRetentionTimeRaw field if non-nil, zero value otherwise.
 
-### GetMetricsRetentionTimeRawOk
+### GetBucketRetentionTimeRawOk
 
-`func (o *InstanceSensitiveData) GetMetricsRetentionTimeRawOk() (*int32, bool)`
+`func (o *InstanceSensitiveData) GetBucketRetentionTimeRawOk() (*int32, bool)`
 
-GetMetricsRetentionTimeRawOk returns a tuple with the MetricsRetentionTimeRaw field if it's non-nil, zero value otherwise
+GetBucketRetentionTimeRawOk returns a tuple with the BucketRetentionTimeRaw field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetMetricsRetentionTimeRaw
+### SetBucketRetentionTimeRaw
 
-`func (o *InstanceSensitiveData) SetMetricsRetentionTimeRaw(v int32)`
+`func (o *InstanceSensitiveData) SetBucketRetentionTimeRaw(v int32)`
 
-SetMetricsRetentionTimeRaw sets MetricsRetentionTimeRaw field to given value.
+SetBucketRetentionTimeRaw sets BucketRetentionTimeRaw field to given value.
 
 
-### GetMetricsRetentionTime5m
+### GetBucketRetentionTime5m
 
-`func (o *InstanceSensitiveData) GetMetricsRetentionTime5m() int32`
+`func (o *InstanceSensitiveData) GetBucketRetentionTime5m() int32`
 
-GetMetricsRetentionTime5m returns the MetricsRetentionTime5m field if non-nil, zero value otherwise.
+GetBucketRetentionTime5m returns the BucketRetentionTime5m field if non-nil, zero value otherwise.
 
-### GetMetricsRetentionTime5mOk
+### GetBucketRetentionTime5mOk
 
-`func (o *InstanceSensitiveData) GetMetricsRetentionTime5mOk() (*int32, bool)`
+`func (o *InstanceSensitiveData) GetBucketRetentionTime5mOk() (*int32, bool)`
 
-GetMetricsRetentionTime5mOk returns a tuple with the MetricsRetentionTime5m field if it's non-nil, zero value otherwise
+GetBucketRetentionTime5mOk returns a tuple with the BucketRetentionTime5m field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetMetricsRetentionTime5m
+### SetBucketRetentionTime5m
 
-`func (o *InstanceSensitiveData) SetMetricsRetentionTime5m(v int32)`
+`func (o *InstanceSensitiveData) SetBucketRetentionTime5m(v int32)`
 
-SetMetricsRetentionTime5m sets MetricsRetentionTime5m field to given value.
+SetBucketRetentionTime5m sets BucketRetentionTime5m field to given value.
 
 
-### GetMetricsRetentionTime1h
+### GetBucketRetentionTime1h
 
-`func (o *InstanceSensitiveData) GetMetricsRetentionTime1h() int32`
+`func (o *InstanceSensitiveData) GetBucketRetentionTime1h() int32`
 
-GetMetricsRetentionTime1h returns the MetricsRetentionTime1h field if non-nil, zero value otherwise.
+GetBucketRetentionTime1h returns the BucketRetentionTime1h field if non-nil, zero value otherwise.
 
-### GetMetricsRetentionTime1hOk
+### GetBucketRetentionTime1hOk
 
-`func (o *InstanceSensitiveData) GetMetricsRetentionTime1hOk() (*int32, bool)`
+`func (o *InstanceSensitiveData) GetBucketRetentionTime1hOk() (*int32, bool)`
 
-GetMetricsRetentionTime1hOk returns a tuple with the MetricsRetentionTime1h field if it's non-nil, zero value otherwise
+GetBucketRetentionTime1hOk returns a tuple with the BucketRetentionTime1h field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetMetricsRetentionTime1h
+### SetBucketRetentionTime1h
 
-`func (o *InstanceSensitiveData) SetMetricsRetentionTime1h(v int32)`
+`func (o *InstanceSensitiveData) SetBucketRetentionTime1h(v int32)`
 
-SetMetricsRetentionTime1h sets MetricsRetentionTime1h field to given value.
+SetBucketRetentionTime1h sets BucketRetentionTime1h field to given value.
 
 
 ### GetMetricsUrl
@@ -375,146 +368,6 @@ and a boolean to check if the value has been set.
 `func (o *InstanceSensitiveData) SetAlertingUrl(v string)`
 
 SetAlertingUrl sets AlertingUrl field to given value.
-
-
-### GetPushMetricsUrl
-
-`func (o *InstanceSensitiveData) GetPushMetricsUrl() string`
-
-GetPushMetricsUrl returns the PushMetricsUrl field if non-nil, zero value otherwise.
-
-### GetPushMetricsUrlOk
-
-`func (o *InstanceSensitiveData) GetPushMetricsUrlOk() (*string, bool)`
-
-GetPushMetricsUrlOk returns a tuple with the PushMetricsUrl field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetPushMetricsUrl
-
-`func (o *InstanceSensitiveData) SetPushMetricsUrl(v string)`
-
-SetPushMetricsUrl sets PushMetricsUrl field to given value.
-
-
-### GetLogsUrl
-
-`func (o *InstanceSensitiveData) GetLogsUrl() string`
-
-GetLogsUrl returns the LogsUrl field if non-nil, zero value otherwise.
-
-### GetLogsUrlOk
-
-`func (o *InstanceSensitiveData) GetLogsUrlOk() (*string, bool)`
-
-GetLogsUrlOk returns a tuple with the LogsUrl field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetLogsUrl
-
-`func (o *InstanceSensitiveData) SetLogsUrl(v string)`
-
-SetLogsUrl sets LogsUrl field to given value.
-
-
-### GetLogsPushUrl
-
-`func (o *InstanceSensitiveData) GetLogsPushUrl() string`
-
-GetLogsPushUrl returns the LogsPushUrl field if non-nil, zero value otherwise.
-
-### GetLogsPushUrlOk
-
-`func (o *InstanceSensitiveData) GetLogsPushUrlOk() (*string, bool)`
-
-GetLogsPushUrlOk returns a tuple with the LogsPushUrl field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetLogsPushUrl
-
-`func (o *InstanceSensitiveData) SetLogsPushUrl(v string)`
-
-SetLogsPushUrl sets LogsPushUrl field to given value.
-
-
-### GetJaegerTracesUrl
-
-`func (o *InstanceSensitiveData) GetJaegerTracesUrl() string`
-
-GetJaegerTracesUrl returns the JaegerTracesUrl field if non-nil, zero value otherwise.
-
-### GetJaegerTracesUrlOk
-
-`func (o *InstanceSensitiveData) GetJaegerTracesUrlOk() (*string, bool)`
-
-GetJaegerTracesUrlOk returns a tuple with the JaegerTracesUrl field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetJaegerTracesUrl
-
-`func (o *InstanceSensitiveData) SetJaegerTracesUrl(v string)`
-
-SetJaegerTracesUrl sets JaegerTracesUrl field to given value.
-
-
-### GetOtlpTracesUrl
-
-`func (o *InstanceSensitiveData) GetOtlpTracesUrl() string`
-
-GetOtlpTracesUrl returns the OtlpTracesUrl field if non-nil, zero value otherwise.
-
-### GetOtlpTracesUrlOk
-
-`func (o *InstanceSensitiveData) GetOtlpTracesUrlOk() (*string, bool)`
-
-GetOtlpTracesUrlOk returns a tuple with the OtlpTracesUrl field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetOtlpTracesUrl
-
-`func (o *InstanceSensitiveData) SetOtlpTracesUrl(v string)`
-
-SetOtlpTracesUrl sets OtlpTracesUrl field to given value.
-
-
-### GetZipkinSpansUrl
-
-`func (o *InstanceSensitiveData) GetZipkinSpansUrl() string`
-
-GetZipkinSpansUrl returns the ZipkinSpansUrl field if non-nil, zero value otherwise.
-
-### GetZipkinSpansUrlOk
-
-`func (o *InstanceSensitiveData) GetZipkinSpansUrlOk() (*string, bool)`
-
-GetZipkinSpansUrlOk returns a tuple with the ZipkinSpansUrl field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetZipkinSpansUrl
-
-`func (o *InstanceSensitiveData) SetZipkinSpansUrl(v string)`
-
-SetZipkinSpansUrl sets ZipkinSpansUrl field to given value.
-
-
-### GetJaegerUiUrl
-
-`func (o *InstanceSensitiveData) GetJaegerUiUrl() string`
-
-GetJaegerUiUrl returns the JaegerUiUrl field if non-nil, zero value otherwise.
-
-### GetJaegerUiUrlOk
-
-`func (o *InstanceSensitiveData) GetJaegerUiUrlOk() (*string, bool)`
-
-GetJaegerUiUrlOk returns a tuple with the JaegerUiUrl field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetJaegerUiUrl
-
-`func (o *InstanceSensitiveData) SetJaegerUiUrl(v string)`
-
-SetJaegerUiUrl sets JaegerUiUrl field to given value.
 
 
 

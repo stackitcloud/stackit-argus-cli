@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 **Regex** | Pointer to **string** | Regular expression against which the extracted value is matched. | [optional] [default to ".*"]
 **Modulus** | Pointer to **float32** | Modulus to take of the hash of the source label values. | [optional] 
 **Replacement** | Pointer to **string** | Replacement value against which a regex replace is performed if the regular expression matches. Regex capture groups are available. | [optional] [default to "$1"]
-**Action** | Pointer to **string** | Action to perform based on regex matching. &#x60;Additional Validators:&#x60; * if action is replace, targetLabel needs to be in body | [optional] [default to "replace"]
+**Action** | Pointer to **string** | Choice field [&#39;replace&#39;, &#39;keep&#39;, &#39;drop&#39;, &#39;hashmod&#39;, &#39;labelmap&#39;, &#39;labeldrop&#39;, &#39;labelkeep&#39;] | [optional] [default to "replace"]
 
 ## Methods
 

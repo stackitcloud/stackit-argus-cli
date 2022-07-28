@@ -5,12 +5,11 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **To** | **string** |  | 
+**FromPerson** | Pointer to **string** |  | [optional] 
 **Smarthost** | Pointer to **string** |  | [optional] 
 **AuthUsername** | Pointer to **string** |  | [optional] 
 **AuthPassword** | Pointer to **string** |  | [optional] 
 **AuthIdentity** | Pointer to **string** |  | [optional] 
-**SendResolved** | Pointer to **bool** |  | [optional] [default to false]
-**From** | Pointer to **string** |  | [optional] 
 
 ## Methods
 
@@ -50,6 +49,31 @@ and a boolean to check if the value has been set.
 
 SetTo sets To field to given value.
 
+
+### GetFromPerson
+
+`func (o *EmailConfig) GetFromPerson() string`
+
+GetFromPerson returns the FromPerson field if non-nil, zero value otherwise.
+
+### GetFromPersonOk
+
+`func (o *EmailConfig) GetFromPersonOk() (*string, bool)`
+
+GetFromPersonOk returns a tuple with the FromPerson field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetFromPerson
+
+`func (o *EmailConfig) SetFromPerson(v string)`
+
+SetFromPerson sets FromPerson field to given value.
+
+### HasFromPerson
+
+`func (o *EmailConfig) HasFromPerson() bool`
+
+HasFromPerson returns a boolean if a field has been set.
 
 ### GetSmarthost
 
@@ -150,56 +174,6 @@ SetAuthIdentity sets AuthIdentity field to given value.
 `func (o *EmailConfig) HasAuthIdentity() bool`
 
 HasAuthIdentity returns a boolean if a field has been set.
-
-### GetSendResolved
-
-`func (o *EmailConfig) GetSendResolved() bool`
-
-GetSendResolved returns the SendResolved field if non-nil, zero value otherwise.
-
-### GetSendResolvedOk
-
-`func (o *EmailConfig) GetSendResolvedOk() (*bool, bool)`
-
-GetSendResolvedOk returns a tuple with the SendResolved field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetSendResolved
-
-`func (o *EmailConfig) SetSendResolved(v bool)`
-
-SetSendResolved sets SendResolved field to given value.
-
-### HasSendResolved
-
-`func (o *EmailConfig) HasSendResolved() bool`
-
-HasSendResolved returns a boolean if a field has been set.
-
-### GetFrom
-
-`func (o *EmailConfig) GetFrom() string`
-
-GetFrom returns the From field if non-nil, zero value otherwise.
-
-### GetFromOk
-
-`func (o *EmailConfig) GetFromOk() (*string, bool)`
-
-GetFromOk returns a tuple with the From field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetFrom
-
-`func (o *EmailConfig) SetFrom(v string)`
-
-SetFrom sets From field to given value.
-
-### HasFrom
-
-`func (o *EmailConfig) HasFrom() bool`
-
-HasFrom returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

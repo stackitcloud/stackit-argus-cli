@@ -6,18 +6,16 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **JobName** | **string** |  | 
 **Scheme** | Pointer to **string** |  | [optional] [default to "http"]
+**ProxyUrl** | Pointer to **string** |  | [optional] 
 **ScrapeInterval** | **string** |  | 
 **ScrapeTimeout** | **string** |  | 
 **MetricsPath** | Pointer to **string** |  | [optional] [default to "/metrics"]
 **StaticConfigs** | [**[]StaticConfigs**](StaticConfigs.md) |  | 
-**SampleLimit** | Pointer to **int32** |  | [optional] 
 **BasicAuth** | Pointer to [**BasicAuth**](BasicAuth.md) |  | [optional] 
-**Oauth2** | Pointer to [**OAuth2**](OAuth2.md) |  | [optional] 
 **TlsConfig** | Pointer to [**TLSConfig**](TLSConfig.md) |  | [optional] 
 **BearerToken** | Pointer to **string** |  | [optional] 
 **MetricsRelabelConfigs** | Pointer to [**[]MetricsRelabelConfig**](MetricsRelabelConfig.md) |  | [optional] 
 **Params** | Pointer to **map[string][]string** |  | [optional] 
-**HttpSDConfigs** | Pointer to [**[]HTTPServiceSD**](HTTPServiceSD.md) |  | [optional] 
 **HonorLabels** | Pointer to **bool** |  | [optional] [default to false]
 **HonorTimeStamps** | Pointer to **bool** |  | [optional] [default to false]
 
@@ -84,6 +82,31 @@ SetScheme sets Scheme field to given value.
 `func (o *Job) HasScheme() bool`
 
 HasScheme returns a boolean if a field has been set.
+
+### GetProxyUrl
+
+`func (o *Job) GetProxyUrl() string`
+
+GetProxyUrl returns the ProxyUrl field if non-nil, zero value otherwise.
+
+### GetProxyUrlOk
+
+`func (o *Job) GetProxyUrlOk() (*string, bool)`
+
+GetProxyUrlOk returns a tuple with the ProxyUrl field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetProxyUrl
+
+`func (o *Job) SetProxyUrl(v string)`
+
+SetProxyUrl sets ProxyUrl field to given value.
+
+### HasProxyUrl
+
+`func (o *Job) HasProxyUrl() bool`
+
+HasProxyUrl returns a boolean if a field has been set.
 
 ### GetScrapeInterval
 
@@ -170,31 +193,6 @@ and a boolean to check if the value has been set.
 SetStaticConfigs sets StaticConfigs field to given value.
 
 
-### GetSampleLimit
-
-`func (o *Job) GetSampleLimit() int32`
-
-GetSampleLimit returns the SampleLimit field if non-nil, zero value otherwise.
-
-### GetSampleLimitOk
-
-`func (o *Job) GetSampleLimitOk() (*int32, bool)`
-
-GetSampleLimitOk returns a tuple with the SampleLimit field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetSampleLimit
-
-`func (o *Job) SetSampleLimit(v int32)`
-
-SetSampleLimit sets SampleLimit field to given value.
-
-### HasSampleLimit
-
-`func (o *Job) HasSampleLimit() bool`
-
-HasSampleLimit returns a boolean if a field has been set.
-
 ### GetBasicAuth
 
 `func (o *Job) GetBasicAuth() BasicAuth`
@@ -219,31 +217,6 @@ SetBasicAuth sets BasicAuth field to given value.
 `func (o *Job) HasBasicAuth() bool`
 
 HasBasicAuth returns a boolean if a field has been set.
-
-### GetOauth2
-
-`func (o *Job) GetOauth2() OAuth2`
-
-GetOauth2 returns the Oauth2 field if non-nil, zero value otherwise.
-
-### GetOauth2Ok
-
-`func (o *Job) GetOauth2Ok() (*OAuth2, bool)`
-
-GetOauth2Ok returns a tuple with the Oauth2 field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetOauth2
-
-`func (o *Job) SetOauth2(v OAuth2)`
-
-SetOauth2 sets Oauth2 field to given value.
-
-### HasOauth2
-
-`func (o *Job) HasOauth2() bool`
-
-HasOauth2 returns a boolean if a field has been set.
 
 ### GetTlsConfig
 
@@ -344,31 +317,6 @@ SetParams sets Params field to given value.
 `func (o *Job) HasParams() bool`
 
 HasParams returns a boolean if a field has been set.
-
-### GetHttpSDConfigs
-
-`func (o *Job) GetHttpSDConfigs() []HTTPServiceSD`
-
-GetHttpSDConfigs returns the HttpSDConfigs field if non-nil, zero value otherwise.
-
-### GetHttpSDConfigsOk
-
-`func (o *Job) GetHttpSDConfigsOk() (*[]HTTPServiceSD, bool)`
-
-GetHttpSDConfigsOk returns a tuple with the HttpSDConfigs field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetHttpSDConfigs
-
-`func (o *Job) SetHttpSDConfigs(v []HTTPServiceSD)`
-
-SetHttpSDConfigs sets HttpSDConfigs field to given value.
-
-### HasHttpSDConfigs
-
-`func (o *Job) HasHttpSDConfigs() bool`
-
-HasHttpSDConfigs returns a boolean if a field has been set.
 
 ### GetHonorLabels
 

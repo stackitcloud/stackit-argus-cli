@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 **Route** | [**Route**](Route.md) |  | 
 **Receivers** | [**[]Receivers**](Receivers.md) |  | 
 **InhibitRules** | Pointer to [**[]InhibitRules**](InhibitRules.md) |  | [optional] 
+**Templates** | Pointer to **[]string** |  | [optional] 
 **Global** | Pointer to [**Global**](Global.md) |  | [optional] 
 
 ## Methods
@@ -92,6 +93,31 @@ SetInhibitRules sets InhibitRules field to given value.
 `func (o *Alert) HasInhibitRules() bool`
 
 HasInhibitRules returns a boolean if a field has been set.
+
+### GetTemplates
+
+`func (o *Alert) GetTemplates() []string`
+
+GetTemplates returns the Templates field if non-nil, zero value otherwise.
+
+### GetTemplatesOk
+
+`func (o *Alert) GetTemplatesOk() (*[]string, bool)`
+
+GetTemplatesOk returns a tuple with the Templates field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTemplates
+
+`func (o *Alert) SetTemplates(v []string)`
+
+SetTemplates sets Templates field to given value.
+
+### HasTemplates
+
+`func (o *Alert) HasTemplates() bool`
+
+HasTemplates returns a boolean if a field has been set.
 
 ### GetGlobal
 

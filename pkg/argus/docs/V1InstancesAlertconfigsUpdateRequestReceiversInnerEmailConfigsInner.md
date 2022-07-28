@@ -4,12 +4,12 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**To** | Pointer to **string** | The email address to send notifications to. &#x60;Additional Validators:&#x60; * must be a syntactically valid email address | [optional] 
-**From** | Pointer to **string** | The sender address. &#x60;Additional Validators:&#x60; * must be a syntactically valid email address | [optional] 
-**Smarthost** | Pointer to **string** | The SMTP host through which emails are sent. &#x60;Additional Validators:&#x60; * should only include the characters: a-zA-Z0-9_./@&amp;?:- | [optional] 
+**To** | Pointer to **string** | The email address to send notifications to. | [optional] 
+**From** | Pointer to **string** | The sender address. | [optional] 
+**Smarthost** | Pointer to **string** | The SMTP host through which emails are sent. | [optional] 
 **AuthUsername** | Pointer to **string** | SMTP authentication information. | [optional] 
 **AuthPassword** | Pointer to **string** | SMTP authentication information. | [optional] 
-**AuthIdentity** | Pointer to **string** | SMTP authentication information. &#x60;Additional Validators:&#x60; * must be a syntactically valid email address | [optional] 
+**AuthIdentity** | Pointer to **string** | SMTP authentication information. | [optional] 
 
 ## Methods
 

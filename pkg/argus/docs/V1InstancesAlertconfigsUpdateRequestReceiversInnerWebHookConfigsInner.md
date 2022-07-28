@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Url** | Pointer to **string** | The endpoint to send HTTP POST requests to. &#x60;Additional Validators:&#x60; * must be a syntactically valid url address | [optional] 
-**MsTeams** | Pointer to **bool** | Microsoft Teams webhooks require special handling. If you set this property to true, it is treated as such | [optional] [default to false]
+**Url** | Pointer to **string** | The endpoint to send HTTP POST requests to. | [optional] 
+**MsTeams** | Pointer to **bool** | Microsoft Teams webhooks need special treatment. If you set this property to true then it will be handled appropertly | [optional] [default to false]
 
 ## Methods
 

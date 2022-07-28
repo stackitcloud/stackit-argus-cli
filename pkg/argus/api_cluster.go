@@ -20,16 +20,15 @@ import (
 	"strings"
 )
 
-
 // ClusterApiService ClusterApi service
 type ClusterApiService service
 
 type ApiV1ClustersCreateRequest struct {
-	ctx context.Context
-	ApiService *ClusterApiService
-	clusterId string
+	ctx           context.Context
+	ApiService    *ClusterApiService
+	clusterId     string
 	authorization *string
-	data *V1ClustersCreateRequest
+	data          *V1ClustersCreateRequest
 }
 
 // Accepts admin auth.
@@ -59,8 +58,8 @@ Initialize the cluster secrets and operators.
 func (a *ClusterApiService) V1ClustersCreate(ctx context.Context, clusterId string) ApiV1ClustersCreateRequest {
 	return ApiV1ClustersCreateRequest{
 		ApiService: a,
-		ctx: ctx,
-		clusterId: clusterId,
+		ctx:        ctx,
+		clusterId:  clusterId,
 	}
 }
 
@@ -68,10 +67,10 @@ func (a *ClusterApiService) V1ClustersCreate(ctx context.Context, clusterId stri
 //  @return Message
 func (a *ClusterApiService) V1ClustersCreateExecute(r ApiV1ClustersCreateRequest) (*Message, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *Message
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Message
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ClusterApiService.V1ClustersCreate")
@@ -169,9 +168,9 @@ func (a *ClusterApiService) V1ClustersCreateExecute(r ApiV1ClustersCreateRequest
 }
 
 type ApiV1ClustersDeleteRequest struct {
-	ctx context.Context
-	ApiService *ClusterApiService
-	clusterId string
+	ctx           context.Context
+	ApiService    *ClusterApiService
+	clusterId     string
 	authorization *string
 }
 
@@ -197,8 +196,8 @@ Delete the operators, secrets and git repo but will not delete the pods deployed
 func (a *ClusterApiService) V1ClustersDelete(ctx context.Context, clusterId string) ApiV1ClustersDeleteRequest {
 	return ApiV1ClustersDeleteRequest{
 		ApiService: a,
-		ctx: ctx,
-		clusterId: clusterId,
+		ctx:        ctx,
+		clusterId:  clusterId,
 	}
 }
 
@@ -206,10 +205,10 @@ func (a *ClusterApiService) V1ClustersDelete(ctx context.Context, clusterId stri
 //  @return Message
 func (a *ClusterApiService) V1ClustersDeleteExecute(r ApiV1ClustersDeleteRequest) (*Message, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *Message
+		localVarHTTPMethod  = http.MethodDelete
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Message
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ClusterApiService.V1ClustersDelete")
@@ -302,11 +301,11 @@ func (a *ClusterApiService) V1ClustersDeleteExecute(r ApiV1ClustersDeleteRequest
 }
 
 type ApiV1ClustersListRequest struct {
-	ctx context.Context
-	ApiService *ClusterApiService
+	ctx           context.Context
+	ApiService    *ClusterApiService
 	authorization *string
-	search *string
-	pageIdx *float32
+	search        *string
+	pageIdx       *float32
 }
 
 // Accepts admin auth
@@ -342,7 +341,7 @@ Get all cluster names.
 func (a *ClusterApiService) V1ClustersList(ctx context.Context) ApiV1ClustersListRequest {
 	return ApiV1ClustersListRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -350,10 +349,10 @@ func (a *ClusterApiService) V1ClustersList(ctx context.Context) ApiV1ClustersLis
 //  @return ClusterList
 func (a *ClusterApiService) V1ClustersListExecute(r ApiV1ClustersListRequest) (*ClusterList, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *ClusterList
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *ClusterList
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ClusterApiService.V1ClustersList")
@@ -451,8 +450,8 @@ func (a *ClusterApiService) V1ClustersListExecute(r ApiV1ClustersListRequest) (*
 }
 
 type ApiV1MonitoringAuthListRequest struct {
-	ctx context.Context
-	ApiService *ClusterApiService
+	ctx           context.Context
+	ApiService    *ClusterApiService
 	authorization *string
 }
 
@@ -477,7 +476,7 @@ Get pcs authenticated.
 func (a *ClusterApiService) V1MonitoringAuthList(ctx context.Context) ApiV1MonitoringAuthListRequest {
 	return ApiV1MonitoringAuthListRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -485,10 +484,10 @@ func (a *ClusterApiService) V1MonitoringAuthList(ctx context.Context) ApiV1Monit
 //  @return Message
 func (a *ClusterApiService) V1MonitoringAuthListExecute(r ApiV1MonitoringAuthListRequest) (*Message, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *Message
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Message
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ClusterApiService.V1MonitoringAuthList")
@@ -570,8 +569,8 @@ func (a *ClusterApiService) V1MonitoringAuthListExecute(r ApiV1MonitoringAuthLis
 }
 
 type ApiV1MonitoringSdListRequest struct {
-	ctx context.Context
-	ApiService *ClusterApiService
+	ctx           context.Context
+	ApiService    *ClusterApiService
 	authorization *string
 }
 
@@ -596,7 +595,7 @@ Get list of targets to scrape.
 func (a *ClusterApiService) V1MonitoringSdList(ctx context.Context) ApiV1MonitoringSdListRequest {
 	return ApiV1MonitoringSdListRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -604,10 +603,10 @@ func (a *ClusterApiService) V1MonitoringSdList(ctx context.Context) ApiV1Monitor
 //  @return map[string]interface{}
 func (a *ClusterApiService) V1MonitoringSdListExecute(r ApiV1MonitoringSdListRequest) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  map[string]interface{}
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue map[string]interface{}
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ClusterApiService.V1MonitoringSdList")

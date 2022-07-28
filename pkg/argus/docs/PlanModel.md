@@ -14,19 +14,14 @@ Name | Type | Description | Notes
 **TargetNumber** | **int32** |  | 
 **SamplesPerScrape** | **int32** |  | 
 **GrafanaGlobalSessions** | **int32** |  | 
-**Name** | Pointer to **string** |  | [optional] [default to ""]
+**Name** | Pointer to **string** |  | [optional] 
 **Amount** | Pointer to **float32** |  | [optional] 
-**AlertReceivers** | **int32** |  | 
-**AlertMatchers** | **int32** |  | 
-**LogsStorage** | **int32** |  | 
-**TracesStorage** | **int32** |  | 
-**LogsAlert** | **int32** |  | 
 
 ## Methods
 
 ### NewPlanModel
 
-`func NewPlanModel(planId string, bucketSize int32, grafanaGlobalUsers int32, grafanaGlobalOrgs int32, grafanaGlobalDashboards int32, alertRules int32, targetNumber int32, samplesPerScrape int32, grafanaGlobalSessions int32, alertReceivers int32, alertMatchers int32, logsStorage int32, tracesStorage int32, logsAlert int32, ) *PlanModel`
+`func NewPlanModel(planId string, bucketSize int32, grafanaGlobalUsers int32, grafanaGlobalOrgs int32, grafanaGlobalDashboards int32, alertRules int32, targetNumber int32, samplesPerScrape int32, grafanaGlobalSessions int32, ) *PlanModel`
 
 NewPlanModel instantiates a new PlanModel object
 This constructor will assign default values to properties that have it defined,
@@ -295,106 +290,6 @@ SetAmount sets Amount field to given value.
 `func (o *PlanModel) HasAmount() bool`
 
 HasAmount returns a boolean if a field has been set.
-
-### GetAlertReceivers
-
-`func (o *PlanModel) GetAlertReceivers() int32`
-
-GetAlertReceivers returns the AlertReceivers field if non-nil, zero value otherwise.
-
-### GetAlertReceiversOk
-
-`func (o *PlanModel) GetAlertReceiversOk() (*int32, bool)`
-
-GetAlertReceiversOk returns a tuple with the AlertReceivers field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetAlertReceivers
-
-`func (o *PlanModel) SetAlertReceivers(v int32)`
-
-SetAlertReceivers sets AlertReceivers field to given value.
-
-
-### GetAlertMatchers
-
-`func (o *PlanModel) GetAlertMatchers() int32`
-
-GetAlertMatchers returns the AlertMatchers field if non-nil, zero value otherwise.
-
-### GetAlertMatchersOk
-
-`func (o *PlanModel) GetAlertMatchersOk() (*int32, bool)`
-
-GetAlertMatchersOk returns a tuple with the AlertMatchers field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetAlertMatchers
-
-`func (o *PlanModel) SetAlertMatchers(v int32)`
-
-SetAlertMatchers sets AlertMatchers field to given value.
-
-
-### GetLogsStorage
-
-`func (o *PlanModel) GetLogsStorage() int32`
-
-GetLogsStorage returns the LogsStorage field if non-nil, zero value otherwise.
-
-### GetLogsStorageOk
-
-`func (o *PlanModel) GetLogsStorageOk() (*int32, bool)`
-
-GetLogsStorageOk returns a tuple with the LogsStorage field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetLogsStorage
-
-`func (o *PlanModel) SetLogsStorage(v int32)`
-
-SetLogsStorage sets LogsStorage field to given value.
-
-
-### GetTracesStorage
-
-`func (o *PlanModel) GetTracesStorage() int32`
-
-GetTracesStorage returns the TracesStorage field if non-nil, zero value otherwise.
-
-### GetTracesStorageOk
-
-`func (o *PlanModel) GetTracesStorageOk() (*int32, bool)`
-
-GetTracesStorageOk returns a tuple with the TracesStorage field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetTracesStorage
-
-`func (o *PlanModel) SetTracesStorage(v int32)`
-
-SetTracesStorage sets TracesStorage field to given value.
-
-
-### GetLogsAlert
-
-`func (o *PlanModel) GetLogsAlert() int32`
-
-GetLogsAlert returns the LogsAlert field if non-nil, zero value otherwise.
-
-### GetLogsAlertOk
-
-`func (o *PlanModel) GetLogsAlertOk() (*int32, bool)`
-
-GetLogsAlertOk returns a tuple with the LogsAlert field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetLogsAlert
-
-`func (o *PlanModel) SetLogsAlert(v int32)`
-
-SetLogsAlert sets LogsAlert field to given value.
-
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

@@ -5,8 +5,6 @@ import (
 	"os"
 
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd"
-	"github.com/stackitcloud/stackit-argus-cli/internal/log"
-	"go.uber.org/zap"
 )
 
 func main() {
@@ -17,15 +15,6 @@ func main() {
 }
 
 func run() error {
-	logger, err := log.NewAtLevel(os.Getenv("LOG_LEVEL"))
-	if err != nil {
-		return err
-	}
-
-	defer logger.Sync()
-
-	logger.Info("Hello world!", zap.String("location", "world"))
-
 	cmd.Execute()
 
 	return nil

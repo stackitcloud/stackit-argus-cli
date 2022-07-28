@@ -4,14 +4,13 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Receiver** | **string** | Receiver that should be one item of receivers &#x60;Additional Validators:&#x60; * must be a in name of receivers | 
+**Receiver** | **string** | Receiver | 
 **GroupBy** | Pointer to **[]string** | The labels by which incoming alerts are grouped together. For example, multiple alerts coming in for cluster&#x3D;A and alertname&#x3D;LatencyHigh would be batched into a single group. To aggregate by all possible labels use the special value &#39;...&#39; as the sole label name, for example: group_by: [&#39;...&#39;]. This effectively disables aggregation entirely, passing through all alerts as-is. This is unlikely to be what you want, unless you have a very low alert volume or your upstream notification system performs its own grouping. | [optional] 
-**GroupWait** | Pointer to **string** | How long to initially wait to send a notification for a group of alerts. Allows to wait for an inhibiting alert to arrive or collect more initial alerts for the same group. (Usually ~0s to few minutes.) &#x60;Additional Validators:&#x60; * must be a valid time format | [optional] [default to "30s"]
-**GroupInterval** | Pointer to **string** | How long to wait before sending a notification about new alerts that are added to a group of alerts for which an initial notification has already been sent. (Usually ~5m or more.) &#x60;Additional Validators:&#x60; * must be a valid time format | [optional] [default to "5m"]
-**RepeatInterval** | Pointer to **string** | How long to wait before sending a notification again if it has already been sent successfully for an alert. (Usually ~3h or more). &#x60;Additional Validators:&#x60; * must be a valid time format | [optional] [default to "4h"]
-**Match** | Pointer to **map[string]interface{}** | map of key:value. A set of equality matchers an alert has to fulfill to match the node.  &#x60;Additional Validators:&#x60; * should not contain more than 5 keys * each key and value should not be longer than 200 characters * key and values should only include the characters: a-zA-Z0-9_./@&amp;?:- | [optional] 
-**MatchRe** | Pointer to **map[string]interface{}** | map of key:value. A set of regex-matchers an alert has to fulfill to match the node.  &#x60;Additional Validators:&#x60; * should not contain more than 5 keys * each key and value should not be longer than 200 characters | [optional] 
-**Matchers** | Pointer to **[]string** | A list of matchers that an alert has to fulfill to match the node. A matcher is a string with a syntax inspired by PromQL and OpenMetrics. The syntax of a matcher consists of three tokens: * A valid Prometheus label name. * One of &#x3D;, !&#x3D;, &#x3D;~, or !~. &#x3D; means equals, !&#x3D; means that the strings are not equal, &#x3D;~ is used for equality of regex expressions and !~ is used for un-equality of regex expressions. They have the same meaning as known from PromQL selectors. * A UTF-8 string, which may be enclosed in double quotes. Before or after each token, there may be any amount of whitespace. &#x60;Additional Validators:&#x60; * should not contain more than 5 keys * each key and value should not be longer than 200 characters | [optional] 
+**GroupWait** | Pointer to **string** | How long to initially wait to send a notification for a group of alerts. Allows to wait for an inhibiting alert to arrive or collect more initial alerts for the same group. (Usually ~0s to few minutes.) | [optional] [default to "30s"]
+**GroupInterval** | Pointer to **string** | How long to wait before sending a notification about new alerts that are added to a group of alerts for which an initial notification has already been sent. (Usually ~5m or more.) | [optional] [default to "5m"]
+**RepeatInterval** | Pointer to **string** | How long to wait before sending a notification again if it has already been sent successfully for an alert. (Usually ~3h or more). | [optional] [default to "4h"]
+**Match** | Pointer to **map[string]interface{}** | map of key:value. A set of equality matchers an alert has to fulfill to match the node. | [optional] 
+**MatchRe** | Pointer to **map[string]interface{}** | map of key:value. A set of regex-matchers an alert has to fulfill to match the node. | [optional] 
 **Routes** | Pointer to [**[]V1InstancesAlertconfigsUpdateRequestRouteRoutesInner**](V1InstancesAlertconfigsUpdateRequestRouteRoutesInner.md) | Zero or more child routes. | [optional] 
 
 ## Methods
@@ -202,31 +201,6 @@ SetMatchRe sets MatchRe field to given value.
 `func (o *V1InstancesAlertconfigsUpdateRequestRoute) HasMatchRe() bool`
 
 HasMatchRe returns a boolean if a field has been set.
-
-### GetMatchers
-
-`func (o *V1InstancesAlertconfigsUpdateRequestRoute) GetMatchers() []string`
-
-GetMatchers returns the Matchers field if non-nil, zero value otherwise.
-
-### GetMatchersOk
-
-`func (o *V1InstancesAlertconfigsUpdateRequestRoute) GetMatchersOk() (*[]string, bool)`
-
-GetMatchersOk returns a tuple with the Matchers field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetMatchers
-
-`func (o *V1InstancesAlertconfigsUpdateRequestRoute) SetMatchers(v []string)`
-
-SetMatchers sets Matchers field to given value.
-
-### HasMatchers
-
-`func (o *V1InstancesAlertconfigsUpdateRequestRoute) HasMatchers() bool`
-
-HasMatchers returns a boolean if a field has been set.
 
 ### GetRoutes
 

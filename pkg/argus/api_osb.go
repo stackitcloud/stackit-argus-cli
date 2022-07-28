@@ -20,15 +20,14 @@ import (
 	"strings"
 )
 
-
 // OsbApiService OsbApi service
 type OsbApiService service
 
 type ApiV1ClustersInstancesStatusListRequest struct {
-	ctx context.Context
-	ApiService *OsbApiService
-	clusterId string
-	instanceId string
+	ctx           context.Context
+	ApiService    *OsbApiService
+	clusterId     string
+	instanceId    string
 	authorization *string
 }
 
@@ -55,8 +54,8 @@ Get deployment status.
 func (a *OsbApiService) V1ClustersInstancesStatusList(ctx context.Context, clusterId string, instanceId string) ApiV1ClustersInstancesStatusListRequest {
 	return ApiV1ClustersInstancesStatusListRequest{
 		ApiService: a,
-		ctx: ctx,
-		clusterId: clusterId,
+		ctx:        ctx,
+		clusterId:  clusterId,
 		instanceId: instanceId,
 	}
 }
@@ -65,10 +64,10 @@ func (a *OsbApiService) V1ClustersInstancesStatusList(ctx context.Context, clust
 //  @return Status
 func (a *OsbApiService) V1ClustersInstancesStatusListExecute(r ApiV1ClustersInstancesStatusListRequest) (*Status, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *Status
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Status
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "OsbApiService.V1ClustersInstancesStatusList")
@@ -162,12 +161,12 @@ func (a *OsbApiService) V1ClustersInstancesStatusListExecute(r ApiV1ClustersInst
 }
 
 type ApiV1OsbClustersInstancesCreateRequest struct {
-	ctx context.Context
-	ApiService *OsbApiService
-	clusterId string
-	instanceId string
+	ctx           context.Context
+	ApiService    *OsbApiService
+	clusterId     string
+	instanceId    string
 	authorization *string
-	data *V1OsbClustersInstancesUpdateRequest
+	data          *V1OsbClustersInstancesUpdateRequest
 }
 
 // Accepts admin auth and broker auth.
@@ -198,8 +197,8 @@ Create monitoring stack.
 func (a *OsbApiService) V1OsbClustersInstancesCreate(ctx context.Context, clusterId string, instanceId string) ApiV1OsbClustersInstancesCreateRequest {
 	return ApiV1OsbClustersInstancesCreateRequest{
 		ApiService: a,
-		ctx: ctx,
-		clusterId: clusterId,
+		ctx:        ctx,
+		clusterId:  clusterId,
 		instanceId: instanceId,
 	}
 }
@@ -208,10 +207,10 @@ func (a *OsbApiService) V1OsbClustersInstancesCreate(ctx context.Context, cluste
 //  @return Dashboard
 func (a *OsbApiService) V1OsbClustersInstancesCreateExecute(r ApiV1OsbClustersInstancesCreateRequest) (*Dashboard, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *Dashboard
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Dashboard
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "OsbApiService.V1OsbClustersInstancesCreate")
@@ -310,10 +309,10 @@ func (a *OsbApiService) V1OsbClustersInstancesCreateExecute(r ApiV1OsbClustersIn
 }
 
 type ApiV1OsbClustersInstancesDeleteRequest struct {
-	ctx context.Context
-	ApiService *OsbApiService
-	clusterId string
-	instanceId string
+	ctx           context.Context
+	ApiService    *OsbApiService
+	clusterId     string
+	instanceId    string
 	authorization *string
 }
 
@@ -340,8 +339,8 @@ Delete a monitoring stack.
 func (a *OsbApiService) V1OsbClustersInstancesDelete(ctx context.Context, clusterId string, instanceId string) ApiV1OsbClustersInstancesDeleteRequest {
 	return ApiV1OsbClustersInstancesDeleteRequest{
 		ApiService: a,
-		ctx: ctx,
-		clusterId: clusterId,
+		ctx:        ctx,
+		clusterId:  clusterId,
 		instanceId: instanceId,
 	}
 }
@@ -350,10 +349,10 @@ func (a *OsbApiService) V1OsbClustersInstancesDelete(ctx context.Context, cluste
 //  @return Message
 func (a *OsbApiService) V1OsbClustersInstancesDeleteExecute(r ApiV1OsbClustersInstancesDeleteRequest) (*Message, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *Message
+		localVarHTTPMethod  = http.MethodDelete
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Message
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "OsbApiService.V1OsbClustersInstancesDelete")
@@ -447,12 +446,12 @@ func (a *OsbApiService) V1OsbClustersInstancesDeleteExecute(r ApiV1OsbClustersIn
 }
 
 type ApiV1OsbClustersInstancesUpdateRequest struct {
-	ctx context.Context
-	ApiService *OsbApiService
-	clusterId string
-	instanceId string
+	ctx           context.Context
+	ApiService    *OsbApiService
+	clusterId     string
+	instanceId    string
 	authorization *string
-	data *V1OsbClustersInstancesUpdateRequest
+	data          *V1OsbClustersInstancesUpdateRequest
 }
 
 // Accepts admin auth and broker auth.
@@ -483,8 +482,8 @@ Update monitoring stack.
 func (a *OsbApiService) V1OsbClustersInstancesUpdate(ctx context.Context, clusterId string, instanceId string) ApiV1OsbClustersInstancesUpdateRequest {
 	return ApiV1OsbClustersInstancesUpdateRequest{
 		ApiService: a,
-		ctx: ctx,
-		clusterId: clusterId,
+		ctx:        ctx,
+		clusterId:  clusterId,
 		instanceId: instanceId,
 	}
 }
@@ -493,10 +492,10 @@ func (a *OsbApiService) V1OsbClustersInstancesUpdate(ctx context.Context, cluste
 //  @return Dashboard
 func (a *OsbApiService) V1OsbClustersInstancesUpdateExecute(r ApiV1OsbClustersInstancesUpdateRequest) (*Dashboard, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPut
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *Dashboard
+		localVarHTTPMethod  = http.MethodPut
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Dashboard
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "OsbApiService.V1OsbClustersInstancesUpdate")
@@ -595,12 +594,12 @@ func (a *OsbApiService) V1OsbClustersInstancesUpdateExecute(r ApiV1OsbClustersIn
 }
 
 type ApiV1OsbClustersInstancesUsersCreateRequest struct {
-	ctx context.Context
-	ApiService *OsbApiService
-	clusterId string
-	instanceId string
+	ctx              context.Context
+	ApiService       *OsbApiService
+	clusterId        string
+	instanceId       string
 	serviceBindingId string
-	authorization *string
+	authorization    *string
 }
 
 // Accepts system permissions.
@@ -626,10 +625,10 @@ Create an api user for an instance.
 */
 func (a *OsbApiService) V1OsbClustersInstancesUsersCreate(ctx context.Context, clusterId string, instanceId string, serviceBindingId string) ApiV1OsbClustersInstancesUsersCreateRequest {
 	return ApiV1OsbClustersInstancesUsersCreateRequest{
-		ApiService: a,
-		ctx: ctx,
-		clusterId: clusterId,
-		instanceId: instanceId,
+		ApiService:       a,
+		ctx:              ctx,
+		clusterId:        clusterId,
+		instanceId:       instanceId,
 		serviceBindingId: serviceBindingId,
 	}
 }
@@ -638,10 +637,10 @@ func (a *OsbApiService) V1OsbClustersInstancesUsersCreate(ctx context.Context, c
 //  @return ApiUserCreated
 func (a *OsbApiService) V1OsbClustersInstancesUsersCreateExecute(r ApiV1OsbClustersInstancesUsersCreateRequest) (*ApiUserCreated, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *ApiUserCreated
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *ApiUserCreated
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "OsbApiService.V1OsbClustersInstancesUsersCreate")
@@ -726,12 +725,12 @@ func (a *OsbApiService) V1OsbClustersInstancesUsersCreateExecute(r ApiV1OsbClust
 }
 
 type ApiV1OsbClustersInstancesUsersDeleteRequest struct {
-	ctx context.Context
-	ApiService *OsbApiService
-	clusterId string
-	instanceId string
+	ctx              context.Context
+	ApiService       *OsbApiService
+	clusterId        string
+	instanceId       string
 	serviceBindingId string
-	authorization *string
+	authorization    *string
 }
 
 // Accepts system permission.
@@ -757,10 +756,10 @@ Delete an api user for an instance.
 */
 func (a *OsbApiService) V1OsbClustersInstancesUsersDelete(ctx context.Context, clusterId string, instanceId string, serviceBindingId string) ApiV1OsbClustersInstancesUsersDeleteRequest {
 	return ApiV1OsbClustersInstancesUsersDeleteRequest{
-		ApiService: a,
-		ctx: ctx,
-		clusterId: clusterId,
-		instanceId: instanceId,
+		ApiService:       a,
+		ctx:              ctx,
+		clusterId:        clusterId,
+		instanceId:       instanceId,
 		serviceBindingId: serviceBindingId,
 	}
 }
@@ -769,10 +768,10 @@ func (a *OsbApiService) V1OsbClustersInstancesUsersDelete(ctx context.Context, c
 //  @return Message
 func (a *OsbApiService) V1OsbClustersInstancesUsersDeleteExecute(r ApiV1OsbClustersInstancesUsersDeleteRequest) (*Message, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *Message
+		localVarHTTPMethod  = http.MethodDelete
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Message
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "OsbApiService.V1OsbClustersInstancesUsersDelete")
@@ -867,10 +866,10 @@ func (a *OsbApiService) V1OsbClustersInstancesUsersDeleteExecute(r ApiV1OsbClust
 }
 
 type ApiV1OsbClustersInstancesUsersListRequest struct {
-	ctx context.Context
-	ApiService *OsbApiService
-	clusterId string
-	instanceId string
+	ctx           context.Context
+	ApiService    *OsbApiService
+	clusterId     string
+	instanceId    string
 	authorization *string
 }
 
@@ -897,8 +896,8 @@ Get all api users.
 func (a *OsbApiService) V1OsbClustersInstancesUsersList(ctx context.Context, clusterId string, instanceId string) ApiV1OsbClustersInstancesUsersListRequest {
 	return ApiV1OsbClustersInstancesUsersListRequest{
 		ApiService: a,
-		ctx: ctx,
-		clusterId: clusterId,
+		ctx:        ctx,
+		clusterId:  clusterId,
 		instanceId: instanceId,
 	}
 }
@@ -907,10 +906,10 @@ func (a *OsbApiService) V1OsbClustersInstancesUsersList(ctx context.Context, clu
 //  @return ApiUser
 func (a *OsbApiService) V1OsbClustersInstancesUsersListExecute(r ApiV1OsbClustersInstancesUsersListRequest) (*ApiUser, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *ApiUser
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *ApiUser
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "OsbApiService.V1OsbClustersInstancesUsersList")

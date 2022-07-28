@@ -19,13 +19,12 @@ import (
 	"net/url"
 )
 
-
 // PlansApiService PlansApi service
 type PlansApiService service
 
 type ApiV1PlansListRequest struct {
-	ctx context.Context
-	ApiService *PlansApiService
+	ctx           context.Context
+	ApiService    *PlansApiService
 	authorization *string
 }
 
@@ -50,7 +49,7 @@ Get all plans.
 func (a *PlansApiService) V1PlansList(ctx context.Context) ApiV1PlansListRequest {
 	return ApiV1PlansListRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -58,10 +57,10 @@ func (a *PlansApiService) V1PlansList(ctx context.Context) ApiV1PlansListRequest
 //  @return Plan
 func (a *PlansApiService) V1PlansListExecute(r ApiV1PlansListRequest) (*Plan, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *Plan
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Plan
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PlansApiService.V1PlansList")

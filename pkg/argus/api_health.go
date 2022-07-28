@@ -19,12 +19,11 @@ import (
 	"net/url"
 )
 
-
 // HealthApiService HealthApi service
 type HealthApiService service
 
 type ApiHealthzListRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *HealthApiService
 }
 
@@ -43,16 +42,16 @@ Get 200 ok.
 func (a *HealthApiService) HealthzList(ctx context.Context) ApiHealthzListRequest {
 	return ApiHealthzListRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
 func (a *HealthApiService) HealthzListExecute(r ApiHealthzListRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodGet
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "HealthApiService.HealthzList")
@@ -112,7 +111,7 @@ func (a *HealthApiService) HealthzListExecute(r ApiHealthzListRequest) (*http.Re
 }
 
 type ApiListRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *HealthApiService
 }
 
@@ -131,16 +130,16 @@ Get 200 ok.
 func (a *HealthApiService) List(ctx context.Context) ApiListRequest {
 	return ApiListRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
 func (a *HealthApiService) ListExecute(r ApiListRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodGet
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "HealthApiService.List")

@@ -20,14 +20,13 @@ import (
 	"strings"
 )
 
-
 // ApiUserAuthenticationCheckApiService ApiUserAuthenticationCheckApi service
 type ApiUserAuthenticationCheckApiService service
 
 type ApiV1InstancesAuthListRequest struct {
-	ctx context.Context
-	ApiService *ApiUserAuthenticationCheckApiService
-	instanceId string
+	ctx           context.Context
+	ApiService    *ApiUserAuthenticationCheckApiService
+	instanceId    string
 	authorization *string
 }
 
@@ -53,7 +52,7 @@ Get authentication.
 func (a *ApiUserAuthenticationCheckApiService) V1InstancesAuthList(ctx context.Context, instanceId string) ApiV1InstancesAuthListRequest {
 	return ApiV1InstancesAuthListRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 		instanceId: instanceId,
 	}
 }
@@ -62,10 +61,10 @@ func (a *ApiUserAuthenticationCheckApiService) V1InstancesAuthList(ctx context.C
 //  @return Message
 func (a *ApiUserAuthenticationCheckApiService) V1InstancesAuthListExecute(r ApiV1InstancesAuthListRequest) (*Message, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *Message
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Message
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ApiUserAuthenticationCheckApiService.V1InstancesAuthList")

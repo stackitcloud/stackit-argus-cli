@@ -20,15 +20,14 @@ import (
 	"strings"
 )
 
-
 // BackupApiService BackupApi service
 type BackupApiService service
 
 type ApiV1InstancesBackupRestoresCreateRequest struct {
-	ctx context.Context
-	ApiService *BackupApiService
-	backupDate string
-	instanceId string
+	ctx           context.Context
+	ApiService    *BackupApiService
+	backupDate    string
+	instanceId    string
 	authorization *string
 	restoreTarget *string
 }
@@ -62,7 +61,7 @@ Restore backup.
 func (a *BackupApiService) V1InstancesBackupRestoresCreate(ctx context.Context, backupDate string, instanceId string) ApiV1InstancesBackupRestoresCreateRequest {
 	return ApiV1InstancesBackupRestoresCreateRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 		backupDate: backupDate,
 		instanceId: instanceId,
 	}
@@ -72,10 +71,10 @@ func (a *BackupApiService) V1InstancesBackupRestoresCreate(ctx context.Context, 
 //  @return Message
 func (a *BackupApiService) V1InstancesBackupRestoresCreateExecute(r ApiV1InstancesBackupRestoresCreateRequest) (*Message, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *Message
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Message
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "BackupApiService.V1InstancesBackupRestoresCreate")
@@ -173,9 +172,9 @@ func (a *BackupApiService) V1InstancesBackupRestoresCreateExecute(r ApiV1Instanc
 }
 
 type ApiV1InstancesBackupRetentionsListRequest struct {
-	ctx context.Context
-	ApiService *BackupApiService
-	instanceId string
+	ctx           context.Context
+	ApiService    *BackupApiService
+	instanceId    string
 	authorization *string
 }
 
@@ -201,7 +200,7 @@ Get backup retention.
 func (a *BackupApiService) V1InstancesBackupRetentionsList(ctx context.Context, instanceId string) ApiV1InstancesBackupRetentionsListRequest {
 	return ApiV1InstancesBackupRetentionsListRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 		instanceId: instanceId,
 	}
 }
@@ -210,10 +209,10 @@ func (a *BackupApiService) V1InstancesBackupRetentionsList(ctx context.Context, 
 //  @return BackupRetentionResponse
 func (a *BackupApiService) V1InstancesBackupRetentionsListExecute(r ApiV1InstancesBackupRetentionsListRequest) (*BackupRetentionResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *BackupRetentionResponse
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *BackupRetentionResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "BackupApiService.V1InstancesBackupRetentionsList")
@@ -296,12 +295,12 @@ func (a *BackupApiService) V1InstancesBackupRetentionsListExecute(r ApiV1Instanc
 }
 
 type ApiV1InstancesBackupRetentionsUpdateRequest struct {
-	ctx context.Context
-	ApiService *BackupApiService
-	instanceId string
+	ctx           context.Context
+	ApiService    *BackupApiService
+	instanceId    string
 	authorization *string
-	data *V1InstancesBackupRetentionsUpdateRequest
-	backupTarget *[]string
+	data          *V1InstancesBackupRetentionsUpdateRequest
+	backupTarget  *[]string
 }
 
 // Accepts technical credentials and api gateway access.
@@ -337,7 +336,7 @@ Update backup retention.
 func (a *BackupApiService) V1InstancesBackupRetentionsUpdate(ctx context.Context, instanceId string) ApiV1InstancesBackupRetentionsUpdateRequest {
 	return ApiV1InstancesBackupRetentionsUpdateRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 		instanceId: instanceId,
 	}
 }
@@ -346,10 +345,10 @@ func (a *BackupApiService) V1InstancesBackupRetentionsUpdate(ctx context.Context
 //  @return Message
 func (a *BackupApiService) V1InstancesBackupRetentionsUpdateExecute(r ApiV1InstancesBackupRetentionsUpdateRequest) (*Message, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPut
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *Message
+		localVarHTTPMethod  = http.MethodPut
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Message
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "BackupApiService.V1InstancesBackupRetentionsUpdate")
@@ -450,12 +449,12 @@ func (a *BackupApiService) V1InstancesBackupRetentionsUpdateExecute(r ApiV1Insta
 }
 
 type ApiV1InstancesBackupSchedulesCreateRequest struct {
-	ctx context.Context
-	ApiService *BackupApiService
-	instanceId string
+	ctx           context.Context
+	ApiService    *BackupApiService
+	instanceId    string
 	authorization *string
-	data *V1InstancesBackupSchedulesCreateRequest
-	backupTarget *[]string
+	data          *V1InstancesBackupSchedulesCreateRequest
+	backupTarget  *[]string
 }
 
 // Accepts technical credentials and api gateway access.
@@ -491,7 +490,7 @@ Create backup schedule.
 func (a *BackupApiService) V1InstancesBackupSchedulesCreate(ctx context.Context, instanceId string) ApiV1InstancesBackupSchedulesCreateRequest {
 	return ApiV1InstancesBackupSchedulesCreateRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 		instanceId: instanceId,
 	}
 }
@@ -500,10 +499,10 @@ func (a *BackupApiService) V1InstancesBackupSchedulesCreate(ctx context.Context,
 //  @return BackupSchedulePostResponse
 func (a *BackupApiService) V1InstancesBackupSchedulesCreateExecute(r ApiV1InstancesBackupSchedulesCreateRequest) (*BackupSchedulePostResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *BackupSchedulePostResponse
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *BackupSchedulePostResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "BackupApiService.V1InstancesBackupSchedulesCreate")
@@ -604,10 +603,10 @@ func (a *BackupApiService) V1InstancesBackupSchedulesCreateExecute(r ApiV1Instan
 }
 
 type ApiV1InstancesBackupSchedulesDeleteRequest struct {
-	ctx context.Context
-	ApiService *BackupApiService
-	instanceId string
-	scheduleId string
+	ctx           context.Context
+	ApiService    *BackupApiService
+	instanceId    string
+	scheduleId    string
 	authorization *string
 }
 
@@ -634,7 +633,7 @@ Delete backup schedule.
 func (a *BackupApiService) V1InstancesBackupSchedulesDelete(ctx context.Context, instanceId string, scheduleId string) ApiV1InstancesBackupSchedulesDeleteRequest {
 	return ApiV1InstancesBackupSchedulesDeleteRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 		instanceId: instanceId,
 		scheduleId: scheduleId,
 	}
@@ -644,10 +643,10 @@ func (a *BackupApiService) V1InstancesBackupSchedulesDelete(ctx context.Context,
 //  @return Message
 func (a *BackupApiService) V1InstancesBackupSchedulesDeleteExecute(r ApiV1InstancesBackupSchedulesDeleteRequest) (*Message, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *Message
+		localVarHTTPMethod  = http.MethodDelete
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Message
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "BackupApiService.V1InstancesBackupSchedulesDelete")
@@ -741,11 +740,11 @@ func (a *BackupApiService) V1InstancesBackupSchedulesDeleteExecute(r ApiV1Instan
 }
 
 type ApiV1InstancesBackupSchedulesListRequest struct {
-	ctx context.Context
-	ApiService *BackupApiService
-	instanceId string
+	ctx           context.Context
+	ApiService    *BackupApiService
+	instanceId    string
 	authorization *string
-	backupTarget *[]string
+	backupTarget  *[]string
 }
 
 // Accepts technical credentials and api gateway access.
@@ -776,7 +775,7 @@ Get backup schedules.
 func (a *BackupApiService) V1InstancesBackupSchedulesList(ctx context.Context, instanceId string) ApiV1InstancesBackupSchedulesListRequest {
 	return ApiV1InstancesBackupSchedulesListRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 		instanceId: instanceId,
 	}
 }
@@ -785,10 +784,10 @@ func (a *BackupApiService) V1InstancesBackupSchedulesList(ctx context.Context, i
 //  @return BackupScheduleResponse
 func (a *BackupApiService) V1InstancesBackupSchedulesListExecute(r ApiV1InstancesBackupSchedulesListRequest) (*BackupScheduleResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *BackupScheduleResponse
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *BackupScheduleResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "BackupApiService.V1InstancesBackupSchedulesList")
@@ -874,12 +873,12 @@ func (a *BackupApiService) V1InstancesBackupSchedulesListExecute(r ApiV1Instance
 }
 
 type ApiV1InstancesBackupSchedulesUpdateRequest struct {
-	ctx context.Context
-	ApiService *BackupApiService
-	instanceId string
-	scheduleId string
+	ctx           context.Context
+	ApiService    *BackupApiService
+	instanceId    string
+	scheduleId    string
 	authorization *string
-	data *V1InstancesBackupSchedulesCreateRequest
+	data          *V1InstancesBackupSchedulesCreateRequest
 }
 
 // Accepts technical credentials and api gateway access.
@@ -910,7 +909,7 @@ Update backup schedule.
 func (a *BackupApiService) V1InstancesBackupSchedulesUpdate(ctx context.Context, instanceId string, scheduleId string) ApiV1InstancesBackupSchedulesUpdateRequest {
 	return ApiV1InstancesBackupSchedulesUpdateRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 		instanceId: instanceId,
 		scheduleId: scheduleId,
 	}
@@ -920,10 +919,10 @@ func (a *BackupApiService) V1InstancesBackupSchedulesUpdate(ctx context.Context,
 //  @return BackupSchedulePutResponse
 func (a *BackupApiService) V1InstancesBackupSchedulesUpdateExecute(r ApiV1InstancesBackupSchedulesUpdateRequest) (*BackupSchedulePutResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPut
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *BackupSchedulePutResponse
+		localVarHTTPMethod  = http.MethodPut
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *BackupSchedulePutResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "BackupApiService.V1InstancesBackupSchedulesUpdate")
@@ -1022,11 +1021,11 @@ func (a *BackupApiService) V1InstancesBackupSchedulesUpdateExecute(r ApiV1Instan
 }
 
 type ApiV1InstancesBackupsCreateRequest struct {
-	ctx context.Context
-	ApiService *BackupApiService
-	instanceId string
+	ctx           context.Context
+	ApiService    *BackupApiService
+	instanceId    string
 	authorization *string
-	backupTarget *[]string
+	backupTarget  *[]string
 }
 
 // Accepts technical credentials and api gateway access.
@@ -1057,7 +1056,7 @@ Create a backup.
 func (a *BackupApiService) V1InstancesBackupsCreate(ctx context.Context, instanceId string) ApiV1InstancesBackupsCreateRequest {
 	return ApiV1InstancesBackupsCreateRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 		instanceId: instanceId,
 	}
 }
@@ -1066,10 +1065,10 @@ func (a *BackupApiService) V1InstancesBackupsCreate(ctx context.Context, instanc
 //  @return Message
 func (a *BackupApiService) V1InstancesBackupsCreateExecute(r ApiV1InstancesBackupsCreateRequest) (*Message, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *Message
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Message
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "BackupApiService.V1InstancesBackupsCreate")
@@ -1165,12 +1164,12 @@ func (a *BackupApiService) V1InstancesBackupsCreateExecute(r ApiV1InstancesBacku
 }
 
 type ApiV1InstancesBackupsDeleteRequest struct {
-	ctx context.Context
-	ApiService *BackupApiService
-	backupDate string
-	instanceId string
+	ctx           context.Context
+	ApiService    *BackupApiService
+	backupDate    string
+	instanceId    string
 	authorization *string
-	backupTarget *string
+	backupTarget  *string
 }
 
 // Accepts technical credentials and api gateway access.
@@ -1202,7 +1201,7 @@ Delete backup.
 func (a *BackupApiService) V1InstancesBackupsDelete(ctx context.Context, backupDate string, instanceId string) ApiV1InstancesBackupsDeleteRequest {
 	return ApiV1InstancesBackupsDeleteRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 		backupDate: backupDate,
 		instanceId: instanceId,
 	}
@@ -1212,10 +1211,10 @@ func (a *BackupApiService) V1InstancesBackupsDelete(ctx context.Context, backupD
 //  @return Message
 func (a *BackupApiService) V1InstancesBackupsDeleteExecute(r ApiV1InstancesBackupsDeleteRequest) (*Message, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *Message
+		localVarHTTPMethod  = http.MethodDelete
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Message
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "BackupApiService.V1InstancesBackupsDelete")
@@ -1313,11 +1312,11 @@ func (a *BackupApiService) V1InstancesBackupsDeleteExecute(r ApiV1InstancesBacku
 }
 
 type ApiV1InstancesBackupsListRequest struct {
-	ctx context.Context
-	ApiService *BackupApiService
-	instanceId string
+	ctx           context.Context
+	ApiService    *BackupApiService
+	instanceId    string
 	authorization *string
-	backupTarget *[]string
+	backupTarget  *[]string
 }
 
 // Accepts technical credentials and api gateway access.
@@ -1348,7 +1347,7 @@ Get backups.
 func (a *BackupApiService) V1InstancesBackupsList(ctx context.Context, instanceId string) ApiV1InstancesBackupsListRequest {
 	return ApiV1InstancesBackupsListRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 		instanceId: instanceId,
 	}
 }
@@ -1357,10 +1356,10 @@ func (a *BackupApiService) V1InstancesBackupsList(ctx context.Context, instanceI
 //  @return BackupResponse
 func (a *BackupApiService) V1InstancesBackupsListExecute(r ApiV1InstancesBackupsListRequest) (*BackupResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *BackupResponse
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *BackupResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "BackupApiService.V1InstancesBackupsList")
@@ -1456,11 +1455,11 @@ func (a *BackupApiService) V1InstancesBackupsListExecute(r ApiV1InstancesBackups
 }
 
 type ApiV1ProjectsInstancesBackupRestoresCreateRequest struct {
-	ctx context.Context
-	ApiService *BackupApiService
-	backupDate string
-	instanceId string
-	projectId string
+	ctx           context.Context
+	ApiService    *BackupApiService
+	backupDate    string
+	instanceId    string
+	projectId     string
 	authorization *string
 	restoreTarget *string
 }
@@ -1495,10 +1494,10 @@ Restore backup.
 func (a *BackupApiService) V1ProjectsInstancesBackupRestoresCreate(ctx context.Context, backupDate string, instanceId string, projectId string) ApiV1ProjectsInstancesBackupRestoresCreateRequest {
 	return ApiV1ProjectsInstancesBackupRestoresCreateRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 		backupDate: backupDate,
 		instanceId: instanceId,
-		projectId: projectId,
+		projectId:  projectId,
 	}
 }
 
@@ -1506,10 +1505,10 @@ func (a *BackupApiService) V1ProjectsInstancesBackupRestoresCreate(ctx context.C
 //  @return Message
 func (a *BackupApiService) V1ProjectsInstancesBackupRestoresCreateExecute(r ApiV1ProjectsInstancesBackupRestoresCreateRequest) (*Message, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *Message
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Message
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "BackupApiService.V1ProjectsInstancesBackupRestoresCreate")
@@ -1608,10 +1607,10 @@ func (a *BackupApiService) V1ProjectsInstancesBackupRestoresCreateExecute(r ApiV
 }
 
 type ApiV1ProjectsInstancesBackupRetentionsListRequest struct {
-	ctx context.Context
-	ApiService *BackupApiService
-	instanceId string
-	projectId string
+	ctx           context.Context
+	ApiService    *BackupApiService
+	instanceId    string
+	projectId     string
 	authorization *string
 }
 
@@ -1638,9 +1637,9 @@ Get backup retention.
 func (a *BackupApiService) V1ProjectsInstancesBackupRetentionsList(ctx context.Context, instanceId string, projectId string) ApiV1ProjectsInstancesBackupRetentionsListRequest {
 	return ApiV1ProjectsInstancesBackupRetentionsListRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 		instanceId: instanceId,
-		projectId: projectId,
+		projectId:  projectId,
 	}
 }
 
@@ -1648,10 +1647,10 @@ func (a *BackupApiService) V1ProjectsInstancesBackupRetentionsList(ctx context.C
 //  @return BackupRetentionResponse
 func (a *BackupApiService) V1ProjectsInstancesBackupRetentionsListExecute(r ApiV1ProjectsInstancesBackupRetentionsListRequest) (*BackupRetentionResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *BackupRetentionResponse
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *BackupRetentionResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "BackupApiService.V1ProjectsInstancesBackupRetentionsList")
@@ -1735,13 +1734,13 @@ func (a *BackupApiService) V1ProjectsInstancesBackupRetentionsListExecute(r ApiV
 }
 
 type ApiV1ProjectsInstancesBackupRetentionsUpdateRequest struct {
-	ctx context.Context
-	ApiService *BackupApiService
-	instanceId string
-	projectId string
+	ctx           context.Context
+	ApiService    *BackupApiService
+	instanceId    string
+	projectId     string
 	authorization *string
-	data *V1InstancesBackupRetentionsUpdateRequest
-	backupTarget *[]string
+	data          *V1InstancesBackupRetentionsUpdateRequest
+	backupTarget  *[]string
 }
 
 // Accepts technical credentials and api gateway access.
@@ -1778,9 +1777,9 @@ Update backup retention.
 func (a *BackupApiService) V1ProjectsInstancesBackupRetentionsUpdate(ctx context.Context, instanceId string, projectId string) ApiV1ProjectsInstancesBackupRetentionsUpdateRequest {
 	return ApiV1ProjectsInstancesBackupRetentionsUpdateRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 		instanceId: instanceId,
-		projectId: projectId,
+		projectId:  projectId,
 	}
 }
 
@@ -1788,10 +1787,10 @@ func (a *BackupApiService) V1ProjectsInstancesBackupRetentionsUpdate(ctx context
 //  @return Message
 func (a *BackupApiService) V1ProjectsInstancesBackupRetentionsUpdateExecute(r ApiV1ProjectsInstancesBackupRetentionsUpdateRequest) (*Message, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPut
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *Message
+		localVarHTTPMethod  = http.MethodPut
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Message
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "BackupApiService.V1ProjectsInstancesBackupRetentionsUpdate")
@@ -1893,13 +1892,13 @@ func (a *BackupApiService) V1ProjectsInstancesBackupRetentionsUpdateExecute(r Ap
 }
 
 type ApiV1ProjectsInstancesBackupSchedulesCreateRequest struct {
-	ctx context.Context
-	ApiService *BackupApiService
-	instanceId string
-	projectId string
+	ctx           context.Context
+	ApiService    *BackupApiService
+	instanceId    string
+	projectId     string
 	authorization *string
-	data *V1InstancesBackupSchedulesCreateRequest
-	backupTarget *[]string
+	data          *V1InstancesBackupSchedulesCreateRequest
+	backupTarget  *[]string
 }
 
 // Accepts technical credentials and api gateway access.
@@ -1936,9 +1935,9 @@ Create backup schedule.
 func (a *BackupApiService) V1ProjectsInstancesBackupSchedulesCreate(ctx context.Context, instanceId string, projectId string) ApiV1ProjectsInstancesBackupSchedulesCreateRequest {
 	return ApiV1ProjectsInstancesBackupSchedulesCreateRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 		instanceId: instanceId,
-		projectId: projectId,
+		projectId:  projectId,
 	}
 }
 
@@ -1946,10 +1945,10 @@ func (a *BackupApiService) V1ProjectsInstancesBackupSchedulesCreate(ctx context.
 //  @return BackupSchedulePostResponse
 func (a *BackupApiService) V1ProjectsInstancesBackupSchedulesCreateExecute(r ApiV1ProjectsInstancesBackupSchedulesCreateRequest) (*BackupSchedulePostResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *BackupSchedulePostResponse
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *BackupSchedulePostResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "BackupApiService.V1ProjectsInstancesBackupSchedulesCreate")
@@ -2051,11 +2050,11 @@ func (a *BackupApiService) V1ProjectsInstancesBackupSchedulesCreateExecute(r Api
 }
 
 type ApiV1ProjectsInstancesBackupSchedulesDeleteRequest struct {
-	ctx context.Context
-	ApiService *BackupApiService
-	instanceId string
-	projectId string
-	scheduleId string
+	ctx           context.Context
+	ApiService    *BackupApiService
+	instanceId    string
+	projectId     string
+	scheduleId    string
 	authorization *string
 }
 
@@ -2083,9 +2082,9 @@ Delete backup schedule.
 func (a *BackupApiService) V1ProjectsInstancesBackupSchedulesDelete(ctx context.Context, instanceId string, projectId string, scheduleId string) ApiV1ProjectsInstancesBackupSchedulesDeleteRequest {
 	return ApiV1ProjectsInstancesBackupSchedulesDeleteRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 		instanceId: instanceId,
-		projectId: projectId,
+		projectId:  projectId,
 		scheduleId: scheduleId,
 	}
 }
@@ -2094,10 +2093,10 @@ func (a *BackupApiService) V1ProjectsInstancesBackupSchedulesDelete(ctx context.
 //  @return Message
 func (a *BackupApiService) V1ProjectsInstancesBackupSchedulesDeleteExecute(r ApiV1ProjectsInstancesBackupSchedulesDeleteRequest) (*Message, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *Message
+		localVarHTTPMethod  = http.MethodDelete
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Message
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "BackupApiService.V1ProjectsInstancesBackupSchedulesDelete")
@@ -2192,12 +2191,12 @@ func (a *BackupApiService) V1ProjectsInstancesBackupSchedulesDeleteExecute(r Api
 }
 
 type ApiV1ProjectsInstancesBackupSchedulesListRequest struct {
-	ctx context.Context
-	ApiService *BackupApiService
-	instanceId string
-	projectId string
+	ctx           context.Context
+	ApiService    *BackupApiService
+	instanceId    string
+	projectId     string
 	authorization *string
-	backupTarget *[]string
+	backupTarget  *[]string
 }
 
 // Accepts technical credentials and api gateway access.
@@ -2229,9 +2228,9 @@ Get backup schedules.
 func (a *BackupApiService) V1ProjectsInstancesBackupSchedulesList(ctx context.Context, instanceId string, projectId string) ApiV1ProjectsInstancesBackupSchedulesListRequest {
 	return ApiV1ProjectsInstancesBackupSchedulesListRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 		instanceId: instanceId,
-		projectId: projectId,
+		projectId:  projectId,
 	}
 }
 
@@ -2239,10 +2238,10 @@ func (a *BackupApiService) V1ProjectsInstancesBackupSchedulesList(ctx context.Co
 //  @return BackupScheduleResponse
 func (a *BackupApiService) V1ProjectsInstancesBackupSchedulesListExecute(r ApiV1ProjectsInstancesBackupSchedulesListRequest) (*BackupScheduleResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *BackupScheduleResponse
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *BackupScheduleResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "BackupApiService.V1ProjectsInstancesBackupSchedulesList")
@@ -2329,13 +2328,13 @@ func (a *BackupApiService) V1ProjectsInstancesBackupSchedulesListExecute(r ApiV1
 }
 
 type ApiV1ProjectsInstancesBackupSchedulesUpdateRequest struct {
-	ctx context.Context
-	ApiService *BackupApiService
-	instanceId string
-	projectId string
-	scheduleId string
+	ctx           context.Context
+	ApiService    *BackupApiService
+	instanceId    string
+	projectId     string
+	scheduleId    string
 	authorization *string
-	data *V1InstancesBackupSchedulesCreateRequest
+	data          *V1InstancesBackupSchedulesCreateRequest
 }
 
 // Accepts technical credentials and api gateway access.
@@ -2367,9 +2366,9 @@ Update backup schedule.
 func (a *BackupApiService) V1ProjectsInstancesBackupSchedulesUpdate(ctx context.Context, instanceId string, projectId string, scheduleId string) ApiV1ProjectsInstancesBackupSchedulesUpdateRequest {
 	return ApiV1ProjectsInstancesBackupSchedulesUpdateRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 		instanceId: instanceId,
-		projectId: projectId,
+		projectId:  projectId,
 		scheduleId: scheduleId,
 	}
 }
@@ -2378,10 +2377,10 @@ func (a *BackupApiService) V1ProjectsInstancesBackupSchedulesUpdate(ctx context.
 //  @return BackupSchedulePutResponse
 func (a *BackupApiService) V1ProjectsInstancesBackupSchedulesUpdateExecute(r ApiV1ProjectsInstancesBackupSchedulesUpdateRequest) (*BackupSchedulePutResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPut
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *BackupSchedulePutResponse
+		localVarHTTPMethod  = http.MethodPut
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *BackupSchedulePutResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "BackupApiService.V1ProjectsInstancesBackupSchedulesUpdate")
@@ -2481,12 +2480,12 @@ func (a *BackupApiService) V1ProjectsInstancesBackupSchedulesUpdateExecute(r Api
 }
 
 type ApiV1ProjectsInstancesBackupsCreateRequest struct {
-	ctx context.Context
-	ApiService *BackupApiService
-	instanceId string
-	projectId string
+	ctx           context.Context
+	ApiService    *BackupApiService
+	instanceId    string
+	projectId     string
 	authorization *string
-	backupTarget *[]string
+	backupTarget  *[]string
 }
 
 // Accepts technical credentials and api gateway access.
@@ -2518,9 +2517,9 @@ Create a backup.
 func (a *BackupApiService) V1ProjectsInstancesBackupsCreate(ctx context.Context, instanceId string, projectId string) ApiV1ProjectsInstancesBackupsCreateRequest {
 	return ApiV1ProjectsInstancesBackupsCreateRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 		instanceId: instanceId,
-		projectId: projectId,
+		projectId:  projectId,
 	}
 }
 
@@ -2528,10 +2527,10 @@ func (a *BackupApiService) V1ProjectsInstancesBackupsCreate(ctx context.Context,
 //  @return Message
 func (a *BackupApiService) V1ProjectsInstancesBackupsCreateExecute(r ApiV1ProjectsInstancesBackupsCreateRequest) (*Message, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *Message
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Message
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "BackupApiService.V1ProjectsInstancesBackupsCreate")
@@ -2628,13 +2627,13 @@ func (a *BackupApiService) V1ProjectsInstancesBackupsCreateExecute(r ApiV1Projec
 }
 
 type ApiV1ProjectsInstancesBackupsDeleteRequest struct {
-	ctx context.Context
-	ApiService *BackupApiService
-	backupDate string
-	instanceId string
-	projectId string
+	ctx           context.Context
+	ApiService    *BackupApiService
+	backupDate    string
+	instanceId    string
+	projectId     string
 	authorization *string
-	backupTarget *string
+	backupTarget  *string
 }
 
 // Accepts technical credentials and api gateway access.
@@ -2667,10 +2666,10 @@ Delete backup.
 func (a *BackupApiService) V1ProjectsInstancesBackupsDelete(ctx context.Context, backupDate string, instanceId string, projectId string) ApiV1ProjectsInstancesBackupsDeleteRequest {
 	return ApiV1ProjectsInstancesBackupsDeleteRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 		backupDate: backupDate,
 		instanceId: instanceId,
-		projectId: projectId,
+		projectId:  projectId,
 	}
 }
 
@@ -2678,10 +2677,10 @@ func (a *BackupApiService) V1ProjectsInstancesBackupsDelete(ctx context.Context,
 //  @return Message
 func (a *BackupApiService) V1ProjectsInstancesBackupsDeleteExecute(r ApiV1ProjectsInstancesBackupsDeleteRequest) (*Message, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *Message
+		localVarHTTPMethod  = http.MethodDelete
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Message
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "BackupApiService.V1ProjectsInstancesBackupsDelete")
@@ -2780,12 +2779,12 @@ func (a *BackupApiService) V1ProjectsInstancesBackupsDeleteExecute(r ApiV1Projec
 }
 
 type ApiV1ProjectsInstancesBackupsListRequest struct {
-	ctx context.Context
-	ApiService *BackupApiService
-	instanceId string
-	projectId string
+	ctx           context.Context
+	ApiService    *BackupApiService
+	instanceId    string
+	projectId     string
 	authorization *string
-	backupTarget *[]string
+	backupTarget  *[]string
 }
 
 // Accepts technical credentials and api gateway access.
@@ -2817,9 +2816,9 @@ Get backups.
 func (a *BackupApiService) V1ProjectsInstancesBackupsList(ctx context.Context, instanceId string, projectId string) ApiV1ProjectsInstancesBackupsListRequest {
 	return ApiV1ProjectsInstancesBackupsListRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 		instanceId: instanceId,
-		projectId: projectId,
+		projectId:  projectId,
 	}
 }
 
@@ -2827,10 +2826,10 @@ func (a *BackupApiService) V1ProjectsInstancesBackupsList(ctx context.Context, i
 //  @return BackupResponse
 func (a *BackupApiService) V1ProjectsInstancesBackupsListExecute(r ApiV1ProjectsInstancesBackupsListRequest) (*BackupResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *BackupResponse
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *BackupResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "BackupApiService.V1ProjectsInstancesBackupsList")

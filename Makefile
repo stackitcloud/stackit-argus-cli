@@ -88,11 +88,10 @@ clean-generate-client: ## Remove generated APIT client code
 generate-client-code: clean-generate-client ## generate API client code
 	docker run --rm \
 		-v ${PWD}:/local openapitools/openapi-generator-cli:${OPENAPI_GENERATOR_VERSION} generate \
-		-i /local/api/ARGUS.openapi.v1.json \
+		-i /local/api/ARGUS.openapi.v1.yml \
 		-g go \
 		--additional-properties=packageName=argus \
-		-o /local/pkg/argus \
-		--skip-validate-spec
+		-o /local/pkg/argus
 
 .PHONY: generate-client
 generate-client: generate-client-code tidy ## genarte API client & run go mod tidy

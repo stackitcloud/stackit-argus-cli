@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**SourceLabels** | **[]string** |  | 
+**SourceLabels** | Pointer to **[]string** |  | [optional] 
 **Separator** | Pointer to **string** |  | [optional] [default to ";"]
 **TargetLabel** | Pointer to **string** |  | [optional] 
 **Regex** | Pointer to **string** |  | [optional] [default to ".*"]
@@ -16,7 +16,7 @@ Name | Type | Description | Notes
 
 ### NewMetricsRelabelConfig
 
-`func NewMetricsRelabelConfig(sourceLabels []string, ) *MetricsRelabelConfig`
+`func NewMetricsRelabelConfig() *MetricsRelabelConfig`
 
 NewMetricsRelabelConfig instantiates a new MetricsRelabelConfig object
 This constructor will assign default values to properties that have it defined,
@@ -50,6 +50,11 @@ and a boolean to check if the value has been set.
 
 SetSourceLabels sets SourceLabels field to given value.
 
+### HasSourceLabels
+
+`func (o *MetricsRelabelConfig) HasSourceLabels() bool`
+
+HasSourceLabels returns a boolean if a field has been set.
 
 ### GetSeparator
 

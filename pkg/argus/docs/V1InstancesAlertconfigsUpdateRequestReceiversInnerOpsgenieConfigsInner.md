@@ -4,9 +4,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ApiKey** | Pointer to **string** | The API key to use when talking to the OpsGenie API. &#x60;Additional Validators:&#x60; * should only include the characters: a-zA-Z0-9- | [optional] 
-**ApiUrl** | Pointer to **string** | The host to send OpsGenie API requests to. &#x60;Additional Validators:&#x60; * must be a syntactically valid url address | [optional] 
+**ApiKey** | Pointer to **string** | The API key to use when talking to the OpsGenie API. | [optional] 
+**ApiUrl** | Pointer to **string** | The host to send OpsGenie API requests to. | [optional] 
 **Tags** | Pointer to **string** | Comma separated list of tags attached to the notifications. | [optional] 
+**HttpConfig** | Pointer to [**V1InstancesAlertconfigsUpdateRequestReceiversInnerOpsgenieConfigsInnerHttpConfig**](V1InstancesAlertconfigsUpdateRequestReceiversInnerOpsgenieConfigsInnerHttpConfig.md) |  | [optional] 
 
 ## Methods
 
@@ -101,6 +102,31 @@ SetTags sets Tags field to given value.
 `func (o *V1InstancesAlertconfigsUpdateRequestReceiversInnerOpsgenieConfigsInner) HasTags() bool`
 
 HasTags returns a boolean if a field has been set.
+
+### GetHttpConfig
+
+`func (o *V1InstancesAlertconfigsUpdateRequestReceiversInnerOpsgenieConfigsInner) GetHttpConfig() V1InstancesAlertconfigsUpdateRequestReceiversInnerOpsgenieConfigsInnerHttpConfig`
+
+GetHttpConfig returns the HttpConfig field if non-nil, zero value otherwise.
+
+### GetHttpConfigOk
+
+`func (o *V1InstancesAlertconfigsUpdateRequestReceiversInnerOpsgenieConfigsInner) GetHttpConfigOk() (*V1InstancesAlertconfigsUpdateRequestReceiversInnerOpsgenieConfigsInnerHttpConfig, bool)`
+
+GetHttpConfigOk returns a tuple with the HttpConfig field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetHttpConfig
+
+`func (o *V1InstancesAlertconfigsUpdateRequestReceiversInnerOpsgenieConfigsInner) SetHttpConfig(v V1InstancesAlertconfigsUpdateRequestReceiversInnerOpsgenieConfigsInnerHttpConfig)`
+
+SetHttpConfig sets HttpConfig field to given value.
+
+### HasHttpConfig
+
+`func (o *V1InstancesAlertconfigsUpdateRequestReceiversInnerOpsgenieConfigsInner) HasHttpConfig() bool`
+
+HasHttpConfig returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

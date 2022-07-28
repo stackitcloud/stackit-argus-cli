@@ -4,11 +4,11 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**SourceMatch** | Pointer to **map[string]interface{}** | map of key:value. Matchers for which one or more alerts have to exist for the inhibition to take effect. &#x60;Additional Validators:&#x60; * should not contain more than 5 keys * each key and value should not have more than 200 characters * each key and value should only include the characters: a-zA-Z0-9_./@&amp;?:- | [optional] 
-**SourceMatchRe** | Pointer to **map[string]interface{}** | map of key:value. Regex match &#x60;Additional Validators:&#x60; * should not contain more than 5 keys * each key and value should not have more than 200 characters | [optional] 
-**TargetMatch** | Pointer to **map[string]interface{}** | map of key:value. Matchers that have to be fulfilled in the alerts to be muted. &#x60;Additional Validators:&#x60; * should not contain more than 5 keys * each key and value should not have more than 200 characters * each key and value should only include the characters: a-zA-Z0-9_./@&amp;?:- | [optional] 
-**TargetMatchRe** | Pointer to **map[string]interface{}** | map of key:value. Matchers that have to be fulfilled in the alerts to be muted. Regex. &#x60;Additional Validators:&#x60; * should not contain more than 5 keys * each key and value should not have more than 200 characters | [optional] 
-**Equal** | Pointer to **[]string** | Labels that must have an equal value in the source and target alert for the inhibition to take effect. &#x60;Additional Validators:&#x60; * should only include the characters: a-zA-Z0-9_./@&amp;?:- | [optional] 
+**SourceMatch** | Pointer to **map[string]interface{}** | map of key:value. Matchers for which one or more alerts have to exist for the inhibition to take effect. | [optional] 
+**SourceMatchRe** | Pointer to **map[string]interface{}** | map of key:value. Regex match | [optional] 
+**TargetMatch** | Pointer to **map[string]interface{}** | map of key:value. Matchers that have to be fulfilled in the alerts to be muted. | [optional] 
+**TargetMatchRe** | Pointer to **map[string]interface{}** | map of key:value. Matchers that have to be fulfilled in the alerts to be muted. Regex. | [optional] 
+**Equal** | Pointer to **[]string** |  | [optional] 
 
 ## Methods
 

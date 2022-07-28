@@ -4,16 +4,16 @@ All URIs are relative to *https://api.argus.eu01.stackit.cloud*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**V1InstancesScrapeconfigsAllDelete**](ScrapeConfigApi.md#V1InstancesScrapeconfigsAllDelete) | **Delete** /v1/instances/{instanceId}/scrapeconfigs | 
 [**V1InstancesScrapeconfigsCreate**](ScrapeConfigApi.md#V1InstancesScrapeconfigsCreate) | **Post** /v1/instances/{instanceId}/scrapeconfigs | 
-[**V1InstancesScrapeconfigsDelete**](ScrapeConfigApi.md#V1InstancesScrapeconfigsDelete) | **Delete** /v1/instances/{instanceId}/scrapeconfigs | 
-[**V1InstancesScrapeconfigsDelete_0**](ScrapeConfigApi.md#V1InstancesScrapeconfigsDelete_0) | **Delete** /v1/instances/{instanceId}/scrapeconfigs/{jobName} | 
+[**V1InstancesScrapeconfigsDelete**](ScrapeConfigApi.md#V1InstancesScrapeconfigsDelete) | **Delete** /v1/instances/{instanceId}/scrapeconfigs/{jobName} | 
 [**V1InstancesScrapeconfigsList**](ScrapeConfigApi.md#V1InstancesScrapeconfigsList) | **Get** /v1/instances/{instanceId}/scrapeconfigs | 
 [**V1InstancesScrapeconfigsPartialUpdate**](ScrapeConfigApi.md#V1InstancesScrapeconfigsPartialUpdate) | **Patch** /v1/instances/{instanceId}/scrapeconfigs | 
 [**V1InstancesScrapeconfigsRead**](ScrapeConfigApi.md#V1InstancesScrapeconfigsRead) | **Get** /v1/instances/{instanceId}/scrapeconfigs/{jobName} | 
 [**V1InstancesScrapeconfigsUpdate**](ScrapeConfigApi.md#V1InstancesScrapeconfigsUpdate) | **Put** /v1/instances/{instanceId}/scrapeconfigs/{jobName} | 
+[**V1ProjectsInstancesScrapeconfigsAllDelete**](ScrapeConfigApi.md#V1ProjectsInstancesScrapeconfigsAllDelete) | **Delete** /v1/projects/{projectId}/instances/{instanceId}/scrapeconfigs | 
 [**V1ProjectsInstancesScrapeconfigsCreate**](ScrapeConfigApi.md#V1ProjectsInstancesScrapeconfigsCreate) | **Post** /v1/projects/{projectId}/instances/{instanceId}/scrapeconfigs | 
-[**V1ProjectsInstancesScrapeconfigsDelete**](ScrapeConfigApi.md#V1ProjectsInstancesScrapeconfigsDelete) | **Delete** /v1/projects/{projectId}/instances/{instanceId}/scrapeconfigs | 
-[**V1ProjectsInstancesScrapeconfigsDelete_0**](ScrapeConfigApi.md#V1ProjectsInstancesScrapeconfigsDelete_0) | **Delete** /v1/projects/{projectId}/instances/{instanceId}/scrapeconfigs/{jobName} | 
+[**V1ProjectsInstancesScrapeconfigsDelete**](ScrapeConfigApi.md#V1ProjectsInstancesScrapeconfigsDelete) | **Delete** /v1/projects/{projectId}/instances/{instanceId}/scrapeconfigs/{jobName} | 
 [**V1ProjectsInstancesScrapeconfigsList**](ScrapeConfigApi.md#V1ProjectsInstancesScrapeconfigsList) | **Get** /v1/projects/{projectId}/instances/{instanceId}/scrapeconfigs | 
 [**V1ProjectsInstancesScrapeconfigsPartialUpdate**](ScrapeConfigApi.md#V1ProjectsInstancesScrapeconfigsPartialUpdate) | **Patch** /v1/projects/{projectId}/instances/{instanceId}/scrapeconfigs | 
 [**V1ProjectsInstancesScrapeconfigsRead**](ScrapeConfigApi.md#V1ProjectsInstancesScrapeconfigsRead) | **Get** /v1/projects/{projectId}/instances/{instanceId}/scrapeconfigs/{jobName} | 
@@ -21,9 +21,9 @@ Method | HTTP request | Description
 
 
 
-## V1InstancesScrapeconfigsCreate
+## V1InstancesScrapeconfigsAllDelete
 
-> CreateJob V1InstancesScrapeconfigsCreate(ctx, instanceId).Authorization(authorization).Data(data).Execute()
+> CreateJob V1InstancesScrapeconfigsAllDelete(ctx, instanceId).Authorization(authorization).JobName(jobName).Execute()
 
 
 
@@ -43,12 +43,86 @@ import (
 
 func main() {
     instanceId := "instanceId_example" // string | 
-    authorization := "authorization_example" // string | Accepts technical credentials and api gateway access.
-    data := *openapiclient.NewV1InstancesScrapeconfigsCreateRequest([]openapiclient.V1InstancesScrapeconfigsCreateRequestStaticConfigsInner{*openapiclient.NewV1InstancesScrapeconfigsCreateRequestStaticConfigsInner([]string{"Targets_example"})}, "JobName_example", "Scheme_example", "ScrapeInterval_example", "ScrapeTimeout_example") // V1InstancesScrapeconfigsCreateRequest | 
+    authorization := "authorization_example" // string | Accepts basic auth and bearer token from admins and jwt token from oauth and basic auth from api user
+    jobName := []string{"Inner_example"} // []string | Name of the jobs that should be deleted
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.ScrapeConfigApi.V1InstancesScrapeconfigsCreate(context.Background(), instanceId).Authorization(authorization).Data(data).Execute()
+    resp, r, err := apiClient.ScrapeConfigApi.V1InstancesScrapeconfigsAllDelete(context.Background(), instanceId).Authorization(authorization).JobName(jobName).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ScrapeConfigApi.V1InstancesScrapeconfigsAllDelete``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `V1InstancesScrapeconfigsAllDelete`: CreateJob
+    fmt.Fprintf(os.Stdout, "Response from `ScrapeConfigApi.V1InstancesScrapeconfigsAllDelete`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**instanceId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiV1InstancesScrapeconfigsAllDeleteRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **authorization** | **string** | Accepts basic auth and bearer token from admins and jwt token from oauth and basic auth from api user | 
+ **jobName** | **[]string** | Name of the jobs that should be deleted | 
+
+### Return type
+
+[**CreateJob**](CreateJob.md)
+
+### Authorization
+
+[Basic](../README.md#Basic), [bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## V1InstancesScrapeconfigsCreate
+
+> CreateJob V1InstancesScrapeconfigsCreate(ctx, instanceId).Authorization(authorization).V1InstancesScrapeconfigsCreateRequest(v1InstancesScrapeconfigsCreateRequest).Execute()
+
+
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    instanceId := "instanceId_example" // string | 
+    authorization := "authorization_example" // string | Accepts basic auth and bearer token from admins and jwt token from oauth and basic auth from api user
+    v1InstancesScrapeconfigsCreateRequest := *openapiclient.NewV1InstancesScrapeconfigsCreateRequest([]openapiclient.V1InstancesScrapeconfigsCreateRequestStaticConfigsInner{*openapiclient.NewV1InstancesScrapeconfigsCreateRequestStaticConfigsInner([]string{"Targets_example"})}, "JobName_example", "Scheme_example", "ScrapeInterval_example", "ScrapeTimeout_example", "MetricsPath_example") // V1InstancesScrapeconfigsCreateRequest | 
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ScrapeConfigApi.V1InstancesScrapeconfigsCreate(context.Background(), instanceId).Authorization(authorization).V1InstancesScrapeconfigsCreateRequest(v1InstancesScrapeconfigsCreateRequest).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ScrapeConfigApi.V1InstancesScrapeconfigsCreate``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -74,8 +148,8 @@ Other parameters are passed through a pointer to a apiV1InstancesScrapeconfigsCr
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **authorization** | **string** | Accepts technical credentials and api gateway access. | 
- **data** | [**V1InstancesScrapeconfigsCreateRequest**](V1InstancesScrapeconfigsCreateRequest.md) |  | 
+ **authorization** | **string** | Accepts basic auth and bearer token from admins and jwt token from oauth and basic auth from api user | 
+ **v1InstancesScrapeconfigsCreateRequest** | [**V1InstancesScrapeconfigsCreateRequest**](V1InstancesScrapeconfigsCreateRequest.md) |  | 
 
 ### Return type
 
@@ -83,7 +157,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Basic](../README.md#Basic)
+[Basic](../README.md#Basic), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -97,81 +171,7 @@ Name | Type | Description  | Notes
 
 ## V1InstancesScrapeconfigsDelete
 
-> CreateJob V1InstancesScrapeconfigsDelete(ctx, instanceId).Authorization(authorization).JobName(jobName).Execute()
-
-
-
-
-
-### Example
-
-```go
-package main
-
-import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "./openapi"
-)
-
-func main() {
-    instanceId := "instanceId_example" // string | 
-    authorization := "authorization_example" // string | Accepts technical credentials and api gateway access.
-    jobName := []string{"Inner_example"} // []string | Name of the jobs that should be deleted
-
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.ScrapeConfigApi.V1InstancesScrapeconfigsDelete(context.Background(), instanceId).Authorization(authorization).JobName(jobName).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `ScrapeConfigApi.V1InstancesScrapeconfigsDelete``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `V1InstancesScrapeconfigsDelete`: CreateJob
-    fmt.Fprintf(os.Stdout, "Response from `ScrapeConfigApi.V1InstancesScrapeconfigsDelete`: %v\n", resp)
-}
-```
-
-### Path Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**instanceId** | **string** |  | 
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiV1InstancesScrapeconfigsDeleteRequest struct via the builder pattern
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
- **authorization** | **string** | Accepts technical credentials and api gateway access. | 
- **jobName** | **[]string** | Name of the jobs that should be deleted | 
-
-### Return type
-
-[**CreateJob**](CreateJob.md)
-
-### Authorization
-
-[Basic](../README.md#Basic)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
-## V1InstancesScrapeconfigsDelete_0
-
-> DeleteJob V1InstancesScrapeconfigsDelete_0(ctx, instanceId, jobName).Authorization(authorization).Execute()
+> DeleteJob V1InstancesScrapeconfigsDelete(ctx, instanceId, jobName).Authorization(authorization).Execute()
 
 
 
@@ -192,17 +192,17 @@ import (
 func main() {
     instanceId := "instanceId_example" // string | 
     jobName := "jobName_example" // string | 
-    authorization := "authorization_example" // string | Accepts technical credentials and api gateway access.
+    authorization := "authorization_example" // string | Accepts basic auth and bearer token from admins and jwt token from oauth and basic auth from api user
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.ScrapeConfigApi.V1InstancesScrapeconfigsDelete_0(context.Background(), instanceId, jobName).Authorization(authorization).Execute()
+    resp, r, err := apiClient.ScrapeConfigApi.V1InstancesScrapeconfigsDelete(context.Background(), instanceId, jobName).Authorization(authorization).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `ScrapeConfigApi.V1InstancesScrapeconfigsDelete_0``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `ScrapeConfigApi.V1InstancesScrapeconfigsDelete``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `V1InstancesScrapeconfigsDelete_0`: DeleteJob
-    fmt.Fprintf(os.Stdout, "Response from `ScrapeConfigApi.V1InstancesScrapeconfigsDelete_0`: %v\n", resp)
+    // response from `V1InstancesScrapeconfigsDelete`: DeleteJob
+    fmt.Fprintf(os.Stdout, "Response from `ScrapeConfigApi.V1InstancesScrapeconfigsDelete`: %v\n", resp)
 }
 ```
 
@@ -217,14 +217,14 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiV1InstancesScrapeconfigsDelete_1Request struct via the builder pattern
+Other parameters are passed through a pointer to a apiV1InstancesScrapeconfigsDeleteRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
 
- **authorization** | **string** | Accepts technical credentials and api gateway access. | 
+ **authorization** | **string** | Accepts basic auth and bearer token from admins and jwt token from oauth and basic auth from api user | 
 
 ### Return type
 
@@ -232,7 +232,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Basic](../README.md#Basic)
+[Basic](../README.md#Basic), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -266,7 +266,7 @@ import (
 
 func main() {
     instanceId := "instanceId_example" // string | 
-    authorization := "authorization_example" // string | Accepts technical credentials and api gateway access.
+    authorization := "authorization_example" // string | Accepts basic auth and bearer token from admins and jwt token from oauth and basic auth from api user
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -296,7 +296,7 @@ Other parameters are passed through a pointer to a apiV1InstancesScrapeconfigsLi
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **authorization** | **string** | Accepts technical credentials and api gateway access. | 
+ **authorization** | **string** | Accepts basic auth and bearer token from admins and jwt token from oauth and basic auth from api user | 
 
 ### Return type
 
@@ -304,7 +304,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Basic](../README.md#Basic)
+[Basic](../README.md#Basic), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -318,7 +318,7 @@ Name | Type | Description  | Notes
 
 ## V1InstancesScrapeconfigsPartialUpdate
 
-> CreateJob V1InstancesScrapeconfigsPartialUpdate(ctx, instanceId).Authorization(authorization).Data(data).Execute()
+> CreateJob V1InstancesScrapeconfigsPartialUpdate(ctx, instanceId).Authorization(authorization).V1InstancesScrapeconfigsCreateRequest(v1InstancesScrapeconfigsCreateRequest).Execute()
 
 
 
@@ -338,12 +338,12 @@ import (
 
 func main() {
     instanceId := "instanceId_example" // string | 
-    authorization := "authorization_example" // string | Accepts technical credentials and api gateway access.
-    data := []openapiclient.V1InstancesScrapeconfigsCreateRequest{*openapiclient.NewV1InstancesScrapeconfigsCreateRequest([]openapiclient.V1InstancesScrapeconfigsCreateRequestStaticConfigsInner{*openapiclient.NewV1InstancesScrapeconfigsCreateRequestStaticConfigsInner([]string{"Targets_example"})}, "JobName_example", "Scheme_example", "ScrapeInterval_example", "ScrapeTimeout_example")} // []V1InstancesScrapeconfigsCreateRequest | 
+    authorization := "authorization_example" // string | Accepts basic auth and bearer token from admins and jwt token from oauth and basic auth from api user
+    v1InstancesScrapeconfigsCreateRequest := []openapiclient.V1InstancesScrapeconfigsCreateRequest{*openapiclient.NewV1InstancesScrapeconfigsCreateRequest([]openapiclient.V1InstancesScrapeconfigsCreateRequestStaticConfigsInner{*openapiclient.NewV1InstancesScrapeconfigsCreateRequestStaticConfigsInner([]string{"Targets_example"})}, "JobName_example", "Scheme_example", "ScrapeInterval_example", "ScrapeTimeout_example", "MetricsPath_example")} // []V1InstancesScrapeconfigsCreateRequest | 
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.ScrapeConfigApi.V1InstancesScrapeconfigsPartialUpdate(context.Background(), instanceId).Authorization(authorization).Data(data).Execute()
+    resp, r, err := apiClient.ScrapeConfigApi.V1InstancesScrapeconfigsPartialUpdate(context.Background(), instanceId).Authorization(authorization).V1InstancesScrapeconfigsCreateRequest(v1InstancesScrapeconfigsCreateRequest).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ScrapeConfigApi.V1InstancesScrapeconfigsPartialUpdate``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -369,8 +369,8 @@ Other parameters are passed through a pointer to a apiV1InstancesScrapeconfigsPa
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **authorization** | **string** | Accepts technical credentials and api gateway access. | 
- **data** | [**[]V1InstancesScrapeconfigsCreateRequest**](V1InstancesScrapeconfigsCreateRequest.md) |  | 
+ **authorization** | **string** | Accepts basic auth and bearer token from admins and jwt token from oauth and basic auth from api user | 
+ **v1InstancesScrapeconfigsCreateRequest** | [**[]V1InstancesScrapeconfigsCreateRequest**](V1InstancesScrapeconfigsCreateRequest.md) |  | 
 
 ### Return type
 
@@ -378,7 +378,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Basic](../README.md#Basic)
+[Basic](../README.md#Basic), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -413,7 +413,7 @@ import (
 func main() {
     instanceId := "instanceId_example" // string | 
     jobName := "jobName_example" // string | 
-    authorization := "authorization_example" // string | Accepts technical credentials and api gateway access.
+    authorization := "authorization_example" // string | Accepts basic auth and bearer token from admins and jwt token from oauth and basic auth from api user
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -445,7 +445,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
 
- **authorization** | **string** | Accepts technical credentials and api gateway access. | 
+ **authorization** | **string** | Accepts basic auth and bearer token from admins and jwt token from oauth and basic auth from api user | 
 
 ### Return type
 
@@ -453,7 +453,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Basic](../README.md#Basic)
+[Basic](../README.md#Basic), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -467,7 +467,7 @@ Name | Type | Description  | Notes
 
 ## V1InstancesScrapeconfigsUpdate
 
-> CreateJob V1InstancesScrapeconfigsUpdate(ctx, instanceId, jobName).Authorization(authorization).Data(data).Execute()
+> CreateJob V1InstancesScrapeconfigsUpdate(ctx, instanceId, jobName).Authorization(authorization).V1InstancesScrapeconfigsCreateRequest(v1InstancesScrapeconfigsCreateRequest).Execute()
 
 
 
@@ -488,12 +488,12 @@ import (
 func main() {
     instanceId := "instanceId_example" // string | 
     jobName := "jobName_example" // string | 
-    authorization := "authorization_example" // string | Accepts technical credentials and api gateway access.
-    data := *openapiclient.NewV1InstancesScrapeconfigsUpdateRequest([]openapiclient.V1InstancesScrapeconfigsUpdateRequestStaticConfigsInner{*openapiclient.NewV1InstancesScrapeconfigsUpdateRequestStaticConfigsInner([]string{"Targets_example"})}, "Scheme_example", "ScrapeInterval_example", "ScrapeTimeout_example", "MetricsPath_example") // V1InstancesScrapeconfigsUpdateRequest | 
+    authorization := "authorization_example" // string | Accepts basic auth and bearer token from admins and jwt token from oauth and basic auth from api user
+    v1InstancesScrapeconfigsCreateRequest := *openapiclient.NewV1InstancesScrapeconfigsCreateRequest([]openapiclient.V1InstancesScrapeconfigsCreateRequestStaticConfigsInner{*openapiclient.NewV1InstancesScrapeconfigsCreateRequestStaticConfigsInner([]string{"Targets_example"})}, "JobName_example", "Scheme_example", "ScrapeInterval_example", "ScrapeTimeout_example", "MetricsPath_example") // V1InstancesScrapeconfigsCreateRequest | 
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.ScrapeConfigApi.V1InstancesScrapeconfigsUpdate(context.Background(), instanceId, jobName).Authorization(authorization).Data(data).Execute()
+    resp, r, err := apiClient.ScrapeConfigApi.V1InstancesScrapeconfigsUpdate(context.Background(), instanceId, jobName).Authorization(authorization).V1InstancesScrapeconfigsCreateRequest(v1InstancesScrapeconfigsCreateRequest).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ScrapeConfigApi.V1InstancesScrapeconfigsUpdate``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -521,8 +521,8 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
 
- **authorization** | **string** | Accepts technical credentials and api gateway access. | 
- **data** | [**V1InstancesScrapeconfigsUpdateRequest**](V1InstancesScrapeconfigsUpdateRequest.md) |  | 
+ **authorization** | **string** | Accepts basic auth and bearer token from admins and jwt token from oauth and basic auth from api user | 
+ **v1InstancesScrapeconfigsCreateRequest** | [**V1InstancesScrapeconfigsCreateRequest**](V1InstancesScrapeconfigsCreateRequest.md) |  | 
 
 ### Return type
 
@@ -530,7 +530,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Basic](../README.md#Basic)
+[Basic](../README.md#Basic), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -542,9 +542,9 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## V1ProjectsInstancesScrapeconfigsCreate
+## V1ProjectsInstancesScrapeconfigsAllDelete
 
-> CreateJob V1ProjectsInstancesScrapeconfigsCreate(ctx, instanceId, projectId).Authorization(authorization).Data(data).Execute()
+> CreateJob V1ProjectsInstancesScrapeconfigsAllDelete(ctx, instanceId, projectId).Authorization(authorization).JobName(jobName).Execute()
 
 
 
@@ -565,12 +565,89 @@ import (
 func main() {
     instanceId := "instanceId_example" // string | 
     projectId := "projectId_example" // string | 
-    authorization := "authorization_example" // string | Accepts technical credentials and api gateway access.
-    data := *openapiclient.NewV1InstancesScrapeconfigsCreateRequest([]openapiclient.V1InstancesScrapeconfigsCreateRequestStaticConfigsInner{*openapiclient.NewV1InstancesScrapeconfigsCreateRequestStaticConfigsInner([]string{"Targets_example"})}, "JobName_example", "Scheme_example", "ScrapeInterval_example", "ScrapeTimeout_example") // V1InstancesScrapeconfigsCreateRequest | 
+    authorization := "authorization_example" // string | Accepts basic auth and bearer token from admins and jwt token from oauth and basic auth from api user
+    jobName := []string{"Inner_example"} // []string | Name of the jobs that should be deleted
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.ScrapeConfigApi.V1ProjectsInstancesScrapeconfigsCreate(context.Background(), instanceId, projectId).Authorization(authorization).Data(data).Execute()
+    resp, r, err := apiClient.ScrapeConfigApi.V1ProjectsInstancesScrapeconfigsAllDelete(context.Background(), instanceId, projectId).Authorization(authorization).JobName(jobName).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ScrapeConfigApi.V1ProjectsInstancesScrapeconfigsAllDelete``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `V1ProjectsInstancesScrapeconfigsAllDelete`: CreateJob
+    fmt.Fprintf(os.Stdout, "Response from `ScrapeConfigApi.V1ProjectsInstancesScrapeconfigsAllDelete`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**instanceId** | **string** |  | 
+**projectId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiV1ProjectsInstancesScrapeconfigsAllDeleteRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+ **authorization** | **string** | Accepts basic auth and bearer token from admins and jwt token from oauth and basic auth from api user | 
+ **jobName** | **[]string** | Name of the jobs that should be deleted | 
+
+### Return type
+
+[**CreateJob**](CreateJob.md)
+
+### Authorization
+
+[Basic](../README.md#Basic), [bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## V1ProjectsInstancesScrapeconfigsCreate
+
+> CreateJob V1ProjectsInstancesScrapeconfigsCreate(ctx, instanceId, projectId).Authorization(authorization).V1InstancesScrapeconfigsCreateRequest(v1InstancesScrapeconfigsCreateRequest).Execute()
+
+
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    instanceId := "instanceId_example" // string | 
+    projectId := "projectId_example" // string | 
+    authorization := "authorization_example" // string | Accepts basic auth and bearer token from admins and jwt token from oauth and basic auth from api user
+    v1InstancesScrapeconfigsCreateRequest := *openapiclient.NewV1InstancesScrapeconfigsCreateRequest([]openapiclient.V1InstancesScrapeconfigsCreateRequestStaticConfigsInner{*openapiclient.NewV1InstancesScrapeconfigsCreateRequestStaticConfigsInner([]string{"Targets_example"})}, "JobName_example", "Scheme_example", "ScrapeInterval_example", "ScrapeTimeout_example", "MetricsPath_example") // V1InstancesScrapeconfigsCreateRequest | 
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ScrapeConfigApi.V1ProjectsInstancesScrapeconfigsCreate(context.Background(), instanceId, projectId).Authorization(authorization).V1InstancesScrapeconfigsCreateRequest(v1InstancesScrapeconfigsCreateRequest).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ScrapeConfigApi.V1ProjectsInstancesScrapeconfigsCreate``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -598,8 +675,8 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
 
- **authorization** | **string** | Accepts technical credentials and api gateway access. | 
- **data** | [**V1InstancesScrapeconfigsCreateRequest**](V1InstancesScrapeconfigsCreateRequest.md) |  | 
+ **authorization** | **string** | Accepts basic auth and bearer token from admins and jwt token from oauth and basic auth from api user | 
+ **v1InstancesScrapeconfigsCreateRequest** | [**V1InstancesScrapeconfigsCreateRequest**](V1InstancesScrapeconfigsCreateRequest.md) |  | 
 
 ### Return type
 
@@ -607,7 +684,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Basic](../README.md#Basic)
+[Basic](../README.md#Basic), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -621,84 +698,7 @@ Name | Type | Description  | Notes
 
 ## V1ProjectsInstancesScrapeconfigsDelete
 
-> CreateJob V1ProjectsInstancesScrapeconfigsDelete(ctx, instanceId, projectId).Authorization(authorization).JobName(jobName).Execute()
-
-
-
-
-
-### Example
-
-```go
-package main
-
-import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "./openapi"
-)
-
-func main() {
-    instanceId := "instanceId_example" // string | 
-    projectId := "projectId_example" // string | 
-    authorization := "authorization_example" // string | Accepts technical credentials and api gateway access.
-    jobName := []string{"Inner_example"} // []string | Name of the jobs that should be deleted
-
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.ScrapeConfigApi.V1ProjectsInstancesScrapeconfigsDelete(context.Background(), instanceId, projectId).Authorization(authorization).JobName(jobName).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `ScrapeConfigApi.V1ProjectsInstancesScrapeconfigsDelete``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `V1ProjectsInstancesScrapeconfigsDelete`: CreateJob
-    fmt.Fprintf(os.Stdout, "Response from `ScrapeConfigApi.V1ProjectsInstancesScrapeconfigsDelete`: %v\n", resp)
-}
-```
-
-### Path Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**instanceId** | **string** |  | 
-**projectId** | **string** |  | 
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiV1ProjectsInstancesScrapeconfigsDeleteRequest struct via the builder pattern
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
-
- **authorization** | **string** | Accepts technical credentials and api gateway access. | 
- **jobName** | **[]string** | Name of the jobs that should be deleted | 
-
-### Return type
-
-[**CreateJob**](CreateJob.md)
-
-### Authorization
-
-[Basic](../README.md#Basic)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
-## V1ProjectsInstancesScrapeconfigsDelete_0
-
-> DeleteJob V1ProjectsInstancesScrapeconfigsDelete_0(ctx, instanceId, jobName, projectId).Authorization(authorization).Execute()
+> DeleteJob V1ProjectsInstancesScrapeconfigsDelete(ctx, instanceId, jobName, projectId).Authorization(authorization).Execute()
 
 
 
@@ -720,17 +720,17 @@ func main() {
     instanceId := "instanceId_example" // string | 
     jobName := "jobName_example" // string | 
     projectId := "projectId_example" // string | 
-    authorization := "authorization_example" // string | Accepts technical credentials and api gateway access.
+    authorization := "authorization_example" // string | Accepts basic auth and bearer token from admins and jwt token from oauth and basic auth from api user
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.ScrapeConfigApi.V1ProjectsInstancesScrapeconfigsDelete_0(context.Background(), instanceId, jobName, projectId).Authorization(authorization).Execute()
+    resp, r, err := apiClient.ScrapeConfigApi.V1ProjectsInstancesScrapeconfigsDelete(context.Background(), instanceId, jobName, projectId).Authorization(authorization).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `ScrapeConfigApi.V1ProjectsInstancesScrapeconfigsDelete_0``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `ScrapeConfigApi.V1ProjectsInstancesScrapeconfigsDelete``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `V1ProjectsInstancesScrapeconfigsDelete_0`: DeleteJob
-    fmt.Fprintf(os.Stdout, "Response from `ScrapeConfigApi.V1ProjectsInstancesScrapeconfigsDelete_0`: %v\n", resp)
+    // response from `V1ProjectsInstancesScrapeconfigsDelete`: DeleteJob
+    fmt.Fprintf(os.Stdout, "Response from `ScrapeConfigApi.V1ProjectsInstancesScrapeconfigsDelete`: %v\n", resp)
 }
 ```
 
@@ -746,7 +746,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiV1ProjectsInstancesScrapeconfigsDelete_2Request struct via the builder pattern
+Other parameters are passed through a pointer to a apiV1ProjectsInstancesScrapeconfigsDeleteRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -754,7 +754,7 @@ Name | Type | Description  | Notes
 
 
 
- **authorization** | **string** | Accepts technical credentials and api gateway access. | 
+ **authorization** | **string** | Accepts basic auth and bearer token from admins and jwt token from oauth and basic auth from api user | 
 
 ### Return type
 
@@ -762,7 +762,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Basic](../README.md#Basic)
+[Basic](../README.md#Basic), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -797,7 +797,7 @@ import (
 func main() {
     instanceId := "instanceId_example" // string | 
     projectId := "projectId_example" // string | 
-    authorization := "authorization_example" // string | Accepts technical credentials and api gateway access.
+    authorization := "authorization_example" // string | Accepts basic auth and bearer token from admins and jwt token from oauth and basic auth from api user
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -829,7 +829,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
 
- **authorization** | **string** | Accepts technical credentials and api gateway access. | 
+ **authorization** | **string** | Accepts basic auth and bearer token from admins and jwt token from oauth and basic auth from api user | 
 
 ### Return type
 
@@ -837,7 +837,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Basic](../README.md#Basic)
+[Basic](../README.md#Basic), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -851,7 +851,7 @@ Name | Type | Description  | Notes
 
 ## V1ProjectsInstancesScrapeconfigsPartialUpdate
 
-> CreateJob V1ProjectsInstancesScrapeconfigsPartialUpdate(ctx, instanceId, projectId).Authorization(authorization).Data(data).Execute()
+> CreateJob V1ProjectsInstancesScrapeconfigsPartialUpdate(ctx, instanceId, projectId).Authorization(authorization).V1InstancesScrapeconfigsCreateRequest(v1InstancesScrapeconfigsCreateRequest).Execute()
 
 
 
@@ -872,12 +872,12 @@ import (
 func main() {
     instanceId := "instanceId_example" // string | 
     projectId := "projectId_example" // string | 
-    authorization := "authorization_example" // string | Accepts technical credentials and api gateway access.
-    data := []openapiclient.V1InstancesScrapeconfigsCreateRequest{*openapiclient.NewV1InstancesScrapeconfigsCreateRequest([]openapiclient.V1InstancesScrapeconfigsCreateRequestStaticConfigsInner{*openapiclient.NewV1InstancesScrapeconfigsCreateRequestStaticConfigsInner([]string{"Targets_example"})}, "JobName_example", "Scheme_example", "ScrapeInterval_example", "ScrapeTimeout_example")} // []V1InstancesScrapeconfigsCreateRequest | 
+    authorization := "authorization_example" // string | Accepts basic auth and bearer token from admins and jwt token from oauth and basic auth from api user
+    v1InstancesScrapeconfigsCreateRequest := []openapiclient.V1InstancesScrapeconfigsCreateRequest{*openapiclient.NewV1InstancesScrapeconfigsCreateRequest([]openapiclient.V1InstancesScrapeconfigsCreateRequestStaticConfigsInner{*openapiclient.NewV1InstancesScrapeconfigsCreateRequestStaticConfigsInner([]string{"Targets_example"})}, "JobName_example", "Scheme_example", "ScrapeInterval_example", "ScrapeTimeout_example", "MetricsPath_example")} // []V1InstancesScrapeconfigsCreateRequest | 
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.ScrapeConfigApi.V1ProjectsInstancesScrapeconfigsPartialUpdate(context.Background(), instanceId, projectId).Authorization(authorization).Data(data).Execute()
+    resp, r, err := apiClient.ScrapeConfigApi.V1ProjectsInstancesScrapeconfigsPartialUpdate(context.Background(), instanceId, projectId).Authorization(authorization).V1InstancesScrapeconfigsCreateRequest(v1InstancesScrapeconfigsCreateRequest).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ScrapeConfigApi.V1ProjectsInstancesScrapeconfigsPartialUpdate``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -905,8 +905,8 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
 
- **authorization** | **string** | Accepts technical credentials and api gateway access. | 
- **data** | [**[]V1InstancesScrapeconfigsCreateRequest**](V1InstancesScrapeconfigsCreateRequest.md) |  | 
+ **authorization** | **string** | Accepts basic auth and bearer token from admins and jwt token from oauth and basic auth from api user | 
+ **v1InstancesScrapeconfigsCreateRequest** | [**[]V1InstancesScrapeconfigsCreateRequest**](V1InstancesScrapeconfigsCreateRequest.md) |  | 
 
 ### Return type
 
@@ -914,7 +914,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Basic](../README.md#Basic)
+[Basic](../README.md#Basic), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -950,7 +950,7 @@ func main() {
     instanceId := "instanceId_example" // string | 
     jobName := "jobName_example" // string | 
     projectId := "projectId_example" // string | 
-    authorization := "authorization_example" // string | Accepts technical credentials and api gateway access.
+    authorization := "authorization_example" // string | Accepts basic auth and bearer token from admins and jwt token from oauth and basic auth from api user
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -984,7 +984,7 @@ Name | Type | Description  | Notes
 
 
 
- **authorization** | **string** | Accepts technical credentials and api gateway access. | 
+ **authorization** | **string** | Accepts basic auth and bearer token from admins and jwt token from oauth and basic auth from api user | 
 
 ### Return type
 
@@ -992,7 +992,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Basic](../README.md#Basic)
+[Basic](../README.md#Basic), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -1006,7 +1006,7 @@ Name | Type | Description  | Notes
 
 ## V1ProjectsInstancesScrapeconfigsUpdate
 
-> CreateJob V1ProjectsInstancesScrapeconfigsUpdate(ctx, instanceId, jobName, projectId).Authorization(authorization).Data(data).Execute()
+> CreateJob V1ProjectsInstancesScrapeconfigsUpdate(ctx, instanceId, jobName, projectId).Authorization(authorization).V1InstancesScrapeconfigsCreateRequest(v1InstancesScrapeconfigsCreateRequest).Execute()
 
 
 
@@ -1028,12 +1028,12 @@ func main() {
     instanceId := "instanceId_example" // string | 
     jobName := "jobName_example" // string | 
     projectId := "projectId_example" // string | 
-    authorization := "authorization_example" // string | Accepts technical credentials and api gateway access.
-    data := *openapiclient.NewV1InstancesScrapeconfigsUpdateRequest([]openapiclient.V1InstancesScrapeconfigsUpdateRequestStaticConfigsInner{*openapiclient.NewV1InstancesScrapeconfigsUpdateRequestStaticConfigsInner([]string{"Targets_example"})}, "Scheme_example", "ScrapeInterval_example", "ScrapeTimeout_example", "MetricsPath_example") // V1InstancesScrapeconfigsUpdateRequest | 
+    authorization := "authorization_example" // string | Accepts basic auth and bearer token from admins and jwt token from oauth and basic auth from api user
+    v1InstancesScrapeconfigsCreateRequest := *openapiclient.NewV1InstancesScrapeconfigsCreateRequest([]openapiclient.V1InstancesScrapeconfigsCreateRequestStaticConfigsInner{*openapiclient.NewV1InstancesScrapeconfigsCreateRequestStaticConfigsInner([]string{"Targets_example"})}, "JobName_example", "Scheme_example", "ScrapeInterval_example", "ScrapeTimeout_example", "MetricsPath_example") // V1InstancesScrapeconfigsCreateRequest | 
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.ScrapeConfigApi.V1ProjectsInstancesScrapeconfigsUpdate(context.Background(), instanceId, jobName, projectId).Authorization(authorization).Data(data).Execute()
+    resp, r, err := apiClient.ScrapeConfigApi.V1ProjectsInstancesScrapeconfigsUpdate(context.Background(), instanceId, jobName, projectId).Authorization(authorization).V1InstancesScrapeconfigsCreateRequest(v1InstancesScrapeconfigsCreateRequest).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ScrapeConfigApi.V1ProjectsInstancesScrapeconfigsUpdate``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -1063,8 +1063,8 @@ Name | Type | Description  | Notes
 
 
 
- **authorization** | **string** | Accepts technical credentials and api gateway access. | 
- **data** | [**V1InstancesScrapeconfigsUpdateRequest**](V1InstancesScrapeconfigsUpdateRequest.md) |  | 
+ **authorization** | **string** | Accepts basic auth and bearer token from admins and jwt token from oauth and basic auth from api user | 
+ **v1InstancesScrapeconfigsCreateRequest** | [**V1InstancesScrapeconfigsCreateRequest**](V1InstancesScrapeconfigsCreateRequest.md) |  | 
 
 ### Return type
 
@@ -1072,7 +1072,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Basic](../README.md#Basic)
+[Basic](../README.md#Basic), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 

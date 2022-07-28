@@ -20,17 +20,16 @@ import (
 	"strings"
 )
 
-
 // AlertRecordsApiService AlertRecordsApi service
 type AlertRecordsApiService service
 
 type ApiV1InstancesAlertgroupsRecordsCreateRequest struct {
-	ctx context.Context
-	ApiService *AlertRecordsApiService
-	groupName string
-	instanceId string
+	ctx           context.Context
+	ApiService    *AlertRecordsApiService
+	groupName     string
+	instanceId    string
 	authorization *string
-	data *V1InstancesAlertgroupsRecordsCreateRequest
+	data          *V1InstancesAlertgroupsRecordsCreateRequest
 }
 
 // Accepts technical credentials and api gateway access.
@@ -61,8 +60,8 @@ Create alert record.
 func (a *AlertRecordsApiService) V1InstancesAlertgroupsRecordsCreate(ctx context.Context, groupName string, instanceId string) ApiV1InstancesAlertgroupsRecordsCreateRequest {
 	return ApiV1InstancesAlertgroupsRecordsCreateRequest{
 		ApiService: a,
-		ctx: ctx,
-		groupName: groupName,
+		ctx:        ctx,
+		groupName:  groupName,
 		instanceId: instanceId,
 	}
 }
@@ -71,10 +70,10 @@ func (a *AlertRecordsApiService) V1InstancesAlertgroupsRecordsCreate(ctx context
 //  @return AlertRecordsResponse
 func (a *AlertRecordsApiService) V1InstancesAlertgroupsRecordsCreateExecute(r ApiV1InstancesAlertgroupsRecordsCreateRequest) (*AlertRecordsResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *AlertRecordsResponse
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *AlertRecordsResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AlertRecordsApiService.V1InstancesAlertgroupsRecordsCreate")
@@ -173,12 +172,12 @@ func (a *AlertRecordsApiService) V1InstancesAlertgroupsRecordsCreateExecute(r Ap
 }
 
 type ApiV1InstancesAlertgroupsRecordsDeleteRequest struct {
-	ctx context.Context
-	ApiService *AlertRecordsApiService
-	groupName string
-	instanceId string
+	ctx           context.Context
+	ApiService    *AlertRecordsApiService
+	groupName     string
+	instanceId    string
 	authorization *string
-	alertRecord *[]string
+	alertRecord   *[]string
 }
 
 // Accepts technical credentials and api gateway access.
@@ -210,8 +209,8 @@ Delete alert records.
 func (a *AlertRecordsApiService) V1InstancesAlertgroupsRecordsDelete(ctx context.Context, groupName string, instanceId string) ApiV1InstancesAlertgroupsRecordsDeleteRequest {
 	return ApiV1InstancesAlertgroupsRecordsDeleteRequest{
 		ApiService: a,
-		ctx: ctx,
-		groupName: groupName,
+		ctx:        ctx,
+		groupName:  groupName,
 		instanceId: instanceId,
 	}
 }
@@ -220,10 +219,10 @@ func (a *AlertRecordsApiService) V1InstancesAlertgroupsRecordsDelete(ctx context
 //  @return AlertRecordsResponse
 func (a *AlertRecordsApiService) V1InstancesAlertgroupsRecordsDeleteExecute(r ApiV1InstancesAlertgroupsRecordsDeleteRequest) (*AlertRecordsResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *AlertRecordsResponse
+		localVarHTTPMethod  = http.MethodDelete
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *AlertRecordsResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AlertRecordsApiService.V1InstancesAlertgroupsRecordsDelete")
@@ -311,11 +310,11 @@ func (a *AlertRecordsApiService) V1InstancesAlertgroupsRecordsDeleteExecute(r Ap
 }
 
 type ApiV1InstancesAlertgroupsRecordsDelete_0Request struct {
-	ctx context.Context
-	ApiService *AlertRecordsApiService
-	alertRecord string
-	groupName string
-	instanceId string
+	ctx           context.Context
+	ApiService    *AlertRecordsApiService
+	alertRecord   string
+	groupName     string
+	instanceId    string
 	authorization *string
 }
 
@@ -342,11 +341,11 @@ Delete alert record.
 */
 func (a *AlertRecordsApiService) V1InstancesAlertgroupsRecordsDelete_1(ctx context.Context, alertRecord string, groupName string, instanceId string) ApiV1InstancesAlertgroupsRecordsDelete_0Request {
 	return ApiV1InstancesAlertgroupsRecordsDelete_0Request{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:  a,
+		ctx:         ctx,
 		alertRecord: alertRecord,
-		groupName: groupName,
-		instanceId: instanceId,
+		groupName:   groupName,
+		instanceId:  instanceId,
 	}
 }
 
@@ -354,10 +353,10 @@ func (a *AlertRecordsApiService) V1InstancesAlertgroupsRecordsDelete_1(ctx conte
 //  @return AlertRecordsResponse
 func (a *AlertRecordsApiService) V1InstancesAlertgroupsRecordsDelete_1Execute(r ApiV1InstancesAlertgroupsRecordsDelete_0Request) (*AlertRecordsResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *AlertRecordsResponse
+		localVarHTTPMethod  = http.MethodDelete
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *AlertRecordsResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AlertRecordsApiService.V1InstancesAlertgroupsRecordsDelete_1")
@@ -452,10 +451,10 @@ func (a *AlertRecordsApiService) V1InstancesAlertgroupsRecordsDelete_1Execute(r 
 }
 
 type ApiV1InstancesAlertgroupsRecordsListRequest struct {
-	ctx context.Context
-	ApiService *AlertRecordsApiService
-	groupName string
-	instanceId string
+	ctx           context.Context
+	ApiService    *AlertRecordsApiService
+	groupName     string
+	instanceId    string
 	authorization *string
 }
 
@@ -482,8 +481,8 @@ Get alert records.
 func (a *AlertRecordsApiService) V1InstancesAlertgroupsRecordsList(ctx context.Context, groupName string, instanceId string) ApiV1InstancesAlertgroupsRecordsListRequest {
 	return ApiV1InstancesAlertgroupsRecordsListRequest{
 		ApiService: a,
-		ctx: ctx,
-		groupName: groupName,
+		ctx:        ctx,
+		groupName:  groupName,
 		instanceId: instanceId,
 	}
 }
@@ -492,10 +491,10 @@ func (a *AlertRecordsApiService) V1InstancesAlertgroupsRecordsList(ctx context.C
 //  @return AlertRecordsResponse
 func (a *AlertRecordsApiService) V1InstancesAlertgroupsRecordsListExecute(r ApiV1InstancesAlertgroupsRecordsListRequest) (*AlertRecordsResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *AlertRecordsResponse
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *AlertRecordsResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AlertRecordsApiService.V1InstancesAlertgroupsRecordsList")
@@ -579,12 +578,12 @@ func (a *AlertRecordsApiService) V1InstancesAlertgroupsRecordsListExecute(r ApiV
 }
 
 type ApiV1InstancesAlertgroupsRecordsPartialUpdateRequest struct {
-	ctx context.Context
-	ApiService *AlertRecordsApiService
-	groupName string
-	instanceId string
+	ctx           context.Context
+	ApiService    *AlertRecordsApiService
+	groupName     string
+	instanceId    string
 	authorization *string
-	data *[]V1InstancesAlertgroupsRecordsCreateRequest
+	data          *[]V1InstancesAlertgroupsRecordsCreateRequest
 }
 
 // Accepts technical credentials and api gateway access.
@@ -615,8 +614,8 @@ Patch alert records.
 func (a *AlertRecordsApiService) V1InstancesAlertgroupsRecordsPartialUpdate(ctx context.Context, groupName string, instanceId string) ApiV1InstancesAlertgroupsRecordsPartialUpdateRequest {
 	return ApiV1InstancesAlertgroupsRecordsPartialUpdateRequest{
 		ApiService: a,
-		ctx: ctx,
-		groupName: groupName,
+		ctx:        ctx,
+		groupName:  groupName,
 		instanceId: instanceId,
 	}
 }
@@ -625,10 +624,10 @@ func (a *AlertRecordsApiService) V1InstancesAlertgroupsRecordsPartialUpdate(ctx 
 //  @return AlertRecordsResponse
 func (a *AlertRecordsApiService) V1InstancesAlertgroupsRecordsPartialUpdateExecute(r ApiV1InstancesAlertgroupsRecordsPartialUpdateRequest) (*AlertRecordsResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPatch
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *AlertRecordsResponse
+		localVarHTTPMethod  = http.MethodPatch
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *AlertRecordsResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AlertRecordsApiService.V1InstancesAlertgroupsRecordsPartialUpdate")
@@ -727,11 +726,11 @@ func (a *AlertRecordsApiService) V1InstancesAlertgroupsRecordsPartialUpdateExecu
 }
 
 type ApiV1InstancesAlertgroupsRecordsReadRequest struct {
-	ctx context.Context
-	ApiService *AlertRecordsApiService
-	alertRecord string
-	groupName string
-	instanceId string
+	ctx           context.Context
+	ApiService    *AlertRecordsApiService
+	alertRecord   string
+	groupName     string
+	instanceId    string
 	authorization *string
 }
 
@@ -758,11 +757,11 @@ Get alert record.
 */
 func (a *AlertRecordsApiService) V1InstancesAlertgroupsRecordsRead(ctx context.Context, alertRecord string, groupName string, instanceId string) ApiV1InstancesAlertgroupsRecordsReadRequest {
 	return ApiV1InstancesAlertgroupsRecordsReadRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:  a,
+		ctx:         ctx,
 		alertRecord: alertRecord,
-		groupName: groupName,
-		instanceId: instanceId,
+		groupName:   groupName,
+		instanceId:  instanceId,
 	}
 }
 
@@ -770,10 +769,10 @@ func (a *AlertRecordsApiService) V1InstancesAlertgroupsRecordsRead(ctx context.C
 //  @return AlertRecordResponse
 func (a *AlertRecordsApiService) V1InstancesAlertgroupsRecordsReadExecute(r ApiV1InstancesAlertgroupsRecordsReadRequest) (*AlertRecordResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *AlertRecordResponse
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *AlertRecordResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AlertRecordsApiService.V1InstancesAlertgroupsRecordsRead")
@@ -878,13 +877,13 @@ func (a *AlertRecordsApiService) V1InstancesAlertgroupsRecordsReadExecute(r ApiV
 }
 
 type ApiV1InstancesAlertgroupsRecordsUpdateRequest struct {
-	ctx context.Context
-	ApiService *AlertRecordsApiService
-	alertRecord string
-	groupName string
-	instanceId string
+	ctx           context.Context
+	ApiService    *AlertRecordsApiService
+	alertRecord   string
+	groupName     string
+	instanceId    string
 	authorization *string
-	data *V1InstancesAlertgroupsRecordsUpdateRequest
+	data          *V1InstancesAlertgroupsRecordsUpdateRequest
 }
 
 // Accepts technical credentials and api gateway access.
@@ -915,11 +914,11 @@ Update alert record.
 */
 func (a *AlertRecordsApiService) V1InstancesAlertgroupsRecordsUpdate(ctx context.Context, alertRecord string, groupName string, instanceId string) ApiV1InstancesAlertgroupsRecordsUpdateRequest {
 	return ApiV1InstancesAlertgroupsRecordsUpdateRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:  a,
+		ctx:         ctx,
 		alertRecord: alertRecord,
-		groupName: groupName,
-		instanceId: instanceId,
+		groupName:   groupName,
+		instanceId:  instanceId,
 	}
 }
 
@@ -927,10 +926,10 @@ func (a *AlertRecordsApiService) V1InstancesAlertgroupsRecordsUpdate(ctx context
 //  @return AlertRecordsResponse
 func (a *AlertRecordsApiService) V1InstancesAlertgroupsRecordsUpdateExecute(r ApiV1InstancesAlertgroupsRecordsUpdateRequest) (*AlertRecordsResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPut
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *AlertRecordsResponse
+		localVarHTTPMethod  = http.MethodPut
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *AlertRecordsResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AlertRecordsApiService.V1InstancesAlertgroupsRecordsUpdate")
@@ -1040,13 +1039,13 @@ func (a *AlertRecordsApiService) V1InstancesAlertgroupsRecordsUpdateExecute(r Ap
 }
 
 type ApiV1ProjectsInstancesAlertgroupsRecordsCreateRequest struct {
-	ctx context.Context
-	ApiService *AlertRecordsApiService
-	groupName string
-	instanceId string
-	projectId string
+	ctx           context.Context
+	ApiService    *AlertRecordsApiService
+	groupName     string
+	instanceId    string
+	projectId     string
 	authorization *string
-	data *V1InstancesAlertgroupsRecordsCreateRequest
+	data          *V1InstancesAlertgroupsRecordsCreateRequest
 }
 
 // Accepts technical credentials and api gateway access.
@@ -1078,10 +1077,10 @@ Create alert record.
 func (a *AlertRecordsApiService) V1ProjectsInstancesAlertgroupsRecordsCreate(ctx context.Context, groupName string, instanceId string, projectId string) ApiV1ProjectsInstancesAlertgroupsRecordsCreateRequest {
 	return ApiV1ProjectsInstancesAlertgroupsRecordsCreateRequest{
 		ApiService: a,
-		ctx: ctx,
-		groupName: groupName,
+		ctx:        ctx,
+		groupName:  groupName,
 		instanceId: instanceId,
-		projectId: projectId,
+		projectId:  projectId,
 	}
 }
 
@@ -1089,10 +1088,10 @@ func (a *AlertRecordsApiService) V1ProjectsInstancesAlertgroupsRecordsCreate(ctx
 //  @return AlertRecordsResponse
 func (a *AlertRecordsApiService) V1ProjectsInstancesAlertgroupsRecordsCreateExecute(r ApiV1ProjectsInstancesAlertgroupsRecordsCreateRequest) (*AlertRecordsResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *AlertRecordsResponse
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *AlertRecordsResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AlertRecordsApiService.V1ProjectsInstancesAlertgroupsRecordsCreate")
@@ -1192,13 +1191,13 @@ func (a *AlertRecordsApiService) V1ProjectsInstancesAlertgroupsRecordsCreateExec
 }
 
 type ApiV1ProjectsInstancesAlertgroupsRecordsDeleteRequest struct {
-	ctx context.Context
-	ApiService *AlertRecordsApiService
-	groupName string
-	instanceId string
-	projectId string
+	ctx           context.Context
+	ApiService    *AlertRecordsApiService
+	groupName     string
+	instanceId    string
+	projectId     string
 	authorization *string
-	alertRecord *[]string
+	alertRecord   *[]string
 }
 
 // Accepts technical credentials and api gateway access.
@@ -1231,10 +1230,10 @@ Delete alert records.
 func (a *AlertRecordsApiService) V1ProjectsInstancesAlertgroupsRecordsDelete(ctx context.Context, groupName string, instanceId string, projectId string) ApiV1ProjectsInstancesAlertgroupsRecordsDeleteRequest {
 	return ApiV1ProjectsInstancesAlertgroupsRecordsDeleteRequest{
 		ApiService: a,
-		ctx: ctx,
-		groupName: groupName,
+		ctx:        ctx,
+		groupName:  groupName,
 		instanceId: instanceId,
-		projectId: projectId,
+		projectId:  projectId,
 	}
 }
 
@@ -1242,10 +1241,10 @@ func (a *AlertRecordsApiService) V1ProjectsInstancesAlertgroupsRecordsDelete(ctx
 //  @return AlertRecordsResponse
 func (a *AlertRecordsApiService) V1ProjectsInstancesAlertgroupsRecordsDeleteExecute(r ApiV1ProjectsInstancesAlertgroupsRecordsDeleteRequest) (*AlertRecordsResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *AlertRecordsResponse
+		localVarHTTPMethod  = http.MethodDelete
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *AlertRecordsResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AlertRecordsApiService.V1ProjectsInstancesAlertgroupsRecordsDelete")
@@ -1334,12 +1333,12 @@ func (a *AlertRecordsApiService) V1ProjectsInstancesAlertgroupsRecordsDeleteExec
 }
 
 type ApiV1ProjectsInstancesAlertgroupsRecordsDelete_0Request struct {
-	ctx context.Context
-	ApiService *AlertRecordsApiService
-	alertRecord string
-	groupName string
-	instanceId string
-	projectId string
+	ctx           context.Context
+	ApiService    *AlertRecordsApiService
+	alertRecord   string
+	groupName     string
+	instanceId    string
+	projectId     string
 	authorization *string
 }
 
@@ -1367,12 +1366,12 @@ Delete alert record.
 */
 func (a *AlertRecordsApiService) V1ProjectsInstancesAlertgroupsRecordsDelete_2(ctx context.Context, alertRecord string, groupName string, instanceId string, projectId string) ApiV1ProjectsInstancesAlertgroupsRecordsDelete_0Request {
 	return ApiV1ProjectsInstancesAlertgroupsRecordsDelete_0Request{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:  a,
+		ctx:         ctx,
 		alertRecord: alertRecord,
-		groupName: groupName,
-		instanceId: instanceId,
-		projectId: projectId,
+		groupName:   groupName,
+		instanceId:  instanceId,
+		projectId:   projectId,
 	}
 }
 
@@ -1380,10 +1379,10 @@ func (a *AlertRecordsApiService) V1ProjectsInstancesAlertgroupsRecordsDelete_2(c
 //  @return AlertRecordsResponse
 func (a *AlertRecordsApiService) V1ProjectsInstancesAlertgroupsRecordsDelete_2Execute(r ApiV1ProjectsInstancesAlertgroupsRecordsDelete_0Request) (*AlertRecordsResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *AlertRecordsResponse
+		localVarHTTPMethod  = http.MethodDelete
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *AlertRecordsResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AlertRecordsApiService.V1ProjectsInstancesAlertgroupsRecordsDelete_2")
@@ -1479,11 +1478,11 @@ func (a *AlertRecordsApiService) V1ProjectsInstancesAlertgroupsRecordsDelete_2Ex
 }
 
 type ApiV1ProjectsInstancesAlertgroupsRecordsListRequest struct {
-	ctx context.Context
-	ApiService *AlertRecordsApiService
-	groupName string
-	instanceId string
-	projectId string
+	ctx           context.Context
+	ApiService    *AlertRecordsApiService
+	groupName     string
+	instanceId    string
+	projectId     string
 	authorization *string
 }
 
@@ -1511,10 +1510,10 @@ Get alert records.
 func (a *AlertRecordsApiService) V1ProjectsInstancesAlertgroupsRecordsList(ctx context.Context, groupName string, instanceId string, projectId string) ApiV1ProjectsInstancesAlertgroupsRecordsListRequest {
 	return ApiV1ProjectsInstancesAlertgroupsRecordsListRequest{
 		ApiService: a,
-		ctx: ctx,
-		groupName: groupName,
+		ctx:        ctx,
+		groupName:  groupName,
 		instanceId: instanceId,
-		projectId: projectId,
+		projectId:  projectId,
 	}
 }
 
@@ -1522,10 +1521,10 @@ func (a *AlertRecordsApiService) V1ProjectsInstancesAlertgroupsRecordsList(ctx c
 //  @return AlertRecordsResponse
 func (a *AlertRecordsApiService) V1ProjectsInstancesAlertgroupsRecordsListExecute(r ApiV1ProjectsInstancesAlertgroupsRecordsListRequest) (*AlertRecordsResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *AlertRecordsResponse
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *AlertRecordsResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AlertRecordsApiService.V1ProjectsInstancesAlertgroupsRecordsList")
@@ -1610,13 +1609,13 @@ func (a *AlertRecordsApiService) V1ProjectsInstancesAlertgroupsRecordsListExecut
 }
 
 type ApiV1ProjectsInstancesAlertgroupsRecordsPartialUpdateRequest struct {
-	ctx context.Context
-	ApiService *AlertRecordsApiService
-	groupName string
-	instanceId string
-	projectId string
+	ctx           context.Context
+	ApiService    *AlertRecordsApiService
+	groupName     string
+	instanceId    string
+	projectId     string
 	authorization *string
-	data *[]V1InstancesAlertgroupsRecordsCreateRequest
+	data          *[]V1InstancesAlertgroupsRecordsCreateRequest
 }
 
 // Accepts technical credentials and api gateway access.
@@ -1648,10 +1647,10 @@ Patch alert records.
 func (a *AlertRecordsApiService) V1ProjectsInstancesAlertgroupsRecordsPartialUpdate(ctx context.Context, groupName string, instanceId string, projectId string) ApiV1ProjectsInstancesAlertgroupsRecordsPartialUpdateRequest {
 	return ApiV1ProjectsInstancesAlertgroupsRecordsPartialUpdateRequest{
 		ApiService: a,
-		ctx: ctx,
-		groupName: groupName,
+		ctx:        ctx,
+		groupName:  groupName,
 		instanceId: instanceId,
-		projectId: projectId,
+		projectId:  projectId,
 	}
 }
 
@@ -1659,10 +1658,10 @@ func (a *AlertRecordsApiService) V1ProjectsInstancesAlertgroupsRecordsPartialUpd
 //  @return AlertRecordsResponse
 func (a *AlertRecordsApiService) V1ProjectsInstancesAlertgroupsRecordsPartialUpdateExecute(r ApiV1ProjectsInstancesAlertgroupsRecordsPartialUpdateRequest) (*AlertRecordsResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPatch
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *AlertRecordsResponse
+		localVarHTTPMethod  = http.MethodPatch
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *AlertRecordsResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AlertRecordsApiService.V1ProjectsInstancesAlertgroupsRecordsPartialUpdate")
@@ -1762,12 +1761,12 @@ func (a *AlertRecordsApiService) V1ProjectsInstancesAlertgroupsRecordsPartialUpd
 }
 
 type ApiV1ProjectsInstancesAlertgroupsRecordsReadRequest struct {
-	ctx context.Context
-	ApiService *AlertRecordsApiService
-	alertRecord string
-	groupName string
-	instanceId string
-	projectId string
+	ctx           context.Context
+	ApiService    *AlertRecordsApiService
+	alertRecord   string
+	groupName     string
+	instanceId    string
+	projectId     string
 	authorization *string
 }
 
@@ -1795,12 +1794,12 @@ Get alert record.
 */
 func (a *AlertRecordsApiService) V1ProjectsInstancesAlertgroupsRecordsRead(ctx context.Context, alertRecord string, groupName string, instanceId string, projectId string) ApiV1ProjectsInstancesAlertgroupsRecordsReadRequest {
 	return ApiV1ProjectsInstancesAlertgroupsRecordsReadRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:  a,
+		ctx:         ctx,
 		alertRecord: alertRecord,
-		groupName: groupName,
-		instanceId: instanceId,
-		projectId: projectId,
+		groupName:   groupName,
+		instanceId:  instanceId,
+		projectId:   projectId,
 	}
 }
 
@@ -1808,10 +1807,10 @@ func (a *AlertRecordsApiService) V1ProjectsInstancesAlertgroupsRecordsRead(ctx c
 //  @return AlertRecordResponse
 func (a *AlertRecordsApiService) V1ProjectsInstancesAlertgroupsRecordsReadExecute(r ApiV1ProjectsInstancesAlertgroupsRecordsReadRequest) (*AlertRecordResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *AlertRecordResponse
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *AlertRecordResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AlertRecordsApiService.V1ProjectsInstancesAlertgroupsRecordsRead")
@@ -1917,14 +1916,14 @@ func (a *AlertRecordsApiService) V1ProjectsInstancesAlertgroupsRecordsReadExecut
 }
 
 type ApiV1ProjectsInstancesAlertgroupsRecordsUpdateRequest struct {
-	ctx context.Context
-	ApiService *AlertRecordsApiService
-	alertRecord string
-	groupName string
-	instanceId string
-	projectId string
+	ctx           context.Context
+	ApiService    *AlertRecordsApiService
+	alertRecord   string
+	groupName     string
+	instanceId    string
+	projectId     string
 	authorization *string
-	data *V1InstancesAlertgroupsRecordsUpdateRequest
+	data          *V1InstancesAlertgroupsRecordsUpdateRequest
 }
 
 // Accepts technical credentials and api gateway access.
@@ -1956,12 +1955,12 @@ Update alert record.
 */
 func (a *AlertRecordsApiService) V1ProjectsInstancesAlertgroupsRecordsUpdate(ctx context.Context, alertRecord string, groupName string, instanceId string, projectId string) ApiV1ProjectsInstancesAlertgroupsRecordsUpdateRequest {
 	return ApiV1ProjectsInstancesAlertgroupsRecordsUpdateRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:  a,
+		ctx:         ctx,
 		alertRecord: alertRecord,
-		groupName: groupName,
-		instanceId: instanceId,
-		projectId: projectId,
+		groupName:   groupName,
+		instanceId:  instanceId,
+		projectId:   projectId,
 	}
 }
 
@@ -1969,10 +1968,10 @@ func (a *AlertRecordsApiService) V1ProjectsInstancesAlertgroupsRecordsUpdate(ctx
 //  @return AlertRecordsResponse
 func (a *AlertRecordsApiService) V1ProjectsInstancesAlertgroupsRecordsUpdateExecute(r ApiV1ProjectsInstancesAlertgroupsRecordsUpdateRequest) (*AlertRecordsResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPut
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *AlertRecordsResponse
+		localVarHTTPMethod  = http.MethodPut
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *AlertRecordsResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AlertRecordsApiService.V1ProjectsInstancesAlertgroupsRecordsUpdate")

@@ -4,15 +4,15 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Name** | **string** | The name of the group. Must be unique. &#x60;Additional Validators:&#x60; * is the identifier and so unique * should only include the characters: a-zA-Z0-9- | 
-**Interval** | Pointer to **string** | How often rules in the group are evaluated. &#x60;Additional Validators:&#x60; * must be a valid time string * should be &gt;&#x3D;60s | [optional] [default to "60s"]
+**Name** | **string** | The name of the group. Must be unique. | 
+**Interval** | **string** | How often rules in the group are evaluated. | 
 **Rules** | [**[]V1InstancesAlertgroupsCreateRequestRulesInner**](V1InstancesAlertgroupsCreateRequestRulesInner.md) | rules for the alert group | 
 
 ## Methods
 
 ### NewV1InstancesAlertgroupsCreateRequest
 
-`func NewV1InstancesAlertgroupsCreateRequest(name string, rules []V1InstancesAlertgroupsCreateRequestRulesInner, ) *V1InstancesAlertgroupsCreateRequest`
+`func NewV1InstancesAlertgroupsCreateRequest(name string, interval string, rules []V1InstancesAlertgroupsCreateRequestRulesInner, ) *V1InstancesAlertgroupsCreateRequest`
 
 NewV1InstancesAlertgroupsCreateRequest instantiates a new V1InstancesAlertgroupsCreateRequest object
 This constructor will assign default values to properties that have it defined,
@@ -66,11 +66,6 @@ and a boolean to check if the value has been set.
 
 SetInterval sets Interval field to given value.
 
-### HasInterval
-
-`func (o *V1InstancesAlertgroupsCreateRequest) HasInterval() bool`
-
-HasInterval returns a boolean if a field has been set.
 
 ### GetRules
 

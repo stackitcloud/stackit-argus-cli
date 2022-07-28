@@ -5,13 +5,13 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Message** | **string** |  | 
-**Instances** | [**[]Instance**](Instance.md) |  | 
+**Services** | [**[]Instance**](Instance.md) |  | 
 
 ## Methods
 
 ### NewServices
 
-`func NewServices(message string, instances []Instance, ) *Services`
+`func NewServices(message string, services []Instance, ) *Services`
 
 NewServices instantiates a new Services object
 This constructor will assign default values to properties that have it defined,
@@ -46,24 +46,24 @@ and a boolean to check if the value has been set.
 SetMessage sets Message field to given value.
 
 
-### GetInstances
+### GetServices
 
-`func (o *Services) GetInstances() []Instance`
+`func (o *Services) GetServices() []Instance`
 
-GetInstances returns the Instances field if non-nil, zero value otherwise.
+GetServices returns the Services field if non-nil, zero value otherwise.
 
-### GetInstancesOk
+### GetServicesOk
 
-`func (o *Services) GetInstancesOk() (*[]Instance, bool)`
+`func (o *Services) GetServicesOk() (*[]Instance, bool)`
 
-GetInstancesOk returns a tuple with the Instances field if it's non-nil, zero value otherwise
+GetServicesOk returns a tuple with the Services field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetInstances
+### SetServices
 
-`func (o *Services) SetInstances(v []Instance)`
+`func (o *Services) SetServices(v []Instance)`
 
-SetInstances sets Instances field to given value.
+SetServices sets Services field to given value.
 
 
 

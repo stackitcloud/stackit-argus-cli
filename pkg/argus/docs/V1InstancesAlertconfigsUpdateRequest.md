@@ -5,6 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Global** | Pointer to [**V1InstancesAlertconfigsUpdateRequestGlobal**](V1InstancesAlertconfigsUpdateRequestGlobal.md) |  | [optional] 
+**Templates** | Pointer to **[]string** | Files from which custom notification template definitions are read. The last component may use a wildcard matcher, e.g. &#39;templates/_*.tmpl&#39;. | [optional] 
 **Route** | [**V1InstancesAlertconfigsUpdateRequestRoute**](V1InstancesAlertconfigsUpdateRequestRoute.md) |  | 
 **Receivers** | [**[]V1InstancesAlertconfigsUpdateRequestReceiversInner**](V1InstancesAlertconfigsUpdateRequestReceiversInner.md) | A list of notification receivers. | 
 **InhibitRules** | Pointer to [**V1InstancesAlertconfigsUpdateRequestInhibitRules**](V1InstancesAlertconfigsUpdateRequestInhibitRules.md) |  | [optional] 
@@ -52,6 +53,31 @@ SetGlobal sets Global field to given value.
 `func (o *V1InstancesAlertconfigsUpdateRequest) HasGlobal() bool`
 
 HasGlobal returns a boolean if a field has been set.
+
+### GetTemplates
+
+`func (o *V1InstancesAlertconfigsUpdateRequest) GetTemplates() []string`
+
+GetTemplates returns the Templates field if non-nil, zero value otherwise.
+
+### GetTemplatesOk
+
+`func (o *V1InstancesAlertconfigsUpdateRequest) GetTemplatesOk() (*[]string, bool)`
+
+GetTemplatesOk returns a tuple with the Templates field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTemplates
+
+`func (o *V1InstancesAlertconfigsUpdateRequest) SetTemplates(v []string)`
+
+SetTemplates sets Templates field to given value.
+
+### HasTemplates
+
+`func (o *V1InstancesAlertconfigsUpdateRequest) HasTemplates() bool`
+
+HasTemplates returns a boolean if a field has been set.
 
 ### GetRoute
 

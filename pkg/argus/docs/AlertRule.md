@@ -6,15 +6,15 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Alert** | **string** |  | 
 **Expr** | **string** |  | 
-**Labels** | Pointer to **map[string]string** |  | [optional] 
-**Annotations** | Pointer to **map[string]string** |  | [optional] 
+**Labels** | **map[string]string** |  | 
+**Annotations** | **map[string]string** |  | 
 **For** | Pointer to **string** |  | [optional] [default to "0s"]
 
 ## Methods
 
 ### NewAlertRule
 
-`func NewAlertRule(alert string, expr string, ) *AlertRule`
+`func NewAlertRule(alert string, expr string, labels map[string]string, annotations map[string]string, ) *AlertRule`
 
 NewAlertRule instantiates a new AlertRule object
 This constructor will assign default values to properties that have it defined,
@@ -88,11 +88,6 @@ and a boolean to check if the value has been set.
 
 SetLabels sets Labels field to given value.
 
-### HasLabels
-
-`func (o *AlertRule) HasLabels() bool`
-
-HasLabels returns a boolean if a field has been set.
 
 ### GetAnnotations
 
@@ -113,11 +108,6 @@ and a boolean to check if the value has been set.
 
 SetAnnotations sets Annotations field to given value.
 
-### HasAnnotations
-
-`func (o *AlertRule) HasAnnotations() bool`
-
-HasAnnotations returns a boolean if a field has been set.
 
 ### GetFor
 

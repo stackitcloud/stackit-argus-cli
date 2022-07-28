@@ -5,8 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Url** | **string** |  | 
-**SendResolved** | Pointer to **bool** |  | [optional] [default to true]
-**MsTeams** | Pointer to **bool** |  | [optional] [default to false]
+**MsTeams** | Pointer to **bool** |  | [optional] 
 
 ## Methods
 
@@ -46,31 +45,6 @@ and a boolean to check if the value has been set.
 
 SetUrl sets Url field to given value.
 
-
-### GetSendResolved
-
-`func (o *WebHook) GetSendResolved() bool`
-
-GetSendResolved returns the SendResolved field if non-nil, zero value otherwise.
-
-### GetSendResolvedOk
-
-`func (o *WebHook) GetSendResolvedOk() (*bool, bool)`
-
-GetSendResolvedOk returns a tuple with the SendResolved field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetSendResolved
-
-`func (o *WebHook) SetSendResolved(v bool)`
-
-SetSendResolved sets SendResolved field to given value.
-
-### HasSendResolved
-
-`func (o *WebHook) HasSendResolved() bool`
-
-HasSendResolved returns a boolean if a field has been set.
 
 ### GetMsTeams
 
