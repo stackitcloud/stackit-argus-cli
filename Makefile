@@ -74,19 +74,28 @@ docker: ## Builds docker image
 
 ci: lint-reports test-reports ## Executes lint and test and generates reports
 
-.PHONY: clean-generate-files
-clean-generate-files:
-	rm -rf ./pkg/client
+.PHONY: clean-generate-client
+clean-generate-client: ## Remove generated APIT client code
+	rm -f ./pkg/argus/api_default.go
+	rm -f ./pkg/argus/configuration.go
+	rm -f ./pkg/argus/client.go
+	rm -f ./pkg/argus/model_*.go
+	rm -f ./pkg/argus/response.go
+	rm -f ./pkg/argus/utils.go
+	rm -rf ./pkg/argus/docs
 
-.PHONY: generate-client
-generate-client: clean-generate-files
+.PHONY: generate-client-code
+generate-client-code: clean-generate-client ## generate API client code
 	docker run --rm \
 		-v ${PWD}:/local openapitools/openapi-generator-cli:${OPENAPI_GENERATOR_VERSION} generate \
 		-i /local/api/ARGUS.openapi.v1.json \
 		-g go \
 		--additional-properties=packageName=argus \
-		-o /local/pkg/client \
+		-o /local/pkg/argus \
 		--skip-validate-spec
+
+.PHONY: generate-client
+generate-client: generate-client-code tidy ## genarte API client & run go mod tidy
 
 help: ## Shows the help
 	@echo 'Usage: make <OPTIONS> ... <TARGETS>'

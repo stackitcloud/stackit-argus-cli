@@ -23,7 +23,7 @@
 #!docs/README.md
 go.mod
 go.sum
-
+.travis.yml
 git_push.sh
 .gitignore
 api/openapi.yaml
