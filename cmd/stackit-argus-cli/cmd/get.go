@@ -1,0 +1,39 @@
+/*
+Copyright © 2022 NAME HERE <EMAIL ADDRESS>
+*/
+package cmd
+
+import (
+	"fmt"
+
+	"github.com/spf13/cobra"
+)
+
+// getCmd represents the get command
+var getCmd = &cobra.Command{
+	Use:   "get",
+	Short: "Retrieve information about an ARGUS resource",
+	Long: `Retrieve information about an ARGUS resource by passing its project id and optionally its instance id
+
+Examples:
+- stackit-argus-cli get -pid [project-id]
+- stackit-argus-cli get -pid [project-id] -iid [instance-id]`,
+	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Println("get called")
+		//TODO: Call HandlerFunction which calls the API via the API Client
+	},
+}
+
+func init() {
+	rootCmd.AddCommand(getCmd)
+
+	// Here you will define your flags and configuration settings.
+
+	// Cobra supports Persistent Flags which will work for this command
+	// and all subcommands, e.g.:
+	// getCmd.PersistentFlags().String("foo", "", "A help for foo")
+
+	// Cobra supports local flags which will only run when this command
+	// is called directly, e.g.:
+	// getCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+}
