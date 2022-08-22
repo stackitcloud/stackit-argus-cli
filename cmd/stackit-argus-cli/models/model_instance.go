@@ -1,24 +1,8 @@
-package main
+package models
 
 import (
 	"go/types"
 )
-
-type ApiStandardPayload struct {
-	ProjectId     string
-	Authorization string
-}
-
-type CreateInstance struct {
-	IdAndHeader ApiStandardPayload
-	Body        CreateInstanceBody
-}
-
-type CreateInstanceBody struct {
-	Name      string    `json:"name"`
-	PlanId    string    `json:"plan_id"`
-	Parameter types.Nil `json:"parameter"`
-}
 
 type InstanceList struct {
 	Message   string             `json:"message"`
@@ -98,10 +82,4 @@ type Plan struct {
 	IsFree                  bool   `json:"is_free"`
 	IsPublic                bool   `json:"is_public"`
 	Schema                  string `json:"schema"`
-}
-
-type InstanceCreateResponse struct {
-	Message      string `json:"message"`
-	InstanceId   string `json:"instance_id"`
-	DashboardUrl string `json:"dashboard_url"`
 }
