@@ -20,21 +20,21 @@ type InstanceListItem struct {
 }
 
 type ProjectInstance struct {
-	Message      string    `json:"message"`
-	DashboardUrl string    `json:"dashboardUrl"`
-	IsUpdatable  bool      `json:"isUpdatable"`
-	Name         string    `json:"name"`
-	Parameters   types.Nil `json:"parameters"`
-	Id           string    `json:"id"`
-	ServiceName  string    `json:"serviceName"`
-	PlanId       string    `json:"planId"`
-	PlanName     string    `json:"planName"`
-	PlanSchema   types.Nil `json:"planSchema"`
-	Status       string    `json:"status"`
-	Instance     Instance  `json:"instance"`
+	Message      string           `json:"message"`
+	DashboardUrl string           `json:"dashboardUrl"`
+	IsUpdatable  bool             `json:"isUpdatable"`
+	Name         string           `json:"name"`
+	Parameters   types.Nil        `json:"parameters"`
+	Id           string           `json:"id"`
+	ServiceName  string           `json:"serviceName"`
+	PlanId       string           `json:"planId"`
+	PlanName     string           `json:"planName"`
+	PlanSchema   types.Nil        `json:"planSchema"`
+	Status       string           `json:"status"`
+	Instance     InstanceResponse `json:"instance"`
 }
 
-type Instance struct {
+type InstanceResponse struct {
 	Instance                string      `json:"instance"`
 	Cluster                 string      `json:"cluster"`
 	GrafanaUrl              string      `json:"grafanaUrl"`
