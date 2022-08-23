@@ -16,8 +16,8 @@ var getCmd = &cobra.Command{
 	Long: `Retrieve information about an ARGUS resource by passing its project id and optionally its instance id
 
 Examples:
-- stackit-argus-cli get -pid [project-id]
-- stackit-argus-cli get -pid [project-id] -iid [instance-id]`,
+- stackit-argus-cli get
+- stackit-argus-cli get instance -instanceId`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("get called")
 		//TODO: Call HandlerFunction which calls the API via the API Client
