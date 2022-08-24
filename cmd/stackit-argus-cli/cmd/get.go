@@ -5,9 +5,14 @@ package cmd
 
 import (
 	"fmt"
+	"io"
+	"net/http"
+	"os"
 
 	"github.com/spf13/cobra"
 )
+
+const ProjectId = "PROJECT_ID"
 
 // getCmd represents the get command
 var getCmd = &cobra.Command{
@@ -21,6 +26,21 @@ Examples:
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("get called")
 		//TODO: Call HandlerFunction which calls the API via the API Client
+
+		resp, err := http.Get("https://api-dev.stackit.cloud/argus-service/v1/projects/" + os.Getenv(ProjectId) + "/instances")
+		if err != nil {
+			print("error is - ", err.Error())
+			return
+		}
+
+		_, err = io.ReadAll(resp.Body) // _ should be body this is WIP
+		if err != nil {
+			print("error is - ", err.Error())
+			return
+		}
+
+		// instanceList := &models.InstanceList{}
+		// instanceListItem := &models.InstanceListItem{}
 	},
 }
 
