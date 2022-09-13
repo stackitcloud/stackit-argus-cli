@@ -12,8 +12,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-const ProjectId = "PROJECT_ID"
-
 // getCmd represents the get command
 var getCmd = &cobra.Command{
 	Use:   "get",

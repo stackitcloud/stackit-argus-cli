@@ -11,6 +11,8 @@ import (
 	"github.com/spf13/viper"
 )
 
+const ProjectId = "PROJECT_ID"
+
 var cfgFile string
 
 // rootCmd represents the base command when called without any subcommands
@@ -58,10 +60,10 @@ func initConfig() {
 		home, err := os.UserHomeDir()
 		cobra.CheckErr(err)
 
-		// Search config in home directory with name ".argus-cli" (without extension).
+		// Search config in home directory with name ".stackit-argus-cli" (without extension).
 		viper.AddConfigPath(home)
 		viper.SetConfigType("yaml")
-		viper.SetConfigName(".argus-cli")
+		viper.SetConfigName(".stackit-argus-cli")
 	}
 
 	viper.AutomaticEnv() // read in environment variables that match
