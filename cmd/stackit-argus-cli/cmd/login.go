@@ -5,50 +5,58 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"os"
-
-	"github.com/spf13/cobra"
 )
 
-var projectName string
+var list = false
 
 // loginCmd represents the login command
 var loginCmd = &cobra.Command{
+	// Args:  cobra.MinimumNArgs(1),
 	Use:   "login",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Short: "Log in to your project",
+	Long: `Log in to your project by providing the name of the project as saved in the config file:
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+stackit-argus-cli login <project-name>`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("login called")
-		// TODO: Set ProjectID as env variable
-		// viper.SetConfigName("config")
-		// viper.SetConfigType("yaml")
-		// viper.AddConfigPath(".")
-		//if err := viper.ReadInConfig(); err != nil {
-		//	if _, ok := err.(viper.ConfigFileNotFoundError); ok {
-		//		// Config file not found; ignore error if desired
-		//		fmt.Println("Config file not found:", err, viper.ConfigFileUsed())
-		//		return
-		//	} else {
-		// Config file was found but another error was produced
-		//		fmt.Println("Config file found but something else went wrong:", err, viper.ConfigFileUsed())
-		//		return
-		//	}
-		//}
-		fmt.Println(viper.ConfigFileUsed(), "Project:", projectName)
-		err := os.Setenv(ProjectId, viper.GetString(projectName))
+		viper.SetConfigName(".stackit-argus-cli")
+		viper.SetConfigType("yaml")
+		viper.AddConfigPath(".")
+		err := viper.ReadInConfig()
 		if err != nil {
-			cobra.CheckErr(err)
+			panic(fmt.Errorf("fatal error config file: %w", err))
+		}
+		projects := viper.Sub("projects")
+		if projects == nil {
+			panic("projects configuration not found")
+		}
+		if list == true {
+			fmt.Println(projects.AllKeys())
 		} else {
-			fmt.Println(viper.GetString(projectName))
-			fmt.Println("Logged into Project: " + os.Getenv(ProjectId))
+			if len(args) == 0 {
+				fmt.Println("Please specify the project to log in to")
+				return
+			} else {
+				login(args[0], projects)
+			}
 		}
 	},
+}
+
+func login(projectName string, projects *viper.Viper) {
+
+	if projects.IsSet(projectName) == false {
+		fmt.Println("the project with the name: \"" + projectName + "\" doesn't exist")
+	} else {
+		err := os.Setenv(ProjectId, projects.GetString(projectName))
+		if err != nil {
+			panic(fmt.Errorf("fatal error logging in: %w", err))
+		} else {
+			fmt.Println("Logged in to " + projectName + ": (ProjectId: " + os.Getenv(ProjectId) + ")")
+		}
+	}
 }
 
 func init() {
@@ -63,6 +71,5 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// loginCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-
-	loginCmd.Flags().StringVarP(&projectName, "projectName", "n", "", "specify the name of the project to log in to")
+	loginCmd.Flags().BoolVarP(&list, "list", "l", false, "display list of projects to log in to")
 }
