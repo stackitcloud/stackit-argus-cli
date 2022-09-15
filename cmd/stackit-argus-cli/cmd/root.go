@@ -36,13 +36,13 @@ func Execute() {
 }
 
 func init() { //nolint:gochecknoinits // cobra CLI
-	// cobra.OnInitialize(initConfig)
+	cobra.OnInitialize(initConfig)
 
 	// Here you will define your flags and configuration settings.
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
 
-	// rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.stackit-argus-cli.yaml)")
+	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.stackit-argus-cli.yaml)")
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
@@ -62,6 +62,7 @@ func initConfig() {
 
 		// Search config in home directory with name ".stackit-argus-cli" (without extension).
 		viper.AddConfigPath(home)
+		viper.AddConfigPath(".")
 		viper.SetConfigType("yaml")
 		viper.SetConfigName(".stackit-argus-cli")
 	}

@@ -4,9 +4,13 @@ Copyright © 2022 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"fmt"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/rest"
 )
+
+var token string
 
 // authCmd represents the auth command
 var authCmd = &cobra.Command{
@@ -20,7 +24,21 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Args: cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		rest.Authorize(args[0])
+		viper.SetConfigName(".stackit-argus-cli")
+		viper.SetConfigType("yaml")
+		viper.AddConfigPath(".")
+		err := viper.ReadInConfig()
+		if err != nil {
+			panic(fmt.Errorf("fatal error config file: %w", err))
+		}
+		token = rest.Authorize(args[0])
+		if token != "" {
+			viper.Set("token", token)
+			err = viper.WriteConfigAs(viper.ConfigFileUsed())
+			if err != nil {
+				panic(fmt.Errorf("fatal saving token: %w", err))
+			}
+		}
 	},
 }
 
