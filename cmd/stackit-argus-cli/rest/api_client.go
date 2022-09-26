@@ -2,6 +2,8 @@ package rest
 
 import (
 	"encoding/json"
+	"fmt"
+	"github.com/spf13/viper"
 	"io"
 	"net/http"
 )
@@ -16,6 +18,13 @@ type idToken struct {
 }
 
 func Authorize(projectId string) string {
+	viper.SetConfigName(".stackit-argus-cli")
+	viper.SetConfigType("yaml")
+	viper.AddConfigPath(".")
+	err := viper.ReadInConfig()
+	if err != nil {
+		panic(fmt.Errorf("fatal error config file: %w", err))
+	}
 	client := &http.Client{}
 
 	// Create a service account via API. Use your own bearer token for creating it
@@ -26,7 +35,7 @@ func Authorize(projectId string) string {
 		print("error is - ", err.Error())
 		return ""
 	}
-	req.Header.Set("Authorization", "") //TODO: read Token for Authorization Header from Config file
+	req.Header.Set("Authorization", viper.GetString("token")) //TODO: read Token for Authorization Header from Config file
 
 	res, err := client.Do(req)
 	if err != nil {

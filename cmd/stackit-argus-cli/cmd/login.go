@@ -36,8 +36,12 @@ stackit-argus-cli login <project-name>`,
 			fmt.Println(projects.AllKeys())
 		} else {
 			if len(args) == 0 {
-				fmt.Println("Please specify the project to log in to")
-				return
+				if os.Getenv(ProjectId) == "" {
+					fmt.Println("You are currently not logged into any project")
+					fmt.Println("Please specify a project name to log in to")
+				} else {
+					fmt.Println("You are logged into project: " + os.Getenv(ProjectId))
+				}
 			} else {
 				login(args[0], projects)
 			}
