@@ -40,7 +40,8 @@ Examples:
 		token := "Bearer " + viper.GetString("token")
 
 		if os.Getenv(ProjectId) == "" {
-			url = "https://api-dev.stackit.cloud/argus-service/v1/projects/775eee9d-8565-48ab-9dcc-64a6ca55043a/instances"
+			pId := viper.GetString(ProjectId)
+			url = "https://api-dev.stackit.cloud/argus-service/v1/projects/" + pId + "/instances"
 		} else {
 			url = "https://api-dev.stackit.cloud/argus-service/v1/projects/" + os.Getenv(ProjectId) + "/instances"
 		}

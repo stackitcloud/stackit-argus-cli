@@ -6,6 +6,7 @@ package cmd
 import (
 	"fmt"
 	"github.com/spf13/viper"
+	"os"
 
 	"github.com/spf13/cobra"
 )
@@ -24,20 +25,14 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("test called")
-		viper.SetConfigName("test-config")
-		viper.SetConfigType("yaml")
-		viper.AddConfigPath(".")
 		err := viper.ReadInConfig()
 		if err != nil {
 			panic(fmt.Errorf("fatal error config file: %w", err))
 		} else {
 			fmt.Println("File: " + viper.ConfigFileUsed() + " read successfully")
 		}
-		projectsConfig := viper.Sub("projects")
-		if projectsConfig == nil {
-			panic("projects configuration not found")
-		}
-		fmt.Println(projectsConfig.AllKeys())
+		viper.AutomaticEnv()
+		fmt.Println(os.Getenv(ProjectId))
 	},
 }
 
