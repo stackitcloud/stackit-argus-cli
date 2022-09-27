@@ -27,9 +27,9 @@ to quickly create a Cobra application.`,
 			fmt.Println("Please set both the name and id flag")
 			return
 		} else {
-			viper.SetConfigName(".stackit-argus-cli")
-			viper.SetConfigType("yaml")
-			viper.AddConfigPath(".")
+			//viper.SetConfigName(".stackit-argus-cli")
+			//viper.SetConfigType("yaml")
+			//viper.AddConfigPath(".")
 			err := viper.ReadInConfig()
 			if err != nil {
 				panic(fmt.Errorf("fatal error config file: %w", err))

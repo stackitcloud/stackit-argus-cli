@@ -27,9 +27,9 @@ Examples:
 - stackit-argus-cli get
 - stackit-argus-cli get instance -instanceId`,
 	Run: func(cmd *cobra.Command, args []string) {
-		viper.SetConfigName(".stackit-argus-cli")
-		viper.SetConfigType("yaml")
-		viper.AddConfigPath(".")
+		//viper.SetConfigName(".stackit-argus-cli")
+		//viper.SetConfigType("yaml")
+		//viper.AddConfigPath(".")
 		err := viper.ReadInConfig()
 		if err != nil {
 			panic(fmt.Errorf("fatal error config file: %w", err))
@@ -64,15 +64,15 @@ Examples:
 			if err != nil {
 				panic(fmt.Errorf("fatal error get request: %w", err))
 			}
-			fmt.Printf("REPOSNSE: %v", instanceList)
+			fmt.Printf("%+v\n", instanceList)
 		} else {
 			err = getJsonWithToken(url, token, projectInstance)
 			if err != nil {
 				panic(fmt.Errorf("fatal error get request: %w", err))
 			}
-			fmt.Printf("REPOSNSE: %v", projectInstance)
+			fmt.Printf("%+v\n", projectInstance)
 		}
-		fmt.Println("Command GET finished running")
+		//fmt.Println("Command GET finished running")
 	},
 }
 

@@ -21,9 +21,9 @@ var loginCmd = &cobra.Command{
 
 stackit-argus-cli login <project-name>`,
 	Run: func(cmd *cobra.Command, args []string) {
-		viper.SetConfigName(".stackit-argus-cli")
-		viper.SetConfigType("yaml")
-		viper.AddConfigPath(".")
+		//viper.SetConfigName(".stackit-argus-cli")
+		//viper.SetConfigType("yaml")
+		//viper.AddConfigPath(".")
 		err := viper.ReadInConfig()
 		if err != nil {
 			panic(fmt.Errorf("fatal error config file: %w", err))

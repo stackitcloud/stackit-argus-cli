@@ -24,9 +24,9 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Args: cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		viper.SetConfigName(".stackit-argus-cli")
-		viper.SetConfigType("yaml")
-		viper.AddConfigPath(".")
+		//viper.SetConfigName(".stackit-argus-cli")
+		//viper.SetConfigType("yaml")
+		//viper.AddConfigPath(".")
 		err := viper.ReadInConfig()
 		if err != nil {
 			panic(fmt.Errorf("fatal error config file: %w", err))
