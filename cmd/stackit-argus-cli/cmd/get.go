@@ -9,7 +9,6 @@ import (
 	"github.com/spf13/viper"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/models"
 	"net/http"
-	"os"
 	"time"
 
 	"github.com/spf13/cobra"
@@ -39,11 +38,11 @@ Examples:
 
 		token := "Bearer " + viper.GetString("token")
 
-		if os.Getenv(ProjectId) == "" {
+		if viper.Get(loggedIn) == "" {
 			pId := viper.GetString(ProjectId)
 			url = "https://api-dev.stackit.cloud/argus-service/v1/projects/" + pId + "/instances"
 		} else {
-			url = "https://api-dev.stackit.cloud/argus-service/v1/projects/" + os.Getenv(ProjectId) + "/instances"
+			url = "https://api-dev.stackit.cloud/argus-service/v1/projects/" + viper.GetString(loggedIn) + "/instances"
 		}
 
 		if listFlag == false {

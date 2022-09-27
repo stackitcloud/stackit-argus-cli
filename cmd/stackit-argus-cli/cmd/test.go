@@ -5,10 +5,9 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"os"
-
-	"github.com/spf13/cobra"
 )
 
 var key string
@@ -31,8 +30,8 @@ to quickly create a Cobra application.`,
 		} else {
 			fmt.Println("File: " + viper.ConfigFileUsed() + " read successfully")
 		}
-		viper.AutomaticEnv()
-		fmt.Println(os.Getenv(ProjectId))
+		fmt.Println("Environment Variables:")
+		fmt.Println(os.Environ())
 	},
 }
 
