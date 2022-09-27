@@ -6,6 +6,7 @@ package cmd
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/davecgh/go-spew/spew"
 	"github.com/spf13/viper"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/models"
 	"net/http"
@@ -15,6 +16,7 @@ import (
 )
 
 var listFlag bool
+var rawFlag bool
 
 // getCmd represents the get command
 var getCmd = &cobra.Command{
@@ -64,15 +66,15 @@ Examples:
 			if err != nil {
 				panic(fmt.Errorf("fatal error get request: %w", err))
 			}
-			fmt.Printf("%+v\n", instanceList)
+			spew.Dump(instanceList)
 		} else {
 			err = getJsonWithToken(url, token, projectInstance)
 			if err != nil {
 				panic(fmt.Errorf("fatal error get request: %w", err))
 			}
-			fmt.Printf("%+v\n", projectInstance)
+			spew.Dump(projectInstance)
 		}
-		//fmt.Println("Command GET finished running")
+
 	},
 }
 
@@ -104,4 +106,5 @@ func init() {
 	// is called directly, e.g.:
 	// getCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	getCmd.Flags().BoolVarP(&listFlag, "list", "l", false, "set to retrieve list of instances")
+	getCmd.Flags().BoolVarP(&rawFlag, "raw", "r", false, "set to get all fields in output")
 }
