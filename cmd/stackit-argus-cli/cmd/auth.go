@@ -4,39 +4,27 @@ Copyright © 2022 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"fmt"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/rest"
+	logging "github.com/stackitcloud/stackit-argus-cli/internal/log"
 )
 
 var token string
 
 // authCmd represents the auth command
 var authCmd = &cobra.Command{
-	Use:   "auth",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	Args: cobra.MinimumNArgs(1),
+	Use:     "auth",
+	Short:   "Authorize to the project",
+	Long:    "Authorize to the project and shows credentials.",
+	Example: "  stackit-argus-cli auth <projectId>",
+	Args:    cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		//viper.SetConfigName(".stackit-argus-cli")
-		//viper.SetConfigType("yaml")
-		//viper.AddConfigPath(".")
-		err := viper.ReadInConfig()
-		if err != nil {
-			panic(fmt.Errorf("fatal error config file: %w", err))
-		}
 		token = rest.Authorize(args[0])
 		if token != "" {
 			viper.Set("token", token)
-			err = viper.WriteConfigAs(viper.ConfigFileUsed())
-			if err != nil {
-				panic(fmt.Errorf("fatal saving token: %w", err))
+			if err := viper.WriteConfigAs(viper.ConfigFileUsed()); err != nil {
+				logger.Fatal("fatal saving token", logging.String("err", err.Error()))
 			}
 		}
 	},

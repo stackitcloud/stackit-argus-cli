@@ -4,9 +4,9 @@ Copyright © 2022 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"fmt"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	logging "github.com/stackitcloud/stackit-argus-cli/internal/log"
 )
 
 var list = false
@@ -17,45 +17,44 @@ const loggedIn = "LOGGED_IN"
 // loginCmd represents the login command
 var loginCmd = &cobra.Command{
 	// Args:  cobra.MinimumNArgs(1),
-	Use:   "login",
-	Short: "Log in to your project",
-	Long: `Log in to your project by providing the name of the project as saved in the config file:
-
-stackit-argus-cli login <project-name>`,
+	Use:     "login",
+	Short:   "Log in to your project",
+	Long:    "Log in to your project by providing the name of the project as saved in the config file",
+	Example: "stackit-argus-cli login <project-name>",
 	Run: func(cmd *cobra.Command, args []string) {
-		//viper.SetConfigName(".stackit-argus-cli")
-		//viper.SetConfigType("yaml")
-		//viper.AddConfigPath(".")
-		err := viper.ReadInConfig()
-		if err != nil {
-			panic(fmt.Errorf("fatal error config file: %w", err))
-		}
 		if viper.IsSet("projects") == true {
 			projects = viper.Sub("projects")
 		} else {
-			fmt.Println("projects configuration not found")
+			logger.Info("projects configuration not found")
+
 			if viper.IsSet(ProjectId) == true {
-				fmt.Println("Falling back to default Project: \"PROJECT_ID\"")
+				logger.Info("falling back to default project",
+					logging.String("projectId", viper.GetString(ProjectId)))
+
 				viper.Set(loggedIn, viper.GetString(ProjectId))
-				err = viper.WriteConfigAs(viper.ConfigFileUsed())
-				if err != nil {
-					panic(fmt.Errorf("fatal saving project: %w", err))
+
+				if err := viper.WriteConfigAs(viper.ConfigFileUsed()); err != nil {
+					logger.Fatal("fatal saving project", logging.String("err", err.Error()))
 				}
+
 				return
 			} else {
-				fmt.Println("Please either set a default project with the key \"PROJECT_ID\".\nOr register a project using the register command.")
+				logger.Info("Please either set a default project with the key \"PROJECT_ID\".\nOr register a project using the register command.")
+
 				return
 			}
 		}
+
 		if list == true {
-			fmt.Println(projects.AllKeys())
+			logger.Info("Projects list.", logging.Any("projects", projects.AllKeys()))
 		} else {
 			if len(args) == 0 {
 				if viper.IsSet(loggedIn) == false {
-					fmt.Println("You are currently not logged into any project")
-					fmt.Println("Please specify a project name to log in to")
+					logger.Info("You are currently not logged into any project." +
+						"Please specify a project name to log in")
 				} else {
-					fmt.Println("You are logged into project: " + viper.GetString(loggedIn))
+					logger.Info("You have been successfully logged into the project.",
+						logging.String("project", viper.GetString(loggedIn)))
 				}
 			} else {
 				login(args[0], projects)
@@ -65,16 +64,16 @@ stackit-argus-cli login <project-name>`,
 }
 
 func login(projectName string, projects *viper.Viper) {
-
 	if projects.IsSet(projectName) == false {
-		fmt.Println("the project with the name: \"" + projectName + "\" doesn't exist")
+		logger.Info("the project with the name: \"" + projectName + "\" doesn't exist")
 	} else {
 		viper.Set(loggedIn, projects.GetString(projectName))
-		err := viper.WriteConfigAs(viper.ConfigFileUsed())
-		if err != nil {
-			panic(fmt.Errorf("fatal saving project: %w", err))
+
+		if err := viper.WriteConfigAs(viper.ConfigFileUsed()); err != nil {
+			logger.Fatal("fatal saving project", logging.String("err", err.Error()))
 		}
-		fmt.Println("Logged in to " + projectName + ": (ProjectId: " + projects.GetString(projectName))
+
+		logger.Info("Logged in to "+projectName, logging.String("projectId", projects.GetString(projectName)))
 	}
 }
 

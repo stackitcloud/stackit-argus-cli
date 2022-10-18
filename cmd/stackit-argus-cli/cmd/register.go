@@ -4,9 +4,9 @@ Copyright © 2022 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"fmt"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	logging "github.com/stackitcloud/stackit-argus-cli/internal/log"
 )
 
 var projectName string
@@ -14,34 +14,25 @@ var projectId string
 
 // registerCmd represents the register command
 var registerCmd = &cobra.Command{
-	Use:   "register",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Use:     "register",
+	Short:   "A brief description of your command",
+	Long:    "",
+	Example: "",
 	Run: func(cmd *cobra.Command, args []string) {
 		if projectName == "" || projectId == "" {
-			fmt.Println("Please set both the name and id flag")
+			logger.Info("Please set both the name and id flag")
+
 			return
 		} else {
-			//viper.SetConfigName(".stackit-argus-cli")
-			//viper.SetConfigType("yaml")
-			//viper.AddConfigPath(".")
-			err := viper.ReadInConfig()
-			if err != nil {
-				panic(fmt.Errorf("fatal error config file: %w", err))
-			}
 			projects := viper.Sub("projects")
 			if projects == nil {
-				panic("projects configuration not found")
+				logger.Error("projects configuration is not found")
+
+				return
 			}
 			viper.Set("projects."+projectName, projectId)
-			err = viper.WriteConfigAs(viper.ConfigFileUsed())
-			if err != nil {
-				panic(fmt.Errorf("fatal saving project: %w", err))
+			if err := viper.WriteConfigAs(viper.ConfigFileUsed()); err != nil {
+				logger.Fatal("fatal saving project", logging.String("err", err.Error()))
 			}
 		}
 	},

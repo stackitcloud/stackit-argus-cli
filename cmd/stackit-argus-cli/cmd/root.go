@@ -4,7 +4,7 @@ Copyright © 2022 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"fmt"
+	logging "github.com/stackitcloud/stackit-argus-cli/internal/log"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -14,6 +14,8 @@ import (
 const ProjectId = "PROJECT_ID"
 
 var cfgFile string
+
+var logger = logging.New()
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{ //nolint:gochecknoglobals // CLI command
@@ -28,11 +30,15 @@ var rootCmd = &cobra.Command{ //nolint:gochecknoglobals // CLI command
 
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
-func Execute() {
+func Execute() error {
 	err := rootCmd.Execute()
 	if err != nil {
-		os.Exit(1)
+		logger.Error("an error occurred", logging.String("err", err.Error()))
+
+		return err
 	}
+
+	return nil
 }
 
 func init() { //nolint:gochecknoinits // cobra CLI
@@ -71,6 +77,19 @@ func initConfig() {
 
 	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err == nil {
-		fmt.Fprintln(os.Stderr, "Using config file:", viper.ConfigFileUsed())
+		logger.Info("Configuration file is found", logging.String("Using config file", viper.ConfigFileUsed()))
 	}
+}
+
+func getBaseUrl() string {
+	var url string
+
+	if viper.Get(loggedIn) == "" {
+		pId := viper.GetString(ProjectId)
+		url = "https://api-dev.stackit.cloud/argus-service/v1/projects/" + pId + "/instances"
+	} else {
+		url = "https://api-dev.stackit.cloud/argus-service/v1/projects/" + viper.GetString(loggedIn) + "/instances"
+	}
+
+	return url
 }
