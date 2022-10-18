@@ -4,9 +4,8 @@ Copyright © 2022 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"fmt"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
+	logging "github.com/stackitcloud/stackit-argus-cli/internal/log"
 	"os"
 )
 
@@ -14,24 +13,12 @@ var key string
 
 // testCmd represents the test command
 var testCmd = &cobra.Command{
-	Use:   "test",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Use:     "test",
+	Short:   "A brief description of your command",
+	Long:    "",
+	Example: "",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("test called")
-		err := viper.ReadInConfig()
-		if err != nil {
-			panic(fmt.Errorf("fatal error config file: %w", err))
-		} else {
-			fmt.Println("File: " + viper.ConfigFileUsed() + " read successfully")
-		}
-		fmt.Println("Environment Variables:")
-		fmt.Println(os.Environ())
+		logger.Info("test command was called", logging.Any("Environment Variables", os.Environ()))
 	},
 }
 
