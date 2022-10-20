@@ -13,7 +13,10 @@ import (
 
 const ProjectId = "PROJECT_ID"
 
-var cfgFile string
+var confFile string
+var instanceId string
+var projectId string
+var debugMode bool
 
 var logger = logging.New()
 
@@ -44,23 +47,22 @@ func Execute() error {
 func init() { //nolint:gochecknoinits // cobra CLI
 	cobra.OnInitialize(initConfig)
 
-	// Here you will define your flags and configuration settings.
-	// Cobra supports persistent flags, which, if defined here,
-	// will be global for your application.
+	rootCmd.AddCommand(getCmd)
+	rootCmd.AddCommand(createCmd)
+	rootCmd.AddCommand(updateCmd)
+	rootCmd.AddCommand(deleteCmd)
 
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.stackit-argus-cli.yaml)")
-
-	// Cobra also supports local flags, which will only run
-	// when this action is called directly.
-
-	// rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	rootCmd.PersistentFlags().StringVarP(&confFile, "config", "c", "./.stackit-argus-cli.yaml", "provide config file (default is ./.stackit-argus-cli.yaml)")
+	rootCmd.PersistentFlags().StringVarP(&instanceId, "instanceId", "i", "", "provide instance id that should be used")
+	rootCmd.PersistentFlags().StringVarP(&projectId, "projectId", "p", "", "provide project id that should be used")
+	rootCmd.PersistentFlags().BoolVarP(&debugMode, "debug", "d", false, "turn on debug mode to see more information about the command")
 }
 
 // initConfig reads in config file and ENV variables if set.
 func initConfig() {
-	if cfgFile != "" {
+	if confFile != "" {
 		// Use config file from the flag.
-		viper.SetConfigFile(cfgFile)
+		viper.SetConfigFile(confFile)
 	} else {
 		// Find home directory.
 		home, err := os.UserHomeDir()
@@ -79,17 +81,4 @@ func initConfig() {
 	if err := viper.ReadInConfig(); err == nil {
 		logger.Info("Configuration file is found", logging.String("Using config file", viper.ConfigFileUsed()))
 	}
-}
-
-func getBaseUrl() string {
-	var url string
-
-	if viper.Get(loggedIn) == "" {
-		pId := viper.GetString(ProjectId)
-		url = "https://api-dev.stackit.cloud/argus-service/v1/projects/" + pId + "/instances"
-	} else {
-		url = "https://api-dev.stackit.cloud/argus-service/v1/projects/" + viper.GetString(loggedIn) + "/instances"
-	}
-
-	return url
 }

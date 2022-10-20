@@ -5,6 +5,7 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/delete"
 )
 
 // deleteCmd represents the delete command
@@ -19,8 +20,16 @@ var deleteCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(deleteCmd)
-
+	deleteCmd.AddCommand(delete.InstanceCmd)
+	deleteCmd.AddCommand(delete.CredentialsCmd)
+	deleteCmd.AddCommand(delete.ReceiversCmd)
+	deleteCmd.AddCommand(delete.RoutesCmd)
+	deleteCmd.AddCommand(delete.AlertGroupsCmd)
+	deleteCmd.AddCommand(delete.AlertRulesCmd)
+	deleteCmd.AddCommand(delete.AlertRecordsCmd)
+	deleteCmd.AddCommand(delete.LogsAlertGroupsCmd)
+	deleteCmd.AddCommand(delete.ScrapeConfigsCmd)
+	deleteCmd.AddCommand(delete.SystemCredentialsCmd)
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command
