@@ -5,33 +5,23 @@ package delete
 
 import (
 	"fmt"
-
 	"github.com/spf13/cobra"
 )
 
 // ScrapeConfigsCmd represents the scrapeConfigs command
 var ScrapeConfigsCmd = &cobra.Command{
 	Use:   "scrapeConfigs",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Delete scrape configs.",
+	Long:  "Delete scrape configs if job name was not specified, otherwise delete scrape config.",
+	Args:  cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("delete scrapeConfigs called")
+		if len(args) == 0 {
+			fmt.Println("delete scrape configs")
+		} else if len(args) == 1 {
+			fmt.Println("delete scrape config")
+		}
 	},
 }
 
 func init() {
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// scrapeConfigsCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// scrapeConfigsCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

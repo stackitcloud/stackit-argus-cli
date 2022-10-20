@@ -5,33 +5,23 @@ package delete
 
 import (
 	"fmt"
-
 	"github.com/spf13/cobra"
 )
 
 // AlertGroupsCmd represents the alertGroups command
 var AlertGroupsCmd = &cobra.Command{
-	Use:   "alertGroups",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Use:   "alertGroups <groupName>",
+	Short: "Delete alert groups.",
+	Long:  "Delete alert groups if group name was not specified, otherwise delete alert group config.",
+	Args:  cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("delete alertGroups called")
+		if len(args) == 0 {
+			fmt.Println("delete alert groups")
+		} else if len(args) == 1 {
+			fmt.Println("delete alert group config")
+		}
 	},
 }
 
 func init() {
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// alertGroupsCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// alertGroupsCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
