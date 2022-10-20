@@ -30,4 +30,7 @@ func init() {
 	createCmd.AddCommand(create.ScrapeConfigsCmd)
 
 	createCmd.PersistentFlags().StringP("file", "f", "", "provide file with request body")
+	if err := createCmd.MarkPersistentFlagRequired("file"); err != nil {
+		return
+	}
 }

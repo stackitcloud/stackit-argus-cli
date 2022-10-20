@@ -33,4 +33,7 @@ func init() {
 	updateCmd.AddCommand(update.AclCmd)
 
 	updateCmd.PersistentFlags().StringP("file", "f", "", "provide file with request body")
+	if err := updateCmd.MarkPersistentFlagRequired("file"); err != nil {
+		return
+	}
 }
