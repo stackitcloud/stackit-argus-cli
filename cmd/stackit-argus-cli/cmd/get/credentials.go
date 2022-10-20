@@ -9,18 +9,26 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var remoteWriteLimits bool
+
 // CredentialsCmd represents the credentials command
 var CredentialsCmd = &cobra.Command{
-	Use:   "credentials",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Use:   "credentials <username>",
+	Short: "Get technical user credentials.",
+	Long:  "Get list of all credentials if no username was specified or specific technical credentials.",
+	Args:  cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("get credentials called")
+		if remoteWriteLimits == true {
+			if len(args) == 1 {
+				fmt.Println("get remote write limits credentials called")
+			}
+		} else {
+			if len(args) == 1 {
+				fmt.Println("get credential called")
+			} else if len(args) == 0 {
+				fmt.Println("get list of credentials called")
+			}
+		}
 	},
 }
 
@@ -34,4 +42,5 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// credentialsCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	CredentialsCmd.Flags().BoolVarP(&remoteWriteLimits, "remote-write-limits", "r", false, "get remote write limits credentials")
 }

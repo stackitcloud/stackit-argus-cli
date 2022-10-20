@@ -11,18 +11,15 @@ import (
 
 // AlertRulesCmd represents the alertRules command
 var AlertRulesCmd = &cobra.Command{
-	Use:     "alertRules",
-	Short:   "A brief description of your command",
-	Long:    "",
-	Example: "  get alertRules <groupName> - to list alert rules\n  get alertRules <groupName> <alertName> - to get alert rule",
+	Use:   "alertRules <groupName> <alertName>",
+	Short: "Get alert rules.",
+	Long:  "Get list of alert rules if alert name was not specified or specific alert rule.",
+	Args:  cobra.RangeArgs(1, 2),
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("get alertRules called")
 		if len(args) == 2 {
 			fmt.Println("get alert rule")
 		} else if len(args) == 1 {
 			fmt.Println("list alert rules")
-		} else {
-			fmt.Println("wrong number of arguments")
 		}
 	},
 }

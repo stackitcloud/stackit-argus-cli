@@ -10,13 +10,10 @@ import (
 
 // deleteCmd represents the delete command
 var deleteCmd = &cobra.Command{
-	Use:     "delete",
-	Short:   "A brief description of your command",
-	Long:    "",
-	Example: "",
-	Run: func(cmd *cobra.Command, args []string) {
-		logger.Info("delete command was called")
-	},
+	Use:   "delete",
+	Short: "A brief description of your command",
+	Long:  "",
+	Args:  cobra.NoArgs,
 }
 
 func init() {
@@ -29,7 +26,6 @@ func init() {
 	deleteCmd.AddCommand(delete.AlertRecordsCmd)
 	deleteCmd.AddCommand(delete.LogsAlertGroupsCmd)
 	deleteCmd.AddCommand(delete.ScrapeConfigsCmd)
-	deleteCmd.AddCommand(delete.SystemCredentialsCmd)
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command

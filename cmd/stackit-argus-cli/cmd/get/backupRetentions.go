@@ -11,15 +11,11 @@ import (
 
 // BackupRetentionsCmd represents the backupRetentions command
 var BackupRetentionsCmd = &cobra.Command{
-	Use:     "backupRetentions",
-	Short:   "A brief description of your command",
-	Long:    "",
-	Example: "  get backupRetentions - to list backup retentions",
+	Use:   "backupRetentions",
+	Short: "Get backup retentions.",
+	Args:  cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("get backupRetentions called")
-		if len(args) != 0 {
-			fmt.Println("wrong number of arguments")
-		}
+		fmt.Println("get backup retentions called")
 	},
 }
 

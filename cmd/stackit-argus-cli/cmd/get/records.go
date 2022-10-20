@@ -9,20 +9,17 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// AlertRecordsCmd represents the alertRecords command
-var AlertRecordsCmd = &cobra.Command{
-	Use:     "alertRecords",
-	Short:   "A brief description of your command",
-	Long:    "",
-	Example: "  get alertRecords <groupName> - to list alert records\n  get alertRecords <groupName> <alertRecord> - to get alert record",
+// RecordsCmd represents the alertRecords command
+var RecordsCmd = &cobra.Command{
+	Use:   "records <groupName> <alertRecord>",
+	Short: "Get alert records.",
+	Long:  "Get list of alert records if no alert record was specified or specific alert record.",
+	Args:  cobra.RangeArgs(1, 2),
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("get alertRecords called")
 		if len(args) == 2 {
 			fmt.Println("get alert record")
 		} else if len(args) == 1 {
 			fmt.Println("get alert records")
-		} else {
-			fmt.Println("wrongs number of arguments")
 		}
 	},
 }

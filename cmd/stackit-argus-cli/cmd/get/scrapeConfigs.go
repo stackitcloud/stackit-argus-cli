@@ -1,6 +1,5 @@
 /*
 Copyright © 2022 NAME HERE <EMAIL ADDRESS>
-
 */
 package get
 
@@ -12,16 +11,16 @@ import (
 
 // ScrapeConfigsCmd represents the scrapeConfigs command
 var ScrapeConfigsCmd = &cobra.Command{
-	Use:   "scrapeConfigs",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Use:   "scrapeConfigs <jobName>",
+	Short: "Get scrape configs.",
+	Long:  "Get list of scrape configs if no job name was specified or specific scrape config.",
+	Args:  cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("get scrapeConfigs called")
+		if len(args) == 1 {
+			fmt.Println("get scrape config")
+		} else if len(args) == 0 {
+			fmt.Println("get scrape configs")
+		}
 	},
 }
 

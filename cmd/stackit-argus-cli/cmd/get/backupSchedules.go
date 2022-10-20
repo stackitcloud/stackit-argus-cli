@@ -11,15 +11,11 @@ import (
 
 // BackupSchedulesCmd represents the backupSchedules command
 var BackupSchedulesCmd = &cobra.Command{
-	Use:     "backupSchedules",
-	Short:   "A brief description of your command",
-	Long:    "",
-	Example: "  get backupSchedules - to list backup schedules",
+	Use:   "backupSchedules",
+	Short: "Get backup schedules.",
+	Args:  cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("get backupSchedules called")
-		if len(args) != 0 {
-			fmt.Println("wrong number of arguments")
-		}
+		fmt.Println("get backup schedules called")
 	},
 }
 

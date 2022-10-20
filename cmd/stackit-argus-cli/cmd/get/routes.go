@@ -1,6 +1,5 @@
 /*
 Copyright © 2022 NAME HERE <EMAIL ADDRESS>
-
 */
 package get
 
@@ -12,16 +11,16 @@ import (
 
 // RoutesCmd represents the routes command
 var RoutesCmd = &cobra.Command{
-	Use:   "routes",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Use:   "routes <receiver>",
+	Short: "Get alert config routes.",
+	Long:  "Get list of alert config route if no receiver was specified or specific alert receiver for route.",
+	Args:  cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("get routes called")
+		if len(args) == 0 {
+			fmt.Println("get alert config route")
+		} else if len(args) == 1 {
+			fmt.Println("get alert receiver for route")
+		}
 	},
 }
 

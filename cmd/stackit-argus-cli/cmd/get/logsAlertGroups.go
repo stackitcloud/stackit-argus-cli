@@ -1,6 +1,5 @@
 /*
 Copyright © 2022 NAME HERE <EMAIL ADDRESS>
-
 */
 package get
 
@@ -12,16 +11,16 @@ import (
 
 // LogsAlertGroupsCmd represents the logsAlertGroups command
 var LogsAlertGroupsCmd = &cobra.Command{
-	Use:   "logsAlertGroups",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Use:   "logsAlertGroups <groupName>",
+	Short: "Get logs alert groups config.",
+	Long:  "Get list of logs alert groups config if no group name was specified or specific logs alert group config.",
+	Args:  cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("get logsAlertGroups called")
+		if len(args) == 0 {
+			fmt.Println("get logs alert groups config")
+		} else if len(args) == 1 {
+			fmt.Println("get logs alert group config")
+		}
 	},
 }
 

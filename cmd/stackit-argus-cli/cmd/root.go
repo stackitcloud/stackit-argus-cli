@@ -11,8 +11,6 @@ import (
 	"github.com/spf13/viper"
 )
 
-const ProjectId = "PROJECT_ID"
-
 var confFile string
 var instanceId string
 var projectId string
@@ -26,9 +24,6 @@ var rootCmd = &cobra.Command{ //nolint:gochecknoglobals // CLI command
 	Short:   "Manage ARGUS resources",
 	Long:    `Manage ARGUS resources, like instances with CRUD operations`,
 	Version: "1.0.0",
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
-	// Run: func(cmd *cobra.Command, args []string) { },
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -78,7 +73,8 @@ func initConfig() {
 	viper.AutomaticEnv() // read in environment variables that match
 
 	// If a config file is found, read it in.
-	if err := viper.ReadInConfig(); err == nil {
-		logger.Info("Configuration file is found", logging.String("Using config file", viper.ConfigFileUsed()))
+	if err := viper.ReadInConfig(); err != nil {
+		logger.Error("cannot read config file", logging.String("err", err.Error()))
+		//logger.Info("Configuration file is found", logging.String("Using config file", viper.ConfigFileUsed()))
 	}
 }
