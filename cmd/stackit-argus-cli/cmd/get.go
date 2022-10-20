@@ -39,7 +39,7 @@ func (o *outputType) Type() string {
 // getCmd represents the get command
 var getCmd = &cobra.Command{
 	Use:   "get",
-	Short: "Retrieve information about an ARGUS resource",
+	Short: "Retrieve information about an ARGUS resource.",
 	Args:  cobra.NoArgs,
 }
 

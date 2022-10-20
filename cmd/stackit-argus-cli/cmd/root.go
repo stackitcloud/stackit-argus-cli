@@ -19,7 +19,7 @@ var debugMode bool
 var logger = logging.New()
 
 // rootCmd represents the base command when called without any subcommands
-var rootCmd = &cobra.Command{ //nolint:gochecknoglobals // CLI command
+var rootCmd = &cobra.Command{
 	Use:     "stackit-argus-cli",
 	Short:   "Manage ARGUS resources",
 	Long:    `Manage ARGUS resources, like instances with CRUD operations`,
@@ -39,7 +39,7 @@ func Execute() error {
 	return nil
 }
 
-func init() { //nolint:gochecknoinits // cobra CLI
+func init() {
 	cobra.OnInitialize(initConfig)
 
 	rootCmd.AddCommand(getCmd)
@@ -75,6 +75,5 @@ func initConfig() {
 	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err != nil {
 		logger.Error("cannot read config file", logging.String("err", err.Error()))
-		//logger.Info("Configuration file is found", logging.String("Using config file", viper.ConfigFileUsed()))
 	}
 }

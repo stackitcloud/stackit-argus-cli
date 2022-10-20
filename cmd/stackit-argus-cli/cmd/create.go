@@ -11,8 +11,7 @@ import (
 // createCmd represents the create command
 var createCmd = &cobra.Command{
 	Use:   "create",
-	Short: "A brief description of your command",
-	Long:  "",
+	Short: "Create a new ARGUS resource.",
 	Args:  cobra.NoArgs,
 }
 
@@ -29,15 +28,6 @@ func init() {
 	createCmd.AddCommand(create.BackupSchedulesCmd)
 	createCmd.AddCommand(create.LogsAlertGroupsCmd)
 	createCmd.AddCommand(create.ScrapeConfigsCmd)
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// createCmd.PersistentFlags().String("foo", "", "A help for foo")
 
 	createCmd.PersistentFlags().StringP("file", "f", "", "provide file with request body")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// createCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
