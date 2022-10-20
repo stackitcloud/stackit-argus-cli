@@ -33,18 +33,14 @@ func (o *outputType) Set(s string) error {
 }
 
 func (o *outputType) Type() string {
-	return "output type"
+	return "string"
 }
 
 // getCmd represents the get command
 var getCmd = &cobra.Command{
-	Use:     "get",
-	Short:   "Retrieve information about an ARGUS resource",
-	Long:    "Retrieve information about an ARGUS resource. Requires subcommand",
-	Example: "  stackit-argus-cli get <subcommand>",
-	Run: func(cmd *cobra.Command, args []string) {
-		println("get called")
-	},
+	Use:   "get",
+	Short: "Retrieve information about an ARGUS resource",
+	Args:  cobra.NoArgs,
 }
 
 func init() {
@@ -56,7 +52,7 @@ func init() {
 	getCmd.AddCommand(get.RoutesCmd)
 	getCmd.AddCommand(get.AlertGroupsCmd)
 	getCmd.AddCommand(get.AlertRulesCmd)
-	getCmd.AddCommand(get.AlertRecordsCmd)
+	getCmd.AddCommand(get.RecordsCmd)
 	getCmd.AddCommand(get.BackupCmd)
 	getCmd.AddCommand(get.BackupRetentionsCmd)
 	getCmd.AddCommand(get.BackupSchedulesCmd)
@@ -68,8 +64,7 @@ func init() {
 	getCmd.AddCommand(get.TracesConfigsCmd)
 	getCmd.AddCommand(get.AclCmd)
 	getCmd.AddCommand(get.PlansCmd)
-	getCmd.AddCommand(get.PlansOfferingsCmd)
-	getCmd.AddCommand(get.SystemCredentialsCmd)
+	getCmd.AddCommand(get.OfferingsCmd)
 
 	// define flags
 	var flagOutputType = outputJson

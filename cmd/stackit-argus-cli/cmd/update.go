@@ -10,13 +10,10 @@ import (
 
 // updateCmd represents the update command
 var updateCmd = &cobra.Command{
-	Use:     "update",
-	Short:   "A brief description of your command",
-	Long:    "",
-	Example: "",
-	Run: func(cmd *cobra.Command, args []string) {
-		logger.Info("update command was called")
-	},
+	Use:   "update",
+	Short: "A brief description of your command",
+	Long:  "",
+	Args:  cobra.NoArgs,
 }
 
 func init() {

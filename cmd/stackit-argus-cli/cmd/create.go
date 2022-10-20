@@ -10,13 +10,10 @@ import (
 
 // createCmd represents the create command
 var createCmd = &cobra.Command{
-	Use:     "create",
-	Short:   "A brief description of your command",
-	Long:    "",
-	Example: "",
-	Run: func(cmd *cobra.Command, args []string) {
-		logger.Info("create command was called")
-	},
+	Use:   "create",
+	Short: "A brief description of your command",
+	Long:  "",
+	Args:  cobra.NoArgs,
 }
 
 func init() {
@@ -32,7 +29,6 @@ func init() {
 	createCmd.AddCommand(create.BackupSchedulesCmd)
 	createCmd.AddCommand(create.LogsAlertGroupsCmd)
 	createCmd.AddCommand(create.ScrapeConfigsCmd)
-	createCmd.AddCommand(create.SystemCredentialsCmd)
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command

@@ -11,18 +11,15 @@ import (
 
 // AlertGroupsCmd represents the alertGroups command
 var AlertGroupsCmd = &cobra.Command{
-	Use:     "alertGroups",
-	Short:   "A brief description of your command",
-	Long:    "",
-	Example: "  get alertGroups - to list alert groups\n  get alertGroups <groupName> - to get an alert group",
+	Use:   "alertGroups <groupName>",
+	Short: "Get list of alert groups.",
+	Long:  "Get list of alert groups if group name is not specified or specific alert group.",
+	Args:  cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("get alertGroups called")
 		if len(args) == 1 {
 			fmt.Println("get alert group")
 		} else if len(args) == 0 {
 			fmt.Println("list alert groups")
-		} else {
-			fmt.Println("wrong number of arguments")
 		}
 	},
 }

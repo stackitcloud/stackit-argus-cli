@@ -11,15 +11,11 @@ import (
 
 // AlertConfigsCmd represents the alertConfigs command
 var AlertConfigsCmd = &cobra.Command{
-	Use:     "alertConfigs",
-	Short:   "A brief description of your command",
-	Long:    "",
-	Example: "  get alertConfigs - to list alert configs",
+	Use:   "alertConfigs",
+	Short: "Get alert configs.",
+	Args:  cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("get alertConfigs called")
-		if len(args) != 0 {
-			fmt.Println("get alertConfigs shouldn't have any arguments")
-		}
+		fmt.Println("get alert configs called")
 	},
 }
 
