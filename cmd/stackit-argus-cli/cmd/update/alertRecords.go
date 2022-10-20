@@ -5,33 +5,23 @@ package update
 
 import (
 	"fmt"
-
 	"github.com/spf13/cobra"
 )
 
 // AlertRecordsCmd represents the alertRecords command
 var AlertRecordsCmd = &cobra.Command{
-	Use:   "alertRecords",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Use:   "alertRecords <groupName> <alertRecord>",
+	Short: "Update alert records.",
+	Long:  "Patch alert records if alert record was not specified, otherwise update alert record.",
+	Args:  cobra.RangeArgs(1, 2),
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("update alertRecords called")
+		if len(args) == 1 {
+			fmt.Println("patch alert records")
+		} else if len(args) == 2 {
+			fmt.Println("update alert record")
+		}
 	},
 }
 
 func init() {
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// alertRecordsCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// alertRecordsCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
