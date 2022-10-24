@@ -5,7 +5,9 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	logging "github.com/stackitcloud/stackit-argus-cli/internal/log"
+	"net/http"
 	"os"
+	"time"
 )
 
 // variables to save flags' values
@@ -99,6 +101,23 @@ func initConfig() {
 // NewArgusCliCmd returns root cmd
 func NewArgusCliCmd() *cobra.Command {
 	return rootCmd
+}
+
+// GetHttpClient get http client
+func GetHttpClient() *http.Client {
+	return &http.Client{
+		Timeout: time.Second * 10,
+	}
+}
+
+// GetBaseUrl get basic url for mostly all api calls
+func GetBaseUrl() string {
+	return fmt.Sprintf("https://api-dev.stackit.cloud/argus-service/v1/projects/%s/instances/%s", projectId, instanceId)
+}
+
+// GetAuthHeader returns auth header to make api calls
+func GetAuthHeader() string {
+	return fmt.Sprintf("Bearer %s", token)
 }
 
 // GetInstanceId gets instance id from flag if set, otherwise gets instance id from the config file
