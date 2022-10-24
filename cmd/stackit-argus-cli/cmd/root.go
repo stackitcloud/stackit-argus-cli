@@ -13,6 +13,7 @@ var (
 	confFile   string
 	instanceId string
 	projectId  string
+	token      string
 	debugMode  bool
 )
 
@@ -68,7 +69,7 @@ func initConfig() {
 		instanceId = viper.GetString("current_instance")
 		if instanceId == "" {
 			fmt.Println("Please, set a current instance id in a config file. Default config file path is" +
-				"./.stackit-argus-cli.yaml. Current instance id key is current_instance.")
+				"'./.stackit-argus-cli.yaml'. Current instance id key is 'current_instance'.")
 
 			os.Exit(1)
 		}
@@ -79,10 +80,19 @@ func initConfig() {
 		projectId = viper.GetString("current_project")
 		if projectId == "" {
 			fmt.Println("Please, set a current project id in a config file. Default config file path is" +
-				"./.stackit-argus-cli.yaml. Current project id key is current_project.")
+				"'./.stackit-argus-cli.yaml'. Current project id key is 'current_project'.")
 
 			os.Exit(1)
 		}
+	}
+
+	// get auth token from config file
+	token = viper.GetString("token")
+	if token == "" {
+		fmt.Println("Please, set an auth token in a config file. Default config file path is" +
+			"'./.stackit-argus-cli.yaml'. Token id key is 'token'.")
+
+		os.Exit(1)
 	}
 }
 
