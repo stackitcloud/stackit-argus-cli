@@ -39,6 +39,10 @@ func Execute() error {
 	return nil
 }
 
+func NewArgusCliCmd() *cobra.Command {
+	return rootCmd
+}
+
 func init() {
 	cobra.OnInitialize(initConfig)
 
