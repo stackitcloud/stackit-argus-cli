@@ -1,10 +1,13 @@
-/*
-Copyright © 2022 NAME HERE <EMAIL ADDRESS>
-*/
 package get
+
+/*
+ * Get traces configs.
+ */
 
 import (
 	"fmt"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
 
 	"github.com/spf13/cobra"
 )
@@ -15,9 +18,24 @@ var TracesConfigsCmd = &cobra.Command{
 	Short: "Get traces config.",
 	Args:  cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("get traces config called")
-	},
-}
+		// generate an url
+		url := config.GetBaseUrl() + "traces-configs"
 
-func init() {
+		// print debug messages if debug mode is turned on
+		if config.IsDebugMode() {
+			fmt.Println("list traces configs command called")
+			fmt.Printf("url to call - %s\n", url)
+		}
+
+		// get traces configs
+		status, body := getRequest(url)
+
+		// print response status
+		utils.ResponseMessage(status, "traces configs", "get")
+
+		// print response body
+		if status == 200 {
+			fmt.Print(body)
+		}
+	},
 }

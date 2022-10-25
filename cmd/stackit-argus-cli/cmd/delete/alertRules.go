@@ -20,7 +20,7 @@ var AlertRulesCmd = &cobra.Command{
 		// generate an url
 		url := config.GetBaseUrl() + fmt.Sprintf("alertgroups/%s/alertrules/%s", args[0], args[1])
 
-		// print url if debug mode is turned on
+		// print debug messages if debug mode is turned on
 		if config.IsDebugMode() {
 			fmt.Println("delete alert rule command called")
 			fmt.Printf("url to call - %s\n", url)

@@ -3,8 +3,14 @@ Copyright © 2022 NAME HERE <EMAIL ADDRESS>
 */
 package get
 
+/*
+ * Get scrape configs.
+ */
+
 import (
 	"fmt"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
 
 	"github.com/spf13/cobra"
 )
@@ -16,13 +22,34 @@ var ScrapeConfigsCmd = &cobra.Command{
 	Long:  "Get list of scrape config if job name was not specified, otherwise get scrape config.",
 	Args:  cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
+		var debugMsg string
+
+		// generate an url
+		url := config.GetBaseUrl() + "scrapeconfigs"
+
+		// modify url and debug msg if group name has been given
 		if len(args) == 1 {
-			fmt.Println("get scrape config")
+			debugMsg = "get scrape config command called"
+			url += fmt.Sprintf("/%s", args[0])
 		} else if len(args) == 0 {
-			fmt.Println("get scrape config")
+			debugMsg = "list scrape configs command called"
+		}
+
+		// print debug messages if debug mode is turned on
+		if config.IsDebugMode() {
+			fmt.Println(debugMsg)
+			fmt.Printf("url to call - %s\n", url)
+		}
+
+		// get scrape configs
+		status, body := getRequest(url)
+
+		// print response status
+		utils.ResponseMessage(status, "scrape configs", "get")
+
+		// print response body
+		if status == 200 {
+			fmt.Println(body)
 		}
 	},
-}
-
-func init() {
 }

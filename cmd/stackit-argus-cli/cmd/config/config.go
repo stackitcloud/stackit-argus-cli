@@ -96,6 +96,11 @@ func GetInstancesUrl() string {
 	return fmt.Sprintf("%s/%s/instances/", baseUrl, projectId)
 }
 
+// GetProjectUrl gets project url
+func GetProjectUrl() string {
+	return fmt.Sprintf("%s/%s", baseUrl, projectId)
+}
+
 // GetAuthHeader returns auth header to make api calls
 func GetAuthHeader() string {
 	return fmt.Sprintf("Bearer %s", token)

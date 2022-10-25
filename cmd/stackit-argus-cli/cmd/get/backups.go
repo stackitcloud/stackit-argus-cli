@@ -1,7 +1,7 @@
 package get
 
 /*
- * Get offerings.
+ * Get backups.
  */
 
 import (
@@ -12,26 +12,26 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// OfferingsCmd represents the plansOfferings command
-var OfferingsCmd = &cobra.Command{
-	Use:   "offerings",
-	Short: "Get all offerings.",
+// BackupCmd represents the backup command
+var BackupCmd = &cobra.Command{
+	Use:   "backups",
+	Short: "Get backups.",
 	Args:  cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
 		// generate an url
-		url := config.GetProjectUrl() + "offerings"
+		url := config.GetBaseUrl() + "backups"
 
 		// print debug messages if debug mode is turned on
 		if config.IsDebugMode() {
-			fmt.Println("list offerings command called")
+			fmt.Println("get backups command called")
 			fmt.Printf("url to call - %s\n", url)
 		}
 
-		// get offerings
+		// get backups
 		status, body := getRequest(url)
 
 		// print response status
-		utils.ResponseMessage(status, "offerings", "get")
+		utils.ResponseMessage(status, "backups", "get")
 
 		// print response body
 		if status == 200 {

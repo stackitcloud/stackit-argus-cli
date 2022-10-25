@@ -40,15 +40,15 @@ func TestCommandsCalls(t *testing.T) {
 	}{
 		{
 			description:    "test get scrape config list command",
-			arguments:      []string{"get", "scrapeConfigs"},
+			arguments:      []string{"get", "scrapeConfigs", "-d"},
 			err:            false,
-			expectedOutput: "get scrape config\n",
+			expectedOutput: "list scrape configs command called\n",
 		},
 		{
 			description:    "test get scrape config command",
-			arguments:      []string{"get", "scrapeConfigs", "config"},
+			arguments:      []string{"get", "scrapeConfigs", "config", "-d"},
 			err:            false,
-			expectedOutput: "get scrape config\n",
+			expectedOutput: "get scrape config command called\n",
 		},
 		{
 			description:    "test get scrape config command with wrong number of arguments",
@@ -58,9 +58,9 @@ func TestCommandsCalls(t *testing.T) {
 		},
 		{
 			description:    "test get scrape config command with output flag",
-			arguments:      []string{"get", "scrapeConfigs", "config", "-o", "json"},
+			arguments:      []string{"get", "scrapeConfigs", "config", "-o", "json", "-d"},
 			err:            false,
-			expectedOutput: "get scrape config\n",
+			expectedOutput: "get scrape config command called\n",
 		},
 		{
 			description:    "test get scrape config command with wrong output flag",
