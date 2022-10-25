@@ -13,7 +13,7 @@ import (
 var ReceiversCmd = &cobra.Command{
 	Use:   "receivers <receiver>",
 	Short: "Get alert config receivers.",
-	Long:  "Get list of alert config receivers if receiver was not specified, otherwise get alert configs receiver.",
+	Long:  "Get list of alert config receivers if receiver was not specified, otherwise get alert config receiver.",
 	Args:  cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) == 1 {

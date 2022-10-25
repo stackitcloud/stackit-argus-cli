@@ -1,7 +1,12 @@
 package cmd
 
+/*
+ * Create subcommand command implementation (stackit-argus-cli create).
+ */
+
 import (
 	"github.com/spf13/cobra"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/create"
 )
 
@@ -12,7 +17,9 @@ var createCmd = &cobra.Command{
 	Args:  cobra.NoArgs,
 }
 
+// init subcommands and flags
 func init() {
+	// init subcommands
 	createCmd.AddCommand(create.InstanceCmd)
 	createCmd.AddCommand(create.CredentialsCmd)
 	createCmd.AddCommand(create.ReceiversCmd)
@@ -26,8 +33,6 @@ func init() {
 	createCmd.AddCommand(create.LogsAlertGroupsCmd)
 	createCmd.AddCommand(create.ScrapeConfigsCmd)
 
-	createCmd.PersistentFlags().StringP("file", "f", "", "provide file with request body")
-	if err := createCmd.MarkPersistentFlagRequired("file"); err != nil {
-		return
-	}
+	// init file content of which will be used as a body for http request
+	config.InitInputFile(createCmd)
 }

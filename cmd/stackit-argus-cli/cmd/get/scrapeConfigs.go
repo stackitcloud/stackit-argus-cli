@@ -12,14 +12,14 @@ import (
 // ScrapeConfigsCmd represents the scrapeConfigs command
 var ScrapeConfigsCmd = &cobra.Command{
 	Use:   "scrapeConfigs <jobName>",
-	Short: "Get scrape configs.",
-	Long:  "Get list of scrape configs if job name was not specified, otherwise get scrape config.",
+	Short: "Get scrape config.",
+	Long:  "Get list of scrape config if job name was not specified, otherwise get scrape config.",
 	Args:  cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) == 1 {
 			fmt.Println("get scrape config")
 		} else if len(args) == 0 {
-			fmt.Println("get scrape configs")
+			fmt.Println("get scrape config")
 		}
 	},
 }

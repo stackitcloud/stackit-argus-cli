@@ -15,7 +15,7 @@ var GrafanaConfigsCmd = &cobra.Command{
 	Short: "Get grafana config.",
 	Args:  cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("get grafana configs called")
+		fmt.Println("get grafana config called")
 	},
 }
 
