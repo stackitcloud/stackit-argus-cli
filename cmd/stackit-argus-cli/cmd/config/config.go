@@ -8,9 +8,7 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"net/http"
 	"os"
-	"time"
 )
 
 // global variables to save configurations
@@ -21,6 +19,8 @@ var (
 	instanceId string
 	debugMode  bool
 )
+
+const baseUrl = "https://api-dev.stackit.cloud/argus-service/v1/projects"
 
 // initFromConfigFile inits info from configuration file
 func initFromConfigFile() {
@@ -86,16 +86,14 @@ func InitInputFile(cmd *cobra.Command) {
 	}
 }
 
-// GetHttpClient get http client
-func GetHttpClient() *http.Client {
-	return &http.Client{
-		Timeout: time.Second * 10,
-	}
+// GetBaseUrl gets basic url for mostly all api calls
+func GetBaseUrl() string {
+	return fmt.Sprintf("%s/%s/instances/%s/", baseUrl, projectId, instanceId)
 }
 
-// GetBaseUrl get basic url for mostly all api calls
-func GetBaseUrl() string {
-	return fmt.Sprintf("https://api-dev.stackit.cloud/argus-service/v1/projects/%s/instances/%s", projectId, instanceId)
+// GetInstancesUrl gets instances url
+func GetInstancesUrl() string {
+	return fmt.Sprintf("%s/%s/instances/", baseUrl, projectId)
 }
 
 // GetAuthHeader returns auth header to make api calls
