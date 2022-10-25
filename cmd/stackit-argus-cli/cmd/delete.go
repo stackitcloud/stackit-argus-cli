@@ -1,7 +1,8 @@
-/*
-Copyright © 2022 NAME HERE <EMAIL ADDRESS>
-*/
 package cmd
+
+/*
+ * Delete subcommand command implementation (stackit-argus-cli delete).
+ */
 
 import (
 	"github.com/spf13/cobra"
@@ -15,7 +16,9 @@ var deleteCmd = &cobra.Command{
 	Args:  cobra.NoArgs,
 }
 
+// init subcommands and flags
 func init() {
+	// init subcommands
 	deleteCmd.AddCommand(delete.InstanceCmd)
 	deleteCmd.AddCommand(delete.CredentialsCmd)
 	deleteCmd.AddCommand(delete.ReceiversCmd)

@@ -1,10 +1,12 @@
-/*
-Copyright © 2022 NAME HERE <EMAIL ADDRESS>
-*/
 package cmd
+
+/*
+ * Update subcommand command implementation (stackit-argus-cli update).
+ */
 
 import (
 	"github.com/spf13/cobra"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/update"
 )
 
@@ -15,7 +17,9 @@ var updateCmd = &cobra.Command{
 	Args:  cobra.NoArgs,
 }
 
+// init subcommands and flags
 func init() {
+	// init subcommands
 	updateCmd.AddCommand(update.InstanceCmd)
 	updateCmd.AddCommand(update.CredentialsCmd)
 	updateCmd.AddCommand(update.AlertConfigsCmd)
@@ -32,8 +36,6 @@ func init() {
 	updateCmd.AddCommand(update.TracesConfigsCmd)
 	updateCmd.AddCommand(update.AclCmd)
 
-	updateCmd.PersistentFlags().StringP("file", "f", "", "provide file with request body")
-	if err := updateCmd.MarkPersistentFlagRequired("file"); err != nil {
-		return
-	}
+	// init file content of which will be used as a body for http request
+	config.InitInputFile(updateCmd)
 }

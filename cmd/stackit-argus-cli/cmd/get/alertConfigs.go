@@ -12,10 +12,10 @@ import (
 // AlertConfigsCmd represents the alertConfigs command
 var AlertConfigsCmd = &cobra.Command{
 	Use:   "alertConfigs",
-	Short: "Get alert configs.",
+	Short: "Get alert config.",
 	Args:  cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("get alert configs called")
+		fmt.Println("get alert config called")
 	},
 }
 

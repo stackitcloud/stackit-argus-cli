@@ -15,7 +15,7 @@ var TracesConfigsCmd = &cobra.Command{
 	Short: "Get traces config.",
 	Args:  cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("get traces configs called")
+		fmt.Println("get traces config called")
 	},
 }
 

@@ -39,10 +39,10 @@ func TestCommandsCalls(t *testing.T) {
 		expectedOutput string
 	}{
 		{
-			description:    "test get scrape configs list command",
+			description:    "test get scrape config list command",
 			arguments:      []string{"get", "scrapeConfigs"},
 			err:            false,
-			expectedOutput: "get scrape configs\n",
+			expectedOutput: "get scrape config\n",
 		},
 		{
 			description:    "test get scrape config command",
@@ -81,10 +81,10 @@ func TestCommandsCalls(t *testing.T) {
 			expectedOutput: "create scrape config\n",
 		},
 		{
-			description:    "test update scrape configs command",
+			description:    "test update scrape config command",
 			arguments:      []string{"update", "scrapeConfigs", "-f", "file"},
 			err:            false,
-			expectedOutput: "patch scrape configs\n",
+			expectedOutput: "patch scrape config\n",
 		},
 		{
 			description:    "test update scrape config command",
@@ -93,10 +93,10 @@ func TestCommandsCalls(t *testing.T) {
 			expectedOutput: "update scrape config\n",
 		},
 		{
-			description:    "test delete scrape configs command",
+			description:    "test delete scrape config command",
 			arguments:      []string{"delete", "scrapeConfigs"},
 			err:            false,
-			expectedOutput: "delete scrape configs\n",
+			expectedOutput: "delete scrape config\n",
 		},
 		{
 			description:    "test delete scrape config command",

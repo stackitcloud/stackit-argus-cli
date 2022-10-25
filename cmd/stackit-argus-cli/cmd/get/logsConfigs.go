@@ -15,7 +15,7 @@ var LogsConfigsCmd = &cobra.Command{
 	Short: "Get logs configuration.",
 	Args:  cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("get logs configs called")
+		fmt.Println("get logs config called")
 	},
 }
 
