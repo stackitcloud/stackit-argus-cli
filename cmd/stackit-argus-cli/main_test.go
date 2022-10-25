@@ -94,33 +94,21 @@ func TestCommandsCalls(t *testing.T) {
 		},
 		{
 			description:    "test delete scrape config command",
-			arguments:      []string{"delete", "scrapeConfigs"},
+			arguments:      []string{"delete", "scrapeConfig", "config", "-d"},
 			err:            false,
-			expectedOutput: "delete scrape config\n",
+			expectedOutput: "delete scrape config command called\n",
 		},
 		{
-			description:    "test delete scrape config command",
-			arguments:      []string{"delete", "scrapeConfigs", "config"},
+			description:    "test delete scrape config command with custom instance id",
+			arguments:      []string{"delete", "scrapeConfig", "config", "-i", "id", "-d"},
 			err:            false,
-			expectedOutput: "delete scrape config\n",
+			expectedOutput: "delete scrape config command called\n",
 		},
 		{
-			description:    "test delete scrape config command",
-			arguments:      []string{"delete", "scrapeConfigs", "config", "-i", "id"},
+			description:    "test delete scrape config command with custom project id",
+			arguments:      []string{"delete", "scrapeConfig", "config", "-p", "id", "-d"},
 			err:            false,
-			expectedOutput: "delete scrape config\n",
-		},
-		{
-			description:    "test delete scrape config command",
-			arguments:      []string{"delete", "scrapeConfigs", "config", "-p", "id"},
-			err:            false,
-			expectedOutput: "delete scrape config\n",
-		},
-		{
-			description:    "test delete scrape config command",
-			arguments:      []string{"delete", "scrapeConfigs", "config", "-d"},
-			err:            false,
-			expectedOutput: "delete scrape config\n",
+			expectedOutput: "delete scrape config command called\n",
 		},
 	}
 
@@ -151,6 +139,6 @@ func TestCommandsCalls(t *testing.T) {
 			assert.NoError(t, err, test.description)
 		}
 
-		assert.Equal(t, test.expectedOutput, out, test.description)
+		assert.Contains(t, out, test.expectedOutput, test.description)
 	}
 }

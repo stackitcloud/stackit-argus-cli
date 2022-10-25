@@ -1,27 +1,35 @@
-/*
-Copyright © 2022 NAME HERE <EMAIL ADDRESS>
-*/
 package delete
+
+/*
+ * Delete an alert record.
+ */
 
 import (
 	"fmt"
 	"github.com/spf13/cobra"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
 )
 
 // AlertRecordsCmd represents the alertRecords command
 var AlertRecordsCmd = &cobra.Command{
-	Use:   "alertRecords <groupName> <alertRecord>",
+	Use:   "alertRecord <groupName> <alertRecord>",
 	Short: "Delete alert records.",
-	Long:  "Delete alert records if alert record was not specified, otherwise delete an alert record.",
-	Args:  cobra.RangeArgs(1, 2),
+	Args:  cobra.ExactArgs(2),
 	Run: func(cmd *cobra.Command, args []string) {
-		if len(args) == 2 {
-			fmt.Println("delete alert records")
-		} else if len(args) == 1 {
-			fmt.Println("delete an alert record")
-		}
-	},
-}
+		// generate an url
+		url := config.GetBaseUrl() + fmt.Sprintf("alertgroups/%s/records/%s", args[0], args[1])
 
-func init() {
+		// print url if debug mode is turned on
+		if config.IsDebugMode() {
+			fmt.Println("delete alert record command called")
+			fmt.Printf("url to call - %s\n", url)
+		}
+
+		// delete the alert record
+		status := deleteRequest(url)
+
+		// print response status
+		utils.ResponseMessage(status, "alert record", "delete")
+	},
 }
