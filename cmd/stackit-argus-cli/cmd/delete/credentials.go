@@ -32,7 +32,7 @@ var CredentialsCmd = &cobra.Command{
 			debugMsg = "delete technical credentials command called"
 		}
 
-		// print url if debug mode is turned on
+		// print debug messages if debug mode is turned on
 		if config.IsDebugMode() {
 			fmt.Println(debugMsg)
 			fmt.Printf("url to call - %s\n", url)

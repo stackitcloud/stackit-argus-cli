@@ -21,7 +21,7 @@ var ReceiversCmd = &cobra.Command{
 		// generate an url
 		url := config.GetBaseUrl() + fmt.Sprintf("alertconfigs/receivers/%s", args[0])
 
-		// print url if debug mode is turned on
+		// print debug messages if debug mode is turned on
 		if config.IsDebugMode() {
 			fmt.Println("delete alert config receiver command called")
 			fmt.Printf("url to call - %s\n", url)

@@ -25,14 +25,16 @@ func ResponseMessage(status int, resource, action string) {
 	}
 
 	switch status {
-	case 202:
+	case 202, 200:
 		fmt.Printf("%s was %s successfully\n", resource, m[action][0])
 	case 400, 500:
-		fmt.Printf("Something went wrong %s the %s\n", m[action][1], resource)
+		fmt.Printf("something went wrong %s the %s\n", m[action][1], resource)
 	case 403, 401:
 		fmt.Printf("You are not authorized\n")
 	case 404:
 		fmt.Printf("%s not found\n", resource)
+	case 502:
+		fmt.Println("connection to object storage could not be established.")
 	default:
 		fmt.Println("something went wrong. status code -", status)
 	}
