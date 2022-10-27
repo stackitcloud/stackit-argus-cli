@@ -1,10 +1,13 @@
-/*
-Copyright © 2022 NAME HERE <EMAIL ADDRESS>
-*/
 package create
+
+/*
+ * Create an instance.
+ */
 
 import (
 	"fmt"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
 
 	"github.com/spf13/cobra"
 )
@@ -12,12 +15,22 @@ import (
 // InstanceCmd represents the instance command
 var InstanceCmd = &cobra.Command{
 	Use:   "instance",
-	Short: "Create new instance.",
+	Short: "Create a new instance.",
 	Args:  cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("create new instance")
-	},
-}
+		// generate an url
+		url := config.GetInstancesUrl()
 
-func init() {
+		// print debug messages if debug mode is turned on
+		if config.IsDebugMode() {
+			fmt.Println("create instance command called")
+			fmt.Printf("url to call - %s\n", url)
+		}
+
+		// create the instance
+		status := postRequest(url, nil)
+
+		// print response status
+		utils.ResponseMessage(status, "instance", "create")
+	},
 }
