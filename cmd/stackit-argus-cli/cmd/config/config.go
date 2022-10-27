@@ -17,6 +17,7 @@ var (
 	confFile   string
 	projectId  string
 	instanceId string
+	bodyFile   string
 	debugMode  bool
 )
 
@@ -80,7 +81,7 @@ func InitConfig(cmd *cobra.Command) {
 // InitInputFile inits file content of which will be used as a body for http request
 func InitInputFile(cmd *cobra.Command) {
 	// init flag
-	cmd.PersistentFlags().StringP("file", "f", "", "provide file with request body")
+	cmd.PersistentFlags().StringVarP(&bodyFile, "file", "f", "", "provide file with request body")
 	if err := cmd.MarkPersistentFlagRequired("file"); err != nil {
 		return
 	}
@@ -93,7 +94,7 @@ func GetBaseUrl() string {
 
 // GetInstancesUrl gets instances url
 func GetInstancesUrl() string {
-	return fmt.Sprintf("%s/%s/instances/", baseUrl, projectId)
+	return fmt.Sprintf("%s/%s/instances", baseUrl, projectId)
 }
 
 // GetProjectUrl gets project url
@@ -109,6 +110,11 @@ func GetAuthHeader() string {
 // GetInstanceId gets instance id from flag if set, otherwise gets instance id from the config file
 func GetInstanceId() string {
 	return instanceId
+}
+
+// GetBodyFile gets path to file that contains body of a request
+func GetBodyFile() string {
+	return bodyFile
 }
 
 // GetProjectId gets project id from flag if set, otherwise gets project id from the config file
