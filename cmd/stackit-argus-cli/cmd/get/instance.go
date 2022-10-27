@@ -24,7 +24,7 @@ var InstanceCmd = &cobra.Command{
 		// generate an url
 		url := config.GetInstancesUrl()
 
-		// modify url and debug message depend on argument and flag
+		// modify url and debug message depend on arguments
 		if len(args) == 0 {
 			debugMsg = "list instances command called"
 		} else if len(args) == 1 {

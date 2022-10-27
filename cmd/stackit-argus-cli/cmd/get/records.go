@@ -24,7 +24,7 @@ var RecordsCmd = &cobra.Command{
 		// generate an url
 		url := config.GetBaseUrl() + fmt.Sprintf("alertgroups/%s/records", args[0])
 
-		// modify url and debug msg if group name has been given
+		// modify url and debug message depend on arguments
 		if len(args) == 2 {
 			debugMsg = "get alert record command called"
 			url += fmt.Sprintf("/%s", args[1])
