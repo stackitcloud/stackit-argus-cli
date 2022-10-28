@@ -24,6 +24,7 @@ var LogsAlertGroupsCmd = &cobra.Command{
 		// generate an url
 		url := config.GetBaseUrl() + "logs-alertgroups"
 
+		// modify url and debug message depend on arguments
 		if len(args) == 0 {
 			debugMsg = "list logs alert groups command called"
 		} else if len(args) == 1 {

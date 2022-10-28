@@ -7,20 +7,11 @@ package config
 import (
 	"errors"
 	"github.com/spf13/cobra"
-	logging "github.com/stackitcloud/stackit-argus-cli/internal/log"
 )
 
 type OutputType string
 
-// possible output types
-const (
-	outputJson OutputType = "json"
-	outputYaml OutputType = "yaml"
-	outputWide OutputType = "wide"
-	standard   OutputType = "standard"
-)
-
-var flagOutputType = standard
+var flagOutputType OutputType
 
 // String is used both by fmt.Print and by Cobra in help text
 func (o *OutputType) String() string {
@@ -55,14 +46,9 @@ func outputFlagCompletion(cmd *cobra.Command, args []string, toComplete string) 
 
 // InitOutput inits output type that should be used for showing get response
 func InitOutput(cmd *cobra.Command) {
-	logger := logging.New()
-
 	cmd.PersistentFlags().VarP(&flagOutputType, "output", "o", "defines output format: yaml, json or wide")
-	if err := cmd.RegisterFlagCompletionFunc("output", outputFlagCompletion); err != nil {
-		logger.Error("output flag autocompletion failed")
-
-		return
-	}
+	err := cmd.RegisterFlagCompletionFunc("output", outputFlagCompletion)
+	cobra.CheckErr(err)
 }
 
 // GetOutputType returns output type

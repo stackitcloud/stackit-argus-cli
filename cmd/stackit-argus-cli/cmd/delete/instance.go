@@ -19,7 +19,7 @@ var InstanceCmd = &cobra.Command{
 	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		// generate an url
-		url := config.GetInstancesUrl() + args[0]
+		url := config.GetInstancesUrl() + fmt.Sprintf("/%s", args[0])
 
 		// print debug messages if debug mode is turned on
 		if config.IsDebugMode() {

@@ -24,7 +24,7 @@ var RoutesCmd = &cobra.Command{
 		// generate an url
 		url := config.GetBaseUrl() + "alertconfigs/routes"
 
-		// modify url and debug msg if group name has been given
+		// modify url and debug message depend on arguments
 		if len(args) == 1 {
 			debugMsg = "get alert config route command called"
 			url += fmt.Sprintf("/%s", args[0])
