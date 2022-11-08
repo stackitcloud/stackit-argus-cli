@@ -40,6 +40,10 @@ func init() {
 	getCmd.AddCommand(get.AclCmd)
 	getCmd.AddCommand(get.PlansCmd)
 	getCmd.AddCommand(get.OfferingsCmd)
+	getCmd.AddCommand(get.CertCheckCmd)
+	getCmd.AddCommand(get.HttpCheckCmd)
+	getCmd.AddCommand(get.NetworkCheckCmd)
+	getCmd.AddCommand(get.PingCheckCmd)
 
 	// init output type of get command response
 	config.InitOutput(getCmd)

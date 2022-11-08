@@ -28,4 +28,8 @@ func init() {
 	deleteCmd.AddCommand(delete.AlertRecordsCmd)
 	deleteCmd.AddCommand(delete.LogsAlertGroupsCmd)
 	deleteCmd.AddCommand(delete.ScrapeConfigsCmd)
+	deleteCmd.AddCommand(delete.CertCheckCmd)
+	deleteCmd.AddCommand(delete.HttpCheckCmd)
+	deleteCmd.AddCommand(delete.NetworkCheckCmd)
+	deleteCmd.AddCommand(delete.PingCheckCmd)
 }

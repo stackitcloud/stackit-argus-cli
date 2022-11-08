@@ -14,7 +14,7 @@ import (
 )
 
 // getRequest implements get request and returns a status code with response body
-func getRequest(url string) (int, string) {
+func getRequest(url string) (int, []byte) {
 	authHeader := config.GetAuthHeader()
 	client := &http.Client{
 		Timeout: time.Second * 10,
@@ -26,10 +26,11 @@ func getRequest(url string) (int, string) {
 	req.Header.Set("Authorization", authHeader)
 
 	res, err := client.Do(req)
+	cobra.CheckErr(err)
 	defer utils.CloseBody(res.Body)
 
 	body, err := io.ReadAll(res.Body)
 	cobra.CheckErr(err)
 
-	return res.StatusCode, string(body)
+	return res.StatusCode, body
 }

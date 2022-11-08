@@ -32,6 +32,10 @@ func init() {
 	createCmd.AddCommand(create.BackupSchedulesCmd)
 	createCmd.AddCommand(create.LogsAlertGroupsCmd)
 	createCmd.AddCommand(create.ScrapeConfigsCmd)
+	createCmd.AddCommand(create.CertCheckCmd)
+	createCmd.AddCommand(create.HttpCheckCmd)
+	createCmd.AddCommand(create.NetworkCheckCmd)
+	createCmd.AddCommand(create.PingCheckCmd)
 
 	// init file content of which will be used as a body for http request
 	config.InitInputFile(createCmd)

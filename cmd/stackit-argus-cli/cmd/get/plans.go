@@ -35,7 +35,12 @@ var PlansCmd = &cobra.Command{
 
 		// print response body
 		if status == 200 {
-			fmt.Print(body)
+			outputType := config.GetOutputType()
+			if outputType == "json" || outputType == "yaml" {
+				utils.PrintYamlOrJson(body, string(outputType))
+			} else {
+				fmt.Println(body)
+			}
 		}
 	},
 }

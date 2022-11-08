@@ -5,12 +5,40 @@ package get
  */
 
 import (
+	"encoding/json"
 	"fmt"
+	"github.com/spf13/cobra"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
-
-	"github.com/spf13/cobra"
 )
+
+// acl is used to unmarshal acl response body
+type acl struct {
+	Acl []string `json:"acl"`
+}
+
+// aclTable holds structure of acl table
+type aclTable struct {
+	Acl string `header:"acl"`
+}
+
+// printAclResponse prints acl response body like as table
+func printAclResponse(body []byte) {
+	var acl acl
+	var table []aclTable
+
+	// unmarshal response body
+	err := json.Unmarshal(body, &acl)
+	cobra.CheckErr(err)
+
+	// fill table with values
+	for _, a := range acl.Acl {
+		table = append(table, aclTable{a})
+	}
+
+	// print the table
+	utils.PrintTable(table)
+}
 
 // AclCmd represents the acl command
 var AclCmd = &cobra.Command{
@@ -35,7 +63,12 @@ var AclCmd = &cobra.Command{
 
 		// print response body
 		if status == 200 {
-			fmt.Print(body)
+			outputType := config.GetOutputType()
+			if outputType == "json" || outputType == "yaml" {
+				utils.PrintYamlOrJson(body, string(outputType))
+			} else {
+				printAclResponse(body)
+			}
 		}
 	},
 }

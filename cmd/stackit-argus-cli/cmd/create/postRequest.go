@@ -40,6 +40,7 @@ func postRequest(url string, targets []string) int {
 	}
 
 	res, err := client.Do(req)
+	cobra.CheckErr(err)
 	defer utils.CloseBody(res.Body)
 
 	return res.StatusCode

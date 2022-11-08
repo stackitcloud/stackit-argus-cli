@@ -25,6 +25,7 @@ func deleteRequest(url string) int {
 	req.Header.Set("Authorization", authHeader)
 
 	res, err := client.Do(req)
+	cobra.CheckErr(err)
 	defer utils.CloseBody(res.Body)
 
 	return res.StatusCode
