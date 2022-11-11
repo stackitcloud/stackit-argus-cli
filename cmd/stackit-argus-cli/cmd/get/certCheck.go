@@ -5,12 +5,31 @@ package get
  */
 
 import (
-	"fmt"
+	"encoding/json"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
 
 	"github.com/spf13/cobra"
 )
+
+// certCheck struct is used to unmarshal cert check response body
+type certCheck struct {
+	CertChecks []struct {
+		Source string `json:"source" header:"source"`
+	} `json:"certChecks"`
+}
+
+// printCertCheckTable prints cert checks as a table
+func printCertCheckTable(body []byte) {
+	var certCheck certCheck
+
+	// unmarshal response body
+	err := json.Unmarshal(body, &certCheck)
+	cobra.CheckErr(err)
+
+	// print the table
+	utils.PrintTable(certCheck.CertChecks)
+}
 
 // CertCheckCmd represents the CertCheck command
 var CertCheckCmd = &cobra.Command{
@@ -21,26 +40,15 @@ var CertCheckCmd = &cobra.Command{
 		// generate an url
 		url := config.GetBaseUrl() + "cert-checks"
 
-		// print debug messages if debug mode is turned on
-		if config.IsDebugMode() {
-			fmt.Println("get cert check command called")
-			fmt.Printf("url to call - %s\n", url)
-		}
+		// get output flag
+		outputType := config.GetOutputType()
 
-		// get cert check
-		status, body := getRequest(url)
+		// call the command
+		body := runCommand(url, "cert check", outputType)
 
-		// print response status
-		utils.ResponseMessage(status, "cert check", "get")
-
-		// print response body
-		if status == 200 {
-			outputType := config.GetOutputType()
-			if outputType == "json" || outputType == "yaml" {
-				utils.PrintYamlOrJson(body, string(outputType))
-			} else {
-				fmt.Println(body)
-			}
+		// print table output
+		if body != nil && (outputType == "" || outputType == "wide") {
+			printCertCheckTable(body)
 		}
 	},
 }

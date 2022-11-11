@@ -5,12 +5,31 @@ package get
  */
 
 import (
-	"fmt"
+	"encoding/json"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
 
 	"github.com/spf13/cobra"
 )
+
+// metricsStorageRetention is used to unmarshal metrics storage retention response body
+type metricsStorageRetention struct {
+	MetricsRetentionTimeRaw string `json:"metricsRetentionTimeRaw" header:"metrics retention time raw"`
+	MetricsRetentionTime5M  string `json:"metricsRetentionTime5m" header:"metrics retention time 5m"`
+	MetricsRetentionTime1H  string `json:"metricsRetentionTime1h" header:"metrics retention time 1h"`
+}
+
+// printMetricsStorageRetentionTable prints routes response body as table
+func printMetricsStorageRetentionTable(body []byte) {
+	var metricsStorageRetention metricsStorageRetention
+
+	// unmarshal response body
+	err := json.Unmarshal(body, &metricsStorageRetention)
+	cobra.CheckErr(err)
+
+	// print the table
+	utils.PrintTable(metricsStorageRetention)
+}
 
 // MetricsStorageRetentionCmd represents the metricsStorageRetention command
 var MetricsStorageRetentionCmd = &cobra.Command{
@@ -21,26 +40,15 @@ var MetricsStorageRetentionCmd = &cobra.Command{
 		// generate an url
 		url := config.GetBaseUrl() + "metrics-storage-retentions"
 
-		// print debug messages if debug mode is turned on
-		if config.IsDebugMode() {
-			fmt.Println("list metrics storage retentions command called")
-			fmt.Printf("url to call - %s\n", url)
-		}
+		// get output flag
+		outputType := config.GetOutputType()
 
-		// get metrics storage retentions
-		status, body := getRequest(url)
+		// call the command
+		body := runCommand(url, "metrics storage retentions", outputType)
 
-		// print response status
-		utils.ResponseMessage(status, "metrics storage retentions", "get")
-
-		// print response body
-		if status == 200 {
-			outputType := config.GetOutputType()
-			if outputType == "json" || outputType == "yaml" {
-				utils.PrintYamlOrJson(body, string(outputType))
-			} else {
-				fmt.Println(body)
-			}
+		// print table output
+		if body != nil && (outputType == "" || outputType == "wide") {
+			printMetricsStorageRetentionTable(body)
 		}
 	},
 }

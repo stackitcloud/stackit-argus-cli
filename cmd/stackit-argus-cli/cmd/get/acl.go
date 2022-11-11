@@ -6,7 +6,6 @@ package get
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/spf13/cobra"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
@@ -22,8 +21,8 @@ type aclTable struct {
 	Acl string `header:"acl"`
 }
 
-// printAclResponse prints acl response body like as table
-func printAclResponse(body []byte) {
+// printAclTable prints acl response body as table
+func printAclTable(body []byte) {
 	var acl acl
 	var table []aclTable
 
@@ -49,26 +48,15 @@ var AclCmd = &cobra.Command{
 		// generate an url
 		url := config.GetBaseUrl() + "acl"
 
-		// print debug messages if debug mode is turned on
-		if config.IsDebugMode() {
-			fmt.Println("get acl command called")
-			fmt.Printf("url to call - %s\n", url)
-		}
+		// get output flag
+		outputType := config.GetOutputType()
 
-		// get acl
-		status, body := getRequest(url)
+		// call the command
+		body := runCommand(url, "acl", outputType)
 
-		// print response status
-		utils.ResponseMessage(status, "acl", "get")
-
-		// print response body
-		if status == 200 {
-			outputType := config.GetOutputType()
-			if outputType == "json" || outputType == "yaml" {
-				utils.PrintYamlOrJson(body, string(outputType))
-			} else {
-				printAclResponse(body)
-			}
+		// print table output
+		if body != nil && (outputType == "" || outputType == "wide") {
+			printAclTable(body)
 		}
 	},
 }

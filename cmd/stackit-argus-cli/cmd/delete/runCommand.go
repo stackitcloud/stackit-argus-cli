@@ -1,10 +1,11 @@
 package delete
 
 /*
- * Implementation of delete request.
+ * Runs delete commands.
  */
 
 import (
+	"fmt"
 	"github.com/spf13/cobra"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
@@ -29,4 +30,18 @@ func deleteRequest(url string) int {
 	defer utils.CloseBody(res.Body)
 
 	return res.StatusCode
+}
+
+func runCommand(url, resource string) {
+	// print debug messages if debug mode is turned on
+	if config.IsDebugMode() {
+		fmt.Printf("delete %s command called", resource)
+		fmt.Printf("url to call - %s\n", url)
+	}
+
+	// create the alert group
+	status := deleteRequest(url)
+
+	// print response status
+	utils.ResponseMessage(status, resource, "delete")
 }

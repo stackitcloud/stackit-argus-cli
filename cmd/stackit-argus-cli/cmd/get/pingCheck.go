@@ -5,42 +5,50 @@ package get
  */
 
 import (
-	"fmt"
+	"encoding/json"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
 
 	"github.com/spf13/cobra"
 )
 
+// pingCheck struct is used to unmarshal ping check response body
+type pingCheck struct {
+	PingChecks []struct {
+		Url string `json:"url" header:"url"`
+	} `json:"pingChecks"`
+}
+
+// printPingCheckTable prints ping checks as a table
+func printPingCheckTable(body []byte) {
+	var pingCheck pingCheck
+
+	// unmarshal response body
+	err := json.Unmarshal(body, &pingCheck)
+	cobra.CheckErr(err)
+
+	// print the table
+	utils.PrintTable(pingCheck.PingChecks)
+}
+
 // PingCheckCmd represents the PingCheck command
 var PingCheckCmd = &cobra.Command{
-	Use:   "PingCheck",
+	Use:   "pingCheck",
 	Short: "Get all ping checks configured.",
 	Args:  cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
 		// generate an url
 		url := config.GetBaseUrl() + "ping-checks"
 
-		// print debug messages if debug mode is turned on
-		if config.IsDebugMode() {
-			fmt.Println("get ping network command called")
-			fmt.Printf("url to call - %s\n", url)
-		}
+		// get output flag
+		outputType := config.GetOutputType()
 
-		// get ping check
-		status, body := getRequest(url)
+		// call the command
+		body := runCommand(url, "ping check", outputType)
 
-		// print response status
-		utils.ResponseMessage(status, "ping check", "get")
-
-		// print response body
-		if status == 200 {
-			outputType := config.GetOutputType()
-			if outputType == "json" || outputType == "yaml" {
-				utils.PrintYamlOrJson(body, string(outputType))
-			} else {
-				fmt.Println(body)
-			}
+		// print table output
+		if body != nil && (outputType == "" || outputType == "wide") {
+			printPingCheckTable(body)
 		}
 	},
 }

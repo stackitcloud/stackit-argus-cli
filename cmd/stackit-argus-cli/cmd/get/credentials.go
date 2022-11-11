@@ -20,7 +20,8 @@ type remoteWriteLimit struct {
 	CredentialsMaxLimit string `json:"credentialsMaxLimit" header:"credentials max limit"`
 }
 
-func printRemoteWriteLimits(body []byte) {
+// printRemoteWriteLimitsTable prints remote write limits response body as table
+func printRemoteWriteLimitsTable(body []byte) {
 	var remoteWriteLimit remoteWriteLimit
 
 	// unmarshal response body
@@ -37,8 +38,8 @@ type credential struct {
 	Id   string `json:"id" header:"id"`
 }
 
-// printCredential prints credential's info
-func printCredential(body []byte) {
+// printCredentialTable prints credential's info
+func printCredentialTable(body []byte) {
 	var credential credential
 
 	// unmarshal response body
@@ -67,8 +68,8 @@ type credentialsTable struct {
 	UserName string `header:"username"`
 }
 
-// printCredentials prints credentials
-func printCredentials(body []byte) {
+// printCredentialsListTable prints credentials
+func printCredentialsListTable(body []byte) {
 	var credentials credentials
 	var table []credentialsTable
 
@@ -96,51 +97,39 @@ var CredentialsCmd = &cobra.Command{
 	Long:  "Get list of all credentials if username was not specified, otherwise get technical credentials.",
 	Args:  cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		var debugMsg string
-
 		// generate an url
 		url := config.GetBaseUrl() + "credentials"
 
 		// modify url and debug message depend on argument and flag
+		resource := "credentials"
 		if remoteWriteLimits == true {
 			if len(args) == 1 {
-				debugMsg = "get remote write limits credentials command called"
+				resource = "write limits credentials"
 				url += fmt.Sprintf("/%s/remote-write-limits", args[0])
 			} else {
 				cobra.CheckErr("get credentials with remote write limits must have one argument")
 			}
 		} else {
 			if len(args) == 1 {
-				debugMsg = "get credential command called"
+				resource = "credential"
 				url += fmt.Sprintf("/%s", args[0])
-			} else if len(args) == 0 {
-				debugMsg = "list credentials command called"
 			}
 		}
 
-		// print debug messages if debug mode is turned on
-		if config.IsDebugMode() {
-			fmt.Println(debugMsg)
-			fmt.Printf("url to call - %s\n", url)
-		}
+		// get output flag
+		outputType := config.GetOutputType()
 
-		// get credentials
-		status, body := getRequest(url)
+		// call the command
+		body := runCommand(url, resource, outputType)
 
-		// print response status
-		utils.ResponseMessage(status, "credentials", "get")
-
-		// print response body
-		if status == 200 {
-			outputType := config.GetOutputType()
-			if outputType == "json" || outputType == "yaml" {
-				utils.PrintYamlOrJson(body, string(outputType))
-			} else if len(args) == 0 {
-				printCredentials(body)
-			} else if remoteWriteLimits == true {
-				printRemoteWriteLimits(body)
+		// print table output
+		if body != nil && (outputType == "" || outputType == "wide") {
+			if remoteWriteLimits == true {
+				printRemoteWriteLimitsTable(body)
+			} else if len(args) == 1 {
+				printCredentialsListTable(body)
 			} else {
-				printCredential(body)
+				printCredentialTable(body)
 			}
 		}
 	},

@@ -6,18 +6,19 @@ package get
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
 
 	"github.com/spf13/cobra"
 )
 
+// schedule is used to unmarshal backup schedules response
 type schedule struct {
 	Schedule   string `json:"schedule"`
 	ScheduleId string `json:"scheduleId"`
 }
 
+// backupSchedules is used to unmarshal backup schedules response
 type backupSchedules struct {
 	AlertConfig  []schedule `json:"alertConfigBackupSchedules"`
 	ScrapeConfig []schedule `json:"scrapeConfigBackupSchedules"`
@@ -25,13 +26,15 @@ type backupSchedules struct {
 	Grafana      []schedule `json:"grafanaBackupSchedules"`
 }
 
+// backupSchedulesTable holds structure of backup schedules table
 type backupSchedulesTable struct {
 	Resource   string `header:"resource"`
 	Schedule   string `header:"schedule"`
 	ScheduleId string `header:"scheduleId"`
 }
 
-func printBackupSchedules(body []byte) {
+// printBackupSchedulesTable prints backup schedules response body as table
+func printBackupSchedulesTable(body []byte) {
 	var check [4]bool
 	var backupSchedules backupSchedules
 	var table []backupSchedulesTable
@@ -93,26 +96,15 @@ var BackupSchedulesCmd = &cobra.Command{
 		// generate an url
 		url := config.GetBaseUrl() + "backup-schedules"
 
-		// print debug messages if debug mode is turned on
-		if config.IsDebugMode() {
-			fmt.Println("get backup schedules command called")
-			fmt.Printf("url to call - %s\n", url)
-		}
+		// get output flag
+		outputType := config.GetOutputType()
 
-		// get backup schedules
-		status, body := getRequest(url)
+		// call the command
+		body := runCommand(url, "backup schedules", outputType)
 
-		// print response status
-		utils.ResponseMessage(status, "backup schedules", "get")
-
-		// print response body
-		if status == 200 {
-			outputType := config.GetOutputType()
-			if outputType == "json" || outputType == "yaml" {
-				utils.PrintYamlOrJson(body, string(outputType))
-			} else {
-				printBackupSchedules(body)
-			}
+		// print table output
+		if body != nil && (outputType == "" || outputType == "wide") {
+			printBackupSchedulesTable(body)
 		}
 	},
 }

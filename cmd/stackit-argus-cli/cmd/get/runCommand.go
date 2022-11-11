@@ -1,10 +1,11 @@
 package get
 
 /*
- * Implementation of get request.
+ * Runs get commands.
  */
 
 import (
+	"fmt"
 	"github.com/spf13/cobra"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
@@ -33,4 +34,29 @@ func getRequest(url string) (int, []byte) {
 	cobra.CheckErr(err)
 
 	return res.StatusCode, body
+}
+
+func runCommand(url, resource string, outputType config.OutputType) []byte {
+	// print debug messages if debug mode is turned on
+	if config.IsDebugMode() {
+		fmt.Printf("get %s command called", resource)
+		fmt.Printf("url to call - %s\n", url)
+	}
+
+	// get response
+	status, body := getRequest(url)
+
+	// print response status
+	utils.ResponseMessage(status, resource, "get")
+
+	// print response body
+	if status == 200 {
+		if outputType == "json" || outputType == "yaml" {
+			utils.PrintYamlOrJson(body, string(outputType))
+		}
+
+		return body
+	}
+
+	return nil
 }

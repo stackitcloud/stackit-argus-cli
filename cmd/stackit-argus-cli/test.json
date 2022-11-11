@@ -1,7 +1,36 @@
 {
-  "acl": [
-    "acl1",
-    "acl2",
-    "acl3"
+  "route": {
+    "receiver": "test",
+    "routes": [
+      {
+        "receiver": "test",
+        "continue": false,
+        "groupWait": "30s",
+        "groupInterval": "5m",
+        "repeatInterval": "4h"
+      },
+      {
+        "receiver": "test1",
+        "continue": false,
+        "groupWait": "30s",
+        "groupInterval": "5m",
+        "repeatInterval": "4h"
+      }
+    ],
+    "continue": false,
+    "groupWait": "30s",
+    "groupInterval": "5m",
+    "repeatInterval": "4h"
+  },
+  "receiver": "test",
+  "receivers": [
+    {
+      "name": "test",
+      "emailConfigs": [
+        {
+          "to": "test@gmail.com"
+        }
+      ]
+    }
   ]
 }

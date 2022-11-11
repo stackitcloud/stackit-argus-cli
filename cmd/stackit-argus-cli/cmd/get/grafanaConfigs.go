@@ -6,7 +6,6 @@ package get
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
 
@@ -38,8 +37,8 @@ type grafanaConfigsTable struct {
 	RoleAttributeStrict bool   `header:"role attribute strict"`
 }
 
-// printGrafanaConfigsResponse prints grafana configs response body as a table
-func printGrafanaConfigsResponse(body []byte) {
+// printGrafanaConfigsTable prints grafana configs response body as a table
+func printGrafanaConfigsTable(body []byte) {
 	var grafanaConfigs grafanaConfigs
 
 	// unmarshal response body
@@ -64,26 +63,15 @@ var GrafanaConfigsCmd = &cobra.Command{
 		// generate an url
 		url := config.GetBaseUrl() + "grafana-configs"
 
-		// print debug messages if debug mode is turned on
-		if config.IsDebugMode() {
-			fmt.Println("get grafana configs command called")
-			fmt.Printf("url to call - %s\n", url)
-		}
+		// get output flag
+		outputType := config.GetOutputType()
 
-		// get grafana configs
-		status, body := getRequest(url)
+		// call the command
+		body := runCommand(url, "grafana configs", outputType)
 
-		// print response status
-		utils.ResponseMessage(status, "grafana configs", "get")
-
-		// print response body
-		if status == 200 {
-			outputType := config.GetOutputType()
-			if outputType == "json" || outputType == "yaml" {
-				utils.PrintYamlOrJson(body, string(outputType))
-			} else {
-				printGrafanaConfigsResponse(body)
-			}
+		// print table output
+		if body != nil && (outputType == "" || outputType == "wide") {
+			printGrafanaConfigsTable(body)
 		}
 	},
 }

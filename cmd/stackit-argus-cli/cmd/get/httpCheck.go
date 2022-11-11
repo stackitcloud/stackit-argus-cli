@@ -5,12 +5,31 @@ package get
  */
 
 import (
-	"fmt"
+	"encoding/json"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
 
 	"github.com/spf13/cobra"
 )
+
+// httpCheck struct is used to unmarshal http check response body
+type httpCheck struct {
+	HttpChecks []struct {
+		Url string `json:"url" header:"url"`
+	} `json:"httpChecks"`
+}
+
+// printHttpCheckTable prints http checks as a table
+func printHttpCheckTable(body []byte) {
+	var httpCheck httpCheck
+
+	// unmarshal response body
+	err := json.Unmarshal(body, &httpCheck)
+	cobra.CheckErr(err)
+
+	// print the table
+	utils.PrintTable(httpCheck.HttpChecks)
+}
 
 // HttpCheckCmd represents the HttpCheck command
 var HttpCheckCmd = &cobra.Command{
@@ -21,26 +40,15 @@ var HttpCheckCmd = &cobra.Command{
 		// generate an url
 		url := config.GetBaseUrl() + "http-checks"
 
-		// print debug messages if debug mode is turned on
-		if config.IsDebugMode() {
-			fmt.Println("get http check command called")
-			fmt.Printf("url to call - %s\n", url)
-		}
+		// get output flag
+		outputType := config.GetOutputType()
 
-		// get http check
-		status, body := getRequest(url)
+		// call the command
+		body := runCommand(url, "http check", outputType)
 
-		// print response status
-		utils.ResponseMessage(status, "http check", "get")
-
-		// print response body
-		if status == 200 {
-			outputType := config.GetOutputType()
-			if outputType == "json" || outputType == "yaml" {
-				utils.PrintYamlOrJson(body, string(outputType))
-			} else {
-				fmt.Println(body)
-			}
+		// print table output
+		if body != nil && (outputType == "" || outputType == "wide") {
+			printHttpCheckTable(body)
 		}
 	},
 }

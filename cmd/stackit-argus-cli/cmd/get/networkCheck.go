@@ -5,12 +5,31 @@ package get
  */
 
 import (
-	"fmt"
+	"encoding/json"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
 
 	"github.com/spf13/cobra"
 )
+
+// networkCheck struct is used to unmarshal network check response body
+type networkCheck struct {
+	NetworkChecks []struct {
+		Address string `json:"address" header:"address"`
+	} `json:"networkChecks"`
+}
+
+// printNetworkCheckTable prints network checks as a table
+func printNetworkCheckTable(body []byte) {
+	var networkCheck networkCheck
+
+	// unmarshal response body
+	err := json.Unmarshal(body, &networkCheck)
+	cobra.CheckErr(err)
+
+	// print the table
+	utils.PrintTable(networkCheck.NetworkChecks)
+}
 
 // NetworkCheckCmd represents the NetworkCheck command
 var NetworkCheckCmd = &cobra.Command{
@@ -21,26 +40,15 @@ var NetworkCheckCmd = &cobra.Command{
 		// generate an url
 		url := config.GetBaseUrl() + "network-checks"
 
-		// print debug messages if debug mode is turned on
-		if config.IsDebugMode() {
-			fmt.Println("get http network command called")
-			fmt.Printf("url to call - %s\n", url)
-		}
+		// get output flag
+		outputType := config.GetOutputType()
 
-		// get network check
-		status, body := getRequest(url)
+		// call the command
+		body := runCommand(url, "network check", outputType)
 
-		// print response status
-		utils.ResponseMessage(status, "network check", "get")
-
-		// print response body
-		if status == 200 {
-			outputType := config.GetOutputType()
-			if outputType == "json" || outputType == "yaml" {
-				utils.PrintYamlOrJson(body, string(outputType))
-			} else {
-				fmt.Println(body)
-			}
+		// print table output
+		if body != nil && (outputType == "" || outputType == "wide") {
+			printNetworkCheckTable(body)
 		}
 	},
 }

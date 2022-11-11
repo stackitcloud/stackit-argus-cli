@@ -43,6 +43,7 @@ func PrintTable(in interface{}) {
 	// customize the table
 	printer.BorderLeft = true
 	printer.BorderRight = true
+	printer.RowLine = true
 	printer.CenterSeparator = "│"
 	printer.ColumnSeparator = "│"
 	printer.HeaderAlignment = tableprinter.AlignCenter

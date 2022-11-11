@@ -5,12 +5,31 @@ package get
  */
 
 import (
-	"fmt"
+	"encoding/json"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
 
 	"github.com/spf13/cobra"
 )
+
+// tracesConfigs is used to unmarshal traces configs response body and generate a table out of it
+type tracesConfigs struct {
+	Config struct {
+		Retention string `json:"retention" header:"retention"`
+	} `json:"config"`
+}
+
+// printTracesConfigsListTable prints traces configs response body as table
+func printTracesConfigsListTable(body []byte) {
+	var tracesConfigs tracesConfigs
+
+	// unmarshal response body
+	err := json.Unmarshal(body, &tracesConfigs)
+	cobra.CheckErr(err)
+
+	// print the table
+	utils.PrintTable(tracesConfigs.Config)
+}
 
 // TracesConfigsCmd represents the tracesConfigs command
 var TracesConfigsCmd = &cobra.Command{
@@ -21,26 +40,15 @@ var TracesConfigsCmd = &cobra.Command{
 		// generate an url
 		url := config.GetBaseUrl() + "traces-configs"
 
-		// print debug messages if debug mode is turned on
-		if config.IsDebugMode() {
-			fmt.Println("list traces configs command called")
-			fmt.Printf("url to call - %s\n", url)
-		}
+		// get output flag
+		outputType := config.GetOutputType()
 
-		// get traces configs
-		status, body := getRequest(url)
+		// call the command
+		body := runCommand(url, "traces configs", outputType)
 
-		// print response status
-		utils.ResponseMessage(status, "traces configs", "get")
-
-		// print response body
-		if status == 200 {
-			outputType := config.GetOutputType()
-			if outputType == "json" || outputType == "yaml" {
-				utils.PrintYamlOrJson(body, string(outputType))
-			} else {
-				fmt.Println(body)
-			}
+		// print table output
+		if body != nil && (outputType == "" || outputType == "wide") {
+			printTracesConfigsListTable(body)
 		}
 	},
 }
