@@ -20,20 +20,19 @@ type alertGroups struct {
 	} `json:"data" yaml:"data"`
 }
 
-// alertGroup is used to unmarshal alert group response body and generate a table out of it
+// alertGroup is used to unmarshal alert group response body
 type alertGroup struct {
 	Data struct {
-		Name     string `json:"name"`
-		Interval string `json:"interval"`
-		Rules    []struct {
-			Record      string            `json:"record" header:"record"`
-			Alert       string            `json:"alert" header:"alert"`
-			Expr        string            `json:"expr" header:"expr"`
-			For         string            `json:"for" header:"for"`
-			Labels      map[string]string `json:"labels" header:"labels"`
-			Annotations map[string]string `json:"annotations" header:"annotations"`
-		} `json:"rules"`
+		Name     string     `json:"name"`
+		Interval string     `json:"interval"`
+		Rules    []struct{} `json:"rules"`
 	} `json:"data"`
+}
+
+// alertGroupTable holds structure of alert group table
+type alertGroupTable struct {
+	Interval string `header:"interval"`
+	Rules    int    `header:"rules"`
 }
 
 // printAlertGroupTable prints alert group response body as a table
@@ -45,7 +44,10 @@ func printAlertGroupTable(body []byte) {
 	cobra.CheckErr(err)
 
 	// print the table
-	utils.PrintTable(alertGroup.Data.Rules)
+	utils.PrintTable(alertGroupTable{
+		Interval: alertGroup.Data.Interval,
+		Rules:    len(alertGroup.Data.Rules),
+	})
 }
 
 // printAlertGroupsListTable prints alert groups response body as a table

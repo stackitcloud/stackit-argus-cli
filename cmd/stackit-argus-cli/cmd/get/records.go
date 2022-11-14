@@ -7,6 +7,7 @@ package get
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/lensesio/tableprinter"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
 
@@ -32,7 +33,7 @@ type record struct {
 }
 
 // printRecordsListTable prints records list response body as table
-func printRecordsListTable(body []byte) {
+func printRecordsListTable(body []byte, outputType config.OutputType) {
 	var records recordsList
 
 	// unmarshal response body
@@ -40,11 +41,20 @@ func printRecordsListTable(body []byte) {
 	cobra.CheckErr(err)
 
 	// print the table
-	utils.PrintTable(records.Data)
+	if outputType != "wide" {
+		var table []interface{}
+
+		for _, d := range records.Data {
+			table = append(table, tableprinter.RemoveStructHeader(d, "Labels"))
+		}
+		utils.PrintTable(table)
+	} else {
+		utils.PrintTable(records.Data)
+	}
 }
 
 // printRecordTable prints record response body as table
-func printRecordTable(body []byte) {
+func printRecordTable(body []byte, outputType config.OutputType) {
 	var record record
 
 	// unmarshal response body
@@ -52,7 +62,12 @@ func printRecordTable(body []byte) {
 	cobra.CheckErr(err)
 
 	// print the table
-	utils.PrintTable(record.Data)
+	if outputType != "wide" {
+		table := tableprinter.RemoveStructHeader(record.Data, "Labels")
+		utils.PrintTable(table)
+	} else {
+		utils.PrintTable(record.Data)
+	}
 }
 
 // RecordsCmd represents the alertRecords command
@@ -81,9 +96,9 @@ var RecordsCmd = &cobra.Command{
 		// print table output
 		if body != nil && (outputType == "" || outputType == "wide") {
 			if len(args) == 1 {
-				printRecordsListTable(body)
+				printRecordsListTable(body, outputType)
 			} else {
-				printRecordTable(body)
+				printRecordTable(body, outputType)
 			}
 		}
 	},

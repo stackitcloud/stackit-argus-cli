@@ -7,26 +7,34 @@ package get
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/lensesio/tableprinter"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
 
 	"github.com/spf13/cobra"
 )
 
+// data stores alert rule properties
+type data struct {
+	Alert       string            `json:"alert" header:"alert"`
+	Expr        string            `json:"expr" header:"expr"`
+	For         string            `json:"for" header:"for"`
+	Labels      map[string]string `json:"labels" header:"labels"`
+	Annotations map[string]string `json:"annotations" header:"annotations"`
+}
+
 // alertRules is used to unmarshal alert rules response body
 type alertRules struct {
-	Data []struct {
-		Record      string            `json:"record" header:"alert"`
-		Alert       string            `json:"alert" header:"for"`
-		Expr        string            `json:"expr" header:"expr"`
-		For         string            `json:"for" header:"labels"`
-		Labels      map[string]string `json:"labels" header:"annotations"`
-		Annotations map[string]string `json:"annotations" header:"annotations"`
-	} `json:"data"`
+	Data []data `json:"data"`
+}
+
+// alertRule is used to unmarshal alert rule response body
+type alertRule struct {
+	Data data `json:"data"`
 }
 
 // printAlertRulesTable prints alert rules table
-func printAlertRulesTable(body []byte) {
+func printAlertRulesTable(body []byte, outputType config.OutputType) {
 	var alertRules alertRules
 
 	// unmarshal response body
@@ -34,23 +42,21 @@ func printAlertRulesTable(body []byte) {
 	cobra.CheckErr(err)
 
 	// print the table
-	utils.PrintTable(alertRules.Data)
-}
-
-// alertRule is used to unmarshal alert rule response body
-type alertRule struct {
-	Data struct {
-		Record      string            `json:"record" header:"alert"`
-		Alert       string            `json:"alert" header:"for"`
-		Expr        string            `json:"expr" header:"expr"`
-		For         string            `json:"for" header:"labels"`
-		Labels      map[string]string `json:"labels" header:"annotations"`
-		Annotations map[string]string `json:"annotations" header:"annotations"`
-	} `json:"data"`
+	if outputType == "wide" {
+		utils.PrintTable(alertRules.Data)
+	} else {
+		var table []interface{}
+		for _, data := range alertRules.Data {
+			newTable := tableprinter.RemoveStructHeader(data, "Labels")
+			newTable = tableprinter.RemoveStructHeader(newTable, "Annotations")
+			table = append(table, newTable)
+		}
+		utils.PrintTable(table)
+	}
 }
 
 // printAlertRuleTable prints alert rule table
-func printAlertRuleTable(body []byte) {
+func printAlertRuleTable(body []byte, outputType config.OutputType) {
 	var alertRule alertRule
 
 	// unmarshal response body
@@ -58,7 +64,13 @@ func printAlertRuleTable(body []byte) {
 	cobra.CheckErr(err)
 
 	// print the table
-	utils.PrintTable(alertRule.Data)
+	if outputType == "wide" {
+		utils.PrintTable(alertRule.Data)
+	} else {
+		table := tableprinter.RemoveStructHeader(alertRule.Data, "Labels")
+		table = tableprinter.RemoveStructHeader(table, "Annotations")
+		utils.PrintTable(table)
+	}
 }
 
 // AlertRulesCmd represents the alertRules command
@@ -87,9 +99,9 @@ var AlertRulesCmd = &cobra.Command{
 		// print table output
 		if body != nil && (outputType == "" || outputType == "wide") {
 			if len(args) == 1 {
-				printAlertRulesTable(body)
+				printAlertRulesTable(body, outputType)
 			} else {
-				printAlertRuleTable(body)
+				printAlertRuleTable(body, outputType)
 			}
 		}
 	},

@@ -38,13 +38,11 @@ type alertConfigs struct {
 
 // alertConfigsTable holds structure of alert configs table
 type alertConfigsTable struct {
-	SmtpSmarthost    string `header:"smtp smarthost"`
-	SmtpFrom         string `header:"smtp from"`
-	SmtpAuthUsername string `header:"smtp auth username"`
-	SmtpAuthPassword string `header:"smtp auth password"`
-	Receivers        int    `header:"receivers"`
-	Routes           int    `header:"routes"`
-	RouteReceiver    string `header:"route receiver"`
+	SmtpSmarthost string `header:"smtp smarthost"`
+	SmtpFrom      string `header:"smtp from"`
+	Receivers     int    `header:"receivers"`
+	Routes        int    `header:"routes"`
+	RouteReceiver string `header:"route receiver"`
 }
 
 // alertConfigsWideTable holds structure of alert configs wide table
@@ -75,13 +73,11 @@ func printAlertConfigsTable(body []byte, outputType config.OutputType) {
 
 	// print the table
 	utils.PrintTable(alertConfigsTable{
-		SmtpSmarthost:    alertConfigs.Data.Global.SmtpSmarthost,
-		SmtpFrom:         alertConfigs.Data.Global.SmtpFrom,
-		SmtpAuthUsername: alertConfigs.Data.Global.SmtpAuthUsername,
-		SmtpAuthPassword: alertConfigs.Data.Global.SmtpAuthPassword,
-		Receivers:        len(alertConfigs.Data.Receivers),
-		Routes:           routes + 1,
-		RouteReceiver:    alertConfigs.Data.Route.Receiver,
+		SmtpSmarthost: alertConfigs.Data.Global.SmtpSmarthost,
+		SmtpFrom:      alertConfigs.Data.Global.SmtpFrom,
+		Receivers:     len(alertConfigs.Data.Receivers),
+		Routes:        routes + 1,
+		RouteReceiver: alertConfigs.Data.Route.Receiver,
 	})
 
 	// print wide table

@@ -127,9 +127,9 @@ var CredentialsCmd = &cobra.Command{
 			if remoteWriteLimits == true {
 				printRemoteWriteLimitsTable(body)
 			} else if len(args) == 1 {
-				printCredentialsListTable(body)
-			} else {
 				printCredentialTable(body)
+			} else {
+				printCredentialsListTable(body)
 			}
 		}
 	},

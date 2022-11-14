@@ -32,6 +32,7 @@ func deleteRequest(url string) int {
 	return res.StatusCode
 }
 
+// runCommand call the url
 func runCommand(url, resource string) {
 	// print debug messages if debug mode is turned on
 	if config.IsDebugMode() {

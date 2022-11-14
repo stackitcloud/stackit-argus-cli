@@ -7,6 +7,7 @@ package get
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/lensesio/tableprinter"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
 
@@ -15,16 +16,18 @@ import (
 
 // route is used to unmarshal routes response body and generate a table out of it
 type route struct {
-	Receiver       string            `json:"receiver" header:"receiver"`
-	GroupBy        []string          `json:"groupBy" header:"groupBy"`
-	GroupWait      string            `json:"groupWait" header:"groupWait"`
-	GroupInterval  string            `json:"groupInterval" header:"groupInterval"`
-	RepeatInterval string            `json:"repeatInterval" header:"repeatInterval"`
-	Match          map[string]string `json:"match" header:"match"`
-	MatchRe        map[string]string `json:"matchRe" header:"matchRe"`
-	Matchers       []string          `json:"matchers" header:"matchers"`
-	Continue       bool              `json:"continue"`
-	Routes         []route           `json:"routes"`
+	Receiver       string `json:"receiver" header:"receiver"`
+	GroupWait      string `json:"groupWait" header:"groupWait"`
+	GroupInterval  string `json:"groupInterval" header:"groupInterval"`
+	RepeatInterval string `json:"repeatInterval" header:"repeatInterval"`
+	Continue       bool   `json:"continue" header:"continue"`
+
+	GroupBy  []string          `json:"groupBy" header:"groupBy"`
+	Match    map[string]string `json:"match" header:"match"`
+	MatchRe  map[string]string `json:"matchRe" header:"matchRe"`
+	Matchers []string          `json:"matchers" header:"matchers"`
+
+	Routes []route `json:"routes"`
 }
 
 // routesList is used to unmarshal routes response body
@@ -32,16 +35,41 @@ type routesList struct {
 	Data route `json:"data"`
 }
 
+// getAllRoutes transform recursion structure to a slice of structures
+func getAllRoutes(routes []route, newRoutes *[]route) {
+	for _, route := range routes {
+		*newRoutes = append(*newRoutes, route)
+		getAllRoutes(route.Routes, newRoutes)
+	}
+}
+
 // printRoutesListTable prints routes response body as table
-func printRoutesListTable(body []byte) {
+func printRoutesListTable(body []byte, outputType config.OutputType) {
 	var routes routesList
+	var table []route
 
 	// unmarshal response body
 	err := json.Unmarshal(body, &routes)
 	cobra.CheckErr(err)
 
+	getAllRoutes(routes.Data.Routes, &table)
+	table = append(table, routes.Data)
+
 	// print the table
-	utils.PrintTable(routes.Data)
+	if outputType != "wide" {
+		var newTable []interface{}
+
+		for _, data := range table {
+			t := tableprinter.RemoveStructHeader(data, "GroupBy")
+			t = tableprinter.RemoveStructHeader(t, "Match")
+			t = tableprinter.RemoveStructHeader(t, "MatchRe")
+			t = tableprinter.RemoveStructHeader(t, "Matchers")
+			newTable = append(newTable, t)
+		}
+		utils.PrintTable(newTable)
+	} else {
+		utils.PrintTable(table)
+	}
 }
 
 // RoutesCmd represents the routes command
@@ -69,7 +97,7 @@ var RoutesCmd = &cobra.Command{
 
 		// print table output
 		if body != nil && (outputType == "" || outputType == "wide") {
-			printRoutesListTable(body)
+			printRoutesListTable(body, outputType)
 		}
 	},
 }

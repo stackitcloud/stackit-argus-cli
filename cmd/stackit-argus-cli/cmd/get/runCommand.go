@@ -36,6 +36,7 @@ func getRequest(url string) (int, []byte) {
 	return res.StatusCode, body
 }
 
+// runCommand call the url
 func runCommand(url, resource string, outputType config.OutputType) []byte {
 	// print debug messages if debug mode is turned on
 	if config.IsDebugMode() {

@@ -47,6 +47,7 @@ func postRequest(url string, targets []string) int {
 	return res.StatusCode
 }
 
+// runCommand call the url
 func runCommand(url, resource string, targets []string) {
 	// print debug messages if debug mode is turned on
 	if config.IsDebugMode() {

@@ -6,6 +6,7 @@ package get
 
 import (
 	"encoding/json"
+	"github.com/lensesio/tableprinter"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
 
@@ -25,6 +26,7 @@ type grafanaConfigs struct {
 		OauthClientSecret   string `json:"oauthClientSecret"`
 		RoleAttributeStrict bool   `json:"roleAttributeStrict"`
 		RoleAttributePath   string `json:"roleAttributePath"`
+		EmailAttributePath  string `json:"emailAttributePath"`
 		LoginAttributePath  string `json:"loginAttributePath"`
 	} `json:"genericOauth"`
 }
@@ -35,23 +37,39 @@ type grafanaConfigsTable struct {
 	Enabled             bool   `header:"generic auth enabled"`
 	Scopes              string `header:"scopes"`
 	RoleAttributeStrict bool   `header:"role attribute strict"`
+	RoleAttributePath   string `header:"role attribute path"`
+	EmailAttributePath  string `header:"email attribute path"`
+	LoginAttributePath  string `header:"login attribute path"`
 }
 
 // printGrafanaConfigsTable prints grafana configs response body as a table
-func printGrafanaConfigsTable(body []byte) {
+func printGrafanaConfigsTable(body []byte, outputType config.OutputType) {
 	var grafanaConfigs grafanaConfigs
 
 	// unmarshal response body
 	err := json.Unmarshal(body, &grafanaConfigs)
 	cobra.CheckErr(err)
 
-	// print the table
-	utils.PrintTable(grafanaConfigsTable{
+	wideTable := grafanaConfigsTable{
 		PublicReadAccess:    grafanaConfigs.PublicReadAccess,
 		Enabled:             grafanaConfigs.GenericOauth.Enabled,
 		Scopes:              grafanaConfigs.GenericOauth.Scopes,
 		RoleAttributeStrict: grafanaConfigs.GenericOauth.RoleAttributeStrict,
-	})
+		RoleAttributePath:   grafanaConfigs.GenericOauth.RoleAttributePath,
+		EmailAttributePath:  grafanaConfigs.GenericOauth.EmailAttributePath,
+		LoginAttributePath:  grafanaConfigs.GenericOauth.LoginAttributePath,
+	}
+
+	// print the table
+	if outputType != "wide" {
+		//remove attributes that are not needed for default table
+		table := tableprinter.RemoveStructHeader(wideTable, "RoleAttributePath")
+		table = tableprinter.RemoveStructHeader(table, "EmailAttributePath")
+		table = tableprinter.RemoveStructHeader(table, "LoginAttributePath")
+		utils.PrintTable(table)
+	} else {
+		utils.PrintTable(wideTable)
+	}
 }
 
 // GrafanaConfigsCmd represents the grafanaConfigs command
@@ -71,7 +89,7 @@ var GrafanaConfigsCmd = &cobra.Command{
 
 		// print table output
 		if body != nil && (outputType == "" || outputType == "wide") {
-			printGrafanaConfigsTable(body)
+			printGrafanaConfigsTable(body, outputType)
 		}
 	},
 }

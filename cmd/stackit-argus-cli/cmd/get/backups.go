@@ -21,12 +21,31 @@ type backups struct {
 }
 
 // printBackupsTable prints backups response body as a table
-func printBackupsTable(body []byte) {
+func printBackupsTable(body []byte, outputType config.OutputType) {
 	var backups backups
 
 	// unmarshal response body
 	err := json.Unmarshal(body, &backups)
 	cobra.CheckErr(err)
+
+	if outputType != "wide" {
+		l := len(backups.Grafana)
+		if l > 10 {
+			backups.Grafana = backups.Grafana[l-10 : l]
+		}
+		l = len(backups.AlertConfig)
+		if l > 10 {
+			backups.AlertConfig = backups.AlertConfig[l-10 : l]
+		}
+		l = len(backups.ScrapeConfig)
+		if l > 10 {
+			backups.ScrapeConfig = backups.ScrapeConfig[l-10 : l]
+		}
+		l = len(backups.AlertRules)
+		if l > 10 {
+			backups.AlertRules = backups.AlertRules[l-10 : l]
+		}
+	}
 
 	// print the table
 	utils.PrintTable(backups)
@@ -49,7 +68,7 @@ var BackupCmd = &cobra.Command{
 
 		// print table output
 		if body != nil && (outputType == "" || outputType == "wide") {
-			printBackupRetentionsTable(body)
+			printBackupsTable(body, outputType)
 		}
 	},
 }

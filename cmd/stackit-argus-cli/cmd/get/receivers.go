@@ -46,12 +46,12 @@ type webHooksConfigTable struct {
 
 // emailConfigTable holds structure of email config table
 type emailConfigTable struct {
-	To           string `header:"to"`
-	From         string `header:"from"`
-	SmartHost    string `header:"smart host"`
-	AuthUsername string `header:"auth username"`
-	AuthPassword string `header:"auth password"`
-	AuthIdentity string `header:"auth identity"`
+	To        string `header:"to"`
+	From      string `header:"from"`
+	SmartHost string `header:"smart host"`
+	//AuthUsername string `header:"auth username"`
+	//AuthPassword string `header:"auth password"`
+	//AuthIdentity string `header:"auth identity"`
 }
 
 // opsgenieConfigTable holds structure of opsgenie config table
@@ -89,12 +89,9 @@ func printReceiverTable(body []byte) {
 
 		for _, data := range receiver.Data.EmailConfigs {
 			table = append(table, emailConfigTable{
-				To:           data.To,
-				From:         data.From,
-				SmartHost:    data.SmartHost,
-				AuthUsername: data.AuthUsername,
-				AuthPassword: data.AuthPassword,
-				AuthIdentity: data.AuthIdentity,
+				To:        data.To,
+				From:      data.From,
+				SmartHost: data.SmartHost,
 			})
 
 			fmt.Println("\nEMAIL CONFIGS")
@@ -147,7 +144,7 @@ func printReceiversListTable(body []byte) {
 	err := json.Unmarshal(body, &receiversList)
 	cobra.CheckErr(err)
 
-	// fill table with values
+	// fill the table with values
 	for _, data := range receiversList.Data {
 		table = append(table, receiversListTable{
 			Name:            data.Name,
