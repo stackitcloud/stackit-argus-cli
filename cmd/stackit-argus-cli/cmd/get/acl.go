@@ -5,12 +5,39 @@ package get
  */
 
 import (
-	"fmt"
+	"encoding/json"
+	"github.com/spf13/cobra"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
-
-	"github.com/spf13/cobra"
 )
+
+// acl is used to unmarshal acl response body
+type acl struct {
+	Acl []string `json:"acl"`
+}
+
+// aclTable holds structure of acl table
+type aclTable struct {
+	Acl string `header:"acl"`
+}
+
+// printAclTable prints acl response body as table
+func printAclTable(body []byte) {
+	var acl acl
+	var table []aclTable
+
+	// unmarshal response body
+	err := json.Unmarshal(body, &acl)
+	cobra.CheckErr(err)
+
+	// fill table with values
+	for _, a := range acl.Acl {
+		table = append(table, aclTable{a})
+	}
+
+	// print the table
+	utils.PrintTable(table)
+}
 
 // AclCmd represents the acl command
 var AclCmd = &cobra.Command{
@@ -21,21 +48,15 @@ var AclCmd = &cobra.Command{
 		// generate an url
 		url := config.GetBaseUrl() + "acl"
 
-		// print debug messages if debug mode is turned on
-		if config.IsDebugMode() {
-			fmt.Println("get acl command called")
-			fmt.Printf("url to call - %s\n", url)
-		}
+		// get output flag
+		outputType := config.GetOutputType()
 
-		// get acl
-		status, body := getRequest(url)
+		// call the command
+		body := runCommand(url, "acl", outputType)
 
-		// print response status
-		utils.ResponseMessage(status, "acl", "get")
-
-		// print response body
-		if status == 200 {
-			fmt.Print(body)
+		// print table output
+		if body != nil && (outputType == "" || outputType == "wide") {
+			printAclTable(body)
 		}
 	},
 }

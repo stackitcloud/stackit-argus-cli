@@ -5,11 +5,8 @@ package create
  */
 
 import (
-	"fmt"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
-
 	"github.com/spf13/cobra"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
 )
 
 // ReceiversCmd represents the receivers command
@@ -21,16 +18,7 @@ var ReceiversCmd = &cobra.Command{
 		// generate an url
 		url := config.GetBaseUrl() + "alertconfigs/receivers"
 
-		// print debug messages if debug mode is turned on
-		if config.IsDebugMode() {
-			fmt.Println("create alert config receiver command called")
-			fmt.Printf("url to call - %s\n", url)
-		}
-
-		// create the receiver
-		status := postRequest(url, nil)
-
-		// print response status
-		utils.ResponseMessage(status, "receiver", "create")
+		// call command
+		runCommand(url, "alert config receiver", nil)
 	},
 }

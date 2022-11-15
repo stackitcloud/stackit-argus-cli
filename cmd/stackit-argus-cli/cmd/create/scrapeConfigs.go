@@ -5,11 +5,8 @@ package create
  */
 
 import (
-	"fmt"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
-
 	"github.com/spf13/cobra"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
 )
 
 // ScrapeConfigsCmd represents the scrapeConfigs command
@@ -21,16 +18,7 @@ var ScrapeConfigsCmd = &cobra.Command{
 		// generate an url
 		url := config.GetBaseUrl() + "scrapeconfigs"
 
-		// print debug messages if debug mode is turned on
-		if config.IsDebugMode() {
-			fmt.Println("create scrape config command called")
-			fmt.Printf("url to call - %s\n", url)
-		}
-
-		// create the scrape config
-		status := postRequest(url, nil)
-
-		// print response status
-		utils.ResponseMessage(status, "scrape config", "create")
+		// call command
+		runCommand(url, "scrape configs", nil)
 	},
 }

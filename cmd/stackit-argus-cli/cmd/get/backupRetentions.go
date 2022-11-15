@@ -5,12 +5,32 @@ package get
  */
 
 import (
-	"fmt"
+	"encoding/json"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
 
 	"github.com/spf13/cobra"
 )
+
+// backupRetentions is used to unmarshal backup retentions response body
+type backupRetentions struct {
+	AlertConfig  string `json:"alertConfigBackupRetention" header:"alert config"`
+	ScrapeConfig string `json:"scrapeConfigBackupRetention" header:"scrape config"`
+	AlertRules   string `json:"alertRulesBackupRetention" header:"alert rules"`
+	Grafana      string `json:"grafanaBackupRetention" header:"grafana"`
+}
+
+// printBackupRetentionsTable prints backup retentions
+func printBackupRetentionsTable(body []byte) {
+	var backupRetentions backupRetentions
+
+	// unmarshal response body
+	err := json.Unmarshal(body, &backupRetentions)
+	cobra.CheckErr(err)
+
+	// print the table
+	utils.PrintTable(backupRetentions)
+}
 
 // BackupRetentionsCmd represents the backupRetentions command
 var BackupRetentionsCmd = &cobra.Command{
@@ -21,21 +41,15 @@ var BackupRetentionsCmd = &cobra.Command{
 		// generate an url
 		url := config.GetBaseUrl() + "backup-retentions"
 
-		// print debug messages if debug mode is turned on
-		if config.IsDebugMode() {
-			fmt.Println("get backup retentions command called")
-			fmt.Printf("url to call - %s\n", url)
-		}
+		// get output flag
+		outputType := config.GetOutputType()
 
-		// get backup retentions
-		status, body := getRequest(url)
+		// call the command
+		body := runCommand(url, "backup retentions", outputType)
 
-		// print response status
-		utils.ResponseMessage(status, "backup retentions", "get")
-
-		// print response body
-		if status == 200 {
-			fmt.Print(body)
+		// print table output
+		if body != nil && (outputType == "" || outputType == "wide") {
+			printBackupRetentionsTable(body)
 		}
 	},
 }

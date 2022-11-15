@@ -6,10 +6,8 @@ package delete
 
 import (
 	"fmt"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
-
 	"github.com/spf13/cobra"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
 )
 
 // InstanceCmd represents the instance command
@@ -21,16 +19,7 @@ var InstanceCmd = &cobra.Command{
 		// generate an url
 		url := config.GetInstancesUrl() + fmt.Sprintf("/%s", args[0])
 
-		// print debug messages if debug mode is turned on
-		if config.IsDebugMode() {
-			fmt.Println("delete instance command called")
-			fmt.Printf("url to call - %s\n", url)
-		}
-
-		// delete the instance
-		status := deleteRequest(url)
-
-		// print response status
-		utils.ResponseMessage(status, "instance", "delete")
+		// call command
+		runCommand(url, "instance")
 	},
 }

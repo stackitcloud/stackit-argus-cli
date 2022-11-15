@@ -5,11 +5,8 @@ package create
  */
 
 import (
-	"fmt"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
-
 	"github.com/spf13/cobra"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
 )
 
 // BackupSchedulesCmd represents the backupSchedules command
@@ -31,17 +28,8 @@ var BackupSchedulesCmd = &cobra.Command{
 		// generate an url
 		url := config.GetBaseUrl() + "backup-schedules"
 
-		// print debug messages if debug mode is turned on
-		if config.IsDebugMode() {
-			fmt.Println("create backup schedule command called")
-			fmt.Printf("url to call - %s\n", url)
-		}
-
-		// create the backup schedule
-		status := postRequest(url, backupTargets)
-
-		// print response status
-		utils.ResponseMessage(status, "backup schedule", "create")
+		// call command
+		runCommand(url, "backup schedules", backupTargets)
 	},
 }
 

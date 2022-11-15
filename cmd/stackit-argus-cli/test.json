@@ -1,10 +1,3 @@
 {
-  "interval": "60s",
-  "rules": [
-    {
-      "alert": "testAlerts",
-      "expr": "sum(rate({app=\"argus-limit-api\"} |= \"error\" [5m])) by (job) > 0",
-      "for": "1s"
-    }
-  ]
+  "schedule": "1 * * * *"
 }

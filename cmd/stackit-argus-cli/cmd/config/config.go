@@ -18,10 +18,9 @@ var (
 	projectId  string
 	instanceId string
 	bodyFile   string
+	baseUrl    string
 	debugMode  bool
 )
-
-const baseUrl = "https://api-dev.stackit.cloud/argus-service/v1/projects"
 
 // initFromConfigFile inits info from configuration file
 func initFromConfigFile() {
@@ -32,7 +31,7 @@ func initFromConfigFile() {
 
 	// get instance id from a config file, if it is not set via flag
 	if instanceId == "" {
-		instanceId = viper.GetString("current_instance")
+		instanceId = viper.GetString("instance_id")
 		if instanceId == "" {
 			fmt.Println("Please, set a current instance id in a config file. Default config file path is" +
 				"'./.stackit-argus-cli.yaml'. Current instance id key is 'current_instance'.")
@@ -43,7 +42,7 @@ func initFromConfigFile() {
 
 	// get project id from a config file, if it is not set via flag
 	if projectId == "" {
-		projectId = viper.GetString("current_project")
+		projectId = viper.GetString("project_id")
 		if projectId == "" {
 			fmt.Println("Please, set a current project id in a config file. Default config file path is" +
 				"'./.stackit-argus-cli.yaml'. Current project id key is 'current_project'.")
@@ -57,6 +56,14 @@ func initFromConfigFile() {
 	if token == "" {
 		fmt.Println("Please, set an auth token in a config file. Default config file path is" +
 			"'./.stackit-argus-cli.yaml'. Token id key is 'token'.")
+
+		os.Exit(1)
+	}
+
+	// get base url from config file
+	baseUrl = viper.GetString("base_url")
+	if baseUrl == "" {
+		fmt.Println("Please, set an base url in a config file. Base url key is 'base_url'.")
 
 		os.Exit(1)
 	}
@@ -89,17 +96,17 @@ func InitInputFile(cmd *cobra.Command) {
 
 // GetBaseUrl gets basic url for mostly all api calls
 func GetBaseUrl() string {
-	return fmt.Sprintf("%s/%s/instances/%s/", baseUrl, projectId, instanceId)
+	return fmt.Sprintf("%s/projects/%s/instances/%s/", baseUrl, projectId, instanceId)
 }
 
 // GetInstancesUrl gets instances url
 func GetInstancesUrl() string {
-	return fmt.Sprintf("%s/%s/instances", baseUrl, projectId)
+	return fmt.Sprintf("%s/projects/%s/instances", baseUrl, projectId)
 }
 
 // GetProjectUrl gets project url
 func GetProjectUrl() string {
-	return fmt.Sprintf("%s/%s", baseUrl, projectId)
+	return fmt.Sprintf("%s/projects/%s", baseUrl, projectId)
 }
 
 // GetAuthHeader returns auth header to make api calls
