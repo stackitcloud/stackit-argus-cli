@@ -6,7 +6,6 @@ package get
 
 import (
 	"encoding/json"
-	"github.com/lensesio/tableprinter"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
 
@@ -19,24 +18,24 @@ type plans struct {
 		Id          string `json:"id" header:"id"`
 		Description string `json:"description" header:"description"`
 		Name        string `json:"name" header:"name"`
-		IsFree      bool   `json:"isFree" header:"free"`
-		IsPublic    bool   `json:"isPublic" header:"public"`
+		// wide table attributes
+		BucketSize    int `json:"bucketSize" header:"metrics storage(GB)"`
+		AlertRules    int `json:"alertRules" header:"alert rules"`
+		TargetNumber  int `json:"targetNumber" header:"target number"`
+		LogsStorage   int `json:"logsStorage" header:"logs storage(GB)"`
+		TracesStorage int `json:"tracesStorage" header:"traces storage(GB)"`
 
-		BucketSize       int     `json:"bucketSize" header:"bucketSize"`
-		AlertRules       int     `json:"alertRules" header:"alert rules"`
-		TargetNumber     int     `json:"targetNumber" header:"target number"`
-		SamplesPerScrape int     `json:"samplesPerScrape" header:"samples per scrape"`
-		Amount           float64 `json:"amount" header:"amount"`
-		LogsAlert        int     `json:"logsAlert" header:"logs alert"`
-
-		GrafanaGlobalUsers      int `json:"grafanaGlobalUsers"`
-		GrafanaGlobalOrgs       int `json:"grafanaGlobalOrgs"`
-		GrafanaGlobalDashboards int `json:"grafanaGlobalDashboards"`
-		GrafanaGlobalSessions   int `json:"grafanaGlobalSessions"`
-		AlertReceivers          int `json:"alertReceivers"`
-		AlertMatchers           int `json:"alertMatchers"`
-		TracesStorage           int `json:"tracesStorage"`
-		LogsStorage             int `json:"logsStorage"`
+		SamplesPerScrape        int     `json:"samplesPerScrape"`
+		GrafanaGlobalUsers      int     `json:"grafanaGlobalUsers"`
+		GrafanaGlobalOrgs       int     `json:"grafanaGlobalOrgs"`
+		GrafanaGlobalDashboards int     `json:"grafanaGlobalDashboards"`
+		GrafanaGlobalSessions   int     `json:"grafanaGlobalSessions"`
+		AlertReceivers          int     `json:"alertReceivers"`
+		AlertMatchers           int     `json:"alertMatchers"`
+		LogsAlert               int     `json:"logsAlert"`
+		IsFree                  bool    `json:"isFree"`
+		IsPublic                bool    `json:"isPublic"`
+		Amount                  float64 `json:"amount"`
 	} `json:"plans"`
 }
 
@@ -53,14 +52,8 @@ func printPlansTable(body []byte, outputType config.OutputType) {
 		var table []interface{}
 
 		for _, plan := range plans.Plans {
-			t := tableprinter.RemoveStructHeader(plan, "BucketSize")
-			t = tableprinter.RemoveStructHeader(t, "BucketSize")
-			t = tableprinter.RemoveStructHeader(t, "AlertRules")
-			t = tableprinter.RemoveStructHeader(t, "SamplesPerScrape")
-			t = tableprinter.RemoveStructHeader(t, "TargetNumber")
-			t = tableprinter.RemoveStructHeader(t, "Amount")
-			t = tableprinter.RemoveStructHeader(t, "LogsAlert")
-			table = append(table, t)
+			table = append(table, utils.RemoveColumnsFromTable(plan,
+				[]string{"BucketSize", "AlertRules", "SamplesPerScrape", "TargetNumber", "Amount", "LogsAlert"}))
 		}
 		utils.PrintTable(table)
 	} else {

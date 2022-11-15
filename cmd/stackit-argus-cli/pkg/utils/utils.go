@@ -35,6 +35,19 @@ func PrintYamlOrJson(body []byte, outputType string) {
 	}
 }
 
+func RemoveColumnsFromTable(originalTable interface{}, fieldNames []string) interface{} {
+	if len(fieldNames) == 0 {
+		return originalTable
+	}
+
+	newTable := tableprinter.RemoveStructHeader(originalTable, fieldNames[0])
+	for i := 1; i < len(fieldNames); i++ {
+		newTable = tableprinter.RemoveStructHeader(newTable, fieldNames[i])
+	}
+
+	return newTable
+}
+
 // PrintTable prints a table
 func PrintTable(in interface{}) {
 	// init table printer

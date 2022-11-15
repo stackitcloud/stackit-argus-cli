@@ -33,7 +33,7 @@ func printMetricsStorageRetentionTable(body []byte) {
 
 // MetricsStorageRetentionCmd represents the metricsStorageRetention command
 var MetricsStorageRetentionCmd = &cobra.Command{
-	Use:   "metricsStorageRetention",
+	Use:   "metricsRetention",
 	Short: "Get metric storage retention time.",
 	Args:  cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {

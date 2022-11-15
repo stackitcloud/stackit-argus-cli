@@ -6,7 +6,6 @@ package get
 
 import (
 	"encoding/json"
-	"github.com/lensesio/tableprinter"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
 
@@ -17,7 +16,7 @@ import (
 type offerings struct {
 	Name        string `json:"name" header:"name"`
 	Description string `json:"description" header:"description"`
-
+	// wide table attributes
 	DocumentationUrl string   `json:"documentationUrl" header:"documentation url"`
 	Tags             []string `json:"tags" header:"tags"`
 }
@@ -32,9 +31,7 @@ func printOfferingsTable(body []byte, outputType config.OutputType) {
 
 	// print the table
 	if outputType != "wide" {
-		table := tableprinter.RemoveStructHeader(offerings, "DocumentationUrl")
-		table = tableprinter.RemoveStructHeader(table, "Tags")
-		utils.PrintTable(table)
+		utils.PrintTable(utils.RemoveColumnsFromTable(offerings, []string{"DocumentationUrl", "Tags"}))
 	} else {
 		utils.PrintTable(offerings)
 	}

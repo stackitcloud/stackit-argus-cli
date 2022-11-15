@@ -12,11 +12,14 @@ import (
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
 )
 
+// show number of rules
+
 // alertGroups is used to unmarshal alert groups response body
 type alertGroups struct {
 	Data []struct {
-		Name     string `json:"name" header:"name"`
-		Interval string `json:"interval" header:"interval"`
+		Name     string     `json:"name"`
+		Interval string     `json:"interval"`
+		Rules    []struct{} `json:"rules"`
 	} `json:"data" yaml:"data"`
 }
 
@@ -31,6 +34,13 @@ type alertGroup struct {
 
 // alertGroupTable holds structure of alert group table
 type alertGroupTable struct {
+	Interval string `header:"interval"`
+	Rules    int    `header:"rules"`
+}
+
+// alertGroupsTable holds structure of alert groups table
+type alertGroupsTable struct {
+	Name     string `header:"name"`
 	Interval string `header:"interval"`
 	Rules    int    `header:"rules"`
 }
@@ -53,13 +63,23 @@ func printAlertGroupTable(body []byte) {
 // printAlertGroupsListTable prints alert groups response body as a table
 func printAlertGroupsListTable(body []byte) {
 	var alertGroups alertGroups
+	var table []alertGroupsTable
 
 	// unmarshal response body
 	err := json.Unmarshal(body, &alertGroups)
 	cobra.CheckErr(err)
 
+	// fill the table with values
+	for _, data := range alertGroups.Data {
+		table = append(table, alertGroupsTable{
+			Name:     data.Name,
+			Interval: data.Interval,
+			Rules:    len(data.Rules),
+		})
+	}
+
 	// print the table
-	utils.PrintTable(alertGroups.Data)
+	utils.PrintTable(table)
 }
 
 // AlertGroupsCmd represents the alertGroups command

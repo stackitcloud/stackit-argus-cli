@@ -7,7 +7,6 @@ package get
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/lensesio/tableprinter"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
 
@@ -19,23 +18,25 @@ type instance struct {
 	Id       string `json:"id" header:"id"`
 	Status   string `json:"status" header:"status"`
 	PlanName string `json:"planName" header:"plan name"`
+	// wide table attributes
+	PlanId string `json:"planId" header:"plan id"`
+	Error  string `json:"error" header:"error"`
 
-	PlanId      string `json:"planId" header:"plan id"`
-	IsUpdatable bool   `json:"isUpdatable" header:"is updatable"`
-	ServiceName string `json:"serviceName" header:"service name"`
-	Error       string `json:"error" header:"error"`
+	IsUpdatable bool   `json:"isUpdatable"`
+	ServiceName string `json:"serviceName"`
 }
 
 // instances is used to unmarshal instances list response body
 type instances struct {
 	Instances []struct {
-		Id          string `json:"id" header:"id"`
-		PlanName    string `json:"planName" header:"plan name"`
-		Instance    string `json:"instance" header:"instance"`
-		Name        string `json:"name" header:"name"`
-		Status      string `json:"status" header:"status"`
+		Id       string `json:"id" header:"id"`
+		PlanName string `json:"planName" header:"plan name"`
+		Instance string `json:"instance"`
+		Name     string `json:"name" header:"name"`
+		Status   string `json:"status" header:"status"`
+		// wide table attributes
 		Error       string `json:"error" header:"error"`
-		ServiceName string `json:"serviceName" header:"service name"`
+		ServiceName string `json:"serviceName"`
 	} `json:"instances"`
 }
 
@@ -49,10 +50,7 @@ func printInstanceTable(body []byte, outputType config.OutputType) {
 
 	// print the table
 	if outputType != "wide" {
-		table := tableprinter.RemoveStructHeader(instance, "PlanId")
-		table = tableprinter.RemoveStructHeader(table, "IsUpdatable")
-		table = tableprinter.RemoveStructHeader(table, "ServiceName")
-		table = tableprinter.RemoveStructHeader(table, "Error")
+		table := utils.RemoveColumnsFromTable(instance, []string{"PlanId", "Error"})
 		utils.PrintTable(table)
 	} else {
 		utils.PrintTable(instance)
@@ -70,11 +68,9 @@ func printListInstancesListTable(body []byte, outputType config.OutputType) {
 	// print the table
 	if outputType != "wide" {
 		var table []interface{}
-		for _, i := range instances.Instances {
-			t := tableprinter.RemoveStructHeader(i, "ServiceName")
-			t = tableprinter.RemoveStructHeader(t, "Error")
-			t = tableprinter.RemoveStructHeader(t, "Instance")
-			table = append(table, t)
+
+		for _, instance := range instances.Instances {
+			table = append(table, utils.RemoveColumnsFromTable(instance, []string{"Error"}))
 		}
 		utils.PrintTable(table)
 	} else {

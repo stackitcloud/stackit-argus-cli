@@ -7,7 +7,6 @@ package get
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/lensesio/tableprinter"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
 
@@ -16,9 +15,10 @@ import (
 
 // data stores alert rule properties
 type data struct {
-	Alert       string            `json:"alert" header:"alert"`
-	Expr        string            `json:"expr" header:"expr"`
-	For         string            `json:"for" header:"for"`
+	Alert string `json:"alert" header:"alert"`
+	Expr  string `json:"expr" header:"expr"`
+	For   string `json:"for" header:"for"`
+	// wide table attributes
 	Labels      map[string]string `json:"labels" header:"labels"`
 	Annotations map[string]string `json:"annotations" header:"annotations"`
 }
@@ -47,9 +47,7 @@ func printAlertRulesTable(body []byte, outputType config.OutputType) {
 	} else {
 		var table []interface{}
 		for _, data := range alertRules.Data {
-			newTable := tableprinter.RemoveStructHeader(data, "Labels")
-			newTable = tableprinter.RemoveStructHeader(newTable, "Annotations")
-			table = append(table, newTable)
+			table = append(table, utils.RemoveColumnsFromTable(data, []string{"Labels", "Annotations"}))
 		}
 		utils.PrintTable(table)
 	}
@@ -67,8 +65,7 @@ func printAlertRuleTable(body []byte, outputType config.OutputType) {
 	if outputType == "wide" {
 		utils.PrintTable(alertRule.Data)
 	} else {
-		table := tableprinter.RemoveStructHeader(alertRule.Data, "Labels")
-		table = tableprinter.RemoveStructHeader(table, "Annotations")
+		table := utils.RemoveColumnsFromTable(alertRule.Data, []string{"Labels", "Annotations"})
 		utils.PrintTable(table)
 	}
 }

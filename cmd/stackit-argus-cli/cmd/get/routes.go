@@ -7,7 +7,6 @@ package get
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/lensesio/tableprinter"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
 
@@ -21,7 +20,7 @@ type route struct {
 	GroupInterval  string `json:"groupInterval" header:"groupInterval"`
 	RepeatInterval string `json:"repeatInterval" header:"repeatInterval"`
 	Continue       bool   `json:"continue" header:"continue"`
-
+	// wide table attributes
 	GroupBy  []string          `json:"groupBy" header:"groupBy"`
 	Match    map[string]string `json:"match" header:"match"`
 	MatchRe  map[string]string `json:"matchRe" header:"matchRe"`
@@ -60,11 +59,8 @@ func printRoutesListTable(body []byte, outputType config.OutputType) {
 		var newTable []interface{}
 
 		for _, data := range table {
-			t := tableprinter.RemoveStructHeader(data, "GroupBy")
-			t = tableprinter.RemoveStructHeader(t, "Match")
-			t = tableprinter.RemoveStructHeader(t, "MatchRe")
-			t = tableprinter.RemoveStructHeader(t, "Matchers")
-			newTable = append(newTable, t)
+			newTable = append(newTable, utils.RemoveColumnsFromTable(data,
+				[]string{"GroupBy", "Match", "MatchRe", "Matchers"}))
 		}
 		utils.PrintTable(newTable)
 	} else {

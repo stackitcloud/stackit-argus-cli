@@ -42,7 +42,6 @@ type alertConfigsTable struct {
 	SmtpFrom      string `header:"smtp from"`
 	Receivers     int    `header:"receivers"`
 	Routes        int    `header:"routes"`
-	RouteReceiver string `header:"route receiver"`
 }
 
 // alertConfigsWideTable holds structure of alert configs wide table
@@ -77,7 +76,6 @@ func printAlertConfigsTable(body []byte, outputType config.OutputType) {
 		SmtpFrom:      alertConfigs.Data.Global.SmtpFrom,
 		Receivers:     len(alertConfigs.Data.Receivers),
 		Routes:        routes + 1,
-		RouteReceiver: alertConfigs.Data.Route.Receiver,
 	})
 
 	// print wide table

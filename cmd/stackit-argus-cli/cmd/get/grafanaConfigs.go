@@ -6,7 +6,6 @@ package get
 
 import (
 	"encoding/json"
-	"github.com/lensesio/tableprinter"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
 
@@ -18,28 +17,30 @@ type grafanaConfigs struct {
 	PublicReadAccess bool `json:"publicReadAccess"`
 	GenericOauth     struct {
 		Enabled             bool   `json:"enabled"`
-		ApiUrl              string `json:"apiUrl"`
-		AuthUrl             string `json:"authUrl"`
-		Scopes              string `json:"scopes"`
-		TokenUrl            string `json:"tokenUrl"`
-		OauthClientId       string `json:"oauthClientId"`
-		OauthClientSecret   string `json:"oauthClientSecret"`
 		RoleAttributeStrict bool   `json:"roleAttributeStrict"`
+		OauthClientId       string `json:"oauthClientId"`
+		Scopes              string `json:"scopes"`
 		RoleAttributePath   string `json:"roleAttributePath"`
 		EmailAttributePath  string `json:"emailAttributePath"`
 		LoginAttributePath  string `json:"loginAttributePath"`
+		OauthClientSecret   string `json:"oauthClientSecret"`
+		ApiUrl              string `json:"apiUrl"`
+		AuthUrl             string `json:"authUrl"`
+		TokenUrl            string `json:"tokenUrl"`
 	} `json:"genericOauth"`
 }
 
 // grafanaConfigsTable holds structure of grafana configs table
 type grafanaConfigsTable struct {
+	OauthClientId       string `header:"oauth client id"`
 	PublicReadAccess    bool   `header:"public read access"`
 	Enabled             bool   `header:"generic auth enabled"`
-	Scopes              string `header:"scopes"`
 	RoleAttributeStrict bool   `header:"role attribute strict"`
-	RoleAttributePath   string `header:"role attribute path"`
-	EmailAttributePath  string `header:"email attribute path"`
-	LoginAttributePath  string `header:"login attribute path"`
+	// wide table attributes
+	Scopes             string `header:"scopes"`
+	RoleAttributePath  string `header:"role attribute path"`
+	EmailAttributePath string `header:"email attribute path"`
+	LoginAttributePath string `header:"login attribute path"`
 }
 
 // printGrafanaConfigsTable prints grafana configs response body as a table
@@ -50,11 +51,13 @@ func printGrafanaConfigsTable(body []byte, outputType config.OutputType) {
 	err := json.Unmarshal(body, &grafanaConfigs)
 	cobra.CheckErr(err)
 
+	// generate a table
 	wideTable := grafanaConfigsTable{
+		OauthClientId:       grafanaConfigs.GenericOauth.OauthClientId,
 		PublicReadAccess:    grafanaConfigs.PublicReadAccess,
 		Enabled:             grafanaConfigs.GenericOauth.Enabled,
-		Scopes:              grafanaConfigs.GenericOauth.Scopes,
 		RoleAttributeStrict: grafanaConfigs.GenericOauth.RoleAttributeStrict,
+		Scopes:              grafanaConfigs.GenericOauth.Scopes,
 		RoleAttributePath:   grafanaConfigs.GenericOauth.RoleAttributePath,
 		EmailAttributePath:  grafanaConfigs.GenericOauth.EmailAttributePath,
 		LoginAttributePath:  grafanaConfigs.GenericOauth.LoginAttributePath,
@@ -63,9 +66,8 @@ func printGrafanaConfigsTable(body []byte, outputType config.OutputType) {
 	// print the table
 	if outputType != "wide" {
 		//remove attributes that are not needed for default table
-		table := tableprinter.RemoveStructHeader(wideTable, "RoleAttributePath")
-		table = tableprinter.RemoveStructHeader(table, "EmailAttributePath")
-		table = tableprinter.RemoveStructHeader(table, "LoginAttributePath")
+		table := utils.RemoveColumnsFromTable(wideTable,
+			[]string{"RoleAttributePath", "EmailAttributePath", "LoginAttributePath", "Scopes"})
 		utils.PrintTable(table)
 	} else {
 		utils.PrintTable(wideTable)

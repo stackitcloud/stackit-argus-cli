@@ -7,7 +7,6 @@ package get
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/lensesio/tableprinter"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
 
@@ -45,7 +44,7 @@ func printRecordsListTable(body []byte, outputType config.OutputType) {
 		var table []interface{}
 
 		for _, d := range records.Data {
-			table = append(table, tableprinter.RemoveStructHeader(d, "Labels"))
+			table = append(table, utils.RemoveColumnsFromTable(d, []string{"Labels"}))
 		}
 		utils.PrintTable(table)
 	} else {
@@ -63,8 +62,7 @@ func printRecordTable(body []byte, outputType config.OutputType) {
 
 	// print the table
 	if outputType != "wide" {
-		table := tableprinter.RemoveStructHeader(record.Data, "Labels")
-		utils.PrintTable(table)
+		utils.PrintTable(utils.RemoveColumnsFromTable(record.Data, []string{"Labels"}))
 	} else {
 		utils.PrintTable(record.Data)
 	}

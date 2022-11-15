@@ -13,50 +13,118 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// tracesConfigs is used to unmarshal scrape config response body and generate a table out of it
-type scrapeConfig struct {
-	Data struct {
-		JobName        string `json:"jobName" header:"job name"`
-		Scheme         string `json:"scheme" header:"scheme"`
-		ScrapeInterval string `json:"scrapeInterval" header:"scrape interval"`
-		ScrapeTimeout  string `json:"scrapeTimeout" header:"scrape timeout"`
-		MetricsPath    string `json:"metricsPath" header:"metrics path"`
-	} `json:"data"`
+type scrapeConfigData struct {
+	JobName        string `json:"jobName"`
+	ScrapeInterval string `json:"scrapeInterval"`
+	ScrapeTimeout  string `json:"scrapeTimeout"`
+	MetricsPath    string `json:"metricsPath"`
+	// wide table attributes
+	Scheme          string `json:"scheme"`
+	SampleLimit     int    `json:"sampleLimit"`
+	HonorLabels     bool   `json:"honorLabels"`
+	HonorTimeStamps bool   `json:"honorTimeStamps"`
+
+	StaticConfigs []struct {
+		Targets []string `json:"targets"`
+	} `json:"staticConfigs"`
 }
 
-// tracesConfigs is used to unmarshal scrape configs response body and generate a table out of it
+// scrapeConfig is used to unmarshal scrape config response body
+type scrapeConfig struct {
+	Data scrapeConfigData `json:"data"`
+}
+
+// scrapeConfigsList is used to unmarshal scrape configs response body
 type scrapeConfigsList struct {
-	Data []struct {
-		JobName        string `json:"jobName" header:"job name"`
-		Scheme         string `json:"scheme" header:"scheme"`
-		ScrapeInterval string `json:"scrapeInterval" header:"scrape interval"`
-		ScrapeTimeout  string `json:"scrapeTimeout" header:"scrape timeout"`
-		MetricsPath    string `json:"metricsPath" header:"metrics path"`
-	} `json:"data"`
+	Data []scrapeConfigData `json:"data"`
+}
+
+// scrapeConfigsTable holds structure of scrape configs table
+type scrapeConfigsTable struct {
+	JobName        string   `header:"job name"`
+	ScrapeInterval string   `header:"scrape interval"`
+	ScrapeTimeout  string   `header:"scrape timeout"`
+	SampleLimit    int      `header:"sample limit"`
+	Targets        []string `header:"targets"`
+	// wide table attributes
+	MetricsPath     string `header:"metrics path"`
+	HonorLabels     bool   `header:"honor labels"`
+	HonorTimeStamps bool   `header:"honor time stamps"`
 }
 
 // printScrapeConfigTable prints scrape config response body as table
-func printScrapeConfigTable(body []byte) {
+func printScrapeConfigTable(body []byte, outputType config.OutputType) {
 	var scrapeConfig scrapeConfig
+	var targets []string
 
 	// unmarshal response body
 	err := json.Unmarshal(body, &scrapeConfig)
 	cobra.CheckErr(err)
 
+	// fill the table
+	for _, sc := range scrapeConfig.Data.StaticConfigs {
+		targets = append(targets, sc.Targets...)
+	}
+	table := scrapeConfigsTable{
+		ScrapeInterval:  scrapeConfig.Data.ScrapeInterval,
+		ScrapeTimeout:   scrapeConfig.Data.ScrapeTimeout,
+		SampleLimit:     scrapeConfig.Data.SampleLimit,
+		Targets:         targets,
+		MetricsPath:     scrapeConfig.Data.MetricsPath,
+		HonorLabels:     scrapeConfig.Data.HonorLabels,
+		HonorTimeStamps: scrapeConfig.Data.HonorTimeStamps,
+	}
+
 	// print the table
-	utils.PrintTable(scrapeConfig.Data)
+	if outputType != "wide" {
+		utils.PrintTable(utils.RemoveColumnsFromTable(table,
+			[]string{"MetricsPath", "HonorLabels", "HonorTimeStamps", "JobName"}))
+	} else {
+		utils.PrintTable(utils.RemoveColumnsFromTable(table,
+			[]string{"JobName"}))
+	}
 }
 
 // printScrapeConfigsListTable prints scrape configs response body as table
-func printScrapeConfigsListTable(body []byte) {
+func printScrapeConfigsListTable(body []byte, outputType config.OutputType) {
 	var scrapeConfigs scrapeConfigsList
+	var table []scrapeConfigsTable
+	var targets []string
 
 	// unmarshal response body
 	err := json.Unmarshal(body, &scrapeConfigs)
 	cobra.CheckErr(err)
 
+	// fill the table
+	for _, data := range scrapeConfigs.Data {
+		for _, sc := range data.StaticConfigs {
+			targets = append(targets, sc.Targets...)
+		}
+		table = append(table, scrapeConfigsTable{
+			JobName:         data.JobName,
+			ScrapeInterval:  data.ScrapeInterval,
+			ScrapeTimeout:   data.ScrapeTimeout,
+			SampleLimit:     data.SampleLimit,
+			Targets:         targets,
+			MetricsPath:     data.MetricsPath,
+			HonorLabels:     data.HonorLabels,
+			HonorTimeStamps: data.HonorTimeStamps,
+		})
+		targets = nil
+	}
+
 	// print the table
-	utils.PrintTable(scrapeConfigs.Data)
+	if outputType != "wide" {
+		var newTable []interface{}
+
+		for _, data := range table {
+			newTable = append(newTable, utils.RemoveColumnsFromTable(data,
+				[]string{"MetricsPath", "HonorLabels", "HonorTimeStamps"}))
+		}
+		utils.PrintTable(newTable)
+	} else {
+		utils.PrintTable(table)
+	}
 }
 
 // ScrapeConfigsCmd represents the scrapeConfigs command
@@ -85,9 +153,9 @@ var ScrapeConfigsCmd = &cobra.Command{
 		// print table output
 		if body != nil && (outputType == "" || outputType == "wide") {
 			if len(args) == 0 {
-				printScrapeConfigsListTable(body)
+				printScrapeConfigsListTable(body, outputType)
 			} else {
-				printScrapeConfigTable(body)
+				printScrapeConfigTable(body, outputType)
 			}
 		}
 	},

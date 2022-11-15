@@ -49,9 +49,6 @@ type emailConfigTable struct {
 	To        string `header:"to"`
 	From      string `header:"from"`
 	SmartHost string `header:"smart host"`
-	//AuthUsername string `header:"auth username"`
-	//AuthPassword string `header:"auth password"`
-	//AuthIdentity string `header:"auth identity"`
 }
 
 // opsgenieConfigTable holds structure of opsgenie config table
