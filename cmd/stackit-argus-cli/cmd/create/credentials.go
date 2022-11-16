@@ -19,6 +19,7 @@ var CredentialsCmd = &cobra.Command{
 		url := config.GetBaseUrl() + "credentials"
 
 		// call command
-		runCommand(url, "credentials", nil)
+		err := runCommand(url, "credentials", nil)
+		cobra.CheckErr(err)
 	},
 }

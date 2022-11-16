@@ -19,6 +19,7 @@ var PingCheckCmd = &cobra.Command{
 		url := config.GetBaseUrl() + fmt.Sprintf("ping-checks/%s", args[0])
 
 		// call command
-		runCommand(url, "ping check")
+		err := runCommand(url, "ping check")
+		cobra.CheckErr(err)
 	},
 }

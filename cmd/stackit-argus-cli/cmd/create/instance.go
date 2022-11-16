@@ -19,6 +19,7 @@ var InstanceCmd = &cobra.Command{
 		url := config.GetInstancesUrl()
 
 		// call command
-		runCommand(url, "instance", nil)
+		err := runCommand(url, "instance", nil)
+		cobra.CheckErr(err)
 	},
 }

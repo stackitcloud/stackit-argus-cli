@@ -29,7 +29,8 @@ var CredentialsCmd = &cobra.Command{
 		}
 
 		// call command
-		runCommand(url, resource)
+		err := runCommand(url, resource)
+		cobra.CheckErr(err)
 	},
 }
 

@@ -6,10 +6,9 @@ package get
 
 import (
 	"encoding/json"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
-
 	"github.com/spf13/cobra"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
+	output_table "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
 )
 
 // schedule is used to unmarshal backup schedules response
@@ -26,14 +25,14 @@ type backupSchedules struct {
 	Grafana      []schedule `json:"grafanaBackupSchedules"`
 }
 
-// backupSchedulesTable holds structure of backup schedules table
+// backupSchedulesTable holds structure of backup schedules outputTable
 type backupSchedulesTable struct {
 	Resource   string `header:"resource"`
 	Schedule   string `header:"schedule"`
 	ScheduleId string `header:"scheduleId"`
 }
 
-// printBackupSchedulesTable prints backup schedules response body as table
+// printBackupSchedulesTable prints backup schedules response body as outputTable
 func printBackupSchedulesTable(body []byte) {
 	var check [4]bool
 	var backupSchedules backupSchedules
@@ -43,7 +42,7 @@ func printBackupSchedulesTable(body []byte) {
 	err := json.Unmarshal(body, &backupSchedules)
 	cobra.CheckErr(err)
 
-	// fill the table
+	// fill the outputTable
 	for i := 0; !check[0] && !check[1] && !check[2] && !check[3]; i++ {
 		if i < len(backupSchedules.AlertConfig) {
 			table = append(table, backupSchedulesTable{
@@ -83,8 +82,8 @@ func printBackupSchedulesTable(body []byte) {
 		}
 	}
 
-	// print the table
-	utils.PrintTable(table)
+	// print the outputTable
+	output_table.PrintTable(table)
 }
 
 // BackupSchedulesCmd represents the backupSchedules command
@@ -100,9 +99,10 @@ var BackupSchedulesCmd = &cobra.Command{
 		outputType := config.GetOutputType()
 
 		// call the command
-		body := runCommand(url, "backup schedules", outputType)
+		body, err := runCommand(url, "backup schedules", outputType)
+		cobra.CheckErr(err)
 
-		// print table output
+		// print outputTable output
 		if body != nil && (outputType == "" || outputType == "wide") {
 			printBackupSchedulesTable(body)
 		}

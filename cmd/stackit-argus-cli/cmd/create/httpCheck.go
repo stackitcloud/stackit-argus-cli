@@ -19,6 +19,7 @@ var HttpCheckCmd = &cobra.Command{
 		url := config.GetBaseUrl() + "http-checks"
 
 		// call command
-		runCommand(url, "http check", nil)
+		err := runCommand(url, "http check", nil)
+		cobra.CheckErr(err)
 	},
 }

@@ -30,6 +30,7 @@ var AlertGroupsCmd = &cobra.Command{
 		}
 
 		// call command
-		runCommand(url, resource, method)
+		err := runCommand(url, resource, method)
+		cobra.CheckErr(err)
 	},
 }

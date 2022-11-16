@@ -7,10 +7,9 @@ package get
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
-
 	"github.com/spf13/cobra"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
+	output_table "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
 )
 
 // instance is used to unmarshal instance response body
@@ -18,7 +17,7 @@ type instance struct {
 	Id       string `json:"id" header:"id"`
 	Status   string `json:"status" header:"status"`
 	PlanName string `json:"planName" header:"plan name"`
-	// wide table attributes
+	// wide outputTable attributes
 	PlanId string `json:"planId" header:"plan id"`
 	Error  string `json:"error" header:"error"`
 
@@ -34,13 +33,13 @@ type instances struct {
 		Instance string `json:"instance"`
 		Name     string `json:"name" header:"name"`
 		Status   string `json:"status" header:"status"`
-		// wide table attributes
+		// wide outputTable attributes
 		Error       string `json:"error" header:"error"`
 		ServiceName string `json:"serviceName"`
 	} `json:"instances"`
 }
 
-// printInstanceTable prints instance as a table
+// printInstanceTable prints instance as a outputTable
 func printInstanceTable(body []byte, outputType config.OutputType) {
 	var instance instance
 
@@ -48,16 +47,16 @@ func printInstanceTable(body []byte, outputType config.OutputType) {
 	err := json.Unmarshal(body, &instance)
 	cobra.CheckErr(err)
 
-	// print the table
+	// print the outputTable
 	if outputType != "wide" {
-		table := utils.RemoveColumnsFromTable(instance, []string{"PlanId", "Error"})
-		utils.PrintTable(table)
+		table := output_table.RemoveColumnsFromTable(instance, []string{"PlanId", "Error"})
+		output_table.PrintTable(table)
 	} else {
-		utils.PrintTable(instance)
+		output_table.PrintTable(instance)
 	}
 }
 
-// printListInstancesListTable prints instances list as a table
+// printListInstancesListTable prints instances list as a outputTable
 func printListInstancesListTable(body []byte, outputType config.OutputType) {
 	var instances instances
 
@@ -65,16 +64,16 @@ func printListInstancesListTable(body []byte, outputType config.OutputType) {
 	err := json.Unmarshal(body, &instances)
 	cobra.CheckErr(err)
 
-	// print the table
+	// print the outputTable
 	if outputType != "wide" {
 		var table []interface{}
 
 		for _, instance := range instances.Instances {
-			table = append(table, utils.RemoveColumnsFromTable(instance, []string{"Error"}))
+			table = append(table, output_table.RemoveColumnsFromTable(instance, []string{"Error"}))
 		}
-		utils.PrintTable(table)
+		output_table.PrintTable(table)
 	} else {
-		utils.PrintTable(instances.Instances)
+		output_table.PrintTable(instances.Instances)
 	}
 }
 
@@ -99,9 +98,10 @@ var InstanceCmd = &cobra.Command{
 		outputType := config.GetOutputType()
 
 		// call the command
-		body := runCommand(url, resource, outputType)
+		body, err := runCommand(url, resource, outputType)
+		cobra.CheckErr(err)
 
-		// print table output
+		// print outputTable output
 		if body != nil && (outputType == "" || outputType == "wide") {
 			if len(args) == 0 {
 				printListInstancesListTable(body, outputType)

@@ -19,6 +19,7 @@ var MetricsStorageRetentionCmd = &cobra.Command{
 		url := config.GetBaseUrl() + "metrics-storage-retentions"
 
 		// call command
-		runCommand(url, "metrics storage retention", "PUT")
+		err := runCommand(url, "metrics storage retention", "PUT")
+		cobra.CheckErr(err)
 	},
 }

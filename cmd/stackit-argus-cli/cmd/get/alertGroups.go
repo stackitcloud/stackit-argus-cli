@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
+	output_table "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
 )
 
 // show number of rules
@@ -32,20 +32,20 @@ type alertGroup struct {
 	} `json:"data"`
 }
 
-// alertGroupTable holds structure of alert group table
+// alertGroupTable holds structure of alert group outputTable
 type alertGroupTable struct {
 	Interval string `header:"interval"`
 	Rules    int    `header:"rules"`
 }
 
-// alertGroupsTable holds structure of alert groups table
+// alertGroupsTable holds structure of alert groups outputTable
 type alertGroupsTable struct {
 	Name     string `header:"name"`
 	Interval string `header:"interval"`
 	Rules    int    `header:"rules"`
 }
 
-// printAlertGroupTable prints alert group response body as a table
+// printAlertGroupTable prints alert group response body as a outputTable
 func printAlertGroupTable(body []byte) {
 	var alertGroup alertGroup
 
@@ -53,14 +53,14 @@ func printAlertGroupTable(body []byte) {
 	err := json.Unmarshal(body, &alertGroup)
 	cobra.CheckErr(err)
 
-	// print the table
-	utils.PrintTable(alertGroupTable{
+	// print the outputTable
+	output_table.PrintTable(alertGroupTable{
 		Interval: alertGroup.Data.Interval,
 		Rules:    len(alertGroup.Data.Rules),
 	})
 }
 
-// printAlertGroupsListTable prints alert groups response body as a table
+// printAlertGroupsListTable prints alert groups response body as a outputTable
 func printAlertGroupsListTable(body []byte) {
 	var alertGroups alertGroups
 	var table []alertGroupsTable
@@ -69,7 +69,7 @@ func printAlertGroupsListTable(body []byte) {
 	err := json.Unmarshal(body, &alertGroups)
 	cobra.CheckErr(err)
 
-	// fill the table with values
+	// fill the outputTable with values
 	for _, data := range alertGroups.Data {
 		table = append(table, alertGroupsTable{
 			Name:     data.Name,
@@ -78,8 +78,8 @@ func printAlertGroupsListTable(body []byte) {
 		})
 	}
 
-	// print the table
-	utils.PrintTable(table)
+	// print the outputTable
+	output_table.PrintTable(table)
 }
 
 // AlertGroupsCmd represents the alertGroups command
@@ -103,9 +103,10 @@ var AlertGroupsCmd = &cobra.Command{
 		outputType := config.GetOutputType()
 
 		// call the command
-		body := runCommand(url, resource, outputType)
+		body, err := runCommand(url, resource, outputType)
+		cobra.CheckErr(err)
 
-		// print table output
+		// print outputTable output
 		if body != nil && (outputType == "" || outputType == "wide") {
 			if len(args) == 0 {
 				printAlertGroupsListTable(body)

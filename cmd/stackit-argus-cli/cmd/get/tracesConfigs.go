@@ -6,20 +6,19 @@ package get
 
 import (
 	"encoding/json"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
-
 	"github.com/spf13/cobra"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
+	output_table "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
 )
 
-// tracesConfigs is used to unmarshal traces configs response body and generate a table out of it
+// tracesConfigs is used to unmarshal traces configs response body and generate a outputTable out of it
 type tracesConfigs struct {
 	Config struct {
 		Retention string `json:"retention" header:"retention"`
 	} `json:"config"`
 }
 
-// printTracesConfigsListTable prints traces configs response body as table
+// printTracesConfigsListTable prints traces configs response body as outputTable
 func printTracesConfigsListTable(body []byte) {
 	var tracesConfigs tracesConfigs
 
@@ -27,8 +26,8 @@ func printTracesConfigsListTable(body []byte) {
 	err := json.Unmarshal(body, &tracesConfigs)
 	cobra.CheckErr(err)
 
-	// print the table
-	utils.PrintTable(tracesConfigs.Config)
+	// print the outputTable
+	output_table.PrintTable(tracesConfigs.Config)
 }
 
 // TracesConfigsCmd represents the tracesConfigs command
@@ -44,9 +43,10 @@ var TracesConfigsCmd = &cobra.Command{
 		outputType := config.GetOutputType()
 
 		// call the command
-		body := runCommand(url, "traces configs", outputType)
+		body, err := runCommand(url, "traces configs", outputType)
+		cobra.CheckErr(err)
 
-		// print table output
+		// print outputTable output
 		if body != nil && (outputType == "" || outputType == "wide") {
 			printTracesConfigsListTable(body)
 		}

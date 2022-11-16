@@ -6,10 +6,9 @@ package get
 
 import (
 	"encoding/json"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
-
 	"github.com/spf13/cobra"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
+	output_table "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
 )
 
 // certCheck struct is used to unmarshal cert check response body
@@ -19,7 +18,7 @@ type certCheck struct {
 	} `json:"certChecks"`
 }
 
-// printCertCheckTable prints cert checks as a table
+// printCertCheckTable prints cert checks as a outputTable
 func printCertCheckTable(body []byte) {
 	var certCheck certCheck
 
@@ -27,8 +26,8 @@ func printCertCheckTable(body []byte) {
 	err := json.Unmarshal(body, &certCheck)
 	cobra.CheckErr(err)
 
-	// print the table
-	utils.PrintTable(certCheck.CertChecks)
+	// print the outputTable
+	output_table.PrintTable(certCheck.CertChecks)
 }
 
 // CertCheckCmd represents the CertCheck command
@@ -44,9 +43,10 @@ var CertCheckCmd = &cobra.Command{
 		outputType := config.GetOutputType()
 
 		// call the command
-		body := runCommand(url, "cert check", outputType)
+		body, err := runCommand(url, "cert check", outputType)
+		cobra.CheckErr(err)
 
-		// print table output
+		// print outputTable output
 		if body != nil && (outputType == "" || outputType == "wide") {
 			printCertCheckTable(body)
 		}

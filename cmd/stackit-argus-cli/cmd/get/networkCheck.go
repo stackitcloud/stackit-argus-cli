@@ -6,10 +6,9 @@ package get
 
 import (
 	"encoding/json"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
-
 	"github.com/spf13/cobra"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
+	output_table "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
 )
 
 // networkCheck struct is used to unmarshal network check response body
@@ -19,7 +18,7 @@ type networkCheck struct {
 	} `json:"networkChecks"`
 }
 
-// printNetworkCheckTable prints network checks as a table
+// printNetworkCheckTable prints network checks as a outputTable
 func printNetworkCheckTable(body []byte) {
 	var networkCheck networkCheck
 
@@ -27,8 +26,8 @@ func printNetworkCheckTable(body []byte) {
 	err := json.Unmarshal(body, &networkCheck)
 	cobra.CheckErr(err)
 
-	// print the table
-	utils.PrintTable(networkCheck.NetworkChecks)
+	// print the outputTable
+	output_table.PrintTable(networkCheck.NetworkChecks)
 }
 
 // NetworkCheckCmd represents the NetworkCheck command
@@ -44,9 +43,10 @@ var NetworkCheckCmd = &cobra.Command{
 		outputType := config.GetOutputType()
 
 		// call the command
-		body := runCommand(url, "network check", outputType)
+		body, err := runCommand(url, "network check", outputType)
+		cobra.CheckErr(err)
 
-		// print table output
+		// print outputTable output
 		if body != nil && (outputType == "" || outputType == "wide") {
 			printNetworkCheckTable(body)
 		}

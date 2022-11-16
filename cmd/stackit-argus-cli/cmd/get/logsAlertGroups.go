@@ -31,7 +31,8 @@ var LogsAlertGroupsCmd = &cobra.Command{
 		outputType := config.GetOutputType()
 
 		// call the command
-		body := runCommand(url, resource, outputType)
+		body, err := runCommand(url, resource, outputType)
+		cobra.CheckErr(err)
 
 		if body != nil {
 			if len(args) == 0 {

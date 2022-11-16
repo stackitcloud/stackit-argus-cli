@@ -19,6 +19,7 @@ var LogsConfigsCmd = &cobra.Command{
 		url := config.GetBaseUrl() + "logs-configs"
 
 		// call command
-		runCommand(url, "logs config", "PUT")
+		err := runCommand(url, "logs config", "PUT")
+		cobra.CheckErr(err)
 	},
 }

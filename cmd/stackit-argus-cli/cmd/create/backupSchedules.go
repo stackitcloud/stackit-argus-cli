@@ -29,7 +29,8 @@ var BackupSchedulesCmd = &cobra.Command{
 		url := config.GetBaseUrl() + "backup-schedules"
 
 		// call command
-		runCommand(url, "backup schedules", backupTargets)
+		err := runCommand(url, "backup schedules", backupTargets)
+		cobra.CheckErr(err)
 	},
 }
 

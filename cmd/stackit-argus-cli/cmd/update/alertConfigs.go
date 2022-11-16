@@ -19,6 +19,7 @@ var AlertConfigsCmd = &cobra.Command{
 		url := config.GetBaseUrl() + "alertconfigs"
 
 		// call command
-		runCommand(url, "alert config", "PUT")
+		err := runCommand(url, "alert config", "PUT")
+		cobra.CheckErr(err)
 	},
 }

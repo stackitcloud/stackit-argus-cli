@@ -20,6 +20,7 @@ var AlertRulesCmd = &cobra.Command{
 		url := config.GetBaseUrl() + fmt.Sprintf("alertgroups/%s/alertrules/%s", args[0], args[1])
 
 		// call command
-		runCommand(url, "alert rule")
+		err := runCommand(url, "alert rule")
+		cobra.CheckErr(err)
 	},
 }

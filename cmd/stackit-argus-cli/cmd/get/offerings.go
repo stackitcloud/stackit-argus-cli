@@ -6,22 +6,21 @@ package get
 
 import (
 	"encoding/json"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
-
 	"github.com/spf13/cobra"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
+	output_table "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
 )
 
 // offerings struct is used to unmarshal offerings response body
 type offerings struct {
 	Name        string `json:"name" header:"name"`
 	Description string `json:"description" header:"description"`
-	// wide table attributes
+	// wide outputTable attributes
 	DocumentationUrl string   `json:"documentationUrl" header:"documentation url"`
 	Tags             []string `json:"tags" header:"tags"`
 }
 
-// printOfferingsTable prints offerings response body as table
+// printOfferingsTable prints offerings response body as outputTable
 func printOfferingsTable(body []byte, outputType config.OutputType) {
 	var offerings offerings
 
@@ -29,11 +28,11 @@ func printOfferingsTable(body []byte, outputType config.OutputType) {
 	err := json.Unmarshal(body, &offerings)
 	cobra.CheckErr(err)
 
-	// print the table
+	// print the outputTable
 	if outputType != "wide" {
-		utils.PrintTable(utils.RemoveColumnsFromTable(offerings, []string{"DocumentationUrl", "Tags"}))
+		output_table.PrintTable(output_table.RemoveColumnsFromTable(offerings, []string{"DocumentationUrl", "Tags"}))
 	} else {
-		utils.PrintTable(offerings)
+		output_table.PrintTable(offerings)
 	}
 }
 
@@ -50,9 +49,10 @@ var OfferingsCmd = &cobra.Command{
 		outputType := config.GetOutputType()
 
 		// call the command
-		body := runCommand(url, "offerings", outputType)
+		body, err := runCommand(url, "offerings", outputType)
+		cobra.CheckErr(err)
 
-		// print table output
+		// print outputTable output
 		if body != nil && (outputType == "" || outputType == "wide") {
 			printOfferingsTable(body, outputType)
 		}

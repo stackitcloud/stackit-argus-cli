@@ -20,6 +20,7 @@ var RoutesCmd = &cobra.Command{
 		url := config.GetBaseUrl() + fmt.Sprintf("alertconfigs/routes/%s", args[0])
 
 		// call command
-		runCommand(url, "route", "PUT")
+		err := runCommand(url, "alert config route", "PUT")
+		cobra.CheckErr(err)
 	},
 }

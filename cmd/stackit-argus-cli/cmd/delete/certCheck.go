@@ -20,6 +20,7 @@ var CertCheckCmd = &cobra.Command{
 		url := config.GetBaseUrl() + fmt.Sprintf("cert-checks/%s", args[0])
 
 		// call command
-		runCommand(url, "cert check")
+		err := runCommand(url, "cert check")
+		cobra.CheckErr(err)
 	},
 }
