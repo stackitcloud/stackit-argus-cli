@@ -31,12 +31,13 @@ func getRequest(url string) (int, []byte, error) {
 	if err != nil {
 		return 0, nil, err
 	}
-	if err := res.Body.Close(); err != nil {
-		return 0, nil, err
-	}
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
+		return 0, nil, err
+	}
+
+	if err := res.Body.Close(); err != nil {
 		return 0, nil, err
 	}
 

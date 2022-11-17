@@ -72,7 +72,7 @@ func runCommand(url, resource, method string) error {
 		case "alert config route":
 			body, err = YAMLToJSON.Routes(body)
 		default:
-			body, err = YAMLToJSON.ConvertYamlToJson(body)
+			body, err = YAMLToJSON.Convert(body)
 		}
 
 		if err != nil {

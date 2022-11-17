@@ -8,17 +8,8 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io"
 	"sigs.k8s.io/yaml"
 )
-
-// CloseBody closes response body
-func CloseBody(body io.ReadCloser) {
-	err := body.Close()
-	if err != nil {
-		panic(err.Error())
-	}
-}
 
 // PrintYamlOrJson prints output in json or yaml format
 func PrintYamlOrJson(body []byte, outputType string) error {

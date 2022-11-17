@@ -11,8 +11,8 @@ import (
 	"sigs.k8s.io/yaml"
 )
 
-// ConvertYamlToJson converts yaml files to json
-func ConvertYamlToJson(content []byte) ([]byte, error) {
+// Convert converts yaml files to json
+func Convert(content []byte) ([]byte, error) {
 	return yaml.YAMLToJSON(content)
 }
 
