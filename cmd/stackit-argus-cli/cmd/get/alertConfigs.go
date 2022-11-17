@@ -15,24 +15,24 @@ import (
 // alertConfigs is used to unmarshal alert configs response body
 type alertConfigs struct {
 	Data struct {
-		Global struct {
+		Global *struct {
 			SmtpSmarthost    string `json:"smtpSmarthost"`
 			SmtpFrom         string `json:"smtpFrom"`
 			SmtpAuthUsername string `json:"smtpAuthUsername"`
 			SmtpAuthPassword string `json:"smtpAuthPassword"`
-		} `json:"global"`
+		} `json:"global" validate:"required"`
 		Route        route
 		InhibitRules []struct {
-			SourceMatch struct {
+			SourceMatch *struct {
 				Severity string `json:"severity"`
 			} `json:"sourceMatch"`
-			TargetMatch struct {
+			TargetMatch *struct {
 				Severity string `json:"severity"`
 			} `json:"targetMatch"`
 			Equal []string `json:"equal"`
 		}
-		Receivers []struct{} `json:"receivers"`
-	} `json:"data"`
+		Receivers []struct{} `json:"receivers" validate:"required"`
+	} `json:"data" validate:"required"`
 }
 
 // alertConfigsTable holds structure of alert configs outputTable
@@ -70,21 +70,32 @@ func printAlertConfigsTable(body []byte, outputType config.OutputType) {
 	countRoutes(alertConfigs.Data.Route.Routes, &routes)
 
 	// print the outputTable
-	output_table.PrintTable(alertConfigsTable{
-		SmtpSmarthost: alertConfigs.Data.Global.SmtpSmarthost,
-		SmtpFrom:      alertConfigs.Data.Global.SmtpFrom,
-		Receivers:     len(alertConfigs.Data.Receivers),
-		Routes:        routes + 1,
-	})
+	table := alertConfigsTable{
+		Receivers: len(alertConfigs.Data.Receivers),
+		Routes:    routes + 1,
+	}
+	if alertConfigs.Data.Global != nil {
+		table.SmtpFrom = alertConfigs.Data.Global.SmtpFrom
+		table.SmtpSmarthost = alertConfigs.Data.Global.SmtpSmarthost
+	}
+	output_table.PrintTable(table)
 
 	// print wide outputTable
 	if outputType == "wide" {
 		var table []alertConfigsWideTable
 
 		for _, data := range alertConfigs.Data.InhibitRules {
+			sourceMatchSeverity := ""
+			targetMatchSeverity := ""
+			if data.SourceMatch != nil {
+				sourceMatchSeverity = data.SourceMatch.Severity
+			}
+			if data.TargetMatch != nil {
+				targetMatchSeverity = data.TargetMatch.Severity
+			}
 			table = append(table, alertConfigsWideTable{
-				SourceMatchSeverity: data.SourceMatch.Severity,
-				TargetMatchSeverity: data.TargetMatch.Severity,
+				SourceMatchSeverity: sourceMatchSeverity,
+				TargetMatchSeverity: targetMatchSeverity,
 				Equal:               data.Equal,
 			})
 		}

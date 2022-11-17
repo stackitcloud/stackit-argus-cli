@@ -27,10 +27,10 @@ type credentials struct {
 	Credentials []struct {
 		Name            string `json:"name"`
 		Id              string `json:"id"`
-		CredentialsInfo struct {
+		CredentialsInfo *struct {
 			Username string `json:"username"`
 		} `json:"credentialsInfo"`
-	} `json:"credentials"`
+	} `json:"credentials" validate:"required"`
 }
 
 // credentialsTable holds structure of credentials outputTable
@@ -61,9 +61,13 @@ func printCredentialsListTable(body []byte) {
 
 	// fill outputTable with values
 	for _, data := range credentials.Credentials {
-		table = append(table, credentialsTable{
-			UserName: data.CredentialsInfo.Username,
-		})
+		if data.CredentialsInfo != nil {
+			table = append(table, credentialsTable{
+				UserName: data.CredentialsInfo.Username,
+			})
+		} else {
+			table = append(table, credentialsTable{})
+		}
 	}
 
 	// print the outputTable

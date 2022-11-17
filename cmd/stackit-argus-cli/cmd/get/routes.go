@@ -14,7 +14,7 @@ import (
 
 // route is used to unmarshal routes response body and generate a outputTable out of it
 type route struct {
-	Receiver       string `json:"receiver" header:"receiver"`
+	Receiver       string `json:"receiver" header:"receiver" validate:"required"`
 	GroupWait      string `json:"groupWait" header:"groupWait"`
 	GroupInterval  string `json:"groupInterval" header:"groupInterval"`
 	RepeatInterval string `json:"repeatInterval" header:"repeatInterval"`
@@ -30,7 +30,7 @@ type route struct {
 
 // routesList is used to unmarshal routes response body
 type routesList struct {
-	Data route `json:"data"`
+	Data route `json:"data" validate:"required"`
 }
 
 // getAllRoutes transform recursion structure to a slice of structures

@@ -14,7 +14,7 @@ import (
 // grafanaConfigs is used to unmarshal grafana configs response body
 type grafanaConfigs struct {
 	PublicReadAccess bool `json:"publicReadAccess"`
-	GenericOauth     struct {
+	GenericOauth     *struct {
 		Enabled             bool   `json:"enabled"`
 		RoleAttributeStrict bool   `json:"roleAttributeStrict"`
 		OauthClientId       string `json:"oauthClientId"`
@@ -51,15 +51,18 @@ func printGrafanaConfigsTable(body []byte, outputType config.OutputType) {
 	cobra.CheckErr(err)
 
 	// generate a outputTable
-	wideTable := grafanaConfigsTable{
-		OauthClientId:       grafanaConfigs.GenericOauth.OauthClientId,
-		PublicReadAccess:    grafanaConfigs.PublicReadAccess,
-		Enabled:             grafanaConfigs.GenericOauth.Enabled,
-		RoleAttributeStrict: grafanaConfigs.GenericOauth.RoleAttributeStrict,
-		Scopes:              grafanaConfigs.GenericOauth.Scopes,
-		RoleAttributePath:   grafanaConfigs.GenericOauth.RoleAttributePath,
-		EmailAttributePath:  grafanaConfigs.GenericOauth.EmailAttributePath,
-		LoginAttributePath:  grafanaConfigs.GenericOauth.LoginAttributePath,
+	wideTable := grafanaConfigsTable{}
+	if grafanaConfigs.GenericOauth != nil {
+		wideTable = grafanaConfigsTable{
+			OauthClientId:       grafanaConfigs.GenericOauth.OauthClientId,
+			PublicReadAccess:    grafanaConfigs.PublicReadAccess,
+			Enabled:             grafanaConfigs.GenericOauth.Enabled,
+			RoleAttributeStrict: grafanaConfigs.GenericOauth.RoleAttributeStrict,
+			Scopes:              grafanaConfigs.GenericOauth.Scopes,
+			RoleAttributePath:   grafanaConfigs.GenericOauth.RoleAttributePath,
+			EmailAttributePath:  grafanaConfigs.GenericOauth.EmailAttributePath,
+			LoginAttributePath:  grafanaConfigs.GenericOauth.LoginAttributePath,
+		}
 	}
 
 	// print the outputTable

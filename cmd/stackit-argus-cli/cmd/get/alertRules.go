@@ -24,12 +24,12 @@ type data struct {
 
 // alertRules is used to unmarshal alert rules response body
 type alertRules struct {
-	Data []data `json:"data"`
+	Data []data `json:"data" validate:"required"`
 }
 
 // alertRule is used to unmarshal alert rule response body
 type alertRule struct {
-	Data data `json:"data"`
+	Data data `json:"data" validate:"required"`
 }
 
 // printAlertRulesTable prints alert rules outputTable

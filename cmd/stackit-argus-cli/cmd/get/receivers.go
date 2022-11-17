@@ -33,7 +33,7 @@ type receiver struct {
 			MsTeams      bool   `json:"msTeams"`
 			SendResolved bool   `json:"send resolved"`
 		} `json:"webHookConfigs"`
-	} `json:"data"`
+	} `json:"data" validate:"required"`
 }
 
 // webHooksConfigTable holds structure of web hook config outputTable

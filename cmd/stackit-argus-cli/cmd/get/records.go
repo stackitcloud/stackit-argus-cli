@@ -18,7 +18,7 @@ type recordsList struct {
 		Record string            `json:"record" header:"record"`
 		Expr   string            `json:"expr" header:"expr"`
 		Labels map[string]string `json:"labels" header:"labels"`
-	} `json:"data"`
+	} `json:"data" validate:"required"`
 }
 
 // record is used to unmarshal record response body and generate a outputTable out of it
@@ -27,7 +27,7 @@ type record struct {
 		Record string            `json:"record" header:"record"`
 		Expr   string            `json:"expr" header:"expr"`
 		Labels map[string]string `json:"labels" header:"labels"`
-	} `json:"data"`
+	} `json:"data" validate:"required"`
 }
 
 // printRecordsListTable prints records list response body as outputTable

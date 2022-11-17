@@ -30,12 +30,12 @@ type scrapeConfigData struct {
 
 // scrapeConfig is used to unmarshal scrape config response body
 type scrapeConfig struct {
-	Data scrapeConfigData `json:"data"`
+	Data scrapeConfigData `json:"data" validate:"required"`
 }
 
 // scrapeConfigsList is used to unmarshal scrape configs response body
 type scrapeConfigsList struct {
-	Data []scrapeConfigData `json:"data"`
+	Data []scrapeConfigData `json:"data" validate:"required"`
 }
 
 // scrapeConfigsTable holds structure of scrape configs outputTable

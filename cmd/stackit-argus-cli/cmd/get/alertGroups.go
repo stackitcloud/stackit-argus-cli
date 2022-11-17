@@ -20,7 +20,7 @@ type alertGroups struct {
 		Name     string     `json:"name"`
 		Interval string     `json:"interval"`
 		Rules    []struct{} `json:"rules"`
-	} `json:"data" yaml:"data"`
+	} `json:"data" yaml:"data" validate:"required"`
 }
 
 // alertGroup is used to unmarshal alert group response body
@@ -29,7 +29,7 @@ type alertGroup struct {
 		Name     string     `json:"name"`
 		Interval string     `json:"interval"`
 		Rules    []struct{} `json:"rules"`
-	} `json:"data"`
+	} `json:"data" validate:"required"`
 }
 
 // alertGroupTable holds structure of alert group outputTable
