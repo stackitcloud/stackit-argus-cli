@@ -7,10 +7,9 @@ package get
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
-
 	"github.com/spf13/cobra"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
+	output_table "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
 )
 
 // receiver is used to unmarshal receiver response body
@@ -37,28 +36,28 @@ type receiver struct {
 	} `json:"data"`
 }
 
-// webHooksConfigTable holds structure of web hook config table
+// webHooksConfigTable holds structure of web hook config outputTable
 type webHooksConfigTable struct {
 	Url          string `header:"url"`
 	MsTeams      bool   `header:"MS teams"`
 	SendResolved bool   `header:"send resolved"`
 }
 
-// emailConfigTable holds structure of email config table
+// emailConfigTable holds structure of email config outputTable
 type emailConfigTable struct {
 	To        string `header:"to"`
 	From      string `header:"from"`
 	SmartHost string `header:"smart host"`
 }
 
-// opsgenieConfigTable holds structure of opsgenie config table
+// opsgenieConfigTable holds structure of opsgenie config outputTable
 type opsgenieConfigTable struct {
 	ApiKey string `header:"api key"`
 	ApiUrl string `header:"api url"`
 	Tags   string `header:"tags"`
 }
 
-// printReceiverTable prints receiver response body as table
+// printReceiverTable prints receiver response body as outputTable
 func printReceiverTable(body []byte) {
 	var receiver receiver
 
@@ -66,7 +65,7 @@ func printReceiverTable(body []byte) {
 	err := json.Unmarshal(body, &receiver)
 	cobra.CheckErr(err)
 
-	// print configs' tables
+	// print configs' outputTable
 	if len(receiver.Data.WebHookConfigs) > 0 {
 		var table []webHooksConfigTable
 
@@ -78,7 +77,7 @@ func printReceiverTable(body []byte) {
 			})
 
 			fmt.Println("\nWEB HOOK CONFIGS")
-			utils.PrintTable(table)
+			output_table.PrintTable(table)
 		}
 	}
 	if len(receiver.Data.EmailConfigs) > 0 {
@@ -92,7 +91,7 @@ func printReceiverTable(body []byte) {
 			})
 
 			fmt.Println("\nEMAIL CONFIGS")
-			utils.PrintTable(table)
+			output_table.PrintTable(table)
 		}
 	}
 	if len(receiver.Data.OpsgenieConfigs) > 0 {
@@ -106,7 +105,7 @@ func printReceiverTable(body []byte) {
 			})
 
 			fmt.Println("\nOPSGENIE CONFIGS")
-			utils.PrintTable(table)
+			output_table.PrintTable(table)
 		}
 	}
 }
@@ -124,7 +123,7 @@ type receiversList struct {
 	} `json:"data"`
 }
 
-// receiversListTable holds structure of receivers list table
+// receiversListTable holds structure of receivers list outputTable
 type receiversListTable struct {
 	Name            string `header:"name"`
 	EmailConfigs    int    `header:"email configs"`
@@ -132,7 +131,7 @@ type receiversListTable struct {
 	OpsgenieConfigs int    `header:"opsgenie configs"`
 }
 
-// printReceiversListTable prints receivers list response body as table
+// printReceiversListTable prints receivers list response body as outputTable
 func printReceiversListTable(body []byte) {
 	var receiversList receiversList
 	var table []receiversListTable
@@ -141,7 +140,7 @@ func printReceiversListTable(body []byte) {
 	err := json.Unmarshal(body, &receiversList)
 	cobra.CheckErr(err)
 
-	// fill the table with values
+	// fill the outputTable with values
 	for _, data := range receiversList.Data {
 		table = append(table, receiversListTable{
 			Name:            data.Name,
@@ -151,8 +150,8 @@ func printReceiversListTable(body []byte) {
 		})
 	}
 
-	// print the table
-	utils.PrintTable(table)
+	// print the outputTable
+	output_table.PrintTable(table)
 }
 
 // ReceiversCmd represents the receivers command
@@ -176,9 +175,10 @@ var ReceiversCmd = &cobra.Command{
 		outputType := config.GetOutputType()
 
 		// call the command
-		body := runCommand(url, resource, outputType)
+		body, err := runCommand(url, resource, outputType)
+		cobra.CheckErr(err)
 
-		// print table output
+		// print outputTable output
 		if body != nil && (outputType == "" || outputType == "wide") {
 			if len(args) == 0 {
 				printReceiversListTable(body)

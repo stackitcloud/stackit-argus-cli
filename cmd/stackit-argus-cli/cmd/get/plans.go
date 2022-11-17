@@ -6,10 +6,9 @@ package get
 
 import (
 	"encoding/json"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
-
 	"github.com/spf13/cobra"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
+	output_table "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
 )
 
 // acl is used to unmarshal acl response body
@@ -18,7 +17,7 @@ type plans struct {
 		Id          string `json:"id" header:"id"`
 		Description string `json:"description" header:"description"`
 		Name        string `json:"name" header:"name"`
-		// wide table attributes
+		// wide outputTable attributes
 		BucketSize    int `json:"bucketSize" header:"metrics storage(GB)"`
 		AlertRules    int `json:"alertRules" header:"alert rules"`
 		TargetNumber  int `json:"targetNumber" header:"target number"`
@@ -39,7 +38,7 @@ type plans struct {
 	} `json:"plans"`
 }
 
-// printPlansTable prints plans response body as table
+// printPlansTable prints plans response body as outputTable
 func printPlansTable(body []byte, outputType config.OutputType) {
 	var plans plans
 
@@ -47,17 +46,17 @@ func printPlansTable(body []byte, outputType config.OutputType) {
 	err := json.Unmarshal(body, &plans)
 	cobra.CheckErr(err)
 
-	// print the table
+	// print the outputTable
 	if outputType != "wide" {
 		var table []interface{}
 
 		for _, plan := range plans.Plans {
-			table = append(table, utils.RemoveColumnsFromTable(plan,
+			table = append(table, output_table.RemoveColumnsFromTable(plan,
 				[]string{"BucketSize", "AlertRules", "SamplesPerScrape", "TargetNumber", "Amount", "LogsAlert"}))
 		}
-		utils.PrintTable(table)
+		output_table.PrintTable(table)
 	} else {
-		utils.PrintTable(plans.Plans)
+		output_table.PrintTable(plans.Plans)
 	}
 }
 
@@ -74,9 +73,10 @@ var PlansCmd = &cobra.Command{
 		outputType := config.GetOutputType()
 
 		// call the command
-		body := runCommand(url, "plans", outputType)
+		body, err := runCommand(url, "plans", outputType)
+		cobra.CheckErr(err)
 
-		// print table output
+		// print outputTable output
 		if body != nil && (outputType == "" || outputType == "wide") {
 			printPlansTable(body, outputType)
 		}

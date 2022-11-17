@@ -7,20 +7,19 @@ package get
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
-
 	"github.com/spf13/cobra"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
+	output_table "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
 )
 
-// route is used to unmarshal routes response body and generate a table out of it
+// route is used to unmarshal routes response body and generate a outputTable out of it
 type route struct {
 	Receiver       string `json:"receiver" header:"receiver"`
 	GroupWait      string `json:"groupWait" header:"groupWait"`
 	GroupInterval  string `json:"groupInterval" header:"groupInterval"`
 	RepeatInterval string `json:"repeatInterval" header:"repeatInterval"`
 	Continue       bool   `json:"continue" header:"continue"`
-	// wide table attributes
+	// wide outputTable attributes
 	GroupBy  []string          `json:"groupBy" header:"groupBy"`
 	Match    map[string]string `json:"match" header:"match"`
 	MatchRe  map[string]string `json:"matchRe" header:"matchRe"`
@@ -42,7 +41,7 @@ func getAllRoutes(routes []route, newRoutes *[]route) {
 	}
 }
 
-// printRoutesListTable prints routes response body as table
+// printRoutesListTable prints routes response body as outputTable
 func printRoutesListTable(body []byte, outputType config.OutputType) {
 	var routes routesList
 	var table []route
@@ -54,17 +53,17 @@ func printRoutesListTable(body []byte, outputType config.OutputType) {
 	getAllRoutes(routes.Data.Routes, &table)
 	table = append(table, routes.Data)
 
-	// print the table
+	// print the outputTable
 	if outputType != "wide" {
 		var newTable []interface{}
 
 		for _, data := range table {
-			newTable = append(newTable, utils.RemoveColumnsFromTable(data,
+			newTable = append(newTable, output_table.RemoveColumnsFromTable(data,
 				[]string{"GroupBy", "Match", "MatchRe", "Matchers"}))
 		}
-		utils.PrintTable(newTable)
+		output_table.PrintTable(newTable)
 	} else {
-		utils.PrintTable(table)
+		output_table.PrintTable(table)
 	}
 }
 
@@ -89,9 +88,10 @@ var RoutesCmd = &cobra.Command{
 		outputType := config.GetOutputType()
 
 		// call the command
-		body := runCommand(url, resource, outputType)
+		body, err := runCommand(url, resource, outputType)
+		cobra.CheckErr(err)
 
-		// print table output
+		// print outputTable output
 		if body != nil && (outputType == "" || outputType == "wide") {
 			printRoutesListTable(body, outputType)
 		}

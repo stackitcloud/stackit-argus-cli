@@ -29,7 +29,8 @@ var BackupRestoresCmd = &cobra.Command{
 		url := config.GetBaseUrl() + fmt.Sprintf("backup-restores/%s", args[0])
 
 		// call command
-		runCommand(url, "backup restores", []string{restoreTarget})
+		err := runCommand(url, "backup restores", []string{restoreTarget})
+		cobra.CheckErr(err)
 	},
 }
 

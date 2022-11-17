@@ -20,6 +20,7 @@ var CredentialsCmd = &cobra.Command{
 		url := config.GetBaseUrl() + fmt.Sprintf("credentilads/%s/remote-write-limits", args[0])
 
 		// call command
-		runCommand(url, "credentials", "PUT")
+		err := runCommand(url, "credentials", "PUT")
+		cobra.CheckErr(err)
 	},
 }

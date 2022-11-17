@@ -19,6 +19,7 @@ var RoutesCmd = &cobra.Command{
 		url := config.GetBaseUrl() + "alertconfigs/routes"
 
 		// call command
-		runCommand(url, "alert config route", nil)
+		err := runCommand(url, "alert config route", nil)
+		cobra.CheckErr(err)
 	},
 }

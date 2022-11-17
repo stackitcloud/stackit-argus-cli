@@ -19,6 +19,7 @@ var GrafanaConfigsCmd = &cobra.Command{
 		url := config.GetBaseUrl() + "grafana-configs"
 
 		// call command
-		runCommand(url, "grafana config", "PUT")
+		err := runCommand(url, "grafana config", "PUT")
+		cobra.CheckErr(err)
 	},
 }

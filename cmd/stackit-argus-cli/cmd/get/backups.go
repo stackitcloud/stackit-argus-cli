@@ -6,10 +6,9 @@ package get
 
 import (
 	"encoding/json"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
-
 	"github.com/spf13/cobra"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
+	output_table "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
 )
 
 // backups struct is used to unmarshal backups response body
@@ -20,7 +19,7 @@ type backups struct {
 	Grafana      []string `json:"grafanaBackups" header:"grafana"`
 }
 
-// printBackupsTable prints backups response body as a table
+// printBackupsTable prints backups response body as a outputTable
 func printBackupsTable(body []byte, outputType config.OutputType) {
 	var backups backups
 
@@ -47,8 +46,8 @@ func printBackupsTable(body []byte, outputType config.OutputType) {
 		}
 	}
 
-	// print the table
-	utils.PrintTable(backups)
+	// print the outputTable
+	output_table.PrintTable(backups)
 }
 
 // BackupCmd represents the backup command
@@ -64,9 +63,10 @@ var BackupCmd = &cobra.Command{
 		outputType := config.GetOutputType()
 
 		// call the command
-		body := runCommand(url, "backups", outputType)
+		body, err := runCommand(url, "backups", outputType)
+		cobra.CheckErr(err)
 
-		// print table output
+		// print outputTable output
 		if body != nil && (outputType == "" || outputType == "wide") {
 			printBackupsTable(body, outputType)
 		}

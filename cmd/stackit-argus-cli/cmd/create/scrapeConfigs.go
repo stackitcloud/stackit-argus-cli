@@ -19,6 +19,7 @@ var ScrapeConfigsCmd = &cobra.Command{
 		url := config.GetBaseUrl() + "scrapeconfigs"
 
 		// call command
-		runCommand(url, "scrape configs", nil)
+		err := runCommand(url, "scrape configs", nil)
+		cobra.CheckErr(err)
 	},
 }

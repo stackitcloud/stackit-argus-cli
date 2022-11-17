@@ -8,63 +8,35 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/lensesio/tableprinter"
-	"github.com/spf13/cobra"
 	"io"
-	"os"
 	"sigs.k8s.io/yaml"
 )
 
 // CloseBody closes response body
 func CloseBody(body io.ReadCloser) {
 	err := body.Close()
-	cobra.CheckErr(err)
+	if err != nil {
+		panic(err.Error())
+	}
 }
 
 // PrintYamlOrJson prints output in json or yaml format
-func PrintYamlOrJson(body []byte, outputType string) {
+func PrintYamlOrJson(body []byte, outputType string) error {
 	if outputType == "json" {
 		var out bytes.Buffer
-		err := json.Indent(&out, body, "", "  ")
-		cobra.CheckErr(err)
+		if err := json.Indent(&out, body, "", "  "); err != nil {
+			return err
+		}
 		fmt.Println(out.String())
 	} else {
 		out, err := yaml.JSONToYAML(body)
-		cobra.CheckErr(err)
+		if err != nil {
+			return err
+		}
 		fmt.Print(string(out))
 	}
-}
 
-func RemoveColumnsFromTable(originalTable interface{}, fieldNames []string) interface{} {
-	if len(fieldNames) == 0 {
-		return originalTable
-	}
-
-	newTable := tableprinter.RemoveStructHeader(originalTable, fieldNames[0])
-	for i := 1; i < len(fieldNames); i++ {
-		newTable = tableprinter.RemoveStructHeader(newTable, fieldNames[i])
-	}
-
-	return newTable
-}
-
-// PrintTable prints a table
-func PrintTable(in interface{}) {
-	// init table printer
-	printer := tableprinter.New(os.Stdout)
-
-	// customize the table
-	printer.BorderLeft = true
-	printer.BorderRight = true
-	printer.RowLine = true
-	printer.CenterSeparator = "│"
-	printer.ColumnSeparator = "│"
-	printer.HeaderAlignment = tableprinter.AlignCenter
-	printer.DefaultAlignment = tableprinter.AlignCenter
-	printer.RowCharLimit = 30
-	printer.RowTextWrap = true
-
-	printer.Print(in)
+	return nil
 }
 
 // ResponseMessage generates a response message depending on response status code

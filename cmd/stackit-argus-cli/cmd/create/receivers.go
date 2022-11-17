@@ -19,6 +19,7 @@ var ReceiversCmd = &cobra.Command{
 		url := config.GetBaseUrl() + "alertconfigs/receivers"
 
 		// call command
-		runCommand(url, "alert config receiver", nil)
+		err := runCommand(url, "alert config receiver", nil)
+		cobra.CheckErr(err)
 	},
 }

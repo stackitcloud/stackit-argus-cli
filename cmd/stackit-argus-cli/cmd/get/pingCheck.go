@@ -6,10 +6,9 @@ package get
 
 import (
 	"encoding/json"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
-
 	"github.com/spf13/cobra"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
+	output_table "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
 )
 
 // pingCheck struct is used to unmarshal ping check response body
@@ -19,7 +18,7 @@ type pingCheck struct {
 	} `json:"pingChecks"`
 }
 
-// printPingCheckTable prints ping checks as a table
+// printPingCheckTable prints ping checks as a outputTable
 func printPingCheckTable(body []byte) {
 	var pingCheck pingCheck
 
@@ -27,8 +26,8 @@ func printPingCheckTable(body []byte) {
 	err := json.Unmarshal(body, &pingCheck)
 	cobra.CheckErr(err)
 
-	// print the table
-	utils.PrintTable(pingCheck.PingChecks)
+	// print the outputTable
+	output_table.PrintTable(pingCheck.PingChecks)
 }
 
 // PingCheckCmd represents the PingCheck command
@@ -44,9 +43,10 @@ var PingCheckCmd = &cobra.Command{
 		outputType := config.GetOutputType()
 
 		// call the command
-		body := runCommand(url, "ping check", outputType)
+		body, err := runCommand(url, "ping check", outputType)
+		cobra.CheckErr(err)
 
-		// print table output
+		// print outputTable output
 		if body != nil && (outputType == "" || outputType == "wide") {
 			printPingCheckTable(body)
 		}

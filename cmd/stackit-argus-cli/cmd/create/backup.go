@@ -31,7 +31,8 @@ var BackupCmd = &cobra.Command{
 		url := config.GetBaseUrl() + "backups"
 
 		// call command
-		runCommand(url, "backups", nil)
+		err := runCommand(url, "backups", nil)
+		cobra.CheckErr(err)
 	},
 }
 

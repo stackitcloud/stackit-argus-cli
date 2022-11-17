@@ -20,6 +20,7 @@ var ReceiversCmd = &cobra.Command{
 		url := config.GetBaseUrl() + fmt.Sprintf("alertconfigs/receivers/%s", args[0])
 
 		// call command
-		runCommand(url, "alert config receiver", "PUT")
+		err := runCommand(url, "alert config receiver", "PUT")
+		cobra.CheckErr(err)
 	},
 }

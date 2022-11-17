@@ -6,7 +6,6 @@ package get
 
 import (
 	"fmt"
-	"github.com/spf13/cobra"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
 	"io"
@@ -15,29 +14,37 @@ import (
 )
 
 // getRequest implements get request and returns a status code with response body
-func getRequest(url string) (int, []byte) {
+func getRequest(url string) (int, []byte, error) {
 	authHeader := config.GetAuthHeader()
 	client := &http.Client{
 		Timeout: time.Second * 10,
 	}
 
 	req, err := http.NewRequest(http.MethodGet, url, nil)
-	cobra.CheckErr(err)
+	if err != nil {
+		return 0, nil, err
+	}
 
 	req.Header.Set("Authorization", authHeader)
 
 	res, err := client.Do(req)
-	cobra.CheckErr(err)
-	defer utils.CloseBody(res.Body)
+	if err != nil {
+		return 0, nil, err
+	}
+	if err := res.Body.Close(); err != nil {
+		return 0, nil, err
+	}
 
 	body, err := io.ReadAll(res.Body)
-	cobra.CheckErr(err)
+	if err != nil {
+		return 0, nil, err
+	}
 
-	return res.StatusCode, body
+	return res.StatusCode, body, nil
 }
 
-// runCommand call the url
-func runCommand(url, resource string, outputType config.OutputType) []byte {
+// err := runCommand call the url
+func runCommand(url, resource string, outputType config.OutputType) ([]byte, error) {
 	// print debug messages if debug mode is turned on
 	if config.IsDebugMode() {
 		fmt.Printf("get %s command called", resource)
@@ -45,7 +52,10 @@ func runCommand(url, resource string, outputType config.OutputType) []byte {
 	}
 
 	// get response
-	status, body := getRequest(url)
+	status, body, err := getRequest(url)
+	if err != nil {
+		return nil, err
+	}
 
 	// print response status
 	utils.ResponseMessage(status, resource, "get")
@@ -53,11 +63,13 @@ func runCommand(url, resource string, outputType config.OutputType) []byte {
 	// print response body
 	if status == 200 {
 		if outputType == "json" || outputType == "yaml" {
-			utils.PrintYamlOrJson(body, string(outputType))
+			if err := utils.PrintYamlOrJson(body, string(outputType)); err != nil {
+				return nil, err
+			}
 		}
 
-		return body
+		return body, nil
 	}
 
-	return nil
+	return nil, nil
 }

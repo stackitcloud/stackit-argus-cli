@@ -6,10 +6,9 @@ package get
 
 import (
 	"encoding/json"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
-
 	"github.com/spf13/cobra"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
+	output_table "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
 )
 
 // logsConfigs is used to unmarshal logs configs response body
@@ -19,7 +18,7 @@ type logsConfigs struct {
 	} `json:"config"`
 }
 
-// printLogsConfigsTable prints logs configs response body as table
+// printLogsConfigsTable prints logs configs response body as outputTable
 func printLogsConfigsTable(body []byte) {
 	var logsConfigs logsConfigs
 
@@ -27,8 +26,8 @@ func printLogsConfigsTable(body []byte) {
 	err := json.Unmarshal(body, &logsConfigs)
 	cobra.CheckErr(err)
 
-	// print the table
-	utils.PrintTable(logsConfigs.Config)
+	// print the outputTable
+	output_table.PrintTable(logsConfigs.Config)
 }
 
 // LogsConfigsCmd represents the logsConfigs command
@@ -44,9 +43,10 @@ var LogsConfigsCmd = &cobra.Command{
 		outputType := config.GetOutputType()
 
 		// call the command
-		body := runCommand(url, "logs configs", outputType)
+		body, err := runCommand(url, "logs configs", outputType)
+		cobra.CheckErr(err)
 
-		// print table output
+		// print outputTable output
 		if body != nil && (outputType == "" || outputType == "wide") {
 			printLogsConfigsTable(body)
 		}

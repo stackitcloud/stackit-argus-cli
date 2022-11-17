@@ -19,6 +19,7 @@ var TracesConfigsCmd = &cobra.Command{
 		url := config.GetBaseUrl() + "traces-configs"
 
 		// call command
-		runCommand(url, "traces config", "PUT")
+		err := runCommand(url, "traces config", "PUT")
+		cobra.CheckErr(err)
 	},
 }

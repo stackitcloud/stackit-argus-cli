@@ -19,6 +19,7 @@ var NetworkCheckCmd = &cobra.Command{
 		url := config.GetBaseUrl() + "network-checks"
 
 		// call command
-		runCommand(url, "network check", nil)
+		err := runCommand(url, "network check", nil)
+		cobra.CheckErr(err)
 	},
 }

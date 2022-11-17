@@ -1,3 +1,150 @@
-{
-  "schedule": "1 * * * *"
-}
+[
+  {
+    "staticConfigs": [
+      {
+        "targets": [
+          "target1",
+          "target2"
+        ],
+        "labels": {
+          "key1": [
+            "value1",
+            "value2"
+          ],
+          "key2": [
+            "value1",
+            "value2"
+          ]
+        }
+      },
+      {
+        "targets": [
+          "target1",
+          "target2"
+        ],
+        "labels": {
+          "key1": [
+            "value1",
+            "value2"
+          ],
+          "key2": [
+            "value1",
+            "value2"
+          ]
+        }
+      }
+    ],
+    "jobName": "job",
+    "scheme": "https",
+    "scrapeInterval": "5m",
+    "scrapeTimeout": "10s",
+    "metricsPath": "/metrics",
+    "sampleLimit": 42,
+    "basicAuth": {
+      "username": "username",
+      "password": "password"
+    },
+    "oauth2": {
+      "clientId": "id",
+      "clientSecret": "secret",
+      "tokenUrl": "url",
+      "scopes": [
+        "1",
+        "2"
+      ],
+      "tlsConfig": {
+        "insecureSkipVerify": true
+      }
+    },
+    "tlsConfig": {
+      "insecureSkipVerify": true
+    },
+    "bearerToken": "token",
+    "metricRelabelConfigs": [
+      {
+        "sourceLabels": [
+          "label1",
+          "label2"
+        ],
+        "separator": ";",
+        "targetLabel": "label",
+        "regex": ".*",
+        "modulus": 42,
+        "replacement": "$1",
+        "action": "keep"
+      },
+      {
+        "sourceLabels": [
+          "label1",
+          "label2"
+        ],
+        "separator": ";",
+        "targetLabel": "label",
+        "regex": ".*",
+        "modulus": 42,
+        "replacement": "$1",
+        "action": "keep"
+      }
+    ],
+    "httpSdConfigs": [
+      {
+        "url": "url",
+        "refreshInterval": "5m",
+        "basicAuth": {
+          "username": "username",
+          "password": "password"
+        },
+        "oauth2": {
+          "clientId": "id",
+          "clientSecret": "secret",
+          "tokenUrl": "url",
+          "scopes": [
+            "1",
+            "2"
+          ],
+          "tlsConfig": {
+            "insecureSkipVerify": true
+          }
+        },
+        "tlsConfig": {
+          "insecureSkipVerify": true
+        }
+      },
+      {
+        "url": "url",
+        "refreshInterval": "5m",
+        "basicAuth": {
+          "username": "username",
+          "password": "password"
+        },
+        "oauth2": {
+          "clientId": "id",
+          "clientSecret": "secret",
+          "tokenUrl": "url",
+          "scopes": [
+            "1",
+            "2"
+          ],
+          "tlsConfig": {
+            "insecureSkipVerify": true
+          }
+        },
+        "tlsConfig": {
+          "insecureSkipVerify": true
+        }
+      }
+    ],
+    "params": {
+      "key1": [
+        "value1",
+        "value2"
+      ],
+      "key2": [
+        "value1",
+        "value2"
+      ]
+    },
+    "honorLabels": true,
+    "honorTimestamps": true
+  }
+]

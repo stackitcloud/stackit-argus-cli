@@ -19,6 +19,7 @@ var AclCmd = &cobra.Command{
 		url := config.GetBaseUrl() + "acl"
 
 		// call command
-		runCommand(url, "acl", "PUT")
+		err := runCommand(url, "acl", "PUT")
+		cobra.CheckErr(err)
 	},
 }

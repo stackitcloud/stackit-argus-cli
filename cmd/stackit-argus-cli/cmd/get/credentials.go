@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
+	output_table "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
 )
 
 var remoteWriteLimits string
@@ -33,12 +33,12 @@ type credentials struct {
 	} `json:"credentials"`
 }
 
-// credentialsTable holds structure of credentials table
+// credentialsTable holds structure of credentials outputTable
 type credentialsTable struct {
 	UserName string `header:"username"`
 }
 
-// printRemoteWriteLimitsTable prints remote write limits response body as table
+// printRemoteWriteLimitsTable prints remote write limits response body as outputTable
 func printRemoteWriteLimitsTable(body []byte) {
 	var remoteWriteLimit remoteWriteLimit
 
@@ -46,8 +46,8 @@ func printRemoteWriteLimitsTable(body []byte) {
 	err := json.Unmarshal(body, &remoteWriteLimit)
 	cobra.CheckErr(err)
 
-	// print the table
-	utils.PrintTable(remoteWriteLimits)
+	// print the outputTable
+	output_table.PrintTable(remoteWriteLimits)
 }
 
 // printCredentialsListTable prints credentials
@@ -59,15 +59,15 @@ func printCredentialsListTable(body []byte) {
 	err := json.Unmarshal(body, &credentials)
 	cobra.CheckErr(err)
 
-	// fill table with values
+	// fill outputTable with values
 	for _, data := range credentials.Credentials {
 		table = append(table, credentialsTable{
 			UserName: data.CredentialsInfo.Username,
 		})
 	}
 
-	// print the table
-	utils.PrintTable(table)
+	// print the outputTable
+	output_table.PrintTable(table)
 }
 
 // CredentialsCmd represents the credentials command
@@ -91,9 +91,10 @@ var CredentialsCmd = &cobra.Command{
 		outputType := config.GetOutputType()
 
 		// call the command
-		body := runCommand(url, resource, outputType)
+		body, err := runCommand(url, resource, outputType)
+		cobra.CheckErr(err)
 
-		// print table output
+		// print outputTable output
 		if body != nil && (outputType == "" || outputType == "wide") {
 			if remoteWriteLimits != "" {
 				printRemoteWriteLimitsTable(body)

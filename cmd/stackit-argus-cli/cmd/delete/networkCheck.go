@@ -20,6 +20,7 @@ var NetworkCheckCmd = &cobra.Command{
 		url := config.GetBaseUrl() + fmt.Sprintf("network-checks/%s", args[0])
 
 		// call command
-		runCommand(url, "network check")
+		err := runCommand(url, "network check")
+		cobra.CheckErr(err)
 	},
 }

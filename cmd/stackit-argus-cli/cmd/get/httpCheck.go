@@ -6,10 +6,9 @@ package get
 
 import (
 	"encoding/json"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
-
 	"github.com/spf13/cobra"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
+	output_table "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
 )
 
 // httpCheck struct is used to unmarshal http check response body
@@ -19,7 +18,7 @@ type httpCheck struct {
 	} `json:"httpChecks"`
 }
 
-// printHttpCheckTable prints http checks as a table
+// printHttpCheckTable prints http checks as a outputTable
 func printHttpCheckTable(body []byte) {
 	var httpCheck httpCheck
 
@@ -27,8 +26,8 @@ func printHttpCheckTable(body []byte) {
 	err := json.Unmarshal(body, &httpCheck)
 	cobra.CheckErr(err)
 
-	// print the table
-	utils.PrintTable(httpCheck.HttpChecks)
+	// print the outputTable
+	output_table.PrintTable(httpCheck.HttpChecks)
 }
 
 // HttpCheckCmd represents the HttpCheck command
@@ -44,9 +43,10 @@ var HttpCheckCmd = &cobra.Command{
 		outputType := config.GetOutputType()
 
 		// call the command
-		body := runCommand(url, "http check", outputType)
+		body, err := runCommand(url, "http check", outputType)
+		cobra.CheckErr(err)
 
-		// print table output
+		// print outputTable output
 		if body != nil && (outputType == "" || outputType == "wide") {
 			printHttpCheckTable(body)
 		}
