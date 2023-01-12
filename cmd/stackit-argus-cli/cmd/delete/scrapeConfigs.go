@@ -7,12 +7,12 @@ package delete
 import (
 	"fmt"
 	"github.com/spf13/cobra"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
 )
 
 // ScrapeConfigsCmd represents the scrapeConfigs command
 var ScrapeConfigsCmd = &cobra.Command{
-	Use:   "scrapeConfig",
+	Use:   "scrapeConfig <jobName>",
 	Short: "Delete scrape config.",
 	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {

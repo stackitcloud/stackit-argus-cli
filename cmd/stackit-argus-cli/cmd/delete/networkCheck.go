@@ -7,12 +7,12 @@ package delete
 import (
 	"fmt"
 	"github.com/spf13/cobra"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
 )
 
 // NetworkCheckCmd represents the NetworkCheck command
 var NetworkCheckCmd = &cobra.Command{
-	Use:   "networkCheck",
+	Use:   "networkCheck <address>",
 	Short: "Delete a network check.",
 	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {

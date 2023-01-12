@@ -7,7 +7,7 @@ package update
 import (
 	"bytes"
 	"fmt"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/YAMLToJSON"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
 	"net/http"
@@ -42,7 +42,7 @@ func updateRequest(url string, method string, body []byte) (int, error) {
 	}
 
 	if config.IsDebugMode() {
-		println("response status: ", res.Status)
+		fmt.Println("response status: ", res.Status)
 	}
 
 	return res.StatusCode, nil

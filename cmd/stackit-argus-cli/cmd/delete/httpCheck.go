@@ -7,12 +7,12 @@ package delete
 import (
 	"fmt"
 	"github.com/spf13/cobra"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
 )
 
 // HttpCheckCmd represents the HttpCheck command
 var HttpCheckCmd = &cobra.Command{
-	Use:   "httpCheck",
+	Use:   "httpCheck <url>",
 	Short: "Delete a http check.",
 	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {

@@ -8,7 +8,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/spf13/cobra"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
+	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
 	output_table "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
 )
 
@@ -96,7 +96,7 @@ var AlertGroupsCmd = &cobra.Command{
 	Args:  cobra.MaximumNArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
-		url := config.GetBaseUrl() + "alertgroups"
+		url := config2.GetBaseUrl() + "alertgroups"
 
 		// modify url and resource depend on arguments
 		resource := "alert groups"
@@ -106,7 +106,7 @@ var AlertGroupsCmd = &cobra.Command{
 		}
 
 		// get output flag
-		outputType := config.GetOutputType()
+		outputType := config2.GetOutputType()
 
 		// call the command
 		body, err := runCommand(url, resource, outputType)

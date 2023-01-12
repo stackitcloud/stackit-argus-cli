@@ -7,7 +7,7 @@ import (
 )
 
 func TestConfigFileInit(t *testing.T) {
-	testFile := "../../integration_test/.test.yaml"
+	testFile := "../integration_test/.test.yaml"
 
 	// set config file to change configs
 	viper.SetConfigFile(testFile)

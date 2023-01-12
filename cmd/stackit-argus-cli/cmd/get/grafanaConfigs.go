@@ -7,7 +7,7 @@ package get
 import (
 	"encoding/json"
 	"github.com/spf13/cobra"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
+	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
 	output_table "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
 )
 
@@ -43,7 +43,7 @@ type grafanaConfigsTable struct {
 }
 
 // printGrafanaConfigsTable prints grafana configs response body as a outputTable
-func printGrafanaConfigsTable(body []byte, outputType config.OutputType) error {
+func printGrafanaConfigsTable(body []byte, outputType config2.OutputType) error {
 	var grafanaConfigs grafanaConfigs
 
 	// unmarshal response body
@@ -86,10 +86,10 @@ var GrafanaConfigsCmd = &cobra.Command{
 	Args:  cobra.NoArgs,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
-		url := config.GetBaseUrl() + "grafana-configs"
+		url := config2.GetBaseUrl() + "grafana-configs"
 
 		// get output flag
-		outputType := config.GetOutputType()
+		outputType := config2.GetOutputType()
 
 		// call the command
 		body, err := runCommand(url, "grafana configs", outputType)

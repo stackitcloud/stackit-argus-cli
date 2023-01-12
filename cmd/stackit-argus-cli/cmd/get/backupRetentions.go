@@ -7,7 +7,7 @@ package get
 import (
 	"encoding/json"
 	"github.com/spf13/cobra"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
+	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
 	output_table "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
 )
 
@@ -41,10 +41,10 @@ var BackupRetentionsCmd = &cobra.Command{
 	Args:  cobra.NoArgs,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
-		url := config.GetBaseUrl() + "backup-retentions"
+		url := config2.GetBaseUrl() + "backup-retentions"
 
 		// get output flag
-		outputType := config.GetOutputType()
+		outputType := config2.GetOutputType()
 
 		// call the command
 		body, err := runCommand(url, "backup retentions", outputType)

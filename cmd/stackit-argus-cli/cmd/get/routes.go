@@ -8,7 +8,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/spf13/cobra"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
+	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
 	output_table "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
 )
 
@@ -42,7 +42,7 @@ func getAllRoutes(routes []route, newRoutes *[]route) {
 }
 
 // printRoutesListTable prints routes response body as outputTable
-func printRoutesListTable(body []byte, outputType config.OutputType) error {
+func printRoutesListTable(body []byte, outputType config2.OutputType) error {
 	var routes routesList
 	var table []route
 
@@ -78,7 +78,7 @@ var RoutesCmd = &cobra.Command{
 	Args:  cobra.MaximumNArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
-		url := config.GetBaseUrl() + "alertconfigs/routes"
+		url := config2.GetBaseUrl() + "alertconfigs/routes"
 
 		// modify url and debug message depend on arguments
 		resource := "alert config routes"
@@ -88,7 +88,7 @@ var RoutesCmd = &cobra.Command{
 		}
 
 		// get output flag
-		outputType := config.GetOutputType()
+		outputType := config2.GetOutputType()
 
 		// call the command
 		body, err := runCommand(url, resource, outputType)

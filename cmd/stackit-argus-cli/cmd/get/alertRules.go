@@ -8,7 +8,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/spf13/cobra"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
+	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
 )
 
@@ -33,7 +33,7 @@ type alertRule struct {
 }
 
 // printAlertRulesTable prints alert rules outputTable
-func printAlertRulesTable(body []byte, outputType config.OutputType) error {
+func printAlertRulesTable(body []byte, outputType config2.OutputType) error {
 	var alertRules alertRules
 
 	// unmarshal response body
@@ -56,7 +56,7 @@ func printAlertRulesTable(body []byte, outputType config.OutputType) error {
 }
 
 // printAlertRuleTable prints alert rule outputTable
-func printAlertRuleTable(body []byte, outputType config.OutputType) error {
+func printAlertRuleTable(body []byte, outputType config2.OutputType) error {
 	var alertRule alertRule
 
 	// unmarshal response body
@@ -83,7 +83,7 @@ var AlertRulesCmd = &cobra.Command{
 	Args:  cobra.RangeArgs(1, 2),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
-		url := config.GetBaseUrl() + fmt.Sprintf("alertgroups/%s/alertrules", args[0])
+		url := config2.GetBaseUrl() + fmt.Sprintf("alertgroups/%s/alertrules", args[0])
 
 		// modify url and debug message depend on arguments
 		resource := "alert rules"
@@ -93,7 +93,7 @@ var AlertRulesCmd = &cobra.Command{
 		}
 
 		// get output flag
-		outputType := config.GetOutputType()
+		outputType := config2.GetOutputType()
 
 		// call the command
 		body, err := runCommand(url, resource, outputType)

@@ -7,12 +7,12 @@ package delete
 import (
 	"fmt"
 	"github.com/spf13/cobra"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
 )
 
 // CertCheckCmd represents the CertCheck command
 var CertCheckCmd = &cobra.Command{
-	Use:   "certCheck",
+	Use:   "certCheck <source>",
 	Short: "Delete a cert check.",
 	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {

@@ -6,7 +6,7 @@ package delete
 
 import (
 	"fmt"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
 	"net/http"
 	"time"
@@ -35,7 +35,7 @@ func deleteRequest(url string) (int, error) {
 	}
 
 	if config.IsDebugMode() {
-		println("response status: ", res.Status)
+		fmt.Println("response status: ", res.Status)
 	}
 
 	return res.StatusCode, nil

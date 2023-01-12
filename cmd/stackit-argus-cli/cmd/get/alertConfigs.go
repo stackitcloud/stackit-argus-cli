@@ -8,7 +8,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/spf13/cobra"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
+	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
 	output_table "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
 )
 
@@ -59,7 +59,7 @@ func countRoutes(routes []route, res *int) {
 }
 
 // printAlertConfigsTable prints alert configs response body as outputTable
-func printAlertConfigsTable(body []byte, outputType config.OutputType) error {
+func printAlertConfigsTable(body []byte, outputType config2.OutputType) error {
 	var alertConfigs alertConfigs
 	var routes int
 
@@ -117,10 +117,10 @@ var AlertConfigsCmd = &cobra.Command{
 	Args:  cobra.NoArgs,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
-		url := config.GetBaseUrl() + "alertconfigs"
+		url := config2.GetBaseUrl() + "alertconfigs"
 
 		// get output flag
-		outputType := config.GetOutputType()
+		outputType := config2.GetOutputType()
 
 		// call the command
 		body, err := runCommand(url, "alert configs", outputType)

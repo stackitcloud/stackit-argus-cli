@@ -7,7 +7,7 @@ package get
 import (
 	"encoding/json"
 	"github.com/spf13/cobra"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
+	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
 	output_table "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
 )
 
@@ -35,15 +35,15 @@ func printMetricsStorageRetentionTable(body []byte) error {
 
 // MetricsStorageRetentionCmd represents the metricsStorageRetention command
 var MetricsStorageRetentionCmd = &cobra.Command{
-	Use:   "metricsRetention",
+	Use:   "metricsStorageRetention",
 	Short: "Get metric storage retention time.",
 	Args:  cobra.NoArgs,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
-		url := config.GetBaseUrl() + "metrics-storage-retentions"
+		url := config2.GetBaseUrl() + "metrics-storage-retentions"
 
 		// get output flag
-		outputType := config.GetOutputType()
+		outputType := config2.GetOutputType()
 
 		// call the command
 		body, err := runCommand(url, "metrics storage retentions", outputType)

@@ -7,7 +7,7 @@ package delete
 import (
 	"fmt"
 	"github.com/spf13/cobra"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
 )
 
 // AlertRecordsCmd represents the alertRecords command

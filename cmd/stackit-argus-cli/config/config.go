@@ -14,14 +14,15 @@ import (
 
 // global variables to save configurations
 var (
-	token      string
-	confFile   string
-	projectId  string
-	instanceId string
-	bodyFile   string
-	baseUrl    string
-	debugMode  bool
-	targets    []string
+	token             string
+	confFile          string
+	projectId         string
+	instanceId        string
+	bodyFile          string
+	baseUrl           string
+	debugMode         bool
+	remoteWriteLimits bool
+	targets           []string
 )
 
 // InitFromConfigFile inits info from configuration file
@@ -80,7 +81,9 @@ func InitConfig(cmd *cobra.Command) {
 	cmd.PersistentFlags().StringVarP(&bodyFile, "file", "f", "", "provide file with request body")
 	cmd.PersistentFlags().StringSliceVarP(&targets, "target", "t", nil,
 		"defines targets of the backup schedules, possible targets: alertConfig, alertRules, scrapeConfig or grafana")
+	cmd.PersistentFlags().BoolVarP(&remoteWriteLimits, "remote-write-limits", "r", false, "delete remote write config for credentials")
 	cmd.PersistentFlags().VarP(&flagOutputType, "output", "o", "defines output format: yaml, json or wide")
+
 	err := cmd.RegisterFlagCompletionFunc("output", outputFlagCompletion)
 	cobra.CheckErr(err)
 
@@ -143,8 +146,13 @@ func IsDebugMode() bool {
 	return debugMode
 }
 
+// IsRemoteWriteLimits checks if remote write limits is set
+func IsRemoteWriteLimits() bool {
+	return remoteWriteLimits
+}
+
 // ResetConfigurations reset all configurations to default value
 func ResetConfigurations() {
-	token, confFile, projectId, instanceId, bodyFile, token, baseUrl, targets, debugMode =
-		"", "", "", "", "", "", "", []string{}, false
+	token, confFile, projectId, instanceId, bodyFile, token, baseUrl, targets, debugMode, remoteWriteLimits =
+		"", "", "", "", "", "", "", []string{}, false, false
 }

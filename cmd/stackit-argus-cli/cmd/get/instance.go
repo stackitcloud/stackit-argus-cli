@@ -8,7 +8,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/spf13/cobra"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
+	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
 	output_table "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
 )
 
@@ -40,7 +40,7 @@ type instances struct {
 }
 
 // printInstanceTable prints instance as a outputTable
-func printInstanceTable(body []byte, outputType config.OutputType) error {
+func printInstanceTable(body []byte, outputType config2.OutputType) error {
 	var instance instance
 
 	// unmarshal response body
@@ -60,7 +60,7 @@ func printInstanceTable(body []byte, outputType config.OutputType) error {
 }
 
 // printListInstancesListTable prints instances list as a outputTable
-func printListInstancesListTable(body []byte, outputType config.OutputType) error {
+func printListInstancesListTable(body []byte, outputType config2.OutputType) error {
 	var instances instances
 
 	// unmarshal response body
@@ -91,7 +91,7 @@ var InstanceCmd = &cobra.Command{
 	Args:  cobra.MaximumNArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
-		url := config.GetInstancesUrl()
+		url := config2.GetInstancesUrl()
 
 		// modify url and debug message depend on arguments
 		resource := "instances"
@@ -101,7 +101,7 @@ var InstanceCmd = &cobra.Command{
 		}
 
 		// get output flag
-		outputType := config.GetOutputType()
+		outputType := config2.GetOutputType()
 
 		// call the command
 		body, err := runCommand(url, resource, outputType)

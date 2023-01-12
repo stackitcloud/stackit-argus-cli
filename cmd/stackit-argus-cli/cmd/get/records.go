@@ -8,7 +8,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/spf13/cobra"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
+	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
 	output_table "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
 )
 
@@ -31,7 +31,7 @@ type record struct {
 }
 
 // printRecordsListTable prints records list response body as outputTable
-func printRecordsListTable(body []byte, outputType config.OutputType) error {
+func printRecordsListTable(body []byte, outputType config2.OutputType) error {
 	var records recordsList
 
 	// unmarshal response body
@@ -55,7 +55,7 @@ func printRecordsListTable(body []byte, outputType config.OutputType) error {
 }
 
 // printRecordTable prints record response body as outputTable
-func printRecordTable(body []byte, outputType config.OutputType) error {
+func printRecordTable(body []byte, outputType config2.OutputType) error {
 	var record record
 
 	// unmarshal response body
@@ -81,7 +81,7 @@ var RecordsCmd = &cobra.Command{
 	Args:  cobra.RangeArgs(1, 2),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
-		url := config.GetBaseUrl() + fmt.Sprintf("alertgroups/%s/records", args[0])
+		url := config2.GetBaseUrl() + fmt.Sprintf("alertgroups/%s/records", args[0])
 
 		// modify url and debug message depend on arguments
 		resource := "alert records"
@@ -91,7 +91,7 @@ var RecordsCmd = &cobra.Command{
 		}
 
 		// get output flag
-		outputType := config.GetOutputType()
+		outputType := config2.GetOutputType()
 
 		// call the command
 		body, err := runCommand(url, resource, outputType)

@@ -29,7 +29,7 @@ func TestReceivers(t *testing.T) {
 
 	value = "name \"receiver1\""
 
-	res, err = Receivers([]byte(value))
+	_, err = Receivers([]byte(value))
 	assert.Error(t, err, "test case with wrong format")
 }
 
@@ -83,7 +83,7 @@ func TestRoutes(t *testing.T) {
 
 	value = "receiver \"receiver\""
 
-	res, err = Routes([]byte(value))
+	_, err = Routes([]byte(value))
 	assert.Error(t, err, "test case with wrong format")
 }
 
@@ -185,7 +185,7 @@ func TestAlertConfig(t *testing.T) {
 
 	value = "global\n  resolve_timeout \"5m\""
 
-	res, err = AlertConfig([]byte(value))
+	_, err = AlertConfig([]byte(value))
 	assert.Error(t, err, "test case with wrong format")
 }
 
@@ -241,7 +241,7 @@ func TestScrapeConfig(t *testing.T) {
 
 	value = "staticConfigs \"receiver\""
 
-	res, err = ScrapeConfig([]byte(value))
+	_, err = ScrapeConfig([]byte(value))
 	assert.Error(t, err, "test case with wrong format")
 }
 
@@ -324,6 +324,6 @@ func TestScrapeConfigs(t *testing.T) {
 
 	value = "staticConfigs \"receiver\""
 
-	res, err = ScrapeConfigs([]byte(value))
+	_, err = ScrapeConfigs([]byte(value))
 	assert.Error(t, err, "test case with wrong format")
 }

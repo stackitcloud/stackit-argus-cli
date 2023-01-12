@@ -7,7 +7,7 @@ package update
 import (
 	"errors"
 	"github.com/spf13/cobra"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
 )
 
 // MetricsStorageRetentionCmd represents the metricsStorageRetention command

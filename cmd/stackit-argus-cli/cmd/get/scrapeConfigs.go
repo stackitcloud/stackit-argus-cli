@@ -8,7 +8,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/spf13/cobra"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
+	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
 	output_table "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
 )
 
@@ -52,7 +52,7 @@ type scrapeConfigsTable struct {
 }
 
 // printScrapeConfigTable prints scrape config response body as outputTable
-func printScrapeConfigTable(body []byte, outputType config.OutputType) error {
+func printScrapeConfigTable(body []byte, outputType config2.OutputType) error {
 	var scrapeConfig scrapeConfig
 	var targets []string
 
@@ -88,7 +88,7 @@ func printScrapeConfigTable(body []byte, outputType config.OutputType) error {
 }
 
 // printScrapeConfigsListTable prints scrape configs response body as outputTable
-func printScrapeConfigsListTable(body []byte, outputType config.OutputType) error {
+func printScrapeConfigsListTable(body []byte, outputType config2.OutputType) error {
 	var scrapeConfigs scrapeConfigsList
 	var table []scrapeConfigsTable
 	var targets []string
@@ -140,7 +140,7 @@ var ScrapeConfigsCmd = &cobra.Command{
 	Args:  cobra.MaximumNArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
-		url := config.GetBaseUrl() + "scrapeconfigs"
+		url := config2.GetBaseUrl() + "scrapeconfigs"
 
 		// modify url and debug message depend on arguments
 		resource := "scrape configs"
@@ -150,7 +150,7 @@ var ScrapeConfigsCmd = &cobra.Command{
 		}
 
 		// get output flag
-		outputType := config.GetOutputType()
+		outputType := config2.GetOutputType()
 
 		// call the command
 		body, err := runCommand(url, resource, outputType)

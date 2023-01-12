@@ -7,7 +7,7 @@ package get
 import (
 	"encoding/json"
 	"github.com/spf13/cobra"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
+	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
 	output_table "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
 )
 
@@ -20,7 +20,7 @@ type backups struct {
 }
 
 // printBackupsTable prints backups response body as a outputTable
-func printBackupsTable(body []byte, outputType config.OutputType) error {
+func printBackupsTable(body []byte, outputType config2.OutputType) error {
 	var backups backups
 
 	// unmarshal response body
@@ -60,10 +60,10 @@ var BackupCmd = &cobra.Command{
 	Args:  cobra.NoArgs,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
-		url := config.GetBaseUrl() + "backups"
+		url := config2.GetBaseUrl() + "backups"
 
 		// get output flag
-		outputType := config.GetOutputType()
+		outputType := config2.GetOutputType()
 
 		// call the command
 		body, err := runCommand(url, "backups", outputType)
