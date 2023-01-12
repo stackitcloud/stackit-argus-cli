@@ -20,12 +20,13 @@ type backups struct {
 }
 
 // printBackupsTable prints backups response body as a outputTable
-func printBackupsTable(body []byte, outputType config.OutputType) {
+func printBackupsTable(body []byte, outputType config.OutputType) error {
 	var backups backups
 
 	// unmarshal response body
-	err := json.Unmarshal(body, &backups)
-	cobra.CheckErr(err)
+	if err := json.Unmarshal(body, &backups); err != nil {
+		return err
+	}
 
 	if outputType != "wide" {
 		l := len(backups.Grafana)
@@ -48,6 +49,8 @@ func printBackupsTable(body []byte, outputType config.OutputType) {
 
 	// print the outputTable
 	output_table.PrintTable(backups)
+
+	return nil
 }
 
 // BackupCmd represents the backup command
@@ -55,7 +58,7 @@ var BackupCmd = &cobra.Command{
 	Use:   "backups",
 	Short: "Get backups.",
 	Args:  cobra.NoArgs,
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
 		url := config.GetBaseUrl() + "backups"
 
@@ -64,11 +67,19 @@ var BackupCmd = &cobra.Command{
 
 		// call the command
 		body, err := runCommand(url, "backups", outputType)
-		cobra.CheckErr(err)
+		if err != nil {
+			cmd.SilenceUsage = true
+			return nil
+		}
 
 		// print outputTable output
 		if body != nil && (outputType == "" || outputType == "wide") {
-			printBackupsTable(body, outputType)
+			if err := printBackupsTable(body, outputType); err != nil {
+				cmd.SilenceUsage = true
+				return err
+			}
 		}
+
+		return nil
 	},
 }

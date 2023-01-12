@@ -41,6 +41,10 @@ func getRequest(url string) (int, []byte, error) {
 		return 0, nil, err
 	}
 
+	if config.IsDebugMode() {
+		println("response status: ", res.Status)
+	}
+
 	return res.StatusCode, body, nil
 }
 
@@ -48,7 +52,7 @@ func getRequest(url string) (int, []byte, error) {
 func runCommand(url, resource string, outputType config.OutputType) ([]byte, error) {
 	// print debug messages if debug mode is turned on
 	if config.IsDebugMode() {
-		fmt.Printf("get %s command called", resource)
+		fmt.Printf("get %s command called\n", resource)
 		fmt.Printf("url to call - %s\n", url)
 	}
 
@@ -59,7 +63,9 @@ func runCommand(url, resource string, outputType config.OutputType) ([]byte, err
 	}
 
 	// print response status
-	utils.ResponseMessage(status, resource, "get")
+	if err := utils.ResponseMessage(status, resource, "get"); err != nil {
+		return nil, err
+	}
 
 	// print response body
 	if status == 200 {

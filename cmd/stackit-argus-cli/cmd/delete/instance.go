@@ -15,12 +15,17 @@ var InstanceCmd = &cobra.Command{
 	Use:   "instance <instanceId>",
 	Short: "Delete an instance.",
 	Args:  cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
 		url := config.GetInstancesUrl() + fmt.Sprintf("/%s", args[0])
 
 		// call command
-		err := runCommand(url, "instance")
-		cobra.CheckErr(err)
+		if err := runCommand(url, "instance"); err != nil {
+			cmd.SilenceUsage = true
+
+			return err
+		}
+
+		return nil
 	},
 }

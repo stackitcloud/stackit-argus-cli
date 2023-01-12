@@ -17,7 +17,7 @@ var CredentialsCmd = &cobra.Command{
 	Use:   "credentials <username>",
 	Short: "Delete credentials.",
 	Args:  cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
 		url := config.GetBaseUrl() + fmt.Sprintf("credentials/%s", args[0])
 
@@ -29,8 +29,13 @@ var CredentialsCmd = &cobra.Command{
 		}
 
 		// call command
-		err := runCommand(url, resource)
-		cobra.CheckErr(err)
+		if err := runCommand(url, resource); err != nil {
+			cmd.SilenceUsage = true
+
+			return err
+		}
+
+		return nil
 	},
 }
 

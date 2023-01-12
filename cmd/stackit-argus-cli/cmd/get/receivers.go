@@ -58,12 +58,13 @@ type opsgenieConfigTable struct {
 }
 
 // printReceiverTable prints receiver response body as outputTable
-func printReceiverTable(body []byte) {
+func printReceiverTable(body []byte) error {
 	var receiver receiver
 
 	// unmarshal response body
-	err := json.Unmarshal(body, &receiver)
-	cobra.CheckErr(err)
+	if err := json.Unmarshal(body, &receiver); err != nil {
+		return err
+	}
 
 	// print configs' outputTable
 	if len(receiver.Data.WebHookConfigs) > 0 {
@@ -108,6 +109,8 @@ func printReceiverTable(body []byte) {
 			output_table.PrintTable(table)
 		}
 	}
+
+	return nil
 }
 
 // receiversList is used to unmarshal receivers list response body
@@ -132,13 +135,14 @@ type receiversListTable struct {
 }
 
 // printReceiversListTable prints receivers list response body as outputTable
-func printReceiversListTable(body []byte) {
+func printReceiversListTable(body []byte) error {
 	var receiversList receiversList
 	var table []receiversListTable
 
 	// unmarshal response body
-	err := json.Unmarshal(body, &receiversList)
-	cobra.CheckErr(err)
+	if err := json.Unmarshal(body, &receiversList); err != nil {
+		return err
+	}
 
 	// fill the outputTable with values
 	for _, data := range receiversList.Data {
@@ -152,6 +156,8 @@ func printReceiversListTable(body []byte) {
 
 	// print the outputTable
 	output_table.PrintTable(table)
+
+	return nil
 }
 
 // ReceiversCmd represents the receivers command
@@ -160,7 +166,7 @@ var ReceiversCmd = &cobra.Command{
 	Short: "Get alert config receivers.",
 	Long:  "Get list of alert config receivers if receiver was not specified, otherwise get alert config receiver.",
 	Args:  cobra.MaximumNArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
 		url := config.GetBaseUrl() + "alertconfigs/receivers"
 
@@ -176,15 +182,26 @@ var ReceiversCmd = &cobra.Command{
 
 		// call the command
 		body, err := runCommand(url, resource, outputType)
-		cobra.CheckErr(err)
+		if err != nil {
+			cmd.SilenceUsage = true
+			return err
+		}
 
 		// print outputTable output
 		if body != nil && (outputType == "" || outputType == "wide") {
 			if len(args) == 0 {
-				printReceiversListTable(body)
+				if err := printReceiversListTable(body); err != nil {
+					cmd.SilenceUsage = true
+					return err
+				}
 			} else {
-				printReceiverTable(body)
+				if err := printReceiverTable(body); err != nil {
+					cmd.SilenceUsage = true
+					return err
+				}
 			}
 		}
+
+		return nil
 	},
 }

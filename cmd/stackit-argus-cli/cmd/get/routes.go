@@ -42,13 +42,14 @@ func getAllRoutes(routes []route, newRoutes *[]route) {
 }
 
 // printRoutesListTable prints routes response body as outputTable
-func printRoutesListTable(body []byte, outputType config.OutputType) {
+func printRoutesListTable(body []byte, outputType config.OutputType) error {
 	var routes routesList
 	var table []route
 
 	// unmarshal response body
-	err := json.Unmarshal(body, &routes)
-	cobra.CheckErr(err)
+	if err := json.Unmarshal(body, &routes); err != nil {
+		return err
+	}
 
 	getAllRoutes(routes.Data.Routes, &table)
 	table = append(table, routes.Data)
@@ -65,6 +66,8 @@ func printRoutesListTable(body []byte, outputType config.OutputType) {
 	} else {
 		output_table.PrintTable(table)
 	}
+
+	return nil
 }
 
 // RoutesCmd represents the routes command
@@ -73,7 +76,7 @@ var RoutesCmd = &cobra.Command{
 	Short: "Get alert config routes.",
 	Long:  "Get list of alert config route if receiver was not specified, otherwise get alert receiver for route.",
 	Args:  cobra.MaximumNArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
 		url := config.GetBaseUrl() + "alertconfigs/routes"
 
@@ -89,11 +92,19 @@ var RoutesCmd = &cobra.Command{
 
 		// call the command
 		body, err := runCommand(url, resource, outputType)
-		cobra.CheckErr(err)
+		if err != nil {
+			cmd.SilenceUsage = true
+			return err
+		}
 
 		// print outputTable output
 		if body != nil && (outputType == "" || outputType == "wide") {
-			printRoutesListTable(body, outputType)
+			if err := printRoutesListTable(body, outputType); err != nil {
+				cmd.SilenceUsage = true
+				return err
+			}
 		}
+
+		return nil
 	},
 }

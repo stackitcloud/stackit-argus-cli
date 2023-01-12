@@ -19,15 +19,18 @@ type pingCheck struct {
 }
 
 // printPingCheckTable prints ping checks as a outputTable
-func printPingCheckTable(body []byte) {
+func printPingCheckTable(body []byte) error {
 	var pingCheck pingCheck
 
 	// unmarshal response body
-	err := json.Unmarshal(body, &pingCheck)
-	cobra.CheckErr(err)
+	if err := json.Unmarshal(body, &pingCheck); err != nil {
+		return err
+	}
 
 	// print the outputTable
 	output_table.PrintTable(pingCheck.PingChecks)
+
+	return nil
 }
 
 // PingCheckCmd represents the PingCheck command
@@ -35,7 +38,7 @@ var PingCheckCmd = &cobra.Command{
 	Use:   "pingCheck",
 	Short: "Get all ping checks configured.",
 	Args:  cobra.NoArgs,
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
 		url := config.GetBaseUrl() + "ping-checks"
 
@@ -44,11 +47,19 @@ var PingCheckCmd = &cobra.Command{
 
 		// call the command
 		body, err := runCommand(url, "ping check", outputType)
-		cobra.CheckErr(err)
+		if err != nil {
+			cmd.SilenceUsage = true
+			return err
+		}
 
 		// print outputTable output
 		if body != nil && (outputType == "" || outputType == "wide") {
-			printPingCheckTable(body)
+			if err := printPingCheckTable(body); err != nil {
+				cmd.SilenceUsage = true
+				return err
+			}
 		}
+
+		return nil
 	},
 }

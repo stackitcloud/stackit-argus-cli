@@ -39,25 +39,29 @@ type credentialsTable struct {
 }
 
 // printRemoteWriteLimitsTable prints remote write limits response body as outputTable
-func printRemoteWriteLimitsTable(body []byte) {
+func printRemoteWriteLimitsTable(body []byte) error {
 	var remoteWriteLimit remoteWriteLimit
 
 	// unmarshal response body
-	err := json.Unmarshal(body, &remoteWriteLimit)
-	cobra.CheckErr(err)
+	if err := json.Unmarshal(body, &remoteWriteLimit); err != nil {
+		return err
+	}
 
 	// print the outputTable
 	output_table.PrintTable(remoteWriteLimits)
+
+	return nil
 }
 
 // printCredentialsListTable prints credentials
-func printCredentialsListTable(body []byte) {
+func printCredentialsListTable(body []byte) error {
 	var credentials credentials
 	var table []credentialsTable
 
 	// unmarshal response body
-	err := json.Unmarshal(body, &credentials)
-	cobra.CheckErr(err)
+	if err := json.Unmarshal(body, &credentials); err != nil {
+		return err
+	}
 
 	// fill outputTable with values
 	for _, data := range credentials.Credentials {
@@ -72,15 +76,17 @@ func printCredentialsListTable(body []byte) {
 
 	// print the outputTable
 	output_table.PrintTable(table)
+
+	return nil
 }
 
 // CredentialsCmd represents the credentials command
 var CredentialsCmd = &cobra.Command{
-	Use:   "credentials <username>",
+	Use:   "credentials",
 	Short: "Get technical user credentials.",
-	Long:  "Get list of all credentials if username was not specified, otherwise get technical credentials.",
+	Long:  "Get technical credentials.",
 	Args:  cobra.NoArgs,
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
 		url := config.GetBaseUrl() + "credentials"
 
@@ -96,16 +102,27 @@ var CredentialsCmd = &cobra.Command{
 
 		// call the command
 		body, err := runCommand(url, resource, outputType)
-		cobra.CheckErr(err)
+		if err != nil {
+			cmd.SilenceUsage = true
+			return err
+		}
 
 		// print outputTable output
 		if body != nil && (outputType == "" || outputType == "wide") {
 			if remoteWriteLimits != "" {
-				printRemoteWriteLimitsTable(body)
+				if err := printRemoteWriteLimitsTable(body); err != nil {
+					cmd.SilenceUsage = true
+					return err
+				}
 			} else {
-				printCredentialsListTable(body)
+				if err := printCredentialsListTable(body); err != nil {
+					cmd.SilenceUsage = true
+					return err
+				}
 			}
 		}
+
+		return nil
 	},
 }
 

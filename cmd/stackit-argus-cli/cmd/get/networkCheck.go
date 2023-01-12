@@ -19,15 +19,18 @@ type networkCheck struct {
 }
 
 // printNetworkCheckTable prints network checks as a outputTable
-func printNetworkCheckTable(body []byte) {
+func printNetworkCheckTable(body []byte) error {
 	var networkCheck networkCheck
 
 	// unmarshal response body
-	err := json.Unmarshal(body, &networkCheck)
-	cobra.CheckErr(err)
+	if err := json.Unmarshal(body, &networkCheck); err != nil {
+		return err
+	}
 
 	// print the outputTable
 	output_table.PrintTable(networkCheck.NetworkChecks)
+
+	return nil
 }
 
 // NetworkCheckCmd represents the NetworkCheck command
@@ -35,7 +38,7 @@ var NetworkCheckCmd = &cobra.Command{
 	Use:   "networkCheck",
 	Short: "Get all network checks configured.",
 	Args:  cobra.NoArgs,
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
 		url := config.GetBaseUrl() + "network-checks"
 
@@ -44,11 +47,19 @@ var NetworkCheckCmd = &cobra.Command{
 
 		// call the command
 		body, err := runCommand(url, "network check", outputType)
-		cobra.CheckErr(err)
+		if err != nil {
+			cmd.SilenceUsage = true
+			return err
+		}
 
 		// print outputTable output
 		if body != nil && (outputType == "" || outputType == "wide") {
-			printNetworkCheckTable(body)
+			if err := printNetworkCheckTable(body); err != nil {
+				cmd.SilenceUsage = true
+				return err
+			}
 		}
+
+		return nil
 	},
 }

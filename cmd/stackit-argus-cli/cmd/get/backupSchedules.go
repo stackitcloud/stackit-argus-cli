@@ -33,14 +33,15 @@ type backupSchedulesTable struct {
 }
 
 // printBackupSchedulesTable prints backup schedules response body as outputTable
-func printBackupSchedulesTable(body []byte) {
+func printBackupSchedulesTable(body []byte) error {
 	var check [4]bool
 	var backupSchedules backupSchedules
 	var table []backupSchedulesTable
 
 	// unmarshal response body
-	err := json.Unmarshal(body, &backupSchedules)
-	cobra.CheckErr(err)
+	if err := json.Unmarshal(body, &backupSchedules); err != nil {
+		return err
+	}
 
 	// fill the outputTable
 	for i := 0; !check[0] && !check[1] && !check[2] && !check[3]; i++ {
@@ -84,6 +85,8 @@ func printBackupSchedulesTable(body []byte) {
 
 	// print the outputTable
 	output_table.PrintTable(table)
+
+	return nil
 }
 
 // BackupSchedulesCmd represents the backupSchedules command
@@ -91,7 +94,7 @@ var BackupSchedulesCmd = &cobra.Command{
 	Use:   "backupSchedules",
 	Short: "Get backup schedules.",
 	Args:  cobra.NoArgs,
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
 		url := config.GetBaseUrl() + "backup-schedules"
 
@@ -100,11 +103,19 @@ var BackupSchedulesCmd = &cobra.Command{
 
 		// call the command
 		body, err := runCommand(url, "backup schedules", outputType)
-		cobra.CheckErr(err)
+		if err != nil {
+			cmd.SilenceUsage = true
+			return err
+		}
 
 		// print outputTable output
 		if body != nil && (outputType == "" || outputType == "wide") {
-			printBackupSchedulesTable(body)
+			if err := printBackupSchedulesTable(body); err != nil {
+				cmd.SilenceUsage = true
+				return err
+			}
 		}
+
+		return err
 	},
 }

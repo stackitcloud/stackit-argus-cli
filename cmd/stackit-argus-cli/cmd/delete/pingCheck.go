@@ -14,12 +14,17 @@ import (
 var PingCheckCmd = &cobra.Command{
 	Use:   "pingCheck",
 	Short: "Delete a ping check.",
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
 		url := config.GetBaseUrl() + fmt.Sprintf("ping-checks/%s", args[0])
 
 		// call command
-		err := runCommand(url, "ping check")
-		cobra.CheckErr(err)
+		if err := runCommand(url, "ping check"); err != nil {
+			cmd.SilenceUsage = true
+
+			return err
+		}
+
+		return nil
 	},
 }

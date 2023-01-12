@@ -52,13 +52,14 @@ type scrapeConfigsTable struct {
 }
 
 // printScrapeConfigTable prints scrape config response body as outputTable
-func printScrapeConfigTable(body []byte, outputType config.OutputType) {
+func printScrapeConfigTable(body []byte, outputType config.OutputType) error {
 	var scrapeConfig scrapeConfig
 	var targets []string
 
 	// unmarshal response body
-	err := json.Unmarshal(body, &scrapeConfig)
-	cobra.CheckErr(err)
+	if err := json.Unmarshal(body, &scrapeConfig); err != nil {
+		return err
+	}
 
 	// fill the outputTable
 	for _, sc := range scrapeConfig.Data.StaticConfigs {
@@ -82,17 +83,20 @@ func printScrapeConfigTable(body []byte, outputType config.OutputType) {
 		output_table.PrintTable(output_table.RemoveColumnsFromTable(table,
 			[]string{"JobName"}))
 	}
+
+	return nil
 }
 
 // printScrapeConfigsListTable prints scrape configs response body as outputTable
-func printScrapeConfigsListTable(body []byte, outputType config.OutputType) {
+func printScrapeConfigsListTable(body []byte, outputType config.OutputType) error {
 	var scrapeConfigs scrapeConfigsList
 	var table []scrapeConfigsTable
 	var targets []string
 
 	// unmarshal response body
-	err := json.Unmarshal(body, &scrapeConfigs)
-	cobra.CheckErr(err)
+	if err := json.Unmarshal(body, &scrapeConfigs); err != nil {
+		return err
+	}
 
 	// fill the outputTable
 	for _, data := range scrapeConfigs.Data {
@@ -124,6 +128,8 @@ func printScrapeConfigsListTable(body []byte, outputType config.OutputType) {
 	} else {
 		output_table.PrintTable(table)
 	}
+
+	return nil
 }
 
 // ScrapeConfigsCmd represents the scrapeConfigs command
@@ -132,7 +138,7 @@ var ScrapeConfigsCmd = &cobra.Command{
 	Short: "Get scrape config.",
 	Long:  "Get list of scrape config if job name was not specified, otherwise get scrape config.",
 	Args:  cobra.MaximumNArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
 		url := config.GetBaseUrl() + "scrapeconfigs"
 
@@ -148,15 +154,26 @@ var ScrapeConfigsCmd = &cobra.Command{
 
 		// call the command
 		body, err := runCommand(url, resource, outputType)
-		cobra.CheckErr(err)
+		if err != nil {
+			cmd.SilenceUsage = true
+			return err
+		}
 
 		// print outputTable output
 		if body != nil && (outputType == "" || outputType == "wide") {
 			if len(args) == 0 {
-				printScrapeConfigsListTable(body, outputType)
+				if err := printScrapeConfigsListTable(body, outputType); err != nil {
+					cmd.SilenceUsage = true
+					return err
+				}
 			} else {
-				printScrapeConfigTable(body, outputType)
+				if err := printScrapeConfigTable(body, outputType); err != nil {
+					cmd.SilenceUsage = true
+					return err
+				}
 			}
 		}
+
+		return nil
 	},
 }

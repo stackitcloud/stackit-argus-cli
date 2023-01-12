@@ -5,6 +5,7 @@ package update
  */
 
 import (
+	"errors"
 	"fmt"
 	"github.com/spf13/cobra"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
@@ -16,7 +17,11 @@ var AlertRulesCmd = &cobra.Command{
 	Short: "Update alert rules.",
 	Long:  "Patch alert rules if alert name was not specified, otherwise update an alert rule.",
 	Args:  cobra.RangeArgs(1, 2),
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
+		if config.GetBodyFile() == "" {
+			return errors.New("required flag \"--file(-f)\" not set")
+		}
+
 		// generate an url
 		url := config.GetBaseUrl() + fmt.Sprintf("alertgroups/%s/alertrules", args[0])
 
@@ -30,7 +35,12 @@ var AlertRulesCmd = &cobra.Command{
 		}
 
 		// call command
-		err := runCommand(url, resource, method)
-		cobra.CheckErr(err)
+		if err := runCommand(url, resource, method); err != nil {
+			cmd.SilenceUsage = true
+
+			return err
+		}
+
+		return nil
 	},
 }

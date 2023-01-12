@@ -15,12 +15,17 @@ var LogsAlertGroupsCmd = &cobra.Command{
 	Use:   "logsAlertGroup <groupName>",
 	Short: "Delete logs alert group config.",
 	Args:  cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
 		url := config.GetBaseUrl() + fmt.Sprintf("logs-alertgroups/%s", args[0])
 
 		// call command
-		err := runCommand(url, "logs alert group")
-		cobra.CheckErr(err)
+		if err := runCommand(url, "logs alert group"); err != nil {
+			cmd.SilenceUsage = true
+
+			return err
+		}
+
+		return nil
 	},
 }

@@ -46,28 +46,32 @@ type alertGroupsTable struct {
 }
 
 // printAlertGroupTable prints alert group response body as a outputTable
-func printAlertGroupTable(body []byte) {
+func printAlertGroupTable(body []byte) error {
 	var alertGroup alertGroup
 
 	// unmarshal response body
-	err := json.Unmarshal(body, &alertGroup)
-	cobra.CheckErr(err)
+	if err := json.Unmarshal(body, &alertGroup); err != nil {
+		return err
+	}
 
 	// print the outputTable
 	output_table.PrintTable(alertGroupTable{
 		Interval: alertGroup.Data.Interval,
 		Rules:    len(alertGroup.Data.Rules),
 	})
+
+	return nil
 }
 
 // printAlertGroupsListTable prints alert groups response body as a outputTable
-func printAlertGroupsListTable(body []byte) {
+func printAlertGroupsListTable(body []byte) error {
 	var alertGroups alertGroups
 	var table []alertGroupsTable
 
 	// unmarshal response body
-	err := json.Unmarshal(body, &alertGroups)
-	cobra.CheckErr(err)
+	if err := json.Unmarshal(body, &alertGroups); err != nil {
+		return err
+	}
 
 	// fill the outputTable with values
 	for _, data := range alertGroups.Data {
@@ -80,6 +84,8 @@ func printAlertGroupsListTable(body []byte) {
 
 	// print the outputTable
 	output_table.PrintTable(table)
+
+	return nil
 }
 
 // AlertGroupsCmd represents the alertGroups command
@@ -88,7 +94,7 @@ var AlertGroupsCmd = &cobra.Command{
 	Short: "Get list of alert groups.",
 	Long:  "Get list of alert groups if group name was not specified, otherwise get alert group.",
 	Args:  cobra.MaximumNArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
 		url := config.GetBaseUrl() + "alertgroups"
 
@@ -104,15 +110,26 @@ var AlertGroupsCmd = &cobra.Command{
 
 		// call the command
 		body, err := runCommand(url, resource, outputType)
-		cobra.CheckErr(err)
+		if err != nil {
+			cmd.SilenceUsage = true
+			return err
+		}
 
 		// print outputTable output
 		if body != nil && (outputType == "" || outputType == "wide") {
 			if len(args) == 0 {
-				printAlertGroupsListTable(body)
+				if err := printAlertGroupsListTable(body); err != nil {
+					cmd.SilenceUsage = true
+					return err
+				}
 			} else {
-				printAlertGroupTable(body)
+				if err := printAlertGroupTable(body); err != nil {
+					cmd.SilenceUsage = true
+					return err
+				}
 			}
 		}
+
+		return nil
 	},
 }

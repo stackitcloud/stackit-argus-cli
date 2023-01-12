@@ -29,8 +29,9 @@ func updateRequest(url string, method string, body []byte) (int, error) {
 		return 0, err
 	}
 
-	// set auth header
+	// set header
 	req.Header.Set("Authorization", authHeader)
+	req.Header.Set("Content-Type", "application/json")
 
 	res, err := client.Do(req)
 	if err != nil {
@@ -40,22 +41,33 @@ func updateRequest(url string, method string, body []byte) (int, error) {
 		return 0, err
 	}
 
+	if config.IsDebugMode() {
+		println("response status: ", res.Status)
+	}
+
 	return res.StatusCode, nil
 }
 
 // runCommand call the url
 func runCommand(url, resource, method string) error {
+	var body []byte
+	var err error
+
 	// print debug messages if debug mode is turned on
 	if config.IsDebugMode() {
-		fmt.Printf("update %s command called", resource)
+		fmt.Printf("update %s command called\n", resource)
 		fmt.Printf("url to call - %s\n", url)
 	}
 
 	// get file content
 	file := config.GetBodyFile()
-	body, err := os.ReadFile(file)
-	if err != nil {
-		return err
+	if file != "" {
+		body, err = os.ReadFile(file)
+		if err != nil {
+			return err
+		}
+	} else {
+		body = nil
 	}
 
 	// convert body to json if yaml file has been given
@@ -87,7 +99,9 @@ func runCommand(url, resource, method string) error {
 	}
 
 	// print response status
-	utils.ResponseMessage(status, resource, "update")
+	if err := utils.ResponseMessage(status, resource, "update"); err != nil {
+		return err
+	}
 
 	return err
 }

@@ -20,15 +20,18 @@ type backupRetentions struct {
 }
 
 // printBackupRetentionsTable prints backup retentions
-func printBackupRetentionsTable(body []byte) {
+func printBackupRetentionsTable(body []byte) error {
 	var backupRetentions backupRetentions
 
 	// unmarshal response body
-	err := json.Unmarshal(body, &backupRetentions)
-	cobra.CheckErr(err)
+	if err := json.Unmarshal(body, &backupRetentions); err != nil {
+		return err
+	}
 
 	// print the outputTable
 	output_table.PrintTable(backupRetentions)
+
+	return nil
 }
 
 // BackupRetentionsCmd represents the backupRetentions command
@@ -36,7 +39,7 @@ var BackupRetentionsCmd = &cobra.Command{
 	Use:   "backupRetentions",
 	Short: "Get backup retentions.",
 	Args:  cobra.NoArgs,
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
 		url := config.GetBaseUrl() + "backup-retentions"
 
@@ -45,11 +48,19 @@ var BackupRetentionsCmd = &cobra.Command{
 
 		// call the command
 		body, err := runCommand(url, "backup retentions", outputType)
-		cobra.CheckErr(err)
+		if err != nil {
+			cmd.SilenceUsage = true
+			return err
+		}
 
 		// print outputTable output
 		if body != nil && (outputType == "" || outputType == "wide") {
-			printBackupRetentionsTable(body)
+			if err := printBackupRetentionsTable(body); err != nil {
+				cmd.SilenceUsage = true
+				return err
+			}
 		}
+
+		return err
 	},
 }

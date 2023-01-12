@@ -15,12 +15,17 @@ var ReceiversCmd = &cobra.Command{
 	Use:   "receiver <receiver>",
 	Short: "Delete alert config receiver.",
 	Args:  cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
 		url := config.GetBaseUrl() + fmt.Sprintf("alertconfigs/receivers/%s", args[0])
 
 		// call command
-		err := runCommand(url, "receiver")
-		cobra.CheckErr(err)
+		if err := runCommand(url, "receiver"); err != nil {
+			cmd.SilenceUsage = true
+
+			return err
+		}
+
+		return nil
 	},
 }

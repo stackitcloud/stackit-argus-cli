@@ -19,15 +19,18 @@ type metricsStorageRetention struct {
 }
 
 // printMetricsStorageRetentionTable prints routes response body as outputTable
-func printMetricsStorageRetentionTable(body []byte) {
+func printMetricsStorageRetentionTable(body []byte) error {
 	var metricsStorageRetention metricsStorageRetention
 
 	// unmarshal response body
-	err := json.Unmarshal(body, &metricsStorageRetention)
-	cobra.CheckErr(err)
+	if err := json.Unmarshal(body, &metricsStorageRetention); err != nil {
+		return err
+	}
 
 	// print the outputTable
 	output_table.PrintTable(metricsStorageRetention)
+
+	return nil
 }
 
 // MetricsStorageRetentionCmd represents the metricsStorageRetention command
@@ -35,7 +38,7 @@ var MetricsStorageRetentionCmd = &cobra.Command{
 	Use:   "metricsRetention",
 	Short: "Get metric storage retention time.",
 	Args:  cobra.NoArgs,
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
 		url := config.GetBaseUrl() + "metrics-storage-retentions"
 
@@ -44,11 +47,19 @@ var MetricsStorageRetentionCmd = &cobra.Command{
 
 		// call the command
 		body, err := runCommand(url, "metrics storage retentions", outputType)
-		cobra.CheckErr(err)
+		if err != nil {
+			cmd.SilenceUsage = true
+			return err
+		}
 
 		// print outputTable output
 		if body != nil && (outputType == "" || outputType == "wide") {
-			printMetricsStorageRetentionTable(body)
+			if err := printMetricsStorageRetentionTable(body); err != nil {
+				cmd.SilenceUsage = true
+				return err
+			}
 		}
+
+		return nil
 	},
 }

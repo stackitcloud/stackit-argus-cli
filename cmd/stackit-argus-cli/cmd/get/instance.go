@@ -40,12 +40,13 @@ type instances struct {
 }
 
 // printInstanceTable prints instance as a outputTable
-func printInstanceTable(body []byte, outputType config.OutputType) {
+func printInstanceTable(body []byte, outputType config.OutputType) error {
 	var instance instance
 
 	// unmarshal response body
-	err := json.Unmarshal(body, &instance)
-	cobra.CheckErr(err)
+	if err := json.Unmarshal(body, &instance); err != nil {
+		return err
+	}
 
 	// print the outputTable
 	if outputType != "wide" {
@@ -54,15 +55,18 @@ func printInstanceTable(body []byte, outputType config.OutputType) {
 	} else {
 		output_table.PrintTable(instance)
 	}
+
+	return nil
 }
 
 // printListInstancesListTable prints instances list as a outputTable
-func printListInstancesListTable(body []byte, outputType config.OutputType) {
+func printListInstancesListTable(body []byte, outputType config.OutputType) error {
 	var instances instances
 
 	// unmarshal response body
-	err := json.Unmarshal(body, &instances)
-	cobra.CheckErr(err)
+	if err := json.Unmarshal(body, &instances); err != nil {
+		return err
+	}
 
 	// print the outputTable
 	if outputType != "wide" {
@@ -75,6 +79,8 @@ func printListInstancesListTable(body []byte, outputType config.OutputType) {
 	} else {
 		output_table.PrintTable(instances.Instances)
 	}
+
+	return nil
 }
 
 // InstanceCmd represents the instance command
@@ -83,7 +89,7 @@ var InstanceCmd = &cobra.Command{
 	Short: "Get project instance.",
 	Long:  "Get list of all project's instances if instance id was not specified, otherwise get instance.",
 	Args:  cobra.MaximumNArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
 		url := config.GetInstancesUrl()
 
@@ -99,15 +105,26 @@ var InstanceCmd = &cobra.Command{
 
 		// call the command
 		body, err := runCommand(url, resource, outputType)
-		cobra.CheckErr(err)
+		if err != nil {
+			cmd.SilenceUsage = true
+			return err
+		}
 
 		// print outputTable output
 		if body != nil && (outputType == "" || outputType == "wide") {
 			if len(args) == 0 {
-				printListInstancesListTable(body, outputType)
+				if err := printListInstancesListTable(body, outputType); err != nil {
+					cmd.SilenceUsage = true
+					return err
+				}
 			} else {
-				printInstanceTable(body, outputType)
+				if err := printInstanceTable(body, outputType); err != nil {
+					cmd.SilenceUsage = true
+					return err
+				}
 			}
 		}
+
+		return nil
 	},
 }

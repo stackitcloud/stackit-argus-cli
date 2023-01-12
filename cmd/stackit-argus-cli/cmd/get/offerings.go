@@ -21,12 +21,13 @@ type offerings struct {
 }
 
 // printOfferingsTable prints offerings response body as outputTable
-func printOfferingsTable(body []byte, outputType config.OutputType) {
+func printOfferingsTable(body []byte, outputType config.OutputType) error {
 	var offerings offerings
 
 	// unmarshal response body
-	err := json.Unmarshal(body, &offerings)
-	cobra.CheckErr(err)
+	if err := json.Unmarshal(body, &offerings); err != nil {
+		return err
+	}
 
 	// print the outputTable
 	if outputType != "wide" {
@@ -34,6 +35,8 @@ func printOfferingsTable(body []byte, outputType config.OutputType) {
 	} else {
 		output_table.PrintTable(offerings)
 	}
+
+	return nil
 }
 
 // OfferingsCmd represents the plansOfferings command
@@ -41,7 +44,7 @@ var OfferingsCmd = &cobra.Command{
 	Use:   "offerings",
 	Short: "Get all offerings.",
 	Args:  cobra.NoArgs,
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
 		url := config.GetProjectUrl() + "/offerings"
 
@@ -50,11 +53,19 @@ var OfferingsCmd = &cobra.Command{
 
 		// call the command
 		body, err := runCommand(url, "offerings", outputType)
-		cobra.CheckErr(err)
+		if err != nil {
+			cmd.SilenceUsage = true
+			return err
+		}
 
 		// print outputTable output
 		if body != nil && (outputType == "" || outputType == "wide") {
-			printOfferingsTable(body, outputType)
+			if err := printOfferingsTable(body, outputType); err != nil {
+				cmd.SilenceUsage = true
+				return err
+			}
 		}
+
+		return nil
 	},
 }

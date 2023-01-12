@@ -11,18 +11,30 @@ import (
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:     "stackit-argus-cli",
-	Short:   "Manage ARGUS resources",
-	Args:    cobra.NoArgs,
-	Version: "1.0.0",
+	Use:           "stackit-argus-cli",
+	Short:         "Manage ARGUS resources",
+	Args:          cobra.NoArgs,
+	Version:       "1.0.0",
+	SilenceErrors: true,
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() error {
-	if err := rootCmd.Execute(); err != nil {
+	// init info from configuration file
+	if err := config.InitFromConfigFile(config.GetConfigFile()); err != nil {
+		config.ResetConfigurations()
+
 		return err
 	}
+
+	if err := rootCmd.Execute(); err != nil {
+		config.ResetConfigurations()
+
+		return err
+	}
+
+	config.ResetConfigurations()
 
 	return nil
 }

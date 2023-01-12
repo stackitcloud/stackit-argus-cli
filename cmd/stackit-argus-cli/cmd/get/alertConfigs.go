@@ -59,13 +59,14 @@ func countRoutes(routes []route, res *int) {
 }
 
 // printAlertConfigsTable prints alert configs response body as outputTable
-func printAlertConfigsTable(body []byte, outputType config.OutputType) {
+func printAlertConfigsTable(body []byte, outputType config.OutputType) error {
 	var alertConfigs alertConfigs
 	var routes int
 
 	// unmarshal response body
-	err := json.Unmarshal(body, &alertConfigs)
-	cobra.CheckErr(err)
+	if err := json.Unmarshal(body, &alertConfigs); err != nil {
+		return err
+	}
 
 	countRoutes(alertConfigs.Data.Route.Routes, &routes)
 
@@ -105,6 +106,8 @@ func printAlertConfigsTable(body []byte, outputType config.OutputType) {
 			output_table.PrintTable(table)
 		}
 	}
+
+	return nil
 }
 
 // AlertConfigsCmd represents the alertConfigs command
@@ -112,7 +115,7 @@ var AlertConfigsCmd = &cobra.Command{
 	Use:   "alertConfigs",
 	Short: "Get alert configs.",
 	Args:  cobra.NoArgs,
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
 		url := config.GetBaseUrl() + "alertconfigs"
 
@@ -121,11 +124,19 @@ var AlertConfigsCmd = &cobra.Command{
 
 		// call the command
 		body, err := runCommand(url, "alert configs", outputType)
-		cobra.CheckErr(err)
+		if err != nil {
+			cmd.SilenceUsage = true
+			return err
+		}
 
 		// print outputTable output
 		if body != nil && (outputType == "" || outputType == "wide") {
-			printAlertConfigsTable(body, outputType)
+			if err := printAlertConfigsTable(body, outputType); err != nil {
+				cmd.SilenceUsage = true
+				return err
+			}
 		}
+
+		return nil
 	},
 }

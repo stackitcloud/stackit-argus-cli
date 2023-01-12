@@ -15,12 +15,17 @@ var AlertRulesCmd = &cobra.Command{
 	Use:   "alertRule <groupName> <alertName>",
 	Short: "Delete alert rules.",
 	Args:  cobra.ExactArgs(2),
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
 		url := config.GetBaseUrl() + fmt.Sprintf("alertgroups/%s/alertrules/%s", args[0], args[1])
 
 		// call command
-		err := runCommand(url, "alert rule")
-		cobra.CheckErr(err)
+		if err := runCommand(url, "alert rule"); err != nil {
+			cmd.SilenceUsage = true
+
+			return err
+		}
+
+		return nil
 	},
 }

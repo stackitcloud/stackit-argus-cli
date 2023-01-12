@@ -15,12 +15,17 @@ var HttpCheckCmd = &cobra.Command{
 	Use:   "httpCheck",
 	Short: "Delete a http check.",
 	Args:  cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
 		url := config.GetBaseUrl() + fmt.Sprintf("http-checks/%s", args[0])
 
 		// call command
-		err := runCommand(url, "http check")
-		cobra.CheckErr(err)
+		if err := runCommand(url, "http check"); err != nil {
+			cmd.SilenceUsage = true
+
+			return err
+		}
+
+		return nil
 	},
 }

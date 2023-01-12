@@ -6,7 +6,6 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/create"
 )
 
@@ -36,7 +35,4 @@ func init() {
 	createCmd.AddCommand(create.HttpCheckCmd)
 	createCmd.AddCommand(create.NetworkCheckCmd)
 	createCmd.AddCommand(create.PingCheckCmd)
-
-	// init file content of which will be used as a body for http request
-	config.InitInputFile(createCmd)
 }

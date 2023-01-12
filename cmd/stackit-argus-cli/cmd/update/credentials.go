@@ -15,12 +15,17 @@ var CredentialsCmd = &cobra.Command{
 	Use:   "credentials <username>",
 	Short: "Update remote write config for credentials.",
 	Args:  cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
-		url := config.GetBaseUrl() + fmt.Sprintf("credentilads/%s/remote-write-limits", args[0])
+		url := config.GetBaseUrl() + fmt.Sprintf("credentials/%s/remote-write-limits", args[0])
 
 		// call command
-		err := runCommand(url, "credentials", "PUT")
-		cobra.CheckErr(err)
+		if err := runCommand(url, "credentials", "PUT"); err != nil {
+			cmd.SilenceUsage = true
+
+			return err
+		}
+
+		return nil
 	},
 }

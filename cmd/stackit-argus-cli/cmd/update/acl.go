@@ -5,6 +5,7 @@ package update
  */
 
 import (
+	"errors"
 	"github.com/spf13/cobra"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
 )
@@ -14,12 +15,21 @@ var AclCmd = &cobra.Command{
 	Use:   "acl",
 	Short: "Update an acl config.",
 	Args:  cobra.NoArgs,
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
+		if config.GetBodyFile() == "" {
+			return errors.New("required flag \"--file(-f)\" not set")
+		}
+
 		// generate an url
 		url := config.GetBaseUrl() + "acl"
 
 		// call command
-		err := runCommand(url, "acl", "PUT")
-		cobra.CheckErr(err)
+		if err := runCommand(url, "acl", "PUT"); err != nil {
+			cmd.SilenceUsage = true
+
+			return err
+		}
+
+		return nil
 	},
 }

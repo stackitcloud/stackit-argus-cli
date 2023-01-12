@@ -19,15 +19,18 @@ type tracesConfigs struct {
 }
 
 // printTracesConfigsListTable prints traces configs response body as outputTable
-func printTracesConfigsListTable(body []byte) {
+func printTracesConfigsListTable(body []byte) error {
 	var tracesConfigs tracesConfigs
 
 	// unmarshal response body
-	err := json.Unmarshal(body, &tracesConfigs)
-	cobra.CheckErr(err)
+	if err := json.Unmarshal(body, &tracesConfigs); err != nil {
+		return err
+	}
 
 	// print the outputTable
 	output_table.PrintTable(tracesConfigs.Config)
+
+	return nil
 }
 
 // TracesConfigsCmd represents the tracesConfigs command
@@ -35,7 +38,7 @@ var TracesConfigsCmd = &cobra.Command{
 	Use:   "tracesConfigs",
 	Short: "Get traces config.",
 	Args:  cobra.NoArgs,
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
 		url := config.GetBaseUrl() + "traces-configs"
 
@@ -44,11 +47,19 @@ var TracesConfigsCmd = &cobra.Command{
 
 		// call the command
 		body, err := runCommand(url, "traces configs", outputType)
-		cobra.CheckErr(err)
+		if err != nil {
+			cmd.SilenceUsage = true
+			return err
+		}
 
 		// print outputTable output
 		if body != nil && (outputType == "" || outputType == "wide") {
-			printTracesConfigsListTable(body)
+			if err := printTracesConfigsListTable(body); err != nil {
+				cmd.SilenceUsage = true
+				return err
+			}
 		}
+
+		return nil
 	},
 }

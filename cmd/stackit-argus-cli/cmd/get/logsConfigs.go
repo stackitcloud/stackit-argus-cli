@@ -19,15 +19,18 @@ type logsConfigs struct {
 }
 
 // printLogsConfigsTable prints logs configs response body as outputTable
-func printLogsConfigsTable(body []byte) {
+func printLogsConfigsTable(body []byte) error {
 	var logsConfigs logsConfigs
 
 	// unmarshal response body
-	err := json.Unmarshal(body, &logsConfigs)
-	cobra.CheckErr(err)
+	if err := json.Unmarshal(body, &logsConfigs); err != nil {
+		return err
+	}
 
 	// print the outputTable
 	output_table.PrintTable(logsConfigs.Config)
+
+	return nil
 }
 
 // LogsConfigsCmd represents the logsConfigs command
@@ -35,7 +38,7 @@ var LogsConfigsCmd = &cobra.Command{
 	Use:   "logsConfigs",
 	Short: "Get logs configuration.",
 	Args:  cobra.NoArgs,
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
 		url := config.GetBaseUrl() + "logs-configs"
 
@@ -44,11 +47,19 @@ var LogsConfigsCmd = &cobra.Command{
 
 		// call the command
 		body, err := runCommand(url, "logs configs", outputType)
-		cobra.CheckErr(err)
+		if err != nil {
+			cmd.SilenceUsage = true
+			return err
+		}
 
 		// print outputTable output
 		if body != nil && (outputType == "" || outputType == "wide") {
-			printLogsConfigsTable(body)
+			if err := printLogsConfigsTable(body); err != nil {
+				cmd.SilenceUsage = true
+				return err
+			}
 		}
+
+		return nil
 	},
 }

@@ -15,12 +15,17 @@ var NetworkCheckCmd = &cobra.Command{
 	Use:   "networkCheck",
 	Short: "Delete a network check.",
 	Args:  cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
 		url := config.GetBaseUrl() + fmt.Sprintf("network-checks/%s", args[0])
 
 		// call command
-		err := runCommand(url, "network check")
-		cobra.CheckErr(err)
+		if err := runCommand(url, "network check"); err != nil {
+			cmd.SilenceUsage = true
+
+			return err
+		}
+
+		return nil
 	},
 }

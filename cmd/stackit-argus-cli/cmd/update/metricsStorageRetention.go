@@ -5,6 +5,7 @@ package update
  */
 
 import (
+	"errors"
 	"github.com/spf13/cobra"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
 )
@@ -14,12 +15,21 @@ var MetricsStorageRetentionCmd = &cobra.Command{
 	Use:   "metricsStorageRetention",
 	Short: "Update metric storage retention time.",
 	Args:  cobra.NoArgs,
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
+		if config.GetBodyFile() == "" {
+			return errors.New("required flag \"--file(-f)\" not set")
+		}
+
 		// generate an url
 		url := config.GetBaseUrl() + "metrics-storage-retentions"
 
 		// call command
-		err := runCommand(url, "metrics storage retention", "PUT")
-		cobra.CheckErr(err)
+		if err := runCommand(url, "metrics storage retention", "PUT"); err != nil {
+			cmd.SilenceUsage = true
+
+			return err
+		}
+
+		return nil
 	},
 }

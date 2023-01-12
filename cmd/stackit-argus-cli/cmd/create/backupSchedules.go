@@ -5,6 +5,7 @@ package create
  */
 
 import (
+	"errors"
 	"github.com/spf13/cobra"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
 )
@@ -15,13 +16,21 @@ var BackupSchedulesCmd = &cobra.Command{
 	Short:   "Create a backup schedule.",
 	Args:    cobra.NoArgs,
 	Example: "stackit-argus-cli create backupSchedule -t=\"grafana,scrapeConfig\" -f test",
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
+		if config.GetBodyFile() == "" {
+			return errors.New("required flag \"--file(-f)\" not set")
+		}
+
+		backupTargets := config.GetTargets()
+
 		// check if target contains wrong values
 		for _, target := range backupTargets {
 			switch target {
 			case "alertConfig", "alertRules", "scrapeConfig", "grafana":
 			default:
-				cobra.CheckErr("wrong targets, possible targets: alertConfig, alertRules, scrapeConfig or grafana")
+				cmd.SilenceUsage = true
+
+				return errors.New("wrong targets, possible targets: alertConfig, alertRules, scrapeConfig or grafana")
 			}
 		}
 
@@ -29,13 +38,12 @@ var BackupSchedulesCmd = &cobra.Command{
 		url := config.GetBaseUrl() + "backup-schedules"
 
 		// call command
-		err := runCommand(url, "backup schedules", backupTargets)
-		cobra.CheckErr(err)
-	},
-}
+		if err := runCommand(url, "backup schedules", "backupTarget", backupTargets); err != nil {
+			cmd.SilenceUsage = true
 
-// init flags
-func init() {
-	BackupSchedulesCmd.Flags().StringSliceVarP(&backupTargets, "target", "t", nil,
-		"defines targets of the backup schedules, possible targets: alertConfig, alertRules, scrapeConfig or grafana")
+			return err
+		}
+
+		return nil
+	},
 }

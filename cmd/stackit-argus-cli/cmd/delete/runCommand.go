@@ -34,6 +34,10 @@ func deleteRequest(url string) (int, error) {
 		return 0, err
 	}
 
+	if config.IsDebugMode() {
+		println("response status: ", res.Status)
+	}
+
 	return res.StatusCode, nil
 }
 
@@ -41,7 +45,7 @@ func deleteRequest(url string) (int, error) {
 func runCommand(url, resource string) error {
 	// print debug messages if debug mode is turned on
 	if config.IsDebugMode() {
-		fmt.Printf("delete %s command called", resource)
+		fmt.Printf("delete %s command called\n", resource)
 		fmt.Printf("url to call - %s\n", url)
 	}
 
@@ -52,7 +56,9 @@ func runCommand(url, resource string) error {
 	}
 
 	// print response status
-	utils.ResponseMessage(status, resource, "delete")
+	if err := utils.ResponseMessage(status, resource, "delete"); err != nil {
+		return err
+	}
 
 	return nil
 }

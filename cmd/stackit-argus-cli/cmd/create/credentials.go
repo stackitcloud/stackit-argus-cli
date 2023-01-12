@@ -14,12 +14,17 @@ var CredentialsCmd = &cobra.Command{
 	Use:   "credentials",
 	Short: "Create technical user credentials.",
 	Args:  cobra.NoArgs,
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
 		url := config.GetBaseUrl() + "credentials"
 
 		// call command
-		err := runCommand(url, "credentials", nil)
-		cobra.CheckErr(err)
+		if err := runCommand(url, "credentials", "", nil); err != nil {
+			cmd.SilenceUsage = true
+
+			return err
+		}
+
+		return nil
 	},
 }

@@ -19,15 +19,18 @@ type certCheck struct {
 }
 
 // printCertCheckTable prints cert checks as a outputTable
-func printCertCheckTable(body []byte) {
+func printCertCheckTable(body []byte) error {
 	var certCheck certCheck
 
 	// unmarshal response body
-	err := json.Unmarshal(body, &certCheck)
-	cobra.CheckErr(err)
+	if err := json.Unmarshal(body, &certCheck); err != nil {
+		return err
+	}
 
 	// print the outputTable
 	output_table.PrintTable(certCheck.CertChecks)
+
+	return nil
 }
 
 // CertCheckCmd represents the CertCheck command
@@ -35,7 +38,7 @@ var CertCheckCmd = &cobra.Command{
 	Use:   "certCheck",
 	Short: "Get all cert checks configured.",
 	Args:  cobra.NoArgs,
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
 		url := config.GetBaseUrl() + "cert-checks"
 
@@ -44,11 +47,19 @@ var CertCheckCmd = &cobra.Command{
 
 		// call the command
 		body, err := runCommand(url, "cert check", outputType)
-		cobra.CheckErr(err)
+		if err != nil {
+			cmd.SilenceUsage = true
+			return err
+		}
 
 		// print outputTable output
 		if body != nil && (outputType == "" || outputType == "wide") {
-			printCertCheckTable(body)
+			if err := printCertCheckTable(body); err != nil {
+				cmd.SilenceUsage = true
+				return err
+			}
 		}
+
+		return nil
 	},
 }

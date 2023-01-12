@@ -16,7 +16,7 @@ var LogsAlertGroupsCmd = &cobra.Command{
 	Short: "Get logs alert groups config.",
 	Long:  "Get list of logs alert groups config if group name was not specified, otherwise get logs alert group config.",
 	Args:  cobra.MaximumNArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
 		url := config.GetBaseUrl() + "logs-alertgroups"
 
@@ -32,14 +32,25 @@ var LogsAlertGroupsCmd = &cobra.Command{
 
 		// call the command
 		body, err := runCommand(url, resource, outputType)
-		cobra.CheckErr(err)
+		if err != nil {
+			cmd.SilenceUsage = true
+			return err
+		}
 
 		if body != nil {
 			if len(args) == 0 {
-				printAlertGroupsListTable(body)
+				if err := printAlertGroupsListTable(body); err != nil {
+					cmd.SilenceUsage = true
+					return err
+				}
 			} else {
-				printAlertGroupTable(body)
+				if err := printAlertGroupTable(body); err != nil {
+					cmd.SilenceUsage = true
+					return err
+				}
 			}
 		}
+
+		return err
 	},
 }

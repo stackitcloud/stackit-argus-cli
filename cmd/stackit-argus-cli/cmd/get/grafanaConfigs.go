@@ -43,12 +43,13 @@ type grafanaConfigsTable struct {
 }
 
 // printGrafanaConfigsTable prints grafana configs response body as a outputTable
-func printGrafanaConfigsTable(body []byte, outputType config.OutputType) {
+func printGrafanaConfigsTable(body []byte, outputType config.OutputType) error {
 	var grafanaConfigs grafanaConfigs
 
 	// unmarshal response body
-	err := json.Unmarshal(body, &grafanaConfigs)
-	cobra.CheckErr(err)
+	if err := json.Unmarshal(body, &grafanaConfigs); err != nil {
+		return err
+	}
 
 	// generate a outputTable
 	wideTable := grafanaConfigsTable{}
@@ -74,6 +75,8 @@ func printGrafanaConfigsTable(body []byte, outputType config.OutputType) {
 	} else {
 		output_table.PrintTable(wideTable)
 	}
+
+	return nil
 }
 
 // GrafanaConfigsCmd represents the grafanaConfigs command
@@ -81,7 +84,7 @@ var GrafanaConfigsCmd = &cobra.Command{
 	Use:   "grafanaConfigs",
 	Short: "Get grafana config.",
 	Args:  cobra.NoArgs,
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
 		url := config.GetBaseUrl() + "grafana-configs"
 
@@ -90,11 +93,19 @@ var GrafanaConfigsCmd = &cobra.Command{
 
 		// call the command
 		body, err := runCommand(url, "grafana configs", outputType)
-		cobra.CheckErr(err)
+		if err != nil {
+			cmd.SilenceUsage = true
+			return err
+		}
 
 		// print outputTable output
 		if body != nil && (outputType == "" || outputType == "wide") {
-			printGrafanaConfigsTable(body, outputType)
+			if err := printGrafanaConfigsTable(body, outputType); err != nil {
+				cmd.SilenceUsage = true
+				return err
+			}
 		}
+
+		return nil
 	},
 }

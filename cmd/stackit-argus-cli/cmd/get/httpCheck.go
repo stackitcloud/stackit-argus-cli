@@ -19,15 +19,18 @@ type httpCheck struct {
 }
 
 // printHttpCheckTable prints http checks as a outputTable
-func printHttpCheckTable(body []byte) {
+func printHttpCheckTable(body []byte) error {
 	var httpCheck httpCheck
 
 	// unmarshal response body
-	err := json.Unmarshal(body, &httpCheck)
-	cobra.CheckErr(err)
+	if err := json.Unmarshal(body, &httpCheck); err != nil {
+		return err
+	}
 
 	// print the outputTable
 	output_table.PrintTable(httpCheck.HttpChecks)
+
+	return nil
 }
 
 // HttpCheckCmd represents the HttpCheck command
@@ -35,7 +38,7 @@ var HttpCheckCmd = &cobra.Command{
 	Use:   "httpCheck",
 	Short: "Get all http checks configured.",
 	Args:  cobra.NoArgs,
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
 		url := config.GetBaseUrl() + "http-checks"
 
@@ -44,11 +47,19 @@ var HttpCheckCmd = &cobra.Command{
 
 		// call the command
 		body, err := runCommand(url, "http check", outputType)
-		cobra.CheckErr(err)
+		if err != nil {
+			cmd.SilenceUsage = true
+			return err
+		}
 
 		// print outputTable output
 		if body != nil && (outputType == "" || outputType == "wide") {
-			printHttpCheckTable(body)
+			if err := printHttpCheckTable(body); err != nil {
+				cmd.SilenceUsage = true
+				return err
+			}
 		}
+
+		return nil
 	},
 }

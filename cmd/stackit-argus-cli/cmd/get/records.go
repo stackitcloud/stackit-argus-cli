@@ -31,12 +31,13 @@ type record struct {
 }
 
 // printRecordsListTable prints records list response body as outputTable
-func printRecordsListTable(body []byte, outputType config.OutputType) {
+func printRecordsListTable(body []byte, outputType config.OutputType) error {
 	var records recordsList
 
 	// unmarshal response body
-	err := json.Unmarshal(body, &records)
-	cobra.CheckErr(err)
+	if err := json.Unmarshal(body, &records); err != nil {
+		return err
+	}
 
 	// print the outputTable
 	if outputType != "wide" {
@@ -49,15 +50,18 @@ func printRecordsListTable(body []byte, outputType config.OutputType) {
 	} else {
 		output_table.PrintTable(records.Data)
 	}
+
+	return nil
 }
 
 // printRecordTable prints record response body as outputTable
-func printRecordTable(body []byte, outputType config.OutputType) {
+func printRecordTable(body []byte, outputType config.OutputType) error {
 	var record record
 
 	// unmarshal response body
-	err := json.Unmarshal(body, &record)
-	cobra.CheckErr(err)
+	if err := json.Unmarshal(body, &record); err != nil {
+		return err
+	}
 
 	// print the outputTable
 	if outputType != "wide" {
@@ -65,6 +69,8 @@ func printRecordTable(body []byte, outputType config.OutputType) {
 	} else {
 		output_table.PrintTable(record.Data)
 	}
+
+	return nil
 }
 
 // RecordsCmd represents the alertRecords command
@@ -73,7 +79,7 @@ var RecordsCmd = &cobra.Command{
 	Short: "Get alert records.",
 	Long:  "Get list of alert records if alert record was not specified, otherwise get alert record.",
 	Args:  cobra.RangeArgs(1, 2),
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
 		url := config.GetBaseUrl() + fmt.Sprintf("alertgroups/%s/records", args[0])
 
@@ -89,15 +95,26 @@ var RecordsCmd = &cobra.Command{
 
 		// call the command
 		body, err := runCommand(url, resource, outputType)
-		cobra.CheckErr(err)
+		if err != nil {
+			cmd.SilenceUsage = true
+			return err
+		}
 
 		// print outputTable output
 		if body != nil && (outputType == "" || outputType == "wide") {
 			if len(args) == 1 {
-				printRecordsListTable(body, outputType)
+				if err := printRecordsListTable(body, outputType); err != nil {
+					cmd.SilenceUsage = true
+					return err
+				}
 			} else {
-				printRecordTable(body, outputType)
+				if err := printRecordTable(body, outputType); err != nil {
+					cmd.SilenceUsage = true
+					return err
+				}
 			}
 		}
+
+		return nil
 	},
 }

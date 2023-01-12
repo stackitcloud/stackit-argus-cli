@@ -14,12 +14,17 @@ var GrafanaConfigsCmd = &cobra.Command{
 	Use:   "grafanaConfig",
 	Short: "Update grafana config.",
 	Args:  cobra.NoArgs,
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
 		url := config.GetBaseUrl() + "grafana-configs"
 
 		// call command
-		err := runCommand(url, "grafana config", "PUT")
-		cobra.CheckErr(err)
+		if err := runCommand(url, "grafana config", "PUT"); err != nil {
+			cmd.SilenceUsage = true
+
+			return err
+		}
+
+		return nil
 	},
 }

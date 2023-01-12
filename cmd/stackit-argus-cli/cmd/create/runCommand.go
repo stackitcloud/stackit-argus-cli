@@ -17,7 +17,7 @@ import (
 )
 
 // postRequest implements post request and returns a status code
-func postRequest(url string, targets []string, body []byte) (int, error) {
+func postRequest(url, keyTarget string, targets []string, body []byte) (int, error) {
 	authHeader := config.GetAuthHeader()
 	client := &http.Client{
 		Timeout: time.Second * 10,
@@ -34,10 +34,14 @@ func postRequest(url string, targets []string, body []byte) (int, error) {
 
 	// set query parameters
 	if len(targets) > 0 {
+		values := req.URL.Query()
 		for _, target := range targets {
-			req.URL.Query().Add("backupTarget", target)
+			values.Add(keyTarget, target)
 		}
+		req.URL.RawQuery = values.Encode()
 	}
+
+	req.Header.Set("Content-Type", "application/json")
 
 	res, err := client.Do(req)
 	if err != nil {
@@ -47,22 +51,33 @@ func postRequest(url string, targets []string, body []byte) (int, error) {
 		return 0, err
 	}
 
+	if config.IsDebugMode() {
+		println("response status: ", res.Status)
+	}
+
 	return res.StatusCode, nil
 }
 
 // runCommand call the url
-func runCommand(url, resource string, targets []string) error {
+func runCommand(url, resource, keyTarget string, targets []string) error {
+	var body []byte
+	var err error
+
 	// print debug messages if debug mode is turned on
 	if config.IsDebugMode() {
-		fmt.Printf("create %s command called", resource)
+		fmt.Printf("create %s command called\n", resource)
 		fmt.Printf("url to call - %s\n", url)
 	}
 
 	// get file content
 	file := config.GetBodyFile()
-	body, err := os.ReadFile(file)
-	if err != nil {
-		return err
+	if file != "" {
+		body, err = os.ReadFile(file)
+		if err != nil {
+			return err
+		}
+	} else {
+		body = nil
 	}
 
 	// convert body to json if yaml file has been given
@@ -84,13 +99,15 @@ func runCommand(url, resource string, targets []string) error {
 	}
 
 	// create the alert group
-	status, err := postRequest(url, targets, body)
+	status, err := postRequest(url, keyTarget, targets, body)
 	if err != nil {
 		return err
 	}
 
 	// print response status
-	utils.ResponseMessage(status, resource, "create")
+	if err := utils.ResponseMessage(status, resource, "create"); err != nil {
+		return err
+	}
 
 	return nil
 }

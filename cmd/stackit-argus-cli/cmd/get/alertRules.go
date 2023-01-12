@@ -33,12 +33,13 @@ type alertRule struct {
 }
 
 // printAlertRulesTable prints alert rules outputTable
-func printAlertRulesTable(body []byte, outputType config.OutputType) {
+func printAlertRulesTable(body []byte, outputType config.OutputType) error {
 	var alertRules alertRules
 
 	// unmarshal response body
-	err := json.Unmarshal(body, &alertRules)
-	cobra.CheckErr(err)
+	if err := json.Unmarshal(body, &alertRules); err != nil {
+		return err
+	}
 
 	// print the outputTable
 	if outputType == "wide" {
@@ -50,15 +51,18 @@ func printAlertRulesTable(body []byte, outputType config.OutputType) {
 		}
 		output_table.PrintTable(table)
 	}
+
+	return nil
 }
 
 // printAlertRuleTable prints alert rule outputTable
-func printAlertRuleTable(body []byte, outputType config.OutputType) {
+func printAlertRuleTable(body []byte, outputType config.OutputType) error {
 	var alertRule alertRule
 
 	// unmarshal response body
-	err := json.Unmarshal(body, &alertRule)
-	cobra.CheckErr(err)
+	if err := json.Unmarshal(body, &alertRule); err != nil {
+		return err
+	}
 
 	// print the outputTable
 	if outputType == "wide" {
@@ -67,6 +71,8 @@ func printAlertRuleTable(body []byte, outputType config.OutputType) {
 		table := output_table.RemoveColumnsFromTable(alertRule.Data, []string{"Labels", "Annotations"})
 		output_table.PrintTable(table)
 	}
+
+	return nil
 }
 
 // AlertRulesCmd represents the alertRules command
@@ -75,7 +81,7 @@ var AlertRulesCmd = &cobra.Command{
 	Short: "Get alert rules.",
 	Long:  "Get list of alert rules if alert name was not specified, otherwise get alert rule.",
 	Args:  cobra.RangeArgs(1, 2),
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
 		url := config.GetBaseUrl() + fmt.Sprintf("alertgroups/%s/alertrules", args[0])
 
@@ -91,15 +97,26 @@ var AlertRulesCmd = &cobra.Command{
 
 		// call the command
 		body, err := runCommand(url, resource, outputType)
-		cobra.CheckErr(err)
+		if err != nil {
+			cmd.SilenceUsage = true
+			return err
+		}
 
 		// print outputTable output
 		if body != nil && (outputType == "" || outputType == "wide") {
 			if len(args) == 1 {
-				printAlertRulesTable(body, outputType)
+				if err := printAlertRulesTable(body, outputType); err != nil {
+					cmd.SilenceUsage = true
+					return err
+				}
 			} else {
-				printAlertRuleTable(body, outputType)
+				if err := printAlertRuleTable(body, outputType); err != nil {
+					cmd.SilenceUsage = true
+					return err
+				}
 			}
 		}
+
+		return nil
 	},
 }

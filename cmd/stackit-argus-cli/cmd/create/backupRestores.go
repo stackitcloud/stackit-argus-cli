@@ -5,39 +5,49 @@ package create
  */
 
 import (
+	"errors"
 	"fmt"
 	"github.com/spf13/cobra"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
 )
 
-var restoreTarget string
-
 // BackupRestoresCmd represents the backupRestores command
 var BackupRestoresCmd = &cobra.Command{
-	Use:   "backupRestore",
+	Use:   "backupRestore <backupDate>",
 	Short: "Restore a backup.",
 	Args:  cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
+		restoreTargets := config.GetTargets()
+
+		if restoreTargets == nil {
+			return errors.New("required flag \"--target(-t)\" not set")
+		}
+
+		if len(restoreTargets) != 1 {
+			return errors.New("target requires only one element")
+		}
+
 		// check if target contains wrong values
-		switch restoreTarget {
-		case "alertConfig", "alertRules", "scrapeConfig", "grafana":
-		default:
-			cobra.CheckErr("wrong target, possible targets: alertConfig, alertRules, scrapeConfig or grafana")
+		for _, target := range restoreTargets {
+			switch target {
+			case "alertConfig", "alertRules", "scrapeConfig", "grafana":
+			default:
+				cmd.SilenceUsage = true
+
+				return errors.New("wrong targets, possible targets: alertConfig, alertRules, scrapeConfig or grafana")
+			}
 		}
 
 		// generate an url
 		url := config.GetBaseUrl() + fmt.Sprintf("backup-restores/%s", args[0])
 
 		// call command
-		err := runCommand(url, "backup restores", []string{restoreTarget})
-		cobra.CheckErr(err)
-	},
-}
+		if err := runCommand(url, "backup restores", "restoreTarget", restoreTargets); err != nil {
+			cmd.SilenceUsage = true
 
-// init flags
-func init() {
-	BackupRestoresCmd.Flags().StringVarP(&restoreTarget, "target", "t", "",
-		"defines restore target, possible targets: alertConfig, alertRules, scrapeConfig or grafana")
-	err := BackupRestoresCmd.MarkFlagRequired("target")
-	cobra.CheckErr(err)
+			return err
+		}
+
+		return nil
+	},
 }

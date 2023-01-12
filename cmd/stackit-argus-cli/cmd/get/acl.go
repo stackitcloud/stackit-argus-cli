@@ -22,13 +22,14 @@ type aclTable struct {
 }
 
 // printAclTable prints acl response body as outputTable
-func printAclTable(body []byte) {
+func printAclTable(body []byte) error {
 	var acl acl
 	var table []aclTable
 
 	// unmarshal response body
-	err := json.Unmarshal(body, &acl)
-	cobra.CheckErr(err)
+	if err := json.Unmarshal(body, &acl); err != nil {
+		return err
+	}
 
 	// fill outputTable with values
 	for _, a := range acl.Acl {
@@ -37,6 +38,8 @@ func printAclTable(body []byte) {
 
 	// print the outputTable
 	output_table.PrintTable(table)
+
+	return nil
 }
 
 // AclCmd represents the acl command
@@ -44,7 +47,7 @@ var AclCmd = &cobra.Command{
 	Use:   "acl",
 	Short: "Get acl for the instance.",
 	Args:  cobra.NoArgs,
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
 		url := config.GetBaseUrl() + "acl"
 
@@ -53,11 +56,19 @@ var AclCmd = &cobra.Command{
 
 		// call the command
 		body, err := runCommand(url, "acl", outputType)
-		cobra.CheckErr(err)
+		if err != nil {
+			cmd.SilenceUsage = true
+			return err
+		}
 
 		// print outputTable output
 		if body != nil && (outputType == "" || outputType == "wide") {
-			printAclTable(body)
+			if err := printAclTable(body); err != nil {
+				cmd.SilenceUsage = true
+				return err
+			}
 		}
+
+		return nil
 	},
 }

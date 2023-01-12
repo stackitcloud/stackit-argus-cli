@@ -6,7 +6,6 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/config"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/cmd/get"
 )
 
@@ -44,7 +43,4 @@ func init() {
 	getCmd.AddCommand(get.HttpCheckCmd)
 	getCmd.AddCommand(get.NetworkCheckCmd)
 	getCmd.AddCommand(get.PingCheckCmd)
-
-	// init output type of get command response
-	config.InitOutput(getCmd)
 }
