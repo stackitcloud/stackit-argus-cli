@@ -37,13 +37,13 @@ GO_BUILD = mkdir -pv "$(@)" && go build -ldflags="-w -s" -o "$(@)" ./...
 out/bin:
 	$(GO_BUILD)
 
-GOLANGCI_LINT = bin/golangci-lint-$(GOLANGCI_VERSION)
+GOLANGCI_LINT = bin/golangci-lint
 $(GOLANGCI_LINT):
-	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | bash -s -- -b bin v$(GOLANGCI_VERSION)
+	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | bash -s -- -b bin v1.50.1
 	@mv bin/golangci-lint "$(@)"
 
 lint: fmt $(GOLANGCI_LINT) download ## Lints all code with golangci-lint
-	@golangci-lint run
+	@$(GOLANGCI_LINT) run
 
 lint-reports: out/lint.xml
 
