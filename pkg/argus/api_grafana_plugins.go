@@ -50,8 +50,8 @@ V1GrafanaPluginsCreate Method for V1GrafanaPluginsCreate
 
 Create grafana plugins for instance.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiV1GrafanaPluginsCreateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiV1GrafanaPluginsCreateRequest
 */
 func (a *GrafanaPluginsApiService) V1GrafanaPluginsCreate(ctx context.Context) ApiV1GrafanaPluginsCreateRequest {
 	return ApiV1GrafanaPluginsCreateRequest{
@@ -61,7 +61,8 @@ func (a *GrafanaPluginsApiService) V1GrafanaPluginsCreate(ctx context.Context) A
 }
 
 // Execute executes the request
-//  @return GrafanaPluginSingle
+//
+//	@return GrafanaPluginSingle
 func (a *GrafanaPluginsApiService) V1GrafanaPluginsCreateExecute(r ApiV1GrafanaPluginsCreateRequest) (*GrafanaPluginSingle, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -185,9 +186,9 @@ V1GrafanaPluginsDelete Method for V1GrafanaPluginsDelete
 
 Delete grafana plugin.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param pluginName
- @return ApiV1GrafanaPluginsDeleteRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param pluginName
+	@return ApiV1GrafanaPluginsDeleteRequest
 */
 func (a *GrafanaPluginsApiService) V1GrafanaPluginsDelete(ctx context.Context, pluginName string) ApiV1GrafanaPluginsDeleteRequest {
 	return ApiV1GrafanaPluginsDeleteRequest{
@@ -198,7 +199,8 @@ func (a *GrafanaPluginsApiService) V1GrafanaPluginsDelete(ctx context.Context, p
 }
 
 // Execute executes the request
-//  @return Message
+//
+//	@return Message
 func (a *GrafanaPluginsApiService) V1GrafanaPluginsDeleteExecute(r ApiV1GrafanaPluginsDeleteRequest) (*Message, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
@@ -317,8 +319,8 @@ V1GrafanaPluginsList Method for V1GrafanaPluginsList
 
 Get grafana plugins for instance.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiV1GrafanaPluginsListRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiV1GrafanaPluginsListRequest
 */
 func (a *GrafanaPluginsApiService) V1GrafanaPluginsList(ctx context.Context) ApiV1GrafanaPluginsListRequest {
 	return ApiV1GrafanaPluginsListRequest{
@@ -328,7 +330,8 @@ func (a *GrafanaPluginsApiService) V1GrafanaPluginsList(ctx context.Context) Api
 }
 
 // Execute executes the request
-//  @return GrafanaPlugin
+//
+//	@return GrafanaPlugin
 func (a *GrafanaPluginsApiService) V1GrafanaPluginsListExecute(r ApiV1GrafanaPluginsListRequest) (*GrafanaPlugin, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -437,9 +440,9 @@ V1GrafanaPluginsRead Method for V1GrafanaPluginsRead
 
 Get grafana plugin.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param pluginName
- @return ApiV1GrafanaPluginsReadRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param pluginName
+	@return ApiV1GrafanaPluginsReadRequest
 */
 func (a *GrafanaPluginsApiService) V1GrafanaPluginsRead(ctx context.Context, pluginName string) ApiV1GrafanaPluginsReadRequest {
 	return ApiV1GrafanaPluginsReadRequest{
@@ -450,7 +453,8 @@ func (a *GrafanaPluginsApiService) V1GrafanaPluginsRead(ctx context.Context, plu
 }
 
 // Execute executes the request
-//  @return GrafanaPluginSingle
+//
+//	@return GrafanaPluginSingle
 func (a *GrafanaPluginsApiService) V1GrafanaPluginsReadExecute(r ApiV1GrafanaPluginsReadRequest) (*GrafanaPluginSingle, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -576,9 +580,9 @@ V1GrafanaPluginsUpdate Method for V1GrafanaPluginsUpdate
 
 Update grafana plugin.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param pluginName
- @return ApiV1GrafanaPluginsUpdateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param pluginName
+	@return ApiV1GrafanaPluginsUpdateRequest
 */
 func (a *GrafanaPluginsApiService) V1GrafanaPluginsUpdate(ctx context.Context, pluginName string) ApiV1GrafanaPluginsUpdateRequest {
 	return ApiV1GrafanaPluginsUpdateRequest{
@@ -589,7 +593,8 @@ func (a *GrafanaPluginsApiService) V1GrafanaPluginsUpdate(ctx context.Context, p
 }
 
 // Execute executes the request
-//  @return GrafanaPluginSingle
+//
+//	@return GrafanaPluginSingle
 func (a *GrafanaPluginsApiService) V1GrafanaPluginsUpdateExecute(r ApiV1GrafanaPluginsUpdateRequest) (*GrafanaPluginSingle, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPut

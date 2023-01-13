@@ -46,10 +46,10 @@ V1ClustersInstancesStatusList Method for V1ClustersInstancesStatusList
 
 Get deployment status.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param clusterId
- @param instanceId
- @return ApiV1ClustersInstancesStatusListRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param clusterId
+	@param instanceId
+	@return ApiV1ClustersInstancesStatusListRequest
 */
 func (a *OsbApiService) V1ClustersInstancesStatusList(ctx context.Context, clusterId string, instanceId string) ApiV1ClustersInstancesStatusListRequest {
 	return ApiV1ClustersInstancesStatusListRequest{
@@ -61,7 +61,8 @@ func (a *OsbApiService) V1ClustersInstancesStatusList(ctx context.Context, clust
 }
 
 // Execute executes the request
-//  @return Status
+//
+//	@return Status
 func (a *OsbApiService) V1ClustersInstancesStatusListExecute(r ApiV1ClustersInstancesStatusListRequest) (*Status, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -189,10 +190,10 @@ V1OsbClustersInstancesCreate Method for V1OsbClustersInstancesCreate
 
 Create monitoring stack.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param clusterId
- @param instanceId
- @return ApiV1OsbClustersInstancesCreateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param clusterId
+	@param instanceId
+	@return ApiV1OsbClustersInstancesCreateRequest
 */
 func (a *OsbApiService) V1OsbClustersInstancesCreate(ctx context.Context, clusterId string, instanceId string) ApiV1OsbClustersInstancesCreateRequest {
 	return ApiV1OsbClustersInstancesCreateRequest{
@@ -204,7 +205,8 @@ func (a *OsbApiService) V1OsbClustersInstancesCreate(ctx context.Context, cluste
 }
 
 // Execute executes the request
-//  @return Dashboard
+//
+//	@return Dashboard
 func (a *OsbApiService) V1OsbClustersInstancesCreateExecute(r ApiV1OsbClustersInstancesCreateRequest) (*Dashboard, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -331,10 +333,10 @@ V1OsbClustersInstancesDelete Method for V1OsbClustersInstancesDelete
 
 Delete a monitoring stack.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param clusterId
- @param instanceId
- @return ApiV1OsbClustersInstancesDeleteRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param clusterId
+	@param instanceId
+	@return ApiV1OsbClustersInstancesDeleteRequest
 */
 func (a *OsbApiService) V1OsbClustersInstancesDelete(ctx context.Context, clusterId string, instanceId string) ApiV1OsbClustersInstancesDeleteRequest {
 	return ApiV1OsbClustersInstancesDeleteRequest{
@@ -346,7 +348,8 @@ func (a *OsbApiService) V1OsbClustersInstancesDelete(ctx context.Context, cluste
 }
 
 // Execute executes the request
-//  @return Message
+//
+//	@return Message
 func (a *OsbApiService) V1OsbClustersInstancesDeleteExecute(r ApiV1OsbClustersInstancesDeleteRequest) (*Message, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
@@ -474,10 +477,10 @@ V1OsbClustersInstancesUpdate Method for V1OsbClustersInstancesUpdate
 
 Update monitoring stack.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param clusterId
- @param instanceId
- @return ApiV1OsbClustersInstancesUpdateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param clusterId
+	@param instanceId
+	@return ApiV1OsbClustersInstancesUpdateRequest
 */
 func (a *OsbApiService) V1OsbClustersInstancesUpdate(ctx context.Context, clusterId string, instanceId string) ApiV1OsbClustersInstancesUpdateRequest {
 	return ApiV1OsbClustersInstancesUpdateRequest{
@@ -489,7 +492,8 @@ func (a *OsbApiService) V1OsbClustersInstancesUpdate(ctx context.Context, cluste
 }
 
 // Execute executes the request
-//  @return Dashboard
+//
+//	@return Dashboard
 func (a *OsbApiService) V1OsbClustersInstancesUpdateExecute(r ApiV1OsbClustersInstancesUpdateRequest) (*Dashboard, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPut
@@ -617,11 +621,11 @@ V1OsbClustersInstancesUsersCreate Method for V1OsbClustersInstancesUsersCreate
 
 Create an api user for an instance.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param clusterId
- @param instanceId
- @param serviceBindingId
- @return ApiV1OsbClustersInstancesUsersCreateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param clusterId
+	@param instanceId
+	@param serviceBindingId
+	@return ApiV1OsbClustersInstancesUsersCreateRequest
 */
 func (a *OsbApiService) V1OsbClustersInstancesUsersCreate(ctx context.Context, clusterId string, instanceId string, serviceBindingId string) ApiV1OsbClustersInstancesUsersCreateRequest {
 	return ApiV1OsbClustersInstancesUsersCreateRequest{
@@ -634,7 +638,8 @@ func (a *OsbApiService) V1OsbClustersInstancesUsersCreate(ctx context.Context, c
 }
 
 // Execute executes the request
-//  @return ApiUserCreated
+//
+//	@return ApiUserCreated
 func (a *OsbApiService) V1OsbClustersInstancesUsersCreateExecute(r ApiV1OsbClustersInstancesUsersCreateRequest) (*ApiUserCreated, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -748,11 +753,11 @@ V1OsbClustersInstancesUsersDelete Method for V1OsbClustersInstancesUsersDelete
 
 Delete an api user for an instance.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param clusterId
- @param instanceId
- @param serviceBindingId
- @return ApiV1OsbClustersInstancesUsersDeleteRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param clusterId
+	@param instanceId
+	@param serviceBindingId
+	@return ApiV1OsbClustersInstancesUsersDeleteRequest
 */
 func (a *OsbApiService) V1OsbClustersInstancesUsersDelete(ctx context.Context, clusterId string, instanceId string, serviceBindingId string) ApiV1OsbClustersInstancesUsersDeleteRequest {
 	return ApiV1OsbClustersInstancesUsersDeleteRequest{
@@ -765,7 +770,8 @@ func (a *OsbApiService) V1OsbClustersInstancesUsersDelete(ctx context.Context, c
 }
 
 // Execute executes the request
-//  @return Message
+//
+//	@return Message
 func (a *OsbApiService) V1OsbClustersInstancesUsersDeleteExecute(r ApiV1OsbClustersInstancesUsersDeleteRequest) (*Message, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
@@ -888,10 +894,10 @@ V1OsbClustersInstancesUsersList Method for V1OsbClustersInstancesUsersList
 
 Get all api users.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param clusterId
- @param instanceId
- @return ApiV1OsbClustersInstancesUsersListRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param clusterId
+	@param instanceId
+	@return ApiV1OsbClustersInstancesUsersListRequest
 */
 func (a *OsbApiService) V1OsbClustersInstancesUsersList(ctx context.Context, clusterId string, instanceId string) ApiV1OsbClustersInstancesUsersListRequest {
 	return ApiV1OsbClustersInstancesUsersListRequest{
@@ -903,7 +909,8 @@ func (a *OsbApiService) V1OsbClustersInstancesUsersList(ctx context.Context, clu
 }
 
 // Execute executes the request
-//  @return ApiUser
+//
+//	@return ApiUser
 func (a *OsbApiService) V1OsbClustersInstancesUsersListExecute(r ApiV1OsbClustersInstancesUsersListRequest) (*ApiUser, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet

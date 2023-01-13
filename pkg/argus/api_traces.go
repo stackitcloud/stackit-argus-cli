@@ -45,9 +45,9 @@ V1InstancesTracesConfigsList Method for V1InstancesTracesConfigsList
 
 Get traces config.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @return ApiV1InstancesTracesConfigsListRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@return ApiV1InstancesTracesConfigsListRequest
 */
 func (a *TracesApiService) V1InstancesTracesConfigsList(ctx context.Context, instanceId string) ApiV1InstancesTracesConfigsListRequest {
 	return ApiV1InstancesTracesConfigsListRequest{
@@ -58,7 +58,8 @@ func (a *TracesApiService) V1InstancesTracesConfigsList(ctx context.Context, ins
 }
 
 // Execute executes the request
-//  @return TracesConfigResponse
+//
+//	@return TracesConfigResponse
 func (a *TracesApiService) V1InstancesTracesConfigsListExecute(r ApiV1InstancesTracesConfigsListRequest) (*TracesConfigResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -174,9 +175,9 @@ V1InstancesTracesConfigsUpdate Method for V1InstancesTracesConfigsUpdate
 
 Update traces config.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @return ApiV1InstancesTracesConfigsUpdateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@return ApiV1InstancesTracesConfigsUpdateRequest
 */
 func (a *TracesApiService) V1InstancesTracesConfigsUpdate(ctx context.Context, instanceId string) ApiV1InstancesTracesConfigsUpdateRequest {
 	return ApiV1InstancesTracesConfigsUpdateRequest{
@@ -187,7 +188,8 @@ func (a *TracesApiService) V1InstancesTracesConfigsUpdate(ctx context.Context, i
 }
 
 // Execute executes the request
-//  @return Message
+//
+//	@return Message
 func (a *TracesApiService) V1InstancesTracesConfigsUpdateExecute(r ApiV1InstancesTracesConfigsUpdateRequest) (*Message, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPut
@@ -313,10 +315,10 @@ V1ProjectsInstancesTracesConfigsList Method for V1ProjectsInstancesTracesConfigs
 
 Get traces config.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @param projectId
- @return ApiV1ProjectsInstancesTracesConfigsListRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@param projectId
+	@return ApiV1ProjectsInstancesTracesConfigsListRequest
 */
 func (a *TracesApiService) V1ProjectsInstancesTracesConfigsList(ctx context.Context, instanceId string, projectId string) ApiV1ProjectsInstancesTracesConfigsListRequest {
 	return ApiV1ProjectsInstancesTracesConfigsListRequest{
@@ -328,7 +330,8 @@ func (a *TracesApiService) V1ProjectsInstancesTracesConfigsList(ctx context.Cont
 }
 
 // Execute executes the request
-//  @return TracesConfigResponse
+//
+//	@return TracesConfigResponse
 func (a *TracesApiService) V1ProjectsInstancesTracesConfigsListExecute(r ApiV1ProjectsInstancesTracesConfigsListRequest) (*TracesConfigResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -446,10 +449,10 @@ V1ProjectsInstancesTracesConfigsUpdate Method for V1ProjectsInstancesTracesConfi
 
 Update traces config.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @param projectId
- @return ApiV1ProjectsInstancesTracesConfigsUpdateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@param projectId
+	@return ApiV1ProjectsInstancesTracesConfigsUpdateRequest
 */
 func (a *TracesApiService) V1ProjectsInstancesTracesConfigsUpdate(ctx context.Context, instanceId string, projectId string) ApiV1ProjectsInstancesTracesConfigsUpdateRequest {
 	return ApiV1ProjectsInstancesTracesConfigsUpdateRequest{
@@ -461,7 +464,8 @@ func (a *TracesApiService) V1ProjectsInstancesTracesConfigsUpdate(ctx context.Co
 }
 
 // Execute executes the request
-//  @return Message
+//
+//	@return Message
 func (a *TracesApiService) V1ProjectsInstancesTracesConfigsUpdateExecute(r ApiV1ProjectsInstancesTracesConfigsUpdateRequest) (*Message, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPut

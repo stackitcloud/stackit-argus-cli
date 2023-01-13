@@ -45,9 +45,9 @@ V1InstancesRead Method for V1InstancesRead
 
 get data for instance
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @return ApiV1InstancesReadRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@return ApiV1InstancesReadRequest
 */
 func (a *InstancesApiService) V1InstancesRead(ctx context.Context, instanceId string) ApiV1InstancesReadRequest {
 	return ApiV1InstancesReadRequest{
@@ -58,7 +58,8 @@ func (a *InstancesApiService) V1InstancesRead(ctx context.Context, instanceId st
 }
 
 // Execute executes the request
-//  @return Service
+//
+//	@return Service
 func (a *InstancesApiService) V1InstancesReadExecute(r ApiV1InstancesReadRequest) (*Service, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -169,10 +170,10 @@ V1ProjectsInstancesRead Method for V1ProjectsInstancesRead
 
 get data for instance
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @param projectId
- @return ApiV1ProjectsInstancesReadRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@param projectId
+	@return ApiV1ProjectsInstancesReadRequest
 */
 func (a *InstancesApiService) V1ProjectsInstancesRead(ctx context.Context, instanceId string, projectId string) ApiV1ProjectsInstancesReadRequest {
 	return ApiV1ProjectsInstancesReadRequest{
@@ -184,7 +185,8 @@ func (a *InstancesApiService) V1ProjectsInstancesRead(ctx context.Context, insta
 }
 
 // Execute executes the request
-//  @return Service
+//
+//	@return Service
 func (a *InstancesApiService) V1ProjectsInstancesReadExecute(r ApiV1ProjectsInstancesReadRequest) (*Service, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet

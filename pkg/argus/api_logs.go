@@ -51,9 +51,9 @@ V1InstancesLogsAlertgroupsCreate Method for V1InstancesLogsAlertgroupsCreate
 
 Create logs alert group config.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @return ApiV1InstancesLogsAlertgroupsCreateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@return ApiV1InstancesLogsAlertgroupsCreateRequest
 */
 func (a *LogsApiService) V1InstancesLogsAlertgroupsCreate(ctx context.Context, instanceId string) ApiV1InstancesLogsAlertgroupsCreateRequest {
 	return ApiV1InstancesLogsAlertgroupsCreateRequest{
@@ -64,7 +64,8 @@ func (a *LogsApiService) V1InstancesLogsAlertgroupsCreate(ctx context.Context, i
 }
 
 // Execute executes the request
-//  @return AlertGroupsResponse
+//
+//	@return AlertGroupsResponse
 func (a *LogsApiService) V1InstancesLogsAlertgroupsCreateExecute(r ApiV1InstancesLogsAlertgroupsCreateRequest) (*AlertGroupsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -190,10 +191,10 @@ V1InstancesLogsAlertgroupsDelete Method for V1InstancesLogsAlertgroupsDelete
 
 Delete logs alert group config.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param groupName
- @param instanceId
- @return ApiV1InstancesLogsAlertgroupsDeleteRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param groupName
+	@param instanceId
+	@return ApiV1InstancesLogsAlertgroupsDeleteRequest
 */
 func (a *LogsApiService) V1InstancesLogsAlertgroupsDelete(ctx context.Context, groupName string, instanceId string) ApiV1InstancesLogsAlertgroupsDeleteRequest {
 	return ApiV1InstancesLogsAlertgroupsDeleteRequest{
@@ -205,7 +206,8 @@ func (a *LogsApiService) V1InstancesLogsAlertgroupsDelete(ctx context.Context, g
 }
 
 // Execute executes the request
-//  @return AlertGroupsResponse
+//
+//	@return AlertGroupsResponse
 func (a *LogsApiService) V1InstancesLogsAlertgroupsDeleteExecute(r ApiV1InstancesLogsAlertgroupsDeleteRequest) (*AlertGroupsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
@@ -336,9 +338,9 @@ V1InstancesLogsAlertgroupsList Method for V1InstancesLogsAlertgroupsList
 
 Get logs alert groups config.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @return ApiV1InstancesLogsAlertgroupsListRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@return ApiV1InstancesLogsAlertgroupsListRequest
 */
 func (a *LogsApiService) V1InstancesLogsAlertgroupsList(ctx context.Context, instanceId string) ApiV1InstancesLogsAlertgroupsListRequest {
 	return ApiV1InstancesLogsAlertgroupsListRequest{
@@ -349,7 +351,8 @@ func (a *LogsApiService) V1InstancesLogsAlertgroupsList(ctx context.Context, ins
 }
 
 // Execute executes the request
-//  @return AlertGroupsResponse
+//
+//	@return AlertGroupsResponse
 func (a *LogsApiService) V1InstancesLogsAlertgroupsListExecute(r ApiV1InstancesLogsAlertgroupsListRequest) (*AlertGroupsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -470,10 +473,10 @@ V1InstancesLogsAlertgroupsRead Method for V1InstancesLogsAlertgroupsRead
 
 Get logs alert group config.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param groupName
- @param instanceId
- @return ApiV1InstancesLogsAlertgroupsReadRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param groupName
+	@param instanceId
+	@return ApiV1InstancesLogsAlertgroupsReadRequest
 */
 func (a *LogsApiService) V1InstancesLogsAlertgroupsRead(ctx context.Context, groupName string, instanceId string) ApiV1InstancesLogsAlertgroupsReadRequest {
 	return ApiV1InstancesLogsAlertgroupsReadRequest{
@@ -485,7 +488,8 @@ func (a *LogsApiService) V1InstancesLogsAlertgroupsRead(ctx context.Context, gro
 }
 
 // Execute executes the request
-//  @return AlertGroupResponse
+//
+//	@return AlertGroupResponse
 func (a *LogsApiService) V1InstancesLogsAlertgroupsReadExecute(r ApiV1InstancesLogsAlertgroupsReadRequest) (*AlertGroupResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -623,10 +627,10 @@ V1InstancesLogsAlertgroupsUpdate Method for V1InstancesLogsAlertgroupsUpdate
 
 Update logs alert group config.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param groupName
- @param instanceId
- @return ApiV1InstancesLogsAlertgroupsUpdateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param groupName
+	@param instanceId
+	@return ApiV1InstancesLogsAlertgroupsUpdateRequest
 */
 func (a *LogsApiService) V1InstancesLogsAlertgroupsUpdate(ctx context.Context, groupName string, instanceId string) ApiV1InstancesLogsAlertgroupsUpdateRequest {
 	return ApiV1InstancesLogsAlertgroupsUpdateRequest{
@@ -638,7 +642,8 @@ func (a *LogsApiService) V1InstancesLogsAlertgroupsUpdate(ctx context.Context, g
 }
 
 // Execute executes the request
-//  @return AlertGroupsResponse
+//
+//	@return AlertGroupsResponse
 func (a *LogsApiService) V1InstancesLogsAlertgroupsUpdateExecute(r ApiV1InstancesLogsAlertgroupsUpdateRequest) (*AlertGroupsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPut
@@ -774,9 +779,9 @@ V1InstancesLogsConfigsList Method for V1InstancesLogsConfigsList
 
 Get logs configuration.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @return ApiV1InstancesLogsConfigsListRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@return ApiV1InstancesLogsConfigsListRequest
 */
 func (a *LogsApiService) V1InstancesLogsConfigsList(ctx context.Context, instanceId string) ApiV1InstancesLogsConfigsListRequest {
 	return ApiV1InstancesLogsConfigsListRequest{
@@ -787,7 +792,8 @@ func (a *LogsApiService) V1InstancesLogsConfigsList(ctx context.Context, instanc
 }
 
 // Execute executes the request
-//  @return LogsConfigResponse
+//
+//	@return LogsConfigResponse
 func (a *LogsApiService) V1InstancesLogsConfigsListExecute(r ApiV1InstancesLogsConfigsListRequest) (*LogsConfigResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -903,9 +909,9 @@ V1InstancesLogsConfigsUpdate Method for V1InstancesLogsConfigsUpdate
 
 Update logs config.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @return ApiV1InstancesLogsConfigsUpdateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@return ApiV1InstancesLogsConfigsUpdateRequest
 */
 func (a *LogsApiService) V1InstancesLogsConfigsUpdate(ctx context.Context, instanceId string) ApiV1InstancesLogsConfigsUpdateRequest {
 	return ApiV1InstancesLogsConfigsUpdateRequest{
@@ -916,7 +922,8 @@ func (a *LogsApiService) V1InstancesLogsConfigsUpdate(ctx context.Context, insta
 }
 
 // Execute executes the request
-//  @return Message
+//
+//	@return Message
 func (a *LogsApiService) V1InstancesLogsConfigsUpdateExecute(r ApiV1InstancesLogsConfigsUpdateRequest) (*Message, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPut
@@ -1048,10 +1055,10 @@ V1ProjectsInstancesLogsAlertgroupsCreate Method for V1ProjectsInstancesLogsAlert
 
 Create logs alert group config.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @param projectId
- @return ApiV1ProjectsInstancesLogsAlertgroupsCreateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@param projectId
+	@return ApiV1ProjectsInstancesLogsAlertgroupsCreateRequest
 */
 func (a *LogsApiService) V1ProjectsInstancesLogsAlertgroupsCreate(ctx context.Context, instanceId string, projectId string) ApiV1ProjectsInstancesLogsAlertgroupsCreateRequest {
 	return ApiV1ProjectsInstancesLogsAlertgroupsCreateRequest{
@@ -1063,7 +1070,8 @@ func (a *LogsApiService) V1ProjectsInstancesLogsAlertgroupsCreate(ctx context.Co
 }
 
 // Execute executes the request
-//  @return AlertGroupsResponse
+//
+//	@return AlertGroupsResponse
 func (a *LogsApiService) V1ProjectsInstancesLogsAlertgroupsCreateExecute(r ApiV1ProjectsInstancesLogsAlertgroupsCreateRequest) (*AlertGroupsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -1191,11 +1199,11 @@ V1ProjectsInstancesLogsAlertgroupsDelete Method for V1ProjectsInstancesLogsAlert
 
 Delete logs alert group config.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param groupName
- @param instanceId
- @param projectId
- @return ApiV1ProjectsInstancesLogsAlertgroupsDeleteRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param groupName
+	@param instanceId
+	@param projectId
+	@return ApiV1ProjectsInstancesLogsAlertgroupsDeleteRequest
 */
 func (a *LogsApiService) V1ProjectsInstancesLogsAlertgroupsDelete(ctx context.Context, groupName string, instanceId string, projectId string) ApiV1ProjectsInstancesLogsAlertgroupsDeleteRequest {
 	return ApiV1ProjectsInstancesLogsAlertgroupsDeleteRequest{
@@ -1208,7 +1216,8 @@ func (a *LogsApiService) V1ProjectsInstancesLogsAlertgroupsDelete(ctx context.Co
 }
 
 // Execute executes the request
-//  @return AlertGroupsResponse
+//
+//	@return AlertGroupsResponse
 func (a *LogsApiService) V1ProjectsInstancesLogsAlertgroupsDeleteExecute(r ApiV1ProjectsInstancesLogsAlertgroupsDeleteRequest) (*AlertGroupsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
@@ -1341,10 +1350,10 @@ V1ProjectsInstancesLogsAlertgroupsList Method for V1ProjectsInstancesLogsAlertgr
 
 Get logs alert groups config.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @param projectId
- @return ApiV1ProjectsInstancesLogsAlertgroupsListRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@param projectId
+	@return ApiV1ProjectsInstancesLogsAlertgroupsListRequest
 */
 func (a *LogsApiService) V1ProjectsInstancesLogsAlertgroupsList(ctx context.Context, instanceId string, projectId string) ApiV1ProjectsInstancesLogsAlertgroupsListRequest {
 	return ApiV1ProjectsInstancesLogsAlertgroupsListRequest{
@@ -1356,7 +1365,8 @@ func (a *LogsApiService) V1ProjectsInstancesLogsAlertgroupsList(ctx context.Cont
 }
 
 // Execute executes the request
-//  @return AlertGroupsResponse
+//
+//	@return AlertGroupsResponse
 func (a *LogsApiService) V1ProjectsInstancesLogsAlertgroupsListExecute(r ApiV1ProjectsInstancesLogsAlertgroupsListRequest) (*AlertGroupsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -1479,11 +1489,11 @@ V1ProjectsInstancesLogsAlertgroupsRead Method for V1ProjectsInstancesLogsAlertgr
 
 Get logs alert group config.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param groupName
- @param instanceId
- @param projectId
- @return ApiV1ProjectsInstancesLogsAlertgroupsReadRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param groupName
+	@param instanceId
+	@param projectId
+	@return ApiV1ProjectsInstancesLogsAlertgroupsReadRequest
 */
 func (a *LogsApiService) V1ProjectsInstancesLogsAlertgroupsRead(ctx context.Context, groupName string, instanceId string, projectId string) ApiV1ProjectsInstancesLogsAlertgroupsReadRequest {
 	return ApiV1ProjectsInstancesLogsAlertgroupsReadRequest{
@@ -1496,7 +1506,8 @@ func (a *LogsApiService) V1ProjectsInstancesLogsAlertgroupsRead(ctx context.Cont
 }
 
 // Execute executes the request
-//  @return AlertGroupResponse
+//
+//	@return AlertGroupResponse
 func (a *LogsApiService) V1ProjectsInstancesLogsAlertgroupsReadExecute(r ApiV1ProjectsInstancesLogsAlertgroupsReadRequest) (*AlertGroupResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -1636,11 +1647,11 @@ V1ProjectsInstancesLogsAlertgroupsUpdate Method for V1ProjectsInstancesLogsAlert
 
 Update logs alert group config.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param groupName
- @param instanceId
- @param projectId
- @return ApiV1ProjectsInstancesLogsAlertgroupsUpdateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param groupName
+	@param instanceId
+	@param projectId
+	@return ApiV1ProjectsInstancesLogsAlertgroupsUpdateRequest
 */
 func (a *LogsApiService) V1ProjectsInstancesLogsAlertgroupsUpdate(ctx context.Context, groupName string, instanceId string, projectId string) ApiV1ProjectsInstancesLogsAlertgroupsUpdateRequest {
 	return ApiV1ProjectsInstancesLogsAlertgroupsUpdateRequest{
@@ -1653,7 +1664,8 @@ func (a *LogsApiService) V1ProjectsInstancesLogsAlertgroupsUpdate(ctx context.Co
 }
 
 // Execute executes the request
-//  @return AlertGroupsResponse
+//
+//	@return AlertGroupsResponse
 func (a *LogsApiService) V1ProjectsInstancesLogsAlertgroupsUpdateExecute(r ApiV1ProjectsInstancesLogsAlertgroupsUpdateRequest) (*AlertGroupsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPut
@@ -1791,10 +1803,10 @@ V1ProjectsInstancesLogsConfigsList Method for V1ProjectsInstancesLogsConfigsList
 
 Get logs configuration.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @param projectId
- @return ApiV1ProjectsInstancesLogsConfigsListRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@param projectId
+	@return ApiV1ProjectsInstancesLogsConfigsListRequest
 */
 func (a *LogsApiService) V1ProjectsInstancesLogsConfigsList(ctx context.Context, instanceId string, projectId string) ApiV1ProjectsInstancesLogsConfigsListRequest {
 	return ApiV1ProjectsInstancesLogsConfigsListRequest{
@@ -1806,7 +1818,8 @@ func (a *LogsApiService) V1ProjectsInstancesLogsConfigsList(ctx context.Context,
 }
 
 // Execute executes the request
-//  @return LogsConfigResponse
+//
+//	@return LogsConfigResponse
 func (a *LogsApiService) V1ProjectsInstancesLogsConfigsListExecute(r ApiV1ProjectsInstancesLogsConfigsListRequest) (*LogsConfigResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -1924,10 +1937,10 @@ V1ProjectsInstancesLogsConfigsUpdate Method for V1ProjectsInstancesLogsConfigsUp
 
 Update logs config.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @param projectId
- @return ApiV1ProjectsInstancesLogsConfigsUpdateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@param projectId
+	@return ApiV1ProjectsInstancesLogsConfigsUpdateRequest
 */
 func (a *LogsApiService) V1ProjectsInstancesLogsConfigsUpdate(ctx context.Context, instanceId string, projectId string) ApiV1ProjectsInstancesLogsConfigsUpdateRequest {
 	return ApiV1ProjectsInstancesLogsConfigsUpdateRequest{
@@ -1939,7 +1952,8 @@ func (a *LogsApiService) V1ProjectsInstancesLogsConfigsUpdate(ctx context.Contex
 }
 
 // Execute executes the request
-//  @return Message
+//
+//	@return Message
 func (a *LogsApiService) V1ProjectsInstancesLogsConfigsUpdateExecute(r ApiV1ProjectsInstancesLogsConfigsUpdateRequest) (*Message, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPut

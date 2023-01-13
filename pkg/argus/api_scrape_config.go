@@ -53,9 +53,9 @@ V1InstancesScrapeconfigsAllDelete Method for V1InstancesScrapeconfigsAllDelete
 
 delete scrape configs
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @return ApiV1InstancesScrapeconfigsAllDeleteRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@return ApiV1InstancesScrapeconfigsAllDeleteRequest
 */
 func (a *ScrapeConfigApiService) V1InstancesScrapeconfigsAllDelete(ctx context.Context, instanceId string) ApiV1InstancesScrapeconfigsAllDeleteRequest {
 	return ApiV1InstancesScrapeconfigsAllDeleteRequest{
@@ -66,7 +66,8 @@ func (a *ScrapeConfigApiService) V1InstancesScrapeconfigsAllDelete(ctx context.C
 }
 
 // Execute executes the request
-//  @return CreateJob
+//
+//	@return CreateJob
 func (a *ScrapeConfigApiService) V1InstancesScrapeconfigsAllDeleteExecute(r ApiV1InstancesScrapeconfigsAllDeleteRequest) (*CreateJob, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
@@ -216,9 +217,9 @@ V1InstancesScrapeconfigsCreate Method for V1InstancesScrapeconfigsCreate
 
 create scrape config
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @return ApiV1InstancesScrapeconfigsCreateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@return ApiV1InstancesScrapeconfigsCreateRequest
 */
 func (a *ScrapeConfigApiService) V1InstancesScrapeconfigsCreate(ctx context.Context, instanceId string) ApiV1InstancesScrapeconfigsCreateRequest {
 	return ApiV1InstancesScrapeconfigsCreateRequest{
@@ -229,7 +230,8 @@ func (a *ScrapeConfigApiService) V1InstancesScrapeconfigsCreate(ctx context.Cont
 }
 
 // Execute executes the request
-//  @return CreateJob
+//
+//	@return CreateJob
 func (a *ScrapeConfigApiService) V1InstancesScrapeconfigsCreateExecute(r ApiV1InstancesScrapeconfigsCreateRequest) (*CreateJob, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -365,10 +367,10 @@ V1InstancesScrapeconfigsDelete Method for V1InstancesScrapeconfigsDelete
 
 delete scrape config
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @param jobName
- @return ApiV1InstancesScrapeconfigsDeleteRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@param jobName
+	@return ApiV1InstancesScrapeconfigsDeleteRequest
 */
 func (a *ScrapeConfigApiService) V1InstancesScrapeconfigsDelete(ctx context.Context, instanceId string, jobName string) ApiV1InstancesScrapeconfigsDeleteRequest {
 	return ApiV1InstancesScrapeconfigsDeleteRequest{
@@ -380,7 +382,8 @@ func (a *ScrapeConfigApiService) V1InstancesScrapeconfigsDelete(ctx context.Cont
 }
 
 // Execute executes the request
-//  @return DeleteJob
+//
+//	@return DeleteJob
 func (a *ScrapeConfigApiService) V1InstancesScrapeconfigsDeleteExecute(r ApiV1InstancesScrapeconfigsDeleteRequest) (*DeleteJob, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
@@ -511,9 +514,9 @@ V1InstancesScrapeconfigsList Method for V1InstancesScrapeconfigsList
 
 get scrape config
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @return ApiV1InstancesScrapeconfigsListRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@return ApiV1InstancesScrapeconfigsListRequest
 */
 func (a *ScrapeConfigApiService) V1InstancesScrapeconfigsList(ctx context.Context, instanceId string) ApiV1InstancesScrapeconfigsListRequest {
 	return ApiV1InstancesScrapeconfigsListRequest{
@@ -524,7 +527,8 @@ func (a *ScrapeConfigApiService) V1InstancesScrapeconfigsList(ctx context.Contex
 }
 
 // Execute executes the request
-//  @return GetAllJob
+//
+//	@return GetAllJob
 func (a *ScrapeConfigApiService) V1InstancesScrapeconfigsListExecute(r ApiV1InstancesScrapeconfigsListRequest) (*GetAllJob, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -650,9 +654,9 @@ V1InstancesScrapeconfigsPartialUpdate Method for V1InstancesScrapeconfigsPartial
 
 patches scrape config
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @return ApiV1InstancesScrapeconfigsPartialUpdateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@return ApiV1InstancesScrapeconfigsPartialUpdateRequest
 */
 func (a *ScrapeConfigApiService) V1InstancesScrapeconfigsPartialUpdate(ctx context.Context, instanceId string) ApiV1InstancesScrapeconfigsPartialUpdateRequest {
 	return ApiV1InstancesScrapeconfigsPartialUpdateRequest{
@@ -663,7 +667,8 @@ func (a *ScrapeConfigApiService) V1InstancesScrapeconfigsPartialUpdate(ctx conte
 }
 
 // Execute executes the request
-//  @return CreateJob
+//
+//	@return CreateJob
 func (a *ScrapeConfigApiService) V1InstancesScrapeconfigsPartialUpdateExecute(r ApiV1InstancesScrapeconfigsPartialUpdateRequest) (*CreateJob, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
@@ -799,10 +804,10 @@ V1InstancesScrapeconfigsRead Method for V1InstancesScrapeconfigsRead
 
 get scrape config
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @param jobName
- @return ApiV1InstancesScrapeconfigsReadRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@param jobName
+	@return ApiV1InstancesScrapeconfigsReadRequest
 */
 func (a *ScrapeConfigApiService) V1InstancesScrapeconfigsRead(ctx context.Context, instanceId string, jobName string) ApiV1InstancesScrapeconfigsReadRequest {
 	return ApiV1InstancesScrapeconfigsReadRequest{
@@ -814,7 +819,8 @@ func (a *ScrapeConfigApiService) V1InstancesScrapeconfigsRead(ctx context.Contex
 }
 
 // Execute executes the request
-//  @return GetJob
+//
+//	@return GetJob
 func (a *ScrapeConfigApiService) V1InstancesScrapeconfigsReadExecute(r ApiV1InstancesScrapeconfigsReadRequest) (*GetJob, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -942,10 +948,10 @@ V1InstancesScrapeconfigsUpdate Method for V1InstancesScrapeconfigsUpdate
 
 update scrape config
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @param jobName
- @return ApiV1InstancesScrapeconfigsUpdateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@param jobName
+	@return ApiV1InstancesScrapeconfigsUpdateRequest
 */
 func (a *ScrapeConfigApiService) V1InstancesScrapeconfigsUpdate(ctx context.Context, instanceId string, jobName string) ApiV1InstancesScrapeconfigsUpdateRequest {
 	return ApiV1InstancesScrapeconfigsUpdateRequest{
@@ -957,7 +963,8 @@ func (a *ScrapeConfigApiService) V1InstancesScrapeconfigsUpdate(ctx context.Cont
 }
 
 // Execute executes the request
-//  @return CreateJob
+//
+//	@return CreateJob
 func (a *ScrapeConfigApiService) V1InstancesScrapeconfigsUpdateExecute(r ApiV1InstancesScrapeconfigsUpdateRequest) (*CreateJob, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPut
@@ -1101,10 +1108,10 @@ V1ProjectsInstancesScrapeconfigsAllDelete Method for V1ProjectsInstancesScrapeco
 
 delete scrape configs
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @param projectId
- @return ApiV1ProjectsInstancesScrapeconfigsAllDeleteRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@param projectId
+	@return ApiV1ProjectsInstancesScrapeconfigsAllDeleteRequest
 */
 func (a *ScrapeConfigApiService) V1ProjectsInstancesScrapeconfigsAllDelete(ctx context.Context, instanceId string, projectId string) ApiV1ProjectsInstancesScrapeconfigsAllDeleteRequest {
 	return ApiV1ProjectsInstancesScrapeconfigsAllDeleteRequest{
@@ -1116,7 +1123,8 @@ func (a *ScrapeConfigApiService) V1ProjectsInstancesScrapeconfigsAllDelete(ctx c
 }
 
 // Execute executes the request
-//  @return CreateJob
+//
+//	@return CreateJob
 func (a *ScrapeConfigApiService) V1ProjectsInstancesScrapeconfigsAllDeleteExecute(r ApiV1ProjectsInstancesScrapeconfigsAllDeleteRequest) (*CreateJob, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
@@ -1268,10 +1276,10 @@ V1ProjectsInstancesScrapeconfigsCreate Method for V1ProjectsInstancesScrapeconfi
 
 create scrape config
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @param projectId
- @return ApiV1ProjectsInstancesScrapeconfigsCreateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@param projectId
+	@return ApiV1ProjectsInstancesScrapeconfigsCreateRequest
 */
 func (a *ScrapeConfigApiService) V1ProjectsInstancesScrapeconfigsCreate(ctx context.Context, instanceId string, projectId string) ApiV1ProjectsInstancesScrapeconfigsCreateRequest {
 	return ApiV1ProjectsInstancesScrapeconfigsCreateRequest{
@@ -1283,7 +1291,8 @@ func (a *ScrapeConfigApiService) V1ProjectsInstancesScrapeconfigsCreate(ctx cont
 }
 
 // Execute executes the request
-//  @return CreateJob
+//
+//	@return CreateJob
 func (a *ScrapeConfigApiService) V1ProjectsInstancesScrapeconfigsCreateExecute(r ApiV1ProjectsInstancesScrapeconfigsCreateRequest) (*CreateJob, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -1421,11 +1430,11 @@ V1ProjectsInstancesScrapeconfigsDelete Method for V1ProjectsInstancesScrapeconfi
 
 delete scrape config
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @param jobName
- @param projectId
- @return ApiV1ProjectsInstancesScrapeconfigsDeleteRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@param jobName
+	@param projectId
+	@return ApiV1ProjectsInstancesScrapeconfigsDeleteRequest
 */
 func (a *ScrapeConfigApiService) V1ProjectsInstancesScrapeconfigsDelete(ctx context.Context, instanceId string, jobName string, projectId string) ApiV1ProjectsInstancesScrapeconfigsDeleteRequest {
 	return ApiV1ProjectsInstancesScrapeconfigsDeleteRequest{
@@ -1438,7 +1447,8 @@ func (a *ScrapeConfigApiService) V1ProjectsInstancesScrapeconfigsDelete(ctx cont
 }
 
 // Execute executes the request
-//  @return DeleteJob
+//
+//	@return DeleteJob
 func (a *ScrapeConfigApiService) V1ProjectsInstancesScrapeconfigsDeleteExecute(r ApiV1ProjectsInstancesScrapeconfigsDeleteRequest) (*DeleteJob, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
@@ -1571,10 +1581,10 @@ V1ProjectsInstancesScrapeconfigsList Method for V1ProjectsInstancesScrapeconfigs
 
 get scrape config
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @param projectId
- @return ApiV1ProjectsInstancesScrapeconfigsListRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@param projectId
+	@return ApiV1ProjectsInstancesScrapeconfigsListRequest
 */
 func (a *ScrapeConfigApiService) V1ProjectsInstancesScrapeconfigsList(ctx context.Context, instanceId string, projectId string) ApiV1ProjectsInstancesScrapeconfigsListRequest {
 	return ApiV1ProjectsInstancesScrapeconfigsListRequest{
@@ -1586,7 +1596,8 @@ func (a *ScrapeConfigApiService) V1ProjectsInstancesScrapeconfigsList(ctx contex
 }
 
 // Execute executes the request
-//  @return GetAllJob
+//
+//	@return GetAllJob
 func (a *ScrapeConfigApiService) V1ProjectsInstancesScrapeconfigsListExecute(r ApiV1ProjectsInstancesScrapeconfigsListRequest) (*GetAllJob, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -1714,10 +1725,10 @@ V1ProjectsInstancesScrapeconfigsPartialUpdate Method for V1ProjectsInstancesScra
 
 patches scrape config
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @param projectId
- @return ApiV1ProjectsInstancesScrapeconfigsPartialUpdateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@param projectId
+	@return ApiV1ProjectsInstancesScrapeconfigsPartialUpdateRequest
 */
 func (a *ScrapeConfigApiService) V1ProjectsInstancesScrapeconfigsPartialUpdate(ctx context.Context, instanceId string, projectId string) ApiV1ProjectsInstancesScrapeconfigsPartialUpdateRequest {
 	return ApiV1ProjectsInstancesScrapeconfigsPartialUpdateRequest{
@@ -1729,7 +1740,8 @@ func (a *ScrapeConfigApiService) V1ProjectsInstancesScrapeconfigsPartialUpdate(c
 }
 
 // Execute executes the request
-//  @return CreateJob
+//
+//	@return CreateJob
 func (a *ScrapeConfigApiService) V1ProjectsInstancesScrapeconfigsPartialUpdateExecute(r ApiV1ProjectsInstancesScrapeconfigsPartialUpdateRequest) (*CreateJob, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
@@ -1867,11 +1879,11 @@ V1ProjectsInstancesScrapeconfigsRead Method for V1ProjectsInstancesScrapeconfigs
 
 get scrape config
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @param jobName
- @param projectId
- @return ApiV1ProjectsInstancesScrapeconfigsReadRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@param jobName
+	@param projectId
+	@return ApiV1ProjectsInstancesScrapeconfigsReadRequest
 */
 func (a *ScrapeConfigApiService) V1ProjectsInstancesScrapeconfigsRead(ctx context.Context, instanceId string, jobName string, projectId string) ApiV1ProjectsInstancesScrapeconfigsReadRequest {
 	return ApiV1ProjectsInstancesScrapeconfigsReadRequest{
@@ -1884,7 +1896,8 @@ func (a *ScrapeConfigApiService) V1ProjectsInstancesScrapeconfigsRead(ctx contex
 }
 
 // Execute executes the request
-//  @return GetJob
+//
+//	@return GetJob
 func (a *ScrapeConfigApiService) V1ProjectsInstancesScrapeconfigsReadExecute(r ApiV1ProjectsInstancesScrapeconfigsReadRequest) (*GetJob, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -2014,11 +2027,11 @@ V1ProjectsInstancesScrapeconfigsUpdate Method for V1ProjectsInstancesScrapeconfi
 
 update scrape config
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @param jobName
- @param projectId
- @return ApiV1ProjectsInstancesScrapeconfigsUpdateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@param jobName
+	@param projectId
+	@return ApiV1ProjectsInstancesScrapeconfigsUpdateRequest
 */
 func (a *ScrapeConfigApiService) V1ProjectsInstancesScrapeconfigsUpdate(ctx context.Context, instanceId string, jobName string, projectId string) ApiV1ProjectsInstancesScrapeconfigsUpdateRequest {
 	return ApiV1ProjectsInstancesScrapeconfigsUpdateRequest{
@@ -2031,7 +2044,8 @@ func (a *ScrapeConfigApiService) V1ProjectsInstancesScrapeconfigsUpdate(ctx cont
 }
 
 // Execute executes the request
-//  @return CreateJob
+//
+//	@return CreateJob
 func (a *ScrapeConfigApiService) V1ProjectsInstancesScrapeconfigsUpdateExecute(r ApiV1ProjectsInstancesScrapeconfigsUpdateRequest) (*CreateJob, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPut

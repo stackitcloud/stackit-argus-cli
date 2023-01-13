@@ -37,13 +37,13 @@ GO_BUILD = mkdir -pv "$(@)" && go build -ldflags="-w -s" -o "$(@)" ./...
 out/bin:
 	$(GO_BUILD)
 
-GOLANGCI_LINT = bin/golangci-lint-$(GOLANGCI_VERSION)
-$(GOLANGCI_LINT):
-	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | bash -s -- -b bin v$(GOLANGCI_VERSION)
-	@mv bin/golangci-lint "$(@)"
+#GOLANGCI_LINT = bin/golangci-lint-$(GOLANGCI_VERSION)
+#$(GOLANGCI_LINT):
+#	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | bash -s -- -b bin v$(GOLANGCI_VERSION)
+#	@mv bin/golangci-lint "$(@)"
 
-lint: fmt $(GOLANGCI_LINT) download ## Lints all code with golangci-lint
-	@$(GOLANGCI_LINT) run
+lint: fmt download # $(GOLANGCI_LINT) ## Lints all code with golangci-lint
+	@golangci-lint run
 
 lint-reports: out/lint.xml
 
@@ -52,7 +52,7 @@ out/lint.xml: $(GOLANGCI_LINT) out download
 	@$(GOLANGCI_LINT) run ./... --out-format checkstyle | tee "$(@)"
 
 test: ## Runs all tests
-	@go test $(ARGS) ./...
+	@go test $(ARGS) ./cmd/stackit-argus-cli/...
 
 coverage: out/report.json ## Displays coverage per func on cli
 	go tool cover -func=out/cover.out

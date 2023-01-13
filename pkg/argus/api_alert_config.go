@@ -45,9 +45,9 @@ V1InstancesAlertconfigsList Method for V1InstancesAlertconfigsList
 
 get alert rule config
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @return ApiV1InstancesAlertconfigsListRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@return ApiV1InstancesAlertconfigsListRequest
 */
 func (a *AlertConfigApiService) V1InstancesAlertconfigsList(ctx context.Context, instanceId string) ApiV1InstancesAlertconfigsListRequest {
 	return ApiV1InstancesAlertconfigsListRequest{
@@ -58,7 +58,8 @@ func (a *AlertConfigApiService) V1InstancesAlertconfigsList(ctx context.Context,
 }
 
 // Execute executes the request
-//  @return GetAlert
+//
+//	@return GetAlert
 func (a *AlertConfigApiService) V1InstancesAlertconfigsListExecute(r ApiV1InstancesAlertconfigsListRequest) (*GetAlert, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -194,9 +195,9 @@ V1InstancesAlertconfigsUpdate Method for V1InstancesAlertconfigsUpdate
 
 route for alert config
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @return ApiV1InstancesAlertconfigsUpdateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@return ApiV1InstancesAlertconfigsUpdateRequest
 */
 func (a *AlertConfigApiService) V1InstancesAlertconfigsUpdate(ctx context.Context, instanceId string) ApiV1InstancesAlertconfigsUpdateRequest {
 	return ApiV1InstancesAlertconfigsUpdateRequest{
@@ -207,7 +208,8 @@ func (a *AlertConfigApiService) V1InstancesAlertconfigsUpdate(ctx context.Contex
 }
 
 // Execute executes the request
-//  @return PutAlert
+//
+//	@return PutAlert
 func (a *AlertConfigApiService) V1InstancesAlertconfigsUpdateExecute(r ApiV1InstancesAlertconfigsUpdateRequest) (*PutAlert, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPut
@@ -343,10 +345,10 @@ V1ProjectsInstancesAlertconfigsList Method for V1ProjectsInstancesAlertconfigsLi
 
 get alert rule config
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @param projectId
- @return ApiV1ProjectsInstancesAlertconfigsListRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@param projectId
+	@return ApiV1ProjectsInstancesAlertconfigsListRequest
 */
 func (a *AlertConfigApiService) V1ProjectsInstancesAlertconfigsList(ctx context.Context, instanceId string, projectId string) ApiV1ProjectsInstancesAlertconfigsListRequest {
 	return ApiV1ProjectsInstancesAlertconfigsListRequest{
@@ -358,7 +360,8 @@ func (a *AlertConfigApiService) V1ProjectsInstancesAlertconfigsList(ctx context.
 }
 
 // Execute executes the request
-//  @return GetAlert
+//
+//	@return GetAlert
 func (a *AlertConfigApiService) V1ProjectsInstancesAlertconfigsListExecute(r ApiV1ProjectsInstancesAlertconfigsListRequest) (*GetAlert, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -496,10 +499,10 @@ V1ProjectsInstancesAlertconfigsUpdate Method for V1ProjectsInstancesAlertconfigs
 
 route for alert config
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @param projectId
- @return ApiV1ProjectsInstancesAlertconfigsUpdateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@param projectId
+	@return ApiV1ProjectsInstancesAlertconfigsUpdateRequest
 */
 func (a *AlertConfigApiService) V1ProjectsInstancesAlertconfigsUpdate(ctx context.Context, instanceId string, projectId string) ApiV1ProjectsInstancesAlertconfigsUpdateRequest {
 	return ApiV1ProjectsInstancesAlertconfigsUpdateRequest{
@@ -511,7 +514,8 @@ func (a *AlertConfigApiService) V1ProjectsInstancesAlertconfigsUpdate(ctx contex
 }
 
 // Execute executes the request
-//  @return PutAlert
+//
+//	@return PutAlert
 func (a *AlertConfigApiService) V1ProjectsInstancesAlertconfigsUpdateExecute(r ApiV1ProjectsInstancesAlertconfigsUpdateRequest) (*PutAlert, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPut

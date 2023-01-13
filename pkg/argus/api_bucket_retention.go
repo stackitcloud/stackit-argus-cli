@@ -45,9 +45,9 @@ V1InstancesBucketRetentionsList Method for V1InstancesBucketRetentionsList
 
 get bucket retention time for instance
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @return ApiV1InstancesBucketRetentionsListRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@return ApiV1InstancesBucketRetentionsListRequest
 */
 func (a *BucketRetentionApiService) V1InstancesBucketRetentionsList(ctx context.Context, instanceId string) ApiV1InstancesBucketRetentionsListRequest {
 	return ApiV1InstancesBucketRetentionsListRequest{
@@ -58,7 +58,8 @@ func (a *BucketRetentionApiService) V1InstancesBucketRetentionsList(ctx context.
 }
 
 // Execute executes the request
-//  @return BucketRetentionTimeRespond
+//
+//	@return BucketRetentionTimeRespond
 func (a *BucketRetentionApiService) V1InstancesBucketRetentionsListExecute(r ApiV1InstancesBucketRetentionsListRequest) (*BucketRetentionTimeRespond, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -174,9 +175,9 @@ V1InstancesBucketRetentionsUpdate Method for V1InstancesBucketRetentionsUpdate
 
 Updates bucket retention time
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @return ApiV1InstancesBucketRetentionsUpdateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@return ApiV1InstancesBucketRetentionsUpdateRequest
 */
 func (a *BucketRetentionApiService) V1InstancesBucketRetentionsUpdate(ctx context.Context, instanceId string) ApiV1InstancesBucketRetentionsUpdateRequest {
 	return ApiV1InstancesBucketRetentionsUpdateRequest{
@@ -187,7 +188,8 @@ func (a *BucketRetentionApiService) V1InstancesBucketRetentionsUpdate(ctx contex
 }
 
 // Execute executes the request
-//  @return Message
+//
+//	@return Message
 func (a *BucketRetentionApiService) V1InstancesBucketRetentionsUpdateExecute(r ApiV1InstancesBucketRetentionsUpdateRequest) (*Message, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPut
@@ -323,10 +325,10 @@ V1ProjectsInstancesBucketRetentionsList Method for V1ProjectsInstancesBucketRete
 
 get bucket retention time for instance
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @param projectId
- @return ApiV1ProjectsInstancesBucketRetentionsListRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@param projectId
+	@return ApiV1ProjectsInstancesBucketRetentionsListRequest
 */
 func (a *BucketRetentionApiService) V1ProjectsInstancesBucketRetentionsList(ctx context.Context, instanceId string, projectId string) ApiV1ProjectsInstancesBucketRetentionsListRequest {
 	return ApiV1ProjectsInstancesBucketRetentionsListRequest{
@@ -338,7 +340,8 @@ func (a *BucketRetentionApiService) V1ProjectsInstancesBucketRetentionsList(ctx 
 }
 
 // Execute executes the request
-//  @return BucketRetentionTimeRespond
+//
+//	@return BucketRetentionTimeRespond
 func (a *BucketRetentionApiService) V1ProjectsInstancesBucketRetentionsListExecute(r ApiV1ProjectsInstancesBucketRetentionsListRequest) (*BucketRetentionTimeRespond, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -456,10 +459,10 @@ V1ProjectsInstancesBucketRetentionsUpdate Method for V1ProjectsInstancesBucketRe
 
 Updates bucket retention time
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @param projectId
- @return ApiV1ProjectsInstancesBucketRetentionsUpdateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@param projectId
+	@return ApiV1ProjectsInstancesBucketRetentionsUpdateRequest
 */
 func (a *BucketRetentionApiService) V1ProjectsInstancesBucketRetentionsUpdate(ctx context.Context, instanceId string, projectId string) ApiV1ProjectsInstancesBucketRetentionsUpdateRequest {
 	return ApiV1ProjectsInstancesBucketRetentionsUpdateRequest{
@@ -471,7 +474,8 @@ func (a *BucketRetentionApiService) V1ProjectsInstancesBucketRetentionsUpdate(ct
 }
 
 // Execute executes the request
-//  @return Message
+//
+//	@return Message
 func (a *BucketRetentionApiService) V1ProjectsInstancesBucketRetentionsUpdateExecute(r ApiV1ProjectsInstancesBucketRetentionsUpdateRequest) (*Message, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPut

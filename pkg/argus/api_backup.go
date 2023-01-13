@@ -53,10 +53,10 @@ V1InstancesBackupRestoresCreate Method for V1InstancesBackupRestoresCreate
 
 Restore backup.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param backupDate
- @param instanceId
- @return ApiV1InstancesBackupRestoresCreateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param backupDate
+	@param instanceId
+	@return ApiV1InstancesBackupRestoresCreateRequest
 */
 func (a *BackupApiService) V1InstancesBackupRestoresCreate(ctx context.Context, backupDate string, instanceId string) ApiV1InstancesBackupRestoresCreateRequest {
 	return ApiV1InstancesBackupRestoresCreateRequest{
@@ -68,7 +68,8 @@ func (a *BackupApiService) V1InstancesBackupRestoresCreate(ctx context.Context, 
 }
 
 // Execute executes the request
-//  @return Message
+//
+//	@return Message
 func (a *BackupApiService) V1InstancesBackupRestoresCreateExecute(r ApiV1InstancesBackupRestoresCreateRequest) (*Message, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -193,9 +194,9 @@ V1InstancesBackupRetentionsList Method for V1InstancesBackupRetentionsList
 
 Get backup retention.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @return ApiV1InstancesBackupRetentionsListRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@return ApiV1InstancesBackupRetentionsListRequest
 */
 func (a *BackupApiService) V1InstancesBackupRetentionsList(ctx context.Context, instanceId string) ApiV1InstancesBackupRetentionsListRequest {
 	return ApiV1InstancesBackupRetentionsListRequest{
@@ -206,7 +207,8 @@ func (a *BackupApiService) V1InstancesBackupRetentionsList(ctx context.Context, 
 }
 
 // Execute executes the request
-//  @return BackupRetentionResponse
+//
+//	@return BackupRetentionResponse
 func (a *BackupApiService) V1InstancesBackupRetentionsListExecute(r ApiV1InstancesBackupRetentionsListRequest) (*BackupRetentionResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -329,9 +331,9 @@ V1InstancesBackupRetentionsUpdate Method for V1InstancesBackupRetentionsUpdate
 
 Update backup retention.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @return ApiV1InstancesBackupRetentionsUpdateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@return ApiV1InstancesBackupRetentionsUpdateRequest
 */
 func (a *BackupApiService) V1InstancesBackupRetentionsUpdate(ctx context.Context, instanceId string) ApiV1InstancesBackupRetentionsUpdateRequest {
 	return ApiV1InstancesBackupRetentionsUpdateRequest{
@@ -342,7 +344,8 @@ func (a *BackupApiService) V1InstancesBackupRetentionsUpdate(ctx context.Context
 }
 
 // Execute executes the request
-//  @return Message
+//
+//	@return Message
 func (a *BackupApiService) V1InstancesBackupRetentionsUpdateExecute(r ApiV1InstancesBackupRetentionsUpdateRequest) (*Message, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPut
@@ -483,9 +486,9 @@ V1InstancesBackupSchedulesCreate Method for V1InstancesBackupSchedulesCreate
 
 Create backup schedule.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @return ApiV1InstancesBackupSchedulesCreateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@return ApiV1InstancesBackupSchedulesCreateRequest
 */
 func (a *BackupApiService) V1InstancesBackupSchedulesCreate(ctx context.Context, instanceId string) ApiV1InstancesBackupSchedulesCreateRequest {
 	return ApiV1InstancesBackupSchedulesCreateRequest{
@@ -496,7 +499,8 @@ func (a *BackupApiService) V1InstancesBackupSchedulesCreate(ctx context.Context,
 }
 
 // Execute executes the request
-//  @return BackupSchedulePostResponse
+//
+//	@return BackupSchedulePostResponse
 func (a *BackupApiService) V1InstancesBackupSchedulesCreateExecute(r ApiV1InstancesBackupSchedulesCreateRequest) (*BackupSchedulePostResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -625,10 +629,10 @@ V1InstancesBackupSchedulesDelete Method for V1InstancesBackupSchedulesDelete
 
 Delete backup schedule.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @param scheduleId
- @return ApiV1InstancesBackupSchedulesDeleteRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@param scheduleId
+	@return ApiV1InstancesBackupSchedulesDeleteRequest
 */
 func (a *BackupApiService) V1InstancesBackupSchedulesDelete(ctx context.Context, instanceId string, scheduleId string) ApiV1InstancesBackupSchedulesDeleteRequest {
 	return ApiV1InstancesBackupSchedulesDeleteRequest{
@@ -640,7 +644,8 @@ func (a *BackupApiService) V1InstancesBackupSchedulesDelete(ctx context.Context,
 }
 
 // Execute executes the request
-//  @return Message
+//
+//	@return Message
 func (a *BackupApiService) V1InstancesBackupSchedulesDeleteExecute(r ApiV1InstancesBackupSchedulesDeleteRequest) (*Message, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
@@ -768,9 +773,9 @@ V1InstancesBackupSchedulesList Method for V1InstancesBackupSchedulesList
 
 Get backup schedules.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @return ApiV1InstancesBackupSchedulesListRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@return ApiV1InstancesBackupSchedulesListRequest
 */
 func (a *BackupApiService) V1InstancesBackupSchedulesList(ctx context.Context, instanceId string) ApiV1InstancesBackupSchedulesListRequest {
 	return ApiV1InstancesBackupSchedulesListRequest{
@@ -781,7 +786,8 @@ func (a *BackupApiService) V1InstancesBackupSchedulesList(ctx context.Context, i
 }
 
 // Execute executes the request
-//  @return BackupScheduleResponse
+//
+//	@return BackupScheduleResponse
 func (a *BackupApiService) V1InstancesBackupSchedulesListExecute(r ApiV1InstancesBackupSchedulesListRequest) (*BackupScheduleResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -901,10 +907,10 @@ V1InstancesBackupSchedulesUpdate Method for V1InstancesBackupSchedulesUpdate
 
 Update backup schedule.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @param scheduleId
- @return ApiV1InstancesBackupSchedulesUpdateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@param scheduleId
+	@return ApiV1InstancesBackupSchedulesUpdateRequest
 */
 func (a *BackupApiService) V1InstancesBackupSchedulesUpdate(ctx context.Context, instanceId string, scheduleId string) ApiV1InstancesBackupSchedulesUpdateRequest {
 	return ApiV1InstancesBackupSchedulesUpdateRequest{
@@ -916,7 +922,8 @@ func (a *BackupApiService) V1InstancesBackupSchedulesUpdate(ctx context.Context,
 }
 
 // Execute executes the request
-//  @return BackupSchedulePutResponse
+//
+//	@return BackupSchedulePutResponse
 func (a *BackupApiService) V1InstancesBackupSchedulesUpdateExecute(r ApiV1InstancesBackupSchedulesUpdateRequest) (*BackupSchedulePutResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPut
@@ -1049,9 +1056,9 @@ V1InstancesBackupsCreate Method for V1InstancesBackupsCreate
 
 Create a backup.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @return ApiV1InstancesBackupsCreateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@return ApiV1InstancesBackupsCreateRequest
 */
 func (a *BackupApiService) V1InstancesBackupsCreate(ctx context.Context, instanceId string) ApiV1InstancesBackupsCreateRequest {
 	return ApiV1InstancesBackupsCreateRequest{
@@ -1062,7 +1069,8 @@ func (a *BackupApiService) V1InstancesBackupsCreate(ctx context.Context, instanc
 }
 
 // Execute executes the request
-//  @return Message
+//
+//	@return Message
 func (a *BackupApiService) V1InstancesBackupsCreateExecute(r ApiV1InstancesBackupsCreateRequest) (*Message, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -1193,10 +1201,10 @@ V1InstancesBackupsDelete Method for V1InstancesBackupsDelete
 
 Delete backup.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param backupDate
- @param instanceId
- @return ApiV1InstancesBackupsDeleteRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param backupDate
+	@param instanceId
+	@return ApiV1InstancesBackupsDeleteRequest
 */
 func (a *BackupApiService) V1InstancesBackupsDelete(ctx context.Context, backupDate string, instanceId string) ApiV1InstancesBackupsDeleteRequest {
 	return ApiV1InstancesBackupsDeleteRequest{
@@ -1208,7 +1216,8 @@ func (a *BackupApiService) V1InstancesBackupsDelete(ctx context.Context, backupD
 }
 
 // Execute executes the request
-//  @return Message
+//
+//	@return Message
 func (a *BackupApiService) V1InstancesBackupsDeleteExecute(r ApiV1InstancesBackupsDeleteRequest) (*Message, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
@@ -1340,9 +1349,9 @@ V1InstancesBackupsList Method for V1InstancesBackupsList
 
 Get backups.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @return ApiV1InstancesBackupsListRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@return ApiV1InstancesBackupsListRequest
 */
 func (a *BackupApiService) V1InstancesBackupsList(ctx context.Context, instanceId string) ApiV1InstancesBackupsListRequest {
 	return ApiV1InstancesBackupsListRequest{
@@ -1353,7 +1362,8 @@ func (a *BackupApiService) V1InstancesBackupsList(ctx context.Context, instanceI
 }
 
 // Execute executes the request
-//  @return BackupResponse
+//
+//	@return BackupResponse
 func (a *BackupApiService) V1InstancesBackupsListExecute(r ApiV1InstancesBackupsListRequest) (*BackupResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -1485,11 +1495,11 @@ V1ProjectsInstancesBackupRestoresCreate Method for V1ProjectsInstancesBackupRest
 
 Restore backup.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param backupDate
- @param instanceId
- @param projectId
- @return ApiV1ProjectsInstancesBackupRestoresCreateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param backupDate
+	@param instanceId
+	@param projectId
+	@return ApiV1ProjectsInstancesBackupRestoresCreateRequest
 */
 func (a *BackupApiService) V1ProjectsInstancesBackupRestoresCreate(ctx context.Context, backupDate string, instanceId string, projectId string) ApiV1ProjectsInstancesBackupRestoresCreateRequest {
 	return ApiV1ProjectsInstancesBackupRestoresCreateRequest{
@@ -1502,7 +1512,8 @@ func (a *BackupApiService) V1ProjectsInstancesBackupRestoresCreate(ctx context.C
 }
 
 // Execute executes the request
-//  @return Message
+//
+//	@return Message
 func (a *BackupApiService) V1ProjectsInstancesBackupRestoresCreateExecute(r ApiV1ProjectsInstancesBackupRestoresCreateRequest) (*Message, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -1629,10 +1640,10 @@ V1ProjectsInstancesBackupRetentionsList Method for V1ProjectsInstancesBackupRete
 
 Get backup retention.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @param projectId
- @return ApiV1ProjectsInstancesBackupRetentionsListRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@param projectId
+	@return ApiV1ProjectsInstancesBackupRetentionsListRequest
 */
 func (a *BackupApiService) V1ProjectsInstancesBackupRetentionsList(ctx context.Context, instanceId string, projectId string) ApiV1ProjectsInstancesBackupRetentionsListRequest {
 	return ApiV1ProjectsInstancesBackupRetentionsListRequest{
@@ -1644,7 +1655,8 @@ func (a *BackupApiService) V1ProjectsInstancesBackupRetentionsList(ctx context.C
 }
 
 // Execute executes the request
-//  @return BackupRetentionResponse
+//
+//	@return BackupRetentionResponse
 func (a *BackupApiService) V1ProjectsInstancesBackupRetentionsListExecute(r ApiV1ProjectsInstancesBackupRetentionsListRequest) (*BackupRetentionResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -1769,10 +1781,10 @@ V1ProjectsInstancesBackupRetentionsUpdate Method for V1ProjectsInstancesBackupRe
 
 Update backup retention.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @param projectId
- @return ApiV1ProjectsInstancesBackupRetentionsUpdateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@param projectId
+	@return ApiV1ProjectsInstancesBackupRetentionsUpdateRequest
 */
 func (a *BackupApiService) V1ProjectsInstancesBackupRetentionsUpdate(ctx context.Context, instanceId string, projectId string) ApiV1ProjectsInstancesBackupRetentionsUpdateRequest {
 	return ApiV1ProjectsInstancesBackupRetentionsUpdateRequest{
@@ -1784,7 +1796,8 @@ func (a *BackupApiService) V1ProjectsInstancesBackupRetentionsUpdate(ctx context
 }
 
 // Execute executes the request
-//  @return Message
+//
+//	@return Message
 func (a *BackupApiService) V1ProjectsInstancesBackupRetentionsUpdateExecute(r ApiV1ProjectsInstancesBackupRetentionsUpdateRequest) (*Message, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPut
@@ -1927,10 +1940,10 @@ V1ProjectsInstancesBackupSchedulesCreate Method for V1ProjectsInstancesBackupSch
 
 Create backup schedule.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @param projectId
- @return ApiV1ProjectsInstancesBackupSchedulesCreateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@param projectId
+	@return ApiV1ProjectsInstancesBackupSchedulesCreateRequest
 */
 func (a *BackupApiService) V1ProjectsInstancesBackupSchedulesCreate(ctx context.Context, instanceId string, projectId string) ApiV1ProjectsInstancesBackupSchedulesCreateRequest {
 	return ApiV1ProjectsInstancesBackupSchedulesCreateRequest{
@@ -1942,7 +1955,8 @@ func (a *BackupApiService) V1ProjectsInstancesBackupSchedulesCreate(ctx context.
 }
 
 // Execute executes the request
-//  @return BackupSchedulePostResponse
+//
+//	@return BackupSchedulePostResponse
 func (a *BackupApiService) V1ProjectsInstancesBackupSchedulesCreateExecute(r ApiV1ProjectsInstancesBackupSchedulesCreateRequest) (*BackupSchedulePostResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -2073,11 +2087,11 @@ V1ProjectsInstancesBackupSchedulesDelete Method for V1ProjectsInstancesBackupSch
 
 Delete backup schedule.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @param projectId
- @param scheduleId
- @return ApiV1ProjectsInstancesBackupSchedulesDeleteRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@param projectId
+	@param scheduleId
+	@return ApiV1ProjectsInstancesBackupSchedulesDeleteRequest
 */
 func (a *BackupApiService) V1ProjectsInstancesBackupSchedulesDelete(ctx context.Context, instanceId string, projectId string, scheduleId string) ApiV1ProjectsInstancesBackupSchedulesDeleteRequest {
 	return ApiV1ProjectsInstancesBackupSchedulesDeleteRequest{
@@ -2090,7 +2104,8 @@ func (a *BackupApiService) V1ProjectsInstancesBackupSchedulesDelete(ctx context.
 }
 
 // Execute executes the request
-//  @return Message
+//
+//	@return Message
 func (a *BackupApiService) V1ProjectsInstancesBackupSchedulesDeleteExecute(r ApiV1ProjectsInstancesBackupSchedulesDeleteRequest) (*Message, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
@@ -2220,10 +2235,10 @@ V1ProjectsInstancesBackupSchedulesList Method for V1ProjectsInstancesBackupSched
 
 Get backup schedules.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @param projectId
- @return ApiV1ProjectsInstancesBackupSchedulesListRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@param projectId
+	@return ApiV1ProjectsInstancesBackupSchedulesListRequest
 */
 func (a *BackupApiService) V1ProjectsInstancesBackupSchedulesList(ctx context.Context, instanceId string, projectId string) ApiV1ProjectsInstancesBackupSchedulesListRequest {
 	return ApiV1ProjectsInstancesBackupSchedulesListRequest{
@@ -2235,7 +2250,8 @@ func (a *BackupApiService) V1ProjectsInstancesBackupSchedulesList(ctx context.Co
 }
 
 // Execute executes the request
-//  @return BackupScheduleResponse
+//
+//	@return BackupScheduleResponse
 func (a *BackupApiService) V1ProjectsInstancesBackupSchedulesListExecute(r ApiV1ProjectsInstancesBackupSchedulesListRequest) (*BackupScheduleResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -2357,11 +2373,11 @@ V1ProjectsInstancesBackupSchedulesUpdate Method for V1ProjectsInstancesBackupSch
 
 Update backup schedule.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @param projectId
- @param scheduleId
- @return ApiV1ProjectsInstancesBackupSchedulesUpdateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@param projectId
+	@param scheduleId
+	@return ApiV1ProjectsInstancesBackupSchedulesUpdateRequest
 */
 func (a *BackupApiService) V1ProjectsInstancesBackupSchedulesUpdate(ctx context.Context, instanceId string, projectId string, scheduleId string) ApiV1ProjectsInstancesBackupSchedulesUpdateRequest {
 	return ApiV1ProjectsInstancesBackupSchedulesUpdateRequest{
@@ -2374,7 +2390,8 @@ func (a *BackupApiService) V1ProjectsInstancesBackupSchedulesUpdate(ctx context.
 }
 
 // Execute executes the request
-//  @return BackupSchedulePutResponse
+//
+//	@return BackupSchedulePutResponse
 func (a *BackupApiService) V1ProjectsInstancesBackupSchedulesUpdateExecute(r ApiV1ProjectsInstancesBackupSchedulesUpdateRequest) (*BackupSchedulePutResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPut
@@ -2509,10 +2526,10 @@ V1ProjectsInstancesBackupsCreate Method for V1ProjectsInstancesBackupsCreate
 
 Create a backup.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @param projectId
- @return ApiV1ProjectsInstancesBackupsCreateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@param projectId
+	@return ApiV1ProjectsInstancesBackupsCreateRequest
 */
 func (a *BackupApiService) V1ProjectsInstancesBackupsCreate(ctx context.Context, instanceId string, projectId string) ApiV1ProjectsInstancesBackupsCreateRequest {
 	return ApiV1ProjectsInstancesBackupsCreateRequest{
@@ -2524,7 +2541,8 @@ func (a *BackupApiService) V1ProjectsInstancesBackupsCreate(ctx context.Context,
 }
 
 // Execute executes the request
-//  @return Message
+//
+//	@return Message
 func (a *BackupApiService) V1ProjectsInstancesBackupsCreateExecute(r ApiV1ProjectsInstancesBackupsCreateRequest) (*Message, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -2657,11 +2675,11 @@ V1ProjectsInstancesBackupsDelete Method for V1ProjectsInstancesBackupsDelete
 
 Delete backup.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param backupDate
- @param instanceId
- @param projectId
- @return ApiV1ProjectsInstancesBackupsDeleteRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param backupDate
+	@param instanceId
+	@param projectId
+	@return ApiV1ProjectsInstancesBackupsDeleteRequest
 */
 func (a *BackupApiService) V1ProjectsInstancesBackupsDelete(ctx context.Context, backupDate string, instanceId string, projectId string) ApiV1ProjectsInstancesBackupsDeleteRequest {
 	return ApiV1ProjectsInstancesBackupsDeleteRequest{
@@ -2674,7 +2692,8 @@ func (a *BackupApiService) V1ProjectsInstancesBackupsDelete(ctx context.Context,
 }
 
 // Execute executes the request
-//  @return Message
+//
+//	@return Message
 func (a *BackupApiService) V1ProjectsInstancesBackupsDeleteExecute(r ApiV1ProjectsInstancesBackupsDeleteRequest) (*Message, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
@@ -2808,10 +2827,10 @@ V1ProjectsInstancesBackupsList Method for V1ProjectsInstancesBackupsList
 
 Get backups.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @param projectId
- @return ApiV1ProjectsInstancesBackupsListRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@param projectId
+	@return ApiV1ProjectsInstancesBackupsListRequest
 */
 func (a *BackupApiService) V1ProjectsInstancesBackupsList(ctx context.Context, instanceId string, projectId string) ApiV1ProjectsInstancesBackupsListRequest {
 	return ApiV1ProjectsInstancesBackupsListRequest{
@@ -2823,7 +2842,8 @@ func (a *BackupApiService) V1ProjectsInstancesBackupsList(ctx context.Context, i
 }
 
 // Execute executes the request
-//  @return BackupResponse
+//
+//	@return BackupResponse
 func (a *BackupApiService) V1ProjectsInstancesBackupsListExecute(r ApiV1ProjectsInstancesBackupsListRequest) (*BackupResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet

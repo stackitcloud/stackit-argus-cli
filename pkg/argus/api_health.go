@@ -36,8 +36,8 @@ HealthzList Method for HealthzList
 
 Get 200 ok.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiHealthzListRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiHealthzListRequest
 */
 func (a *HealthApiService) HealthzList(ctx context.Context) ApiHealthzListRequest {
 	return ApiHealthzListRequest{
@@ -124,8 +124,8 @@ List Method for List
 
 Get 200 ok.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiListRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListRequest
 */
 func (a *HealthApiService) List(ctx context.Context) ApiListRequest {
 	return ApiListRequest{

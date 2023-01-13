@@ -70,8 +70,8 @@ func InitFromConfigFile(f string) error {
 // InitConfig inits global flags and info from configuration file
 func InitConfig(cmd *cobra.Command) {
 	// init flags
-	cmd.PersistentFlags().StringVarP(&confFile, "config", "c", "./.stackit-argus-cli.yaml",
-		"provide config file (default is ./.stackit-argus-cli.yaml)")
+	cmd.PersistentFlags().StringVarP(&confFile, "config", "c", "./cmd/stackit-argus-cli/.stackit-argus-cli.yaml",
+		"provide config file (default is ./cmd/stackit-argus-cli/.stackit-argus-cli.yaml from root of the project)")
 	cmd.PersistentFlags().StringVarP(&instanceId, "instanceId", "i", "",
 		"provide instance id that should be used")
 	cmd.PersistentFlags().StringVarP(&projectId, "projectId", "p", "",

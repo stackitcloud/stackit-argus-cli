@@ -54,10 +54,10 @@ V1InstancesAlertgroupsAlertrulesAllDelete Method for V1InstancesAlertgroupsAlert
 
 delete alert rules
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param groupName
- @param instanceId
- @return ApiV1InstancesAlertgroupsAlertrulesAllDeleteRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param groupName
+	@param instanceId
+	@return ApiV1InstancesAlertgroupsAlertrulesAllDeleteRequest
 */
 func (a *AlertRulesApiService) V1InstancesAlertgroupsAlertrulesAllDelete(ctx context.Context, groupName string, instanceId string) ApiV1InstancesAlertgroupsAlertrulesAllDeleteRequest {
 	return ApiV1InstancesAlertgroupsAlertrulesAllDeleteRequest{
@@ -69,7 +69,8 @@ func (a *AlertRulesApiService) V1InstancesAlertgroupsAlertrulesAllDelete(ctx con
 }
 
 // Execute executes the request
-//  @return PostAlertRule
+//
+//	@return PostAlertRule
 func (a *AlertRulesApiService) V1InstancesAlertgroupsAlertrulesAllDeleteExecute(r ApiV1InstancesAlertgroupsAlertrulesAllDeleteRequest) (*PostAlertRule, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
@@ -221,10 +222,10 @@ V1InstancesAlertgroupsAlertrulesCreate Method for V1InstancesAlertgroupsAlertrul
 
 create alert rule config
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param groupName
- @param instanceId
- @return ApiV1InstancesAlertgroupsAlertrulesCreateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param groupName
+	@param instanceId
+	@return ApiV1InstancesAlertgroupsAlertrulesCreateRequest
 */
 func (a *AlertRulesApiService) V1InstancesAlertgroupsAlertrulesCreate(ctx context.Context, groupName string, instanceId string) ApiV1InstancesAlertgroupsAlertrulesCreateRequest {
 	return ApiV1InstancesAlertgroupsAlertrulesCreateRequest{
@@ -236,7 +237,8 @@ func (a *AlertRulesApiService) V1InstancesAlertgroupsAlertrulesCreate(ctx contex
 }
 
 // Execute executes the request
-//  @return PostAlertRule
+//
+//	@return PostAlertRule
 func (a *AlertRulesApiService) V1InstancesAlertgroupsAlertrulesCreateExecute(r ApiV1InstancesAlertgroupsAlertrulesCreateRequest) (*PostAlertRule, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -374,11 +376,11 @@ V1InstancesAlertgroupsAlertrulesDelete Method for V1InstancesAlertgroupsAlertrul
 
 delete alert rule config
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param alertName
- @param groupName
- @param instanceId
- @return ApiV1InstancesAlertgroupsAlertrulesDeleteRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param alertName
+	@param groupName
+	@param instanceId
+	@return ApiV1InstancesAlertgroupsAlertrulesDeleteRequest
 */
 func (a *AlertRulesApiService) V1InstancesAlertgroupsAlertrulesDelete(ctx context.Context, alertName string, groupName string, instanceId string) ApiV1InstancesAlertgroupsAlertrulesDeleteRequest {
 	return ApiV1InstancesAlertgroupsAlertrulesDeleteRequest{
@@ -391,7 +393,8 @@ func (a *AlertRulesApiService) V1InstancesAlertgroupsAlertrulesDelete(ctx contex
 }
 
 // Execute executes the request
-//  @return DeleteAlertRule
+//
+//	@return DeleteAlertRule
 func (a *AlertRulesApiService) V1InstancesAlertgroupsAlertrulesDeleteExecute(r ApiV1InstancesAlertgroupsAlertrulesDeleteRequest) (*DeleteAlertRule, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
@@ -524,10 +527,10 @@ V1InstancesAlertgroupsAlertrulesList Method for V1InstancesAlertgroupsAlertrules
 
 get alert rule config
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param groupName
- @param instanceId
- @return ApiV1InstancesAlertgroupsAlertrulesListRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param groupName
+	@param instanceId
+	@return ApiV1InstancesAlertgroupsAlertrulesListRequest
 */
 func (a *AlertRulesApiService) V1InstancesAlertgroupsAlertrulesList(ctx context.Context, groupName string, instanceId string) ApiV1InstancesAlertgroupsAlertrulesListRequest {
 	return ApiV1InstancesAlertgroupsAlertrulesListRequest{
@@ -539,7 +542,8 @@ func (a *AlertRulesApiService) V1InstancesAlertgroupsAlertrulesList(ctx context.
 }
 
 // Execute executes the request
-//  @return GetAllAlertRules
+//
+//	@return GetAllAlertRules
 func (a *AlertRulesApiService) V1InstancesAlertgroupsAlertrulesListExecute(r ApiV1InstancesAlertgroupsAlertrulesListRequest) (*GetAllAlertRules, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -677,10 +681,10 @@ V1InstancesAlertgroupsAlertrulesPartialUpdate Method for V1InstancesAlertgroupsA
 
 patches alert rules
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param groupName
- @param instanceId
- @return ApiV1InstancesAlertgroupsAlertrulesPartialUpdateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param groupName
+	@param instanceId
+	@return ApiV1InstancesAlertgroupsAlertrulesPartialUpdateRequest
 */
 func (a *AlertRulesApiService) V1InstancesAlertgroupsAlertrulesPartialUpdate(ctx context.Context, groupName string, instanceId string) ApiV1InstancesAlertgroupsAlertrulesPartialUpdateRequest {
 	return ApiV1InstancesAlertgroupsAlertrulesPartialUpdateRequest{
@@ -692,7 +696,8 @@ func (a *AlertRulesApiService) V1InstancesAlertgroupsAlertrulesPartialUpdate(ctx
 }
 
 // Execute executes the request
-//  @return PostAlertRule
+//
+//	@return PostAlertRule
 func (a *AlertRulesApiService) V1InstancesAlertgroupsAlertrulesPartialUpdateExecute(r ApiV1InstancesAlertgroupsAlertrulesPartialUpdateRequest) (*PostAlertRule, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
@@ -830,11 +835,11 @@ V1InstancesAlertgroupsAlertrulesRead Method for V1InstancesAlertgroupsAlertrules
 
 get alert rule config
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param alertName
- @param groupName
- @param instanceId
- @return ApiV1InstancesAlertgroupsAlertrulesReadRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param alertName
+	@param groupName
+	@param instanceId
+	@return ApiV1InstancesAlertgroupsAlertrulesReadRequest
 */
 func (a *AlertRulesApiService) V1InstancesAlertgroupsAlertrulesRead(ctx context.Context, alertName string, groupName string, instanceId string) ApiV1InstancesAlertgroupsAlertrulesReadRequest {
 	return ApiV1InstancesAlertgroupsAlertrulesReadRequest{
@@ -847,7 +852,8 @@ func (a *AlertRulesApiService) V1InstancesAlertgroupsAlertrulesRead(ctx context.
 }
 
 // Execute executes the request
-//  @return GetAlertRule
+//
+//	@return GetAlertRule
 func (a *AlertRulesApiService) V1InstancesAlertgroupsAlertrulesReadExecute(r ApiV1InstancesAlertgroupsAlertrulesReadRequest) (*GetAlertRule, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -987,11 +993,11 @@ V1InstancesAlertgroupsAlertrulesUpdate Method for V1InstancesAlertgroupsAlertrul
 
 update alert rule config
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param alertName
- @param groupName
- @param instanceId
- @return ApiV1InstancesAlertgroupsAlertrulesUpdateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param alertName
+	@param groupName
+	@param instanceId
+	@return ApiV1InstancesAlertgroupsAlertrulesUpdateRequest
 */
 func (a *AlertRulesApiService) V1InstancesAlertgroupsAlertrulesUpdate(ctx context.Context, alertName string, groupName string, instanceId string) ApiV1InstancesAlertgroupsAlertrulesUpdateRequest {
 	return ApiV1InstancesAlertgroupsAlertrulesUpdateRequest{
@@ -1004,7 +1010,8 @@ func (a *AlertRulesApiService) V1InstancesAlertgroupsAlertrulesUpdate(ctx contex
 }
 
 // Execute executes the request
-//  @return PutAlertRule
+//
+//	@return PutAlertRule
 func (a *AlertRulesApiService) V1InstancesAlertgroupsAlertrulesUpdateExecute(r ApiV1InstancesAlertgroupsAlertrulesUpdateRequest) (*PutAlertRule, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPut
@@ -1150,11 +1157,11 @@ V1ProjectsInstancesAlertgroupsAlertrulesAllDelete Method for V1ProjectsInstances
 
 delete alert rules
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param groupName
- @param instanceId
- @param projectId
- @return ApiV1ProjectsInstancesAlertgroupsAlertrulesAllDeleteRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param groupName
+	@param instanceId
+	@param projectId
+	@return ApiV1ProjectsInstancesAlertgroupsAlertrulesAllDeleteRequest
 */
 func (a *AlertRulesApiService) V1ProjectsInstancesAlertgroupsAlertrulesAllDelete(ctx context.Context, groupName string, instanceId string, projectId string) ApiV1ProjectsInstancesAlertgroupsAlertrulesAllDeleteRequest {
 	return ApiV1ProjectsInstancesAlertgroupsAlertrulesAllDeleteRequest{
@@ -1167,7 +1174,8 @@ func (a *AlertRulesApiService) V1ProjectsInstancesAlertgroupsAlertrulesAllDelete
 }
 
 // Execute executes the request
-//  @return PostAlertRule
+//
+//	@return PostAlertRule
 func (a *AlertRulesApiService) V1ProjectsInstancesAlertgroupsAlertrulesAllDeleteExecute(r ApiV1ProjectsInstancesAlertgroupsAlertrulesAllDeleteRequest) (*PostAlertRule, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
@@ -1321,11 +1329,11 @@ V1ProjectsInstancesAlertgroupsAlertrulesCreate Method for V1ProjectsInstancesAle
 
 create alert rule config
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param groupName
- @param instanceId
- @param projectId
- @return ApiV1ProjectsInstancesAlertgroupsAlertrulesCreateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param groupName
+	@param instanceId
+	@param projectId
+	@return ApiV1ProjectsInstancesAlertgroupsAlertrulesCreateRequest
 */
 func (a *AlertRulesApiService) V1ProjectsInstancesAlertgroupsAlertrulesCreate(ctx context.Context, groupName string, instanceId string, projectId string) ApiV1ProjectsInstancesAlertgroupsAlertrulesCreateRequest {
 	return ApiV1ProjectsInstancesAlertgroupsAlertrulesCreateRequest{
@@ -1338,7 +1346,8 @@ func (a *AlertRulesApiService) V1ProjectsInstancesAlertgroupsAlertrulesCreate(ct
 }
 
 // Execute executes the request
-//  @return PostAlertRule
+//
+//	@return PostAlertRule
 func (a *AlertRulesApiService) V1ProjectsInstancesAlertgroupsAlertrulesCreateExecute(r ApiV1ProjectsInstancesAlertgroupsAlertrulesCreateRequest) (*PostAlertRule, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -1478,12 +1487,12 @@ V1ProjectsInstancesAlertgroupsAlertrulesDelete Method for V1ProjectsInstancesAle
 
 delete alert rule config
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param alertName
- @param groupName
- @param instanceId
- @param projectId
- @return ApiV1ProjectsInstancesAlertgroupsAlertrulesDeleteRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param alertName
+	@param groupName
+	@param instanceId
+	@param projectId
+	@return ApiV1ProjectsInstancesAlertgroupsAlertrulesDeleteRequest
 */
 func (a *AlertRulesApiService) V1ProjectsInstancesAlertgroupsAlertrulesDelete(ctx context.Context, alertName string, groupName string, instanceId string, projectId string) ApiV1ProjectsInstancesAlertgroupsAlertrulesDeleteRequest {
 	return ApiV1ProjectsInstancesAlertgroupsAlertrulesDeleteRequest{
@@ -1497,7 +1506,8 @@ func (a *AlertRulesApiService) V1ProjectsInstancesAlertgroupsAlertrulesDelete(ct
 }
 
 // Execute executes the request
-//  @return DeleteAlertRule
+//
+//	@return DeleteAlertRule
 func (a *AlertRulesApiService) V1ProjectsInstancesAlertgroupsAlertrulesDeleteExecute(r ApiV1ProjectsInstancesAlertgroupsAlertrulesDeleteRequest) (*DeleteAlertRule, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
@@ -1632,11 +1642,11 @@ V1ProjectsInstancesAlertgroupsAlertrulesList Method for V1ProjectsInstancesAlert
 
 get alert rule config
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param groupName
- @param instanceId
- @param projectId
- @return ApiV1ProjectsInstancesAlertgroupsAlertrulesListRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param groupName
+	@param instanceId
+	@param projectId
+	@return ApiV1ProjectsInstancesAlertgroupsAlertrulesListRequest
 */
 func (a *AlertRulesApiService) V1ProjectsInstancesAlertgroupsAlertrulesList(ctx context.Context, groupName string, instanceId string, projectId string) ApiV1ProjectsInstancesAlertgroupsAlertrulesListRequest {
 	return ApiV1ProjectsInstancesAlertgroupsAlertrulesListRequest{
@@ -1649,7 +1659,8 @@ func (a *AlertRulesApiService) V1ProjectsInstancesAlertgroupsAlertrulesList(ctx 
 }
 
 // Execute executes the request
-//  @return GetAllAlertRules
+//
+//	@return GetAllAlertRules
 func (a *AlertRulesApiService) V1ProjectsInstancesAlertgroupsAlertrulesListExecute(r ApiV1ProjectsInstancesAlertgroupsAlertrulesListRequest) (*GetAllAlertRules, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -1789,11 +1800,11 @@ V1ProjectsInstancesAlertgroupsAlertrulesPartialUpdate Method for V1ProjectsInsta
 
 patches alert rules
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param groupName
- @param instanceId
- @param projectId
- @return ApiV1ProjectsInstancesAlertgroupsAlertrulesPartialUpdateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param groupName
+	@param instanceId
+	@param projectId
+	@return ApiV1ProjectsInstancesAlertgroupsAlertrulesPartialUpdateRequest
 */
 func (a *AlertRulesApiService) V1ProjectsInstancesAlertgroupsAlertrulesPartialUpdate(ctx context.Context, groupName string, instanceId string, projectId string) ApiV1ProjectsInstancesAlertgroupsAlertrulesPartialUpdateRequest {
 	return ApiV1ProjectsInstancesAlertgroupsAlertrulesPartialUpdateRequest{
@@ -1806,7 +1817,8 @@ func (a *AlertRulesApiService) V1ProjectsInstancesAlertgroupsAlertrulesPartialUp
 }
 
 // Execute executes the request
-//  @return PostAlertRule
+//
+//	@return PostAlertRule
 func (a *AlertRulesApiService) V1ProjectsInstancesAlertgroupsAlertrulesPartialUpdateExecute(r ApiV1ProjectsInstancesAlertgroupsAlertrulesPartialUpdateRequest) (*PostAlertRule, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
@@ -1946,12 +1958,12 @@ V1ProjectsInstancesAlertgroupsAlertrulesRead Method for V1ProjectsInstancesAlert
 
 get alert rule config
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param alertName
- @param groupName
- @param instanceId
- @param projectId
- @return ApiV1ProjectsInstancesAlertgroupsAlertrulesReadRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param alertName
+	@param groupName
+	@param instanceId
+	@param projectId
+	@return ApiV1ProjectsInstancesAlertgroupsAlertrulesReadRequest
 */
 func (a *AlertRulesApiService) V1ProjectsInstancesAlertgroupsAlertrulesRead(ctx context.Context, alertName string, groupName string, instanceId string, projectId string) ApiV1ProjectsInstancesAlertgroupsAlertrulesReadRequest {
 	return ApiV1ProjectsInstancesAlertgroupsAlertrulesReadRequest{
@@ -1965,7 +1977,8 @@ func (a *AlertRulesApiService) V1ProjectsInstancesAlertgroupsAlertrulesRead(ctx 
 }
 
 // Execute executes the request
-//  @return GetAlertRule
+//
+//	@return GetAlertRule
 func (a *AlertRulesApiService) V1ProjectsInstancesAlertgroupsAlertrulesReadExecute(r ApiV1ProjectsInstancesAlertgroupsAlertrulesReadRequest) (*GetAlertRule, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -2107,12 +2120,12 @@ V1ProjectsInstancesAlertgroupsAlertrulesUpdate Method for V1ProjectsInstancesAle
 
 update alert rule config
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param alertName
- @param groupName
- @param instanceId
- @param projectId
- @return ApiV1ProjectsInstancesAlertgroupsAlertrulesUpdateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param alertName
+	@param groupName
+	@param instanceId
+	@param projectId
+	@return ApiV1ProjectsInstancesAlertgroupsAlertrulesUpdateRequest
 */
 func (a *AlertRulesApiService) V1ProjectsInstancesAlertgroupsAlertrulesUpdate(ctx context.Context, alertName string, groupName string, instanceId string, projectId string) ApiV1ProjectsInstancesAlertgroupsAlertrulesUpdateRequest {
 	return ApiV1ProjectsInstancesAlertgroupsAlertrulesUpdateRequest{
@@ -2126,7 +2139,8 @@ func (a *AlertRulesApiService) V1ProjectsInstancesAlertgroupsAlertrulesUpdate(ct
 }
 
 // Execute executes the request
-//  @return PutAlertRule
+//
+//	@return PutAlertRule
 func (a *AlertRulesApiService) V1ProjectsInstancesAlertgroupsAlertrulesUpdateExecute(r ApiV1ProjectsInstancesAlertgroupsAlertrulesUpdateRequest) (*PutAlertRule, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPut

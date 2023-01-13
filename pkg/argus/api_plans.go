@@ -43,8 +43,8 @@ V1PlansList Method for V1PlansList
 
 Get all plans.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiV1PlansListRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiV1PlansListRequest
 */
 func (a *PlansApiService) V1PlansList(ctx context.Context) ApiV1PlansListRequest {
 	return ApiV1PlansListRequest{
@@ -54,7 +54,8 @@ func (a *PlansApiService) V1PlansList(ctx context.Context) ApiV1PlansListRequest
 }
 
 // Execute executes the request
-//  @return Plan
+//
+//	@return Plan
 func (a *PlansApiService) V1PlansListExecute(r ApiV1PlansListRequest) (*Plan, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet

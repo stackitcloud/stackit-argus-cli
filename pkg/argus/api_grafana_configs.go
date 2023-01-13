@@ -45,9 +45,9 @@ V1InstancesGrafanaConfigsList Method for V1InstancesGrafanaConfigsList
 
 get grafana configs for instance
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @return ApiV1InstancesGrafanaConfigsListRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@return ApiV1InstancesGrafanaConfigsListRequest
 */
 func (a *GrafanaConfigsApiService) V1InstancesGrafanaConfigsList(ctx context.Context, instanceId string) ApiV1InstancesGrafanaConfigsListRequest {
 	return ApiV1InstancesGrafanaConfigsListRequest{
@@ -58,7 +58,8 @@ func (a *GrafanaConfigsApiService) V1InstancesGrafanaConfigsList(ctx context.Con
 }
 
 // Execute executes the request
-//  @return GrafanaConfigsSerializerRespond
+//
+//	@return GrafanaConfigsSerializerRespond
 func (a *GrafanaConfigsApiService) V1InstancesGrafanaConfigsListExecute(r ApiV1InstancesGrafanaConfigsListRequest) (*GrafanaConfigsSerializerRespond, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -174,9 +175,9 @@ V1InstancesGrafanaConfigsUpdate Method for V1InstancesGrafanaConfigsUpdate
 
 Updates bucket retention time
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @return ApiV1InstancesGrafanaConfigsUpdateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@return ApiV1InstancesGrafanaConfigsUpdateRequest
 */
 func (a *GrafanaConfigsApiService) V1InstancesGrafanaConfigsUpdate(ctx context.Context, instanceId string) ApiV1InstancesGrafanaConfigsUpdateRequest {
 	return ApiV1InstancesGrafanaConfigsUpdateRequest{
@@ -187,7 +188,8 @@ func (a *GrafanaConfigsApiService) V1InstancesGrafanaConfigsUpdate(ctx context.C
 }
 
 // Execute executes the request
-//  @return Message
+//
+//	@return Message
 func (a *GrafanaConfigsApiService) V1InstancesGrafanaConfigsUpdateExecute(r ApiV1InstancesGrafanaConfigsUpdateRequest) (*Message, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPut
@@ -323,10 +325,10 @@ V1ProjectsInstancesGrafanaConfigsList Method for V1ProjectsInstancesGrafanaConfi
 
 get grafana configs for instance
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @param projectId
- @return ApiV1ProjectsInstancesGrafanaConfigsListRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@param projectId
+	@return ApiV1ProjectsInstancesGrafanaConfigsListRequest
 */
 func (a *GrafanaConfigsApiService) V1ProjectsInstancesGrafanaConfigsList(ctx context.Context, instanceId string, projectId string) ApiV1ProjectsInstancesGrafanaConfigsListRequest {
 	return ApiV1ProjectsInstancesGrafanaConfigsListRequest{
@@ -338,7 +340,8 @@ func (a *GrafanaConfigsApiService) V1ProjectsInstancesGrafanaConfigsList(ctx con
 }
 
 // Execute executes the request
-//  @return GrafanaConfigsSerializerRespond
+//
+//	@return GrafanaConfigsSerializerRespond
 func (a *GrafanaConfigsApiService) V1ProjectsInstancesGrafanaConfigsListExecute(r ApiV1ProjectsInstancesGrafanaConfigsListRequest) (*GrafanaConfigsSerializerRespond, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -456,10 +459,10 @@ V1ProjectsInstancesGrafanaConfigsUpdate Method for V1ProjectsInstancesGrafanaCon
 
 Updates bucket retention time
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @param projectId
- @return ApiV1ProjectsInstancesGrafanaConfigsUpdateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@param projectId
+	@return ApiV1ProjectsInstancesGrafanaConfigsUpdateRequest
 */
 func (a *GrafanaConfigsApiService) V1ProjectsInstancesGrafanaConfigsUpdate(ctx context.Context, instanceId string, projectId string) ApiV1ProjectsInstancesGrafanaConfigsUpdateRequest {
 	return ApiV1ProjectsInstancesGrafanaConfigsUpdateRequest{
@@ -471,7 +474,8 @@ func (a *GrafanaConfigsApiService) V1ProjectsInstancesGrafanaConfigsUpdate(ctx c
 }
 
 // Execute executes the request
-//  @return Message
+//
+//	@return Message
 func (a *GrafanaConfigsApiService) V1ProjectsInstancesGrafanaConfigsUpdateExecute(r ApiV1ProjectsInstancesGrafanaConfigsUpdateRequest) (*Message, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPut

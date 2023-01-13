@@ -51,9 +51,9 @@ V1ClustersCreate Method for V1ClustersCreate
 
 Initialize the cluster secrets and operators.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param clusterId
- @return ApiV1ClustersCreateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param clusterId
+	@return ApiV1ClustersCreateRequest
 */
 func (a *ClusterApiService) V1ClustersCreate(ctx context.Context, clusterId string) ApiV1ClustersCreateRequest {
 	return ApiV1ClustersCreateRequest{
@@ -64,7 +64,8 @@ func (a *ClusterApiService) V1ClustersCreate(ctx context.Context, clusterId stri
 }
 
 // Execute executes the request
-//  @return Message
+//
+//	@return Message
 func (a *ClusterApiService) V1ClustersCreateExecute(r ApiV1ClustersCreateRequest) (*Message, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -189,9 +190,9 @@ V1ClustersDelete Method for V1ClustersDelete
 
 Delete the operators, secrets and git repo but will not delete the pods deployed by flux.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param clusterId
- @return ApiV1ClustersDeleteRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param clusterId
+	@return ApiV1ClustersDeleteRequest
 */
 func (a *ClusterApiService) V1ClustersDelete(ctx context.Context, clusterId string) ApiV1ClustersDeleteRequest {
 	return ApiV1ClustersDeleteRequest{
@@ -202,7 +203,8 @@ func (a *ClusterApiService) V1ClustersDelete(ctx context.Context, clusterId stri
 }
 
 // Execute executes the request
-//  @return Message
+//
+//	@return Message
 func (a *ClusterApiService) V1ClustersDeleteExecute(r ApiV1ClustersDeleteRequest) (*Message, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodDelete
@@ -335,8 +337,8 @@ V1ClustersList Method for V1ClustersList
 
 Get all cluster names.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiV1ClustersListRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiV1ClustersListRequest
 */
 func (a *ClusterApiService) V1ClustersList(ctx context.Context) ApiV1ClustersListRequest {
 	return ApiV1ClustersListRequest{
@@ -346,7 +348,8 @@ func (a *ClusterApiService) V1ClustersList(ctx context.Context) ApiV1ClustersLis
 }
 
 // Execute executes the request
-//  @return ClusterList
+//
+//	@return ClusterList
 func (a *ClusterApiService) V1ClustersListExecute(r ApiV1ClustersListRequest) (*ClusterList, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -470,8 +473,8 @@ V1MonitoringAuthList Method for V1MonitoringAuthList
 
 Get pcs authenticated.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiV1MonitoringAuthListRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiV1MonitoringAuthListRequest
 */
 func (a *ClusterApiService) V1MonitoringAuthList(ctx context.Context) ApiV1MonitoringAuthListRequest {
 	return ApiV1MonitoringAuthListRequest{
@@ -481,7 +484,8 @@ func (a *ClusterApiService) V1MonitoringAuthList(ctx context.Context) ApiV1Monit
 }
 
 // Execute executes the request
-//  @return Message
+//
+//	@return Message
 func (a *ClusterApiService) V1MonitoringAuthListExecute(r ApiV1MonitoringAuthListRequest) (*Message, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -589,8 +593,8 @@ V1MonitoringSdList Method for V1MonitoringSdList
 
 Get list of targets to scrape.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiV1MonitoringSdListRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiV1MonitoringSdListRequest
 */
 func (a *ClusterApiService) V1MonitoringSdList(ctx context.Context) ApiV1MonitoringSdListRequest {
 	return ApiV1MonitoringSdListRequest{
@@ -600,7 +604,8 @@ func (a *ClusterApiService) V1MonitoringSdList(ctx context.Context) ApiV1Monitor
 }
 
 // Execute executes the request
-//  @return map[string]interface{}
+//
+//	@return map[string]interface{}
 func (a *ClusterApiService) V1MonitoringSdListExecute(r ApiV1MonitoringSdListRequest) (map[string]interface{}, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet

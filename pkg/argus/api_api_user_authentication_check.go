@@ -45,9 +45,9 @@ V1InstancesAuthList Method for V1InstancesAuthList
 
 Get authentication.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @return ApiV1InstancesAuthListRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@return ApiV1InstancesAuthListRequest
 */
 func (a *ApiUserAuthenticationCheckApiService) V1InstancesAuthList(ctx context.Context, instanceId string) ApiV1InstancesAuthListRequest {
 	return ApiV1InstancesAuthListRequest{
@@ -58,7 +58,8 @@ func (a *ApiUserAuthenticationCheckApiService) V1InstancesAuthList(ctx context.C
 }
 
 // Execute executes the request
-//  @return Message
+//
+//	@return Message
 func (a *ApiUserAuthenticationCheckApiService) V1InstancesAuthListExecute(r ApiV1InstancesAuthListRequest) (*Message, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet

@@ -45,9 +45,9 @@ V1InstancesMetricsStorageRetentionsList Method for V1InstancesMetricsStorageRete
 
 Get metric storage retention time.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @return ApiV1InstancesMetricsStorageRetentionsListRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@return ApiV1InstancesMetricsStorageRetentionsListRequest
 */
 func (a *MetricsStorageRetentionApiService) V1InstancesMetricsStorageRetentionsList(ctx context.Context, instanceId string) ApiV1InstancesMetricsStorageRetentionsListRequest {
 	return ApiV1InstancesMetricsStorageRetentionsListRequest{
@@ -58,7 +58,8 @@ func (a *MetricsStorageRetentionApiService) V1InstancesMetricsStorageRetentionsL
 }
 
 // Execute executes the request
-//  @return BucketRetentionTimeRespond
+//
+//	@return BucketRetentionTimeRespond
 func (a *MetricsStorageRetentionApiService) V1InstancesMetricsStorageRetentionsListExecute(r ApiV1InstancesMetricsStorageRetentionsListRequest) (*BucketRetentionTimeRespond, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -174,9 +175,9 @@ V1InstancesMetricsStorageRetentionsUpdate Method for V1InstancesMetricsStorageRe
 
 Update metric update retention time.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @return ApiV1InstancesMetricsStorageRetentionsUpdateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@return ApiV1InstancesMetricsStorageRetentionsUpdateRequest
 */
 func (a *MetricsStorageRetentionApiService) V1InstancesMetricsStorageRetentionsUpdate(ctx context.Context, instanceId string) ApiV1InstancesMetricsStorageRetentionsUpdateRequest {
 	return ApiV1InstancesMetricsStorageRetentionsUpdateRequest{
@@ -187,7 +188,8 @@ func (a *MetricsStorageRetentionApiService) V1InstancesMetricsStorageRetentionsU
 }
 
 // Execute executes the request
-//  @return Message
+//
+//	@return Message
 func (a *MetricsStorageRetentionApiService) V1InstancesMetricsStorageRetentionsUpdateExecute(r ApiV1InstancesMetricsStorageRetentionsUpdateRequest) (*Message, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPut
@@ -313,10 +315,10 @@ V1ProjectsInstancesMetricsStorageRetentionsList Method for V1ProjectsInstancesMe
 
 Get metric storage retention time.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @param projectId
- @return ApiV1ProjectsInstancesMetricsStorageRetentionsListRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@param projectId
+	@return ApiV1ProjectsInstancesMetricsStorageRetentionsListRequest
 */
 func (a *MetricsStorageRetentionApiService) V1ProjectsInstancesMetricsStorageRetentionsList(ctx context.Context, instanceId string, projectId string) ApiV1ProjectsInstancesMetricsStorageRetentionsListRequest {
 	return ApiV1ProjectsInstancesMetricsStorageRetentionsListRequest{
@@ -328,7 +330,8 @@ func (a *MetricsStorageRetentionApiService) V1ProjectsInstancesMetricsStorageRet
 }
 
 // Execute executes the request
-//  @return BucketRetentionTimeRespond
+//
+//	@return BucketRetentionTimeRespond
 func (a *MetricsStorageRetentionApiService) V1ProjectsInstancesMetricsStorageRetentionsListExecute(r ApiV1ProjectsInstancesMetricsStorageRetentionsListRequest) (*BucketRetentionTimeRespond, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -446,10 +449,10 @@ V1ProjectsInstancesMetricsStorageRetentionsUpdate Method for V1ProjectsInstances
 
 Update metric update retention time.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param instanceId
- @param projectId
- @return ApiV1ProjectsInstancesMetricsStorageRetentionsUpdateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param instanceId
+	@param projectId
+	@return ApiV1ProjectsInstancesMetricsStorageRetentionsUpdateRequest
 */
 func (a *MetricsStorageRetentionApiService) V1ProjectsInstancesMetricsStorageRetentionsUpdate(ctx context.Context, instanceId string, projectId string) ApiV1ProjectsInstancesMetricsStorageRetentionsUpdateRequest {
 	return ApiV1ProjectsInstancesMetricsStorageRetentionsUpdateRequest{
@@ -461,7 +464,8 @@ func (a *MetricsStorageRetentionApiService) V1ProjectsInstancesMetricsStorageRet
 }
 
 // Execute executes the request
-//  @return Message
+//
+//	@return Message
 func (a *MetricsStorageRetentionApiService) V1ProjectsInstancesMetricsStorageRetentionsUpdateExecute(r ApiV1ProjectsInstancesMetricsStorageRetentionsUpdateRequest) (*Message, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPut
