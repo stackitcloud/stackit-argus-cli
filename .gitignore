@@ -170,3 +170,6 @@ fabric.properties
 
 # Editor-based Rest Client
 .idea/httpRequests
+
+stackit-argus-cli
+!stackit-argus-cli/

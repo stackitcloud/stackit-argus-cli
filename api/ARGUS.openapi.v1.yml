@@ -1,0 +1,5759 @@
+openapi: 3.0.0
+info:
+  title: STACKIT Argus API
+  description: API endpoints for Argus on STACKIT
+  termsOfService: https://stackit.de/en/imprint
+  contact:
+    email: patrick.koss@mail.schwarz
+  version: "1.0"
+security:
+  - Basic: []
+    bearerAuth: []
+paths:
+  "/v1/instances/{instanceId}":
+    get:
+      operationId: v1_instances_read
+      description: get data for instance
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Get instance data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Service"
+              examples:
+                response:
+                  value:
+                    message: Successfully got services
+                    instance:
+                      instance: "123456"
+                      cluster: intern
+                      grafanaUrl: grafana.example.com
+                      dashboardUrl: dashboard.example.com
+                      name: test
+                      grafanaAdminPassword: asdf313kles23450des0
+        "403":
+          description: Accepts admin basic + token auth and oauth token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+      tags:
+        - instances
+    parameters:
+      - name: instanceId
+        in: path
+        required: true
+        schema:
+          type: string
+  "/v1/instances/{instanceId}/alertconfigs":
+    get:
+      operationId: v1_instances_alertconfigs_list
+      description: get alert rule config
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Get alert group
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetAlert"
+              examples:
+                response:
+                  value:
+                    message: Success
+                    data:
+                      global:
+                        smtpSmarthost: localhost:25
+                        smtpFrom: alertmanager@example.org
+                        smtpAuthUsername: alertmanager
+                        smtpAuthPassword: password
+                      templates:
+                        - /etc/alertmanager/template/*.tmpl
+                      route:
+                        groupBy:
+                          - alertname
+                          - cluster
+                          - service
+                        groupWait: 30s
+                        groupInterval: 5m
+                        repeatInterval: 3h
+                        receiver: team-X-mails
+                        routes:
+                          - matchRe:
+                              service: ^(foo1|foo2|baz)$
+                            routes:
+                              - match:
+                                  severity: critical
+                                receiver: team-X-paper
+                          - match:
+                              service: files
+                            receiver: team-X-pager
+                            routes:
+                              - match:
+                                  severity: critical
+                                receiver: team-Y-paper
+                      inhibitRules:
+                        - sourceMatch:
+                            severity: criticals
+                          targetMatch:
+                            severity: warning
+                          equal:
+                            - alertname
+                            - cluster
+                            - service
+                      receivers:
+                        - name: team-X-mails
+                          emailConfigs:
+                            - to: team-X+alerts@example.org
+                        - name: team-X-pager
+                          emailConfigs:
+                            - to: team-X+alerts-critical@example.org
+                          opsgenieConfigs:
+                            - apiKey: "12345678"
+                              apiUrl: https://example.opsgenie.org
+        "400":
+          description: Something went wrong updating the alert config.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not update alert config
+        "403":
+          description: Accepts admin basic + token auth and oauth token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+        "404":
+          description: Alert config not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not update alert group config
+      tags:
+        - alert config
+    put:
+      operationId: v1_instances_alertconfigs_update
+      description: route for alert config
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/v1_instances_alertconfigs_updateData"
+      responses:
+        "202":
+          description: Update alert group.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PutAlert"
+              examples:
+                response:
+                  value:
+                    message: Success
+                    data:
+                      global:
+                        smtpSmarthost: localhost:25
+                        smtpFrom: alertmanager@example.org
+                        smtpAuthUsername: alertmanager
+                        smtpAuthPassword: password
+                      templates:
+                        - /etc/alertmanager/template/*.tmpl
+                      route:
+                        groupBy:
+                          - alertname
+                          - cluster
+                          - service
+                        groupWait: 30s
+                        groupInterval: 5m
+                        repeatInterval: 3h
+                        receiver: team-X-mails
+                        routes:
+                          - matchRe:
+                              service: ^(foo1|foo2|baz)$
+                            routes:
+                              - match:
+                                  severity: critical
+                                receiver: team-X-paper
+                          - match:
+                              service: files
+                            receiver: team-X-pager
+                            routes:
+                              - match:
+                                  severity: critical
+                                receiver: team-Y-paper
+                      inhibitRules:
+                        - sourceMatch:
+                            severity: criticals
+                          targetMatch:
+                            severity: warning
+                          equal:
+                            - alertname
+                            - cluster
+                            - service
+                      receivers:
+                        - name: team-X-mails
+                          emailConfigs:
+                            - to: team-X+alerts@example.org
+                        - name: team-X-pager
+                          emailConfigs:
+                            - to: team-X+alerts-critical@example.org
+                          opsgenieConfigs:
+                            - apiKey: "12345678"
+                              apiUrl: https://example.opsgenie.org
+        "400":
+          description: Something went wrong updating the alert config.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not update alert config
+        "403":
+          description: Accepts admin basic + token auth and oauth token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+        "404":
+          description: Alert config not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not update alert group config
+      tags:
+        - alert config
+    parameters:
+      - name: instanceId
+        in: path
+        required: true
+        schema:
+          type: string
+  "/v1/instances/{instanceId}/alertgroups":
+    get:
+      operationId: v1_instances_alertgroups_list
+      description: get alert group config
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Get all alert groups
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetAllAlertGroups"
+              examples:
+                response:
+                  value:
+                    success: true
+                    data:
+                      - name: test alert
+                        interval: 5m
+                        rules:
+                          - alert: up test
+                            expr: up == 1
+                            lables:
+                              test: test
+                            annotations:
+                              test: test
+                            for: 30s
+        "400":
+          description: Something went wrong.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not read alert group config
+        "403":
+          description: Accepts admin basic + token auth and oauth token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+        "404":
+          description: Could not read alert group config.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not read alert group config
+      tags:
+        - alert groups
+    post:
+      operationId: v1_instances_alertgroups_create
+      description: create alert group config
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/v1_instances_alertgroups_createData"
+      responses:
+        "201":
+          description: Create alert group.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PostAlertGroup"
+              examples:
+                response:
+                  value:
+                    success: true
+                    message: Group successfully created
+                    data:
+                      - name: test alert
+                        interval: 5m
+                        rules:
+                          - alert: up test
+                            expr: up == 1
+                            lables:
+                              test: test
+                            annotations:
+                              test: test
+                            for: 30s
+        "400":
+          description: Could not create alert group config
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not create alert group config
+        "403":
+          description: Accepts admin basic + token auth and oauth token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+        "404":
+          description: Alert group config not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not create alert group config
+      tags:
+        - alert groups
+    patch:
+      operationId: v1_instances_alertgroups_partial_update
+      description: patches alert groups
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/v1_instances_alertgroups_partial_updateDa\
+          ta"
+      responses:
+        "200":
+          description: Create alert groups.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PostAlertGroup"
+              examples:
+                response:
+                  value:
+                    success: true
+                    message: Groups successfully patched.
+                    data:
+                      - name: test alert
+                        interval: 5m
+                        rules:
+                          - alert: up test
+                            expr: up == 1
+                            lables:
+                              test: test
+                            annotations:
+                              test: test
+                            for: 30s
+        "400":
+          description: Could not create alert group
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not patch alert groups
+        "403":
+          description: Accepts admin basic + token auth and oauth token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+        "404":
+          description: Alert group config not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not patch alert groups
+      tags:
+        - alert groups
+    delete:
+      operationId: v1_instances_alertgroups_all_delete
+      description: delete alert groups
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+        - name: groupName
+          in: query
+          description: Name of the groups that should be deleted
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        "200":
+          description: Delete alert group.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PostAlertGroup"
+              examples:
+                response:
+                  value:
+                    success: true
+                    message: Group successfully deleted
+                    data:
+                      - name: test alert
+                        interval: 5m
+                        rules:
+                          - alert: up test
+                            expr: up == 1
+                            lables:
+                              test: test
+                            annotations:
+                              test: test
+                            for: 30s
+        "400":
+          description: Could not create alert group
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not delete alert group
+        "403":
+          description: Accepts admin basic + token auth and oauth token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+        "404":
+          description: Alert group config not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not delete alert group
+      tags:
+        - alert groups
+    parameters:
+      - name: instanceId
+        in: path
+        required: true
+        schema:
+          type: string
+  "/v1/instances/{instanceId}/alertgroups/{groupName}":
+    get:
+      operationId: v1_instances_alertgroups_read
+      description: get alert group config
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Get alert group
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetAlertGroup"
+              examples:
+                response:
+                  value:
+                    message: Successfully got alert groups
+                    data:
+                      name: test alert
+                      interval: 5m
+                      rules:
+                        - alert: up test
+                          expr: up == 1
+                          lables:
+                            test: test
+                          annotations:
+                            test: test
+                          for: 30s
+        "400":
+          description: Something went wrong.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not read alert group config
+        "403":
+          description: Accepts admin basic + token auth and oauth token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+      tags:
+        - alert groups
+    put:
+      operationId: v1_instances_alertgroups_update
+      description: update alert group config
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/v1_instances_alertgroups_createData"
+      responses:
+        "202":
+          description: Update alert group.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PutAlertGroup"
+              examples:
+                response:
+                  value:
+                    message: Alert group updated successfully
+                    data:
+                      - name: test alert
+                        interval: 5m
+                        rules:
+                          - alert: up test
+                            expr: up == 1
+                            lables:
+                              test: test
+                            annotations:
+                              test: test
+                            for: 30s
+        "400":
+          description: Something went wrong updating the alert group.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not update alert group config
+        "403":
+          description: Accepts admin basic + token auth and oauth token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+        "404":
+          description: Secret not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not update alert group config
+      tags:
+        - alert groups
+    delete:
+      operationId: v1_instances_alertgroups_delete
+      description: delete alert group config
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Delete alert group.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteAlertGroup"
+              examples:
+                response:
+                  value:
+                    message: Alert group has been deleted successfully
+                    data:
+                      - name: test alert
+                        interval: 5m
+                        rules:
+                          - alert: up test
+                            expr: up == 1
+                            lables:
+                              test: test
+                            annotations:
+                              test: test
+                            for: 30s
+        "400":
+          description: Something went wrong deleting the alert group.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not delete alert group config
+        "403":
+          description: Accepts admin basic + token auth and oauth token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+        "404":
+          description: Secret for config not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not delete alert group config
+      tags:
+        - alert groups
+    parameters:
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: instanceId
+        in: path
+        required: true
+        schema:
+          type: string
+  "/v1/instances/{instanceId}/alertgroups/{groupName}/alertrules":
+    get:
+      operationId: v1_instances_alertgroups_alertrules_list
+      description: get alert rule config
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Get all alert rules
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetAllAlertRules"
+              examples:
+                response:
+                  value:
+                    message: Successfully got alert rules
+                    data:
+                      - alert: up test
+                        expr: up == 1
+                        lables:
+                          test: test
+                        annotations:
+                          test: test
+                        for: 30s
+        "400":
+          description: Something went wrong.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not read alert rule config
+        "403":
+          description: Accepts admin basic + token auth and oauth token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+        "404":
+          description: Alert rules not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not read alert rule config
+      tags:
+        - alert rules
+    post:
+      operationId: v1_instances_alertgroups_alertrules_create
+      description: create alert rule config
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/v1_instances_alertgroups_alertrules_creat\
+          eData"
+      responses:
+        "201":
+          description: Create alert rule.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PostAlertRule"
+              examples:
+                response:
+                  value:
+                    message: Rule successfully created
+                    data:
+                      - alert: up test
+                        expr: up == 1
+                        lables:
+                          test: test
+                        annotations:
+                          test: test
+                        for: 30s
+        "400":
+          description: Something went wrong
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not create alert rule config
+        "403":
+          description: Accepts admin basic + token auth and oauth token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+        "404":
+          description: Alert rules not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not create alert group config
+      tags:
+        - alert rules
+    patch:
+      operationId: v1_instances_alertgroups_alertrules_partial_update
+      description: patches alert rules
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/v1_instances_alertgroups_alertrules_parti\
+          al_updateData"
+      responses:
+        "200":
+          description: Create alert rules.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PostAlertRule"
+              examples:
+                response:
+                  value:
+                    message: Rules successfully created
+                    data:
+                      - alert: up test
+                        expr: up == 1
+                        lables:
+                          test: test
+                        annotations:
+                          test: test
+                        for: 30s
+        "400":
+          description: Something went wrong
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not create alert rule config
+        "403":
+          description: Accepts admin basic + token auth and oauth token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+        "404":
+          description: Alert rules not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not create alert group config
+      tags:
+        - alert rules
+    delete:
+      operationId: v1_instances_alertgroups_alertrules_all_delete
+      description: delete alert rules
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+        - name: alertName
+          in: query
+          description: Name of the alert rules that should be deleted
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        "200":
+          description: Delete alert groups.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PostAlertRule"
+              examples:
+                response:
+                  value:
+                    message: Rules successfully deleted
+                    data:
+                      - alert: up test
+                        expr: up == 1
+                        lables:
+                          test: test
+                        annotations:
+                          test: test
+                        for: 30s
+        "400":
+          description: Something went wrong
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not create alert rule config
+        "403":
+          description: Accepts admin basic + token auth and oauth token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+        "404":
+          description: Alert rules not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not create alert group config
+      tags:
+        - alert rules
+    parameters:
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: instanceId
+        in: path
+        required: true
+        schema:
+          type: string
+  "/v1/instances/{instanceId}/alertgroups/{groupName}/alertrules/{alertName}":
+    get:
+      operationId: v1_instances_alertgroups_alertrules_read
+      description: get alert rule config
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Get alert rules
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetAlertRule"
+              examples:
+                response:
+                  value:
+                    message: Successfully got alert rules
+                    data:
+                      alert: up test
+                      expr: up == 1
+                      lables:
+                        test: test
+                      annotations:
+                        test: test
+                      for: 30s
+        "400":
+          description: Something went wrong.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not read alert group config
+        "403":
+          description: Accepts admin basic + token auth and oauth token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+        "404":
+          description: Alert rule not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not read alert rule config
+      tags:
+        - alert rules
+    put:
+      operationId: v1_instances_alertgroups_alertrules_update
+      description: update alert rule config
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/v1_instances_alertgroups_alertrules_creat\
+          eData"
+      responses:
+        "202":
+          description: Update alert rules.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PutAlertRule"
+              examples:
+                response:
+                  value:
+                    message: Alert rule updated successfully
+                    data:
+                      - alert: up test
+                        expr: up == 1
+                        lables:
+                          test: test
+                        annotations:
+                          test: test
+                        for: 30s
+        "400":
+          description: Something went wrong updating the alert rule.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not update alert rule config
+        "403":
+          description: Accepts admin basic + token auth and oauth token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+        "404":
+          description: Alert rule not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not update alert rule config
+      tags:
+        - alert rules
+    delete:
+      operationId: v1_instances_alertgroups_alertrules_delete
+      description: delete alert rule config
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Delete alert rule.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteAlertRule"
+              examples:
+                response:
+                  value:
+                    message: Alert rules successfully deleted
+                    data:
+                      - alert: up test
+                        expr: up == 1
+                        lables:
+                          test: test
+                        annotations:
+                          test: test
+                        for: 30s
+        "400":
+          description: Something went wrong deleting the alert rule.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not delete alert rule config
+        "403":
+          description: Accepts admin basic + token auth and oauth token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+        "404":
+          description: Alert rule not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not delete alert rule config
+      tags:
+        - alert rules
+    parameters:
+      - name: alertName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: instanceId
+        in: path
+        required: true
+        schema:
+          type: string
+  "/v1/instances/{instanceId}/bucket-retentions":
+    get:
+      operationId: v1_instances_bucket-retentions_list
+      description: get bucket retention time for instance
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts admin basic + token auth and oauth token.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Get bucket retention
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BucketRetentionTimeRespond"
+              examples:
+                response:
+                  value:
+                    message: Successfully got bucket retention
+                    bucketRetentionTimeRaw: 14d
+                    bucketRetentionTime5m: 0d
+                    bucketRetentionTime1h: 0d
+        "403":
+          description: You do not have permission to perform this action.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+      tags:
+        - bucket retention
+    put:
+      operationId: v1_instances_bucket-retentions_update
+      description: Updates bucket retention time
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts admin basic + token auth and oauth token.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/v1_instances_bucket-retentions_updateData"
+      responses:
+        "202":
+          description: Update bucket retention
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Successfully updated bucket retention time
+        "400":
+          description: No valid json body
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: No valid json body
+        "403":
+          description: You do not have permission to perform this action.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+        "500":
+          description: Something went wrong during bucket retention time update process
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Something went wrong during bucket retention time update
+                      process
+      tags:
+        - bucket retention
+    parameters:
+      - name: instanceId
+        in: path
+        required: true
+        schema:
+          type: string
+  "/v1/instances/{instanceId}/grafana-configs":
+    get:
+      operationId: v1_instances_grafana-configs_list
+      description: get grafana configs for instance
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts admin basic + token auth and oauth token and authenticated
+            api user.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Get grafana config
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GrafanaConfigsSerializerRespond"
+              examples:
+                response:
+                  value:
+                    message: Successfully got grafana config
+                    publicReadAccess: false
+        "403":
+          description: You do not have permission to perform this action.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+      tags:
+        - grafana configs
+    put:
+      operationId: v1_instances_grafana-configs_update
+      description: Updates bucket retention time
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts admin basic + token auth and oauth token and authenticated
+            api user.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/v1_instances_grafana-configs_updateData"
+      responses:
+        "202":
+          description: Update grafana config
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Successfully updated grafana config
+        "400":
+          description: No valid json body
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: No valid json body
+        "403":
+          description: You do not have permission to perform this action.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+        "500":
+          description: Something went wrong during grafana config update
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Something went wrong during grafana config update
+      tags:
+        - grafana configs
+    parameters:
+      - name: instanceId
+        in: path
+        required: true
+        schema:
+          type: string
+  "/v1/instances/{instanceId}/scrapeconfigs":
+    get:
+      operationId: v1_instances_scrapeconfigs_list
+      description: get scrape config
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Get all scrape targets
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetAllJob"
+              examples:
+                response:
+                  value:
+                    message: Successfully got scrape config
+                    data:
+                      - jobName: test
+                        scheme: https
+                        scrapeInterval: 5m
+                        scrapeTimeout: 1m
+                        staticConfigs:
+                          - targets:
+                              - example.com
+                        metricsPath: /metrics
+        "400":
+          description: Something went wrong.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not read scrape config
+        "403":
+          description: Accepts admin basic + token auth and oauth token for instances.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+      tags:
+        - scrape config
+    post:
+      operationId: v1_instances_scrapeconfigs_create
+      description: create scrape config
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/v1_instances_scrapeconfigs_createData"
+      responses:
+        "201":
+          description: Create scrape target for prometheus.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateJob"
+              examples:
+                response:
+                  value:
+                    success: true
+                    message: Job successfully created
+                    data:
+                      - jobName: test
+                        scheme: https
+                        scrapeInterval: 5m
+                        scrapeTimeout: 1m
+                        staticConfigs:
+                          - targets:
+                              - example.com
+                        metricsPath: /metrics
+        "400":
+          description: Something went wrong creating the job.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not create scrape config
+        "403":
+          description: Accepts admin basic + token auth and oauth token for instances.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+        "404":
+          description: Secret for config not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not create scrape config
+      tags:
+        - scrape config
+    patch:
+      operationId: v1_instances_scrapeconfigs_partial_update
+      description: patches scrape config
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/v1_instances_scrapeconfigs_partial_update\
+          Data"
+      responses:
+        "200":
+          description: Create scrape targets for prometheus.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateJob"
+              examples:
+                response:
+                  value:
+                    message: Job successfully created
+                    data:
+                      - jobName: test
+                        scheme: https
+                        scrapeInterval: 5m
+                        scrapeTimeout: 1m
+                        staticConfigs:
+                          - targets:
+                              - example.com
+                        metricsPath: /metrics
+        "400":
+          description: Something went wrong creating the job.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not create scrape config
+        "403":
+          description: Accepts admin basic + token auth and oauth token for instances.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+        "404":
+          description: Instance not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not create scrape config
+      tags:
+        - scrape config
+    delete:
+      operationId: v1_instances_scrapeconfigs_all_delete
+      description: delete scrape configs
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+        - name: jobName
+          in: query
+          description: Name of the jobs that should be deleted
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        "200":
+          description: Deleted scrape configs.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateJob"
+              examples:
+                response:
+                  value:
+                    message: Scrape configs successfully deleted
+                    data:
+                      - jobName: test
+                        scheme: https
+                        scrapeInterval: 5m
+                        scrapeTimeout: 1m
+                        staticConfigs:
+                          - targets:
+                              - example.com
+                        metricsPath: /metrics
+        "400":
+          description: Something went wrong deleting the scrape config.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not delete scrape configs
+        "403":
+          description: Accepts admin basic + token auth and oauth token for instances.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+        "404":
+          description: Instance not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not delete scrape configs
+      tags:
+        - scrape config
+    parameters:
+      - name: instanceId
+        in: path
+        required: true
+        schema:
+          type: string
+  "/v1/instances/{instanceId}/scrapeconfigs/{jobName}":
+    get:
+      operationId: v1_instances_scrapeconfigs_read
+      description: get scrape config
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Get scrape target
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetJob"
+              examples:
+                response:
+                  value:
+                    message: Successfully get job
+                    data:
+                      jobName: test
+                      scheme: https
+                      scrapeInterval: 5m
+                      scrapeTimeout: 1m
+                      staticConfigs:
+                        - targets:
+                            - example.com
+                      metricsPath: /metrics
+        "400":
+          description: Something went wrong.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not read scrape config
+        "403":
+          description: Accepts admin basic + token auth and oauth token for instances.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+      tags:
+        - scrape config
+    put:
+      operationId: v1_instances_scrapeconfigs_update
+      description: update scrape config
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/v1_instances_scrapeconfigs_createData"
+      responses:
+        "202":
+          description: Update scrape target for prometheus.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateJob"
+              examples:
+                response:
+                  value:
+                    data:
+                      - jobName: test
+                        scheme: https
+                        scrapeInterval: 5m
+                        scrapeTimeout: 1m
+                        staticConfigs:
+                          - targets:
+                              - example.com
+                        metricsPath: /metrics
+        "400":
+          description: Something went wrong updating the job.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not update scrape config
+        "403":
+          description: Accepts admin basic + token auth and oauth token for instances.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+        "404":
+          description: Secret for config not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not update scrape config
+      tags:
+        - scrape config
+    delete:
+      operationId: v1_instances_scrapeconfigs_delete
+      description: delete scrape config
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Delete scrape target for prometheus.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteJob"
+              examples:
+                response:
+                  value:
+                    data:
+                      - jobName: test
+                        scheme: https
+                        scrapeInterval: 5m
+                        scrapeTimeout: 1m
+                        staticConfigs:
+                          - targets:
+                              - example.com
+                        metricsPath: /metrics
+                    message: Job has been deleted successfully
+        "400":
+          description: Something went wrong deleting the job.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not delete scrape config
+        "403":
+          description: Accepts admin basic + token auth and oauth token for instances.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+        "404":
+          description: Secret for config not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not delete scrape config
+      tags:
+        - scrape config
+    parameters:
+      - name: instanceId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: jobName
+        in: path
+        required: true
+        schema:
+          type: string
+  "/v1/projects/{projectId}/instances/{instanceId}":
+    get:
+      operationId: v1_projects_instances_read
+      description: get data for instance
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Get instance data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Service"
+              examples:
+                response:
+                  value:
+                    message: Successfully got services
+                    instance:
+                      instance: "123456"
+                      cluster: intern
+                      grafanaUrl: grafana.example.com
+                      dashboardUrl: dashboard.example.com
+                      name: test
+                      grafanaAdminPassword: asdf313kles23450des0
+        "403":
+          description: Accepts admin basic + token auth and oauth token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+      tags:
+        - instances
+    parameters:
+      - name: instanceId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+  "/v1/projects/{projectId}/instances/{instanceId}/alertconfigs":
+    get:
+      operationId: v1_projects_instances_alertconfigs_list
+      description: get alert rule config
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Get alert group
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetAlert"
+              examples:
+                response:
+                  value:
+                    message: Success
+                    data:
+                      global:
+                        smtpSmarthost: localhost:25
+                        smtpFrom: alertmanager@example.org
+                        smtpAuthUsername: alertmanager
+                        smtpAuthPassword: password
+                      templates:
+                        - /etc/alertmanager/template/*.tmpl
+                      route:
+                        groupBy:
+                          - alertname
+                          - cluster
+                          - service
+                        groupWait: 30s
+                        groupInterval: 5m
+                        repeatInterval: 3h
+                        receiver: team-X-mails
+                        routes:
+                          - matchRe:
+                              service: ^(foo1|foo2|baz)$
+                            routes:
+                              - match:
+                                  severity: critical
+                                receiver: team-X-paper
+                          - match:
+                              service: files
+                            receiver: team-X-pager
+                            routes:
+                              - match:
+                                  severity: critical
+                                receiver: team-Y-paper
+                      inhibitRules:
+                        - sourceMatch:
+                            severity: criticals
+                          targetMatch:
+                            severity: warning
+                          equal:
+                            - alertname
+                            - cluster
+                            - service
+                      receivers:
+                        - name: team-X-mails
+                          emailConfigs:
+                            - to: team-X+alerts@example.org
+                        - name: team-X-pager
+                          emailConfigs:
+                            - to: team-X+alerts-critical@example.org
+                          opsgenieConfigs:
+                            - apiKey: "12345678"
+                              apiUrl: https://example.opsgenie.org
+        "400":
+          description: Something went wrong updating the alert config.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not update alert config
+        "403":
+          description: Accepts admin basic + token auth and oauth token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+        "404":
+          description: Alert config not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not update alert group config
+      tags:
+        - alert config
+    put:
+      operationId: v1_projects_instances_alertconfigs_update
+      description: route for alert config
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/v1_instances_alertconfigs_updateData"
+      responses:
+        "202":
+          description: Update alert group.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PutAlert"
+              examples:
+                response:
+                  value:
+                    message: Success
+                    data:
+                      global:
+                        smtpSmarthost: localhost:25
+                        smtpFrom: alertmanager@example.org
+                        smtpAuthUsername: alertmanager
+                        smtpAuthPassword: password
+                      templates:
+                        - /etc/alertmanager/template/*.tmpl
+                      route:
+                        groupBy:
+                          - alertname
+                          - cluster
+                          - service
+                        groupWait: 30s
+                        groupInterval: 5m
+                        repeatInterval: 3h
+                        receiver: team-X-mails
+                        routes:
+                          - matchRe:
+                              service: ^(foo1|foo2|baz)$
+                            routes:
+                              - match:
+                                  severity: critical
+                                receiver: team-X-paper
+                          - match:
+                              service: files
+                            receiver: team-X-pager
+                            routes:
+                              - match:
+                                  severity: critical
+                                receiver: team-Y-paper
+                      inhibitRules:
+                        - sourceMatch:
+                            severity: criticals
+                          targetMatch:
+                            severity: warning
+                          equal:
+                            - alertname
+                            - cluster
+                            - service
+                      receivers:
+                        - name: team-X-mails
+                          emailConfigs:
+                            - to: team-X+alerts@example.org
+                        - name: team-X-pager
+                          emailConfigs:
+                            - to: team-X+alerts-critical@example.org
+                          opsgenieConfigs:
+                            - apiKey: "12345678"
+                              apiUrl: https://example.opsgenie.org
+        "400":
+          description: Something went wrong updating the alert config.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not update alert config
+        "403":
+          description: Accepts admin basic + token auth and oauth token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+        "404":
+          description: Alert config not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not update alert group config
+      tags:
+        - alert config
+    parameters:
+      - name: instanceId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+  "/v1/projects/{projectId}/instances/{instanceId}/alertgroups":
+    get:
+      operationId: v1_projects_instances_alertgroups_list
+      description: get alert group config
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Get all alert groups
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetAllAlertGroups"
+              examples:
+                response:
+                  value:
+                    success: true
+                    data:
+                      - name: test alert
+                        interval: 5m
+                        rules:
+                          - alert: up test
+                            expr: up == 1
+                            lables:
+                              test: test
+                            annotations:
+                              test: test
+                            for: 30s
+        "400":
+          description: Something went wrong.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not read alert group config
+        "403":
+          description: Accepts admin basic + token auth and oauth token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+        "404":
+          description: Could not read alert group config.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not read alert group config
+      tags:
+        - alert groups
+    post:
+      operationId: v1_projects_instances_alertgroups_create
+      description: create alert group config
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/v1_instances_alertgroups_createData"
+      responses:
+        "201":
+          description: Create alert group.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PostAlertGroup"
+              examples:
+                response:
+                  value:
+                    success: true
+                    message: Group successfully created
+                    data:
+                      - name: test alert
+                        interval: 5m
+                        rules:
+                          - alert: up test
+                            expr: up == 1
+                            lables:
+                              test: test
+                            annotations:
+                              test: test
+                            for: 30s
+        "400":
+          description: Could not create alert group config
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not create alert group config
+        "403":
+          description: Accepts admin basic + token auth and oauth token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+        "404":
+          description: Alert group config not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not create alert group config
+      tags:
+        - alert groups
+    patch:
+      operationId: v1_projects_instances_alertgroups_partial_update
+      description: patches alert groups
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/v1_instances_alertgroups_partial_updateDa\
+          ta"
+      responses:
+        "200":
+          description: Create alert groups.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PostAlertGroup"
+              examples:
+                response:
+                  value:
+                    success: true
+                    message: Groups successfully patched.
+                    data:
+                      - name: test alert
+                        interval: 5m
+                        rules:
+                          - alert: up test
+                            expr: up == 1
+                            lables:
+                              test: test
+                            annotations:
+                              test: test
+                            for: 30s
+        "400":
+          description: Could not create alert group
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not patch alert groups
+        "403":
+          description: Accepts admin basic + token auth and oauth token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+        "404":
+          description: Alert group config not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not patch alert groups
+      tags:
+        - alert groups
+    delete:
+      operationId: v1_projects_instances_alertgroups_all_delete
+      description: delete alert groups
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+        - name: groupName
+          in: query
+          description: Name of the groups that should be deleted
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        "200":
+          description: Delete alert group.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PostAlertGroup"
+              examples:
+                response:
+                  value:
+                    success: true
+                    message: Group successfully deleted
+                    data:
+                      - name: test alert
+                        interval: 5m
+                        rules:
+                          - alert: up test
+                            expr: up == 1
+                            lables:
+                              test: test
+                            annotations:
+                              test: test
+                            for: 30s
+        "400":
+          description: Could not create alert group
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not delete alert group
+        "403":
+          description: Accepts admin basic + token auth and oauth token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+        "404":
+          description: Alert group config not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not delete alert group
+      tags:
+        - alert groups
+    parameters:
+      - name: instanceId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+  "/v1/projects/{projectId}/instances/{instanceId}/alertgroups/{groupName}":
+    get:
+      operationId: v1_projects_instances_alertgroups_read
+      description: get alert group config
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Get alert group
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetAlertGroup"
+              examples:
+                response:
+                  value:
+                    message: Successfully got alert groups
+                    data:
+                      name: test alert
+                      interval: 5m
+                      rules:
+                        - alert: up test
+                          expr: up == 1
+                          lables:
+                            test: test
+                          annotations:
+                            test: test
+                          for: 30s
+        "400":
+          description: Something went wrong.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not read alert group config
+        "403":
+          description: Accepts admin basic + token auth and oauth token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+      tags:
+        - alert groups
+    put:
+      operationId: v1_projects_instances_alertgroups_update
+      description: update alert group config
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/v1_instances_alertgroups_createData"
+      responses:
+        "202":
+          description: Update alert group.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PutAlertGroup"
+              examples:
+                response:
+                  value:
+                    message: Alert group updated successfully
+                    data:
+                      - name: test alert
+                        interval: 5m
+                        rules:
+                          - alert: up test
+                            expr: up == 1
+                            lables:
+                              test: test
+                            annotations:
+                              test: test
+                            for: 30s
+        "400":
+          description: Something went wrong updating the alert group.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not update alert group config
+        "403":
+          description: Accepts admin basic + token auth and oauth token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+        "404":
+          description: Secret not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not update alert group config
+      tags:
+        - alert groups
+    delete:
+      operationId: v1_projects_instances_alertgroups_delete
+      description: delete alert group config
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Delete alert group.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteAlertGroup"
+              examples:
+                response:
+                  value:
+                    message: Alert group has been deleted successfully
+                    data:
+                      - name: test alert
+                        interval: 5m
+                        rules:
+                          - alert: up test
+                            expr: up == 1
+                            lables:
+                              test: test
+                            annotations:
+                              test: test
+                            for: 30s
+        "400":
+          description: Something went wrong deleting the alert group.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not delete alert group config
+        "403":
+          description: Accepts admin basic + token auth and oauth token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+        "404":
+          description: Secret for config not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not delete alert group config
+      tags:
+        - alert groups
+    parameters:
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: instanceId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+  "/v1/projects/{projectId}/instances/{instanceId}/alertgroups/{groupName}/alertrules":
+    get:
+      operationId: v1_projects_instances_alertgroups_alertrules_list
+      description: get alert rule config
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Get all alert rules
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetAllAlertRules"
+              examples:
+                response:
+                  value:
+                    message: Successfully got alert rules
+                    data:
+                      - alert: up test
+                        expr: up == 1
+                        lables:
+                          test: test
+                        annotations:
+                          test: test
+                        for: 30s
+        "400":
+          description: Something went wrong.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not read alert rule config
+        "403":
+          description: Accepts admin basic + token auth and oauth token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+        "404":
+          description: Alert rules not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not read alert rule config
+      tags:
+        - alert rules
+    post:
+      operationId: v1_projects_instances_alertgroups_alertrules_create
+      description: create alert rule config
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/v1_instances_alertgroups_alertrules_creat\
+          eData"
+      responses:
+        "201":
+          description: Create alert rule.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PostAlertRule"
+              examples:
+                response:
+                  value:
+                    message: Rule successfully created
+                    data:
+                      - alert: up test
+                        expr: up == 1
+                        lables:
+                          test: test
+                        annotations:
+                          test: test
+                        for: 30s
+        "400":
+          description: Something went wrong
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not create alert rule config
+        "403":
+          description: Accepts admin basic + token auth and oauth token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+        "404":
+          description: Alert rules not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not create alert group config
+      tags:
+        - alert rules
+    patch:
+      operationId: v1_projects_instances_alertgroups_alertrules_partial_update
+      description: patches alert rules
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/v1_instances_alertgroups_alertrules_parti\
+          al_updateData"
+      responses:
+        "200":
+          description: Create alert rules.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PostAlertRule"
+              examples:
+                response:
+                  value:
+                    message: Rules successfully created
+                    data:
+                      - alert: up test
+                        expr: up == 1
+                        lables:
+                          test: test
+                        annotations:
+                          test: test
+                        for: 30s
+        "400":
+          description: Something went wrong
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not create alert rule config
+        "403":
+          description: Accepts admin basic + token auth and oauth token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+        "404":
+          description: Alert rules not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not create alert group config
+      tags:
+        - alert rules
+    delete:
+      operationId: v1_projects_instances_alertgroups_alertrules_all_delete
+      description: delete alert rules
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+        - name: alertName
+          in: query
+          description: Name of the alert rules that should be deleted
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        "200":
+          description: Delete alert groups.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PostAlertRule"
+              examples:
+                response:
+                  value:
+                    message: Rules successfully deleted
+                    data:
+                      - alert: up test
+                        expr: up == 1
+                        lables:
+                          test: test
+                        annotations:
+                          test: test
+                        for: 30s
+        "400":
+          description: Something went wrong
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not create alert rule config
+        "403":
+          description: Accepts admin basic + token auth and oauth token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+        "404":
+          description: Alert rules not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not create alert group config
+      tags:
+        - alert rules
+    parameters:
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: instanceId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+  "/v1/projects/{projectId}/instances/{instanceId}/alertgroups/{groupName}/alertrules/{alertName}":
+    get:
+      operationId: v1_projects_instances_alertgroups_alertrules_read
+      description: get alert rule config
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Get alert rules
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetAlertRule"
+              examples:
+                response:
+                  value:
+                    message: Successfully got alert rules
+                    data:
+                      alert: up test
+                      expr: up == 1
+                      lables:
+                        test: test
+                      annotations:
+                        test: test
+                      for: 30s
+        "400":
+          description: Something went wrong.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not read alert group config
+        "403":
+          description: Accepts admin basic + token auth and oauth token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+        "404":
+          description: Alert rule not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not read alert rule config
+      tags:
+        - alert rules
+    put:
+      operationId: v1_projects_instances_alertgroups_alertrules_update
+      description: update alert rule config
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/v1_instances_alertgroups_alertrules_creat\
+          eData"
+      responses:
+        "202":
+          description: Update alert rules.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PutAlertRule"
+              examples:
+                response:
+                  value:
+                    message: Alert rule updated successfully
+                    data:
+                      - alert: up test
+                        expr: up == 1
+                        lables:
+                          test: test
+                        annotations:
+                          test: test
+                        for: 30s
+        "400":
+          description: Something went wrong updating the alert rule.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not update alert rule config
+        "403":
+          description: Accepts admin basic + token auth and oauth token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+        "404":
+          description: Alert rule not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not update alert rule config
+      tags:
+        - alert rules
+    delete:
+      operationId: v1_projects_instances_alertgroups_alertrules_delete
+      description: delete alert rule config
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Delete alert rule.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteAlertRule"
+              examples:
+                response:
+                  value:
+                    message: Alert rules successfully deleted
+                    data:
+                      - alert: up test
+                        expr: up == 1
+                        lables:
+                          test: test
+                        annotations:
+                          test: test
+                        for: 30s
+        "400":
+          description: Something went wrong deleting the alert rule.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not delete alert rule config
+        "403":
+          description: Accepts admin basic + token auth and oauth token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+        "404":
+          description: Alert rule not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not delete alert rule config
+      tags:
+        - alert rules
+    parameters:
+      - name: alertName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: instanceId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+  "/v1/projects/{projectId}/instances/{instanceId}/bucket-retentions":
+    get:
+      operationId: v1_projects_instances_bucket-retentions_list
+      description: get bucket retention time for instance
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts admin basic + token auth and oauth token.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Get bucket retention
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BucketRetentionTimeRespond"
+              examples:
+                response:
+                  value:
+                    message: Successfully got bucket retention
+                    bucketRetentionTimeRaw: 14d
+                    bucketRetentionTime5m: 0d
+                    bucketRetentionTime1h: 0d
+        "403":
+          description: You do not have permission to perform this action.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+      tags:
+        - bucket retention
+    put:
+      operationId: v1_projects_instances_bucket-retentions_update
+      description: Updates bucket retention time
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts admin basic + token auth and oauth token.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/v1_instances_bucket-retentions_updateData"
+      responses:
+        "202":
+          description: Update bucket retention
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Successfully updated bucket retention time
+        "400":
+          description: No valid json body
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: No valid json body
+        "403":
+          description: You do not have permission to perform this action.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+        "500":
+          description: Something went wrong during bucket retention time update process
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Something went wrong during bucket retention time update
+                      process
+      tags:
+        - bucket retention
+    parameters:
+      - name: instanceId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+  "/v1/projects/{projectId}/instances/{instanceId}/grafana-configs":
+    get:
+      operationId: v1_projects_instances_grafana-configs_list
+      description: get grafana configs for instance
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts admin basic + token auth and oauth token and authenticated
+            api user.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Get grafana config
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GrafanaConfigsSerializerRespond"
+              examples:
+                response:
+                  value:
+                    message: Successfully got grafana config
+                    publicReadAccess: false
+        "403":
+          description: You do not have permission to perform this action.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+      tags:
+        - grafana configs
+    put:
+      operationId: v1_projects_instances_grafana-configs_update
+      description: Updates bucket retention time
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts admin basic + token auth and oauth token and authenticated
+            api user.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/v1_instances_grafana-configs_updateData"
+      responses:
+        "202":
+          description: Update grafana config
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Successfully updated grafana config
+        "400":
+          description: No valid json body
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: No valid json body
+        "403":
+          description: You do not have permission to perform this action.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+        "500":
+          description: Something went wrong during grafana config update
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Something went wrong during grafana config update
+      tags:
+        - grafana configs
+    parameters:
+      - name: instanceId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+  "/v1/projects/{projectId}/instances/{instanceId}/scrapeconfigs":
+    get:
+      operationId: v1_projects_instances_scrapeconfigs_list
+      description: get scrape config
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Get all scrape targets
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetAllJob"
+              examples:
+                response:
+                  value:
+                    message: Successfully got scrape config
+                    data:
+                      - jobName: test
+                        scheme: https
+                        scrapeInterval: 5m
+                        scrapeTimeout: 1m
+                        staticConfigs:
+                          - targets:
+                              - example.com
+                        metricsPath: /metrics
+        "400":
+          description: Something went wrong.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not read scrape config
+        "403":
+          description: Accepts admin basic + token auth and oauth token for instances.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+      tags:
+        - scrape config
+    post:
+      operationId: v1_projects_instances_scrapeconfigs_create
+      description: create scrape config
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/v1_instances_scrapeconfigs_createData"
+      responses:
+        "201":
+          description: Create scrape target for prometheus.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateJob"
+              examples:
+                response:
+                  value:
+                    success: true
+                    message: Job successfully created
+                    data:
+                      - jobName: test
+                        scheme: https
+                        scrapeInterval: 5m
+                        scrapeTimeout: 1m
+                        staticConfigs:
+                          - targets:
+                              - example.com
+                        metricsPath: /metrics
+        "400":
+          description: Something went wrong creating the job.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not create scrape config
+        "403":
+          description: Accepts admin basic + token auth and oauth token for instances.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+        "404":
+          description: Secret for config not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not create scrape config
+      tags:
+        - scrape config
+    patch:
+      operationId: v1_projects_instances_scrapeconfigs_partial_update
+      description: patches scrape config
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/v1_instances_scrapeconfigs_partial_update\
+          Data"
+      responses:
+        "200":
+          description: Create scrape targets for prometheus.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateJob"
+              examples:
+                response:
+                  value:
+                    message: Job successfully created
+                    data:
+                      - jobName: test
+                        scheme: https
+                        scrapeInterval: 5m
+                        scrapeTimeout: 1m
+                        staticConfigs:
+                          - targets:
+                              - example.com
+                        metricsPath: /metrics
+        "400":
+          description: Something went wrong creating the job.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not create scrape config
+        "403":
+          description: Accepts admin basic + token auth and oauth token for instances.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+        "404":
+          description: Instance not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not create scrape config
+      tags:
+        - scrape config
+    delete:
+      operationId: v1_projects_instances_scrapeconfigs_all_delete
+      description: delete scrape configs
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+        - name: jobName
+          in: query
+          description: Name of the jobs that should be deleted
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        "200":
+          description: Deleted scrape configs.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateJob"
+              examples:
+                response:
+                  value:
+                    message: Scrape configs successfully deleted
+                    data:
+                      - jobName: test
+                        scheme: https
+                        scrapeInterval: 5m
+                        scrapeTimeout: 1m
+                        staticConfigs:
+                          - targets:
+                              - example.com
+                        metricsPath: /metrics
+        "400":
+          description: Something went wrong deleting the scrape config.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not delete scrape configs
+        "403":
+          description: Accepts admin basic + token auth and oauth token for instances.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+        "404":
+          description: Instance not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not delete scrape configs
+      tags:
+        - scrape config
+    parameters:
+      - name: instanceId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+  "/v1/projects/{projectId}/instances/{instanceId}/scrapeconfigs/{jobName}":
+    get:
+      operationId: v1_projects_instances_scrapeconfigs_read
+      description: get scrape config
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Get scrape target
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetJob"
+              examples:
+                response:
+                  value:
+                    message: Successfully get job
+                    data:
+                      jobName: test
+                      scheme: https
+                      scrapeInterval: 5m
+                      scrapeTimeout: 1m
+                      staticConfigs:
+                        - targets:
+                            - example.com
+                      metricsPath: /metrics
+        "400":
+          description: Something went wrong.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not read scrape config
+        "403":
+          description: Accepts admin basic + token auth and oauth token for instances.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+      tags:
+        - scrape config
+    put:
+      operationId: v1_projects_instances_scrapeconfigs_update
+      description: update scrape config
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/v1_instances_scrapeconfigs_createData"
+      responses:
+        "202":
+          description: Update scrape target for prometheus.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateJob"
+              examples:
+                response:
+                  value:
+                    data:
+                      - jobName: test
+                        scheme: https
+                        scrapeInterval: 5m
+                        scrapeTimeout: 1m
+                        staticConfigs:
+                          - targets:
+                              - example.com
+                        metricsPath: /metrics
+        "400":
+          description: Something went wrong updating the job.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not update scrape config
+        "403":
+          description: Accepts admin basic + token auth and oauth token for instances.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+        "404":
+          description: Secret for config not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not update scrape config
+      tags:
+        - scrape config
+    delete:
+      operationId: v1_projects_instances_scrapeconfigs_delete
+      description: delete scrape config
+      parameters:
+        - name: Authorization
+          in: header
+          description: Accepts basic auth and bearer token from admins and jwt token from
+            oauth and basic auth from api user
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Delete scrape target for prometheus.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteJob"
+              examples:
+                response:
+                  value:
+                    data:
+                      - jobName: test
+                        scheme: https
+                        scrapeInterval: 5m
+                        scrapeTimeout: 1m
+                        staticConfigs:
+                          - targets:
+                              - example.com
+                        metricsPath: /metrics
+                    message: Job has been deleted successfully
+        "400":
+          description: Something went wrong deleting the job.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not delete scrape config
+        "403":
+          description: Accepts admin basic + token auth and oauth token for instances.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionDenied"
+              examples:
+                response:
+                  value:
+                    detail: You do not have permission to perform this action.
+        "404":
+          description: Secret for config not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                response:
+                  value:
+                    message: Could not delete scrape config
+      tags:
+        - scrape config
+    parameters:
+      - name: instanceId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: jobName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+servers:
+  - url: https://api.argus.eu01.stackit.cloud/
+    description: production
+  - url: https://central-api.testing.argus.eu01.stackit.cloud/
+    description: dev
+  - url: https://api.stackit.cloud/argus-service/
+    description: production behind the api gateway
+components:
+  requestBodies:
+    v1_instances_alertconfigs_updateData:
+      content:
+        application/json:
+          schema:
+            description: Alert config
+            required:
+              - route
+              - receivers
+            type: object
+            properties:
+              global:
+                description: Global config. If nothing passed the default argus config will
+                  be used.
+                type: object
+                properties:
+                  resolveTimeout:
+                    description: ResolveTimeout is the default value used by alertmanager
+                      if the alert does not include EndsAt, after this time
+                      passes it can declare the alert as resolved if it has not
+                      been updated. This has no impact on alerts from
+                      Prometheus, as they always include EndsAt.
+                    type: string
+                    default: 5m
+                  smtpFrom:
+                    description: The default SMTP From header field.
+                    type: string
+                  smtpSmarthost:
+                    description: "The default SMTP smarthost used for sending emails,
+                      including port number. Port number usually is 25, or 587
+                      for SMTP over TLS (sometimes referred to as STARTTLS).
+                      Example: smtp.example.org:587"
+                    type: string
+                  smtpAuthUsername:
+                    description: SMTP Auth using CRAM-MD5, LOGIN and PLAIN. If empty,
+                      Alertmanager doesn't authenticate to the SMTP server.
+                    type: string
+                  smtpAuthPassword:
+                    description: SMTP Auth using LOGIN and PLAIN.
+                    type: string
+                  opsgenieApiKey:
+                    description: Opsgenie api key
+                    type: string
+                  opsgenieApiUrl:
+                    description: Opsgenie api url
+                    type: string
+              templates:
+                description: Files from which custom notification template definitions are
+                  read. The last component may use a wildcard matcher, e.g.
+                  'templates/*.tmpl'.
+                type: array
+                items:
+                  description: Files from which custom notification template definitions
+                    are read. The last component may use a wildcard matcher,
+                    e.g. 'templates/*.tmpl'.
+                  type: string
+              route:
+                description: The root node of the routing tree.
+                required:
+                  - receiver
+                type: object
+                properties:
+                  receiver:
+                    description: Receiver
+                    type: string
+                  groupBy:
+                    description: "The labels by which incoming alerts are grouped together.
+                      For example, multiple alerts coming in for cluster=A and
+                      alertname=LatencyHigh would be batched into a single
+                      group. To aggregate by all possible labels use the special
+                      value '...' as the sole label name, for example: group_by:
+                      ['...']. This effectively disables aggregation entirely,
+                      passing through all alerts as-is. This is unlikely to be
+                      what you want, unless you have a very low alert volume or
+                      your upstream notification system performs its own
+                      grouping."
+                    type: array
+                    items:
+                      description: As described
+                      type: string
+                  groupWait:
+                    description: How long to initially wait to send a notification for a
+                      group of alerts. Allows to wait for an inhibiting alert to
+                      arrive or collect more initial alerts for the same group.
+                      (Usually ~0s to few minutes.)
+                    type: string
+                    default: 30s
+                  groupInterval:
+                    description: How long to wait before sending a notification about new
+                      alerts that are added to a group of alerts for which an
+                      initial notification has already been sent. (Usually ~5m
+                      or more.)
+                    type: string
+                    default: 5m
+                  repeatInterval:
+                    description: How long to wait before sending a notification again if it
+                      has already been sent successfully for an alert. (Usually
+                      ~3h or more).
+                    type: string
+                    default: 4h
+                  match:
+                    description: map of key:value. A set of equality matchers an alert has
+                      to fulfill to match the node.
+                    type: object
+                  matchRe:
+                    description: map of key:value. A set of regex-matchers an alert has to
+                      fulfill to match the node.
+                    type: object
+                  routes:
+                    description: Zero or more child routes.
+                    type: array
+                    items:
+                      description: As in one level above
+                      type: object
+                      properties:
+                        receiver:
+                          description: As in one level above
+                          type: string
+                        groupBy:
+                          description: ""
+                          type: array
+                          items:
+                            description: As in one level above
+                            type: string
+                        groupWait:
+                          description: As in one level above
+                          type: string
+                        groupInterval:
+                          description: As in one level above
+                          type: string
+                        repeatInterval:
+                          description: As in one level above
+                          type: string
+                        match:
+                          description: As in one level above
+                          type: object
+                        matchRe:
+                          description: As in one level above
+                          type: object
+              receivers:
+                description: A list of notification receivers.
+                type: array
+                items:
+                  description: Receivers
+                  required:
+                    - name
+                  type: object
+                  properties:
+                    name:
+                      description: The unique name of the receiver.
+                      type: string
+                    emailConfigs:
+                      description: Configurations for emails
+                      type: array
+                      items:
+                        description: ""
+                        type: object
+                        properties:
+                          to:
+                            description: The email address to send notifications to.
+                            type: string
+                          from:
+                            description: The sender address.
+                            type: string
+                          smarthost:
+                            description: The SMTP host through which emails are sent.
+                            type: string
+                          authUsername:
+                            description: SMTP authentication information.
+                            type: string
+                          authPassword:
+                            description: SMTP authentication information.
+                            type: string
+                          authIdentity:
+                            description: SMTP authentication information.
+                            type: string
+                    opsgenieConfigs:
+                      description: Configuration for ops genie.
+                      type: array
+                      items:
+                        description: ""
+                        type: object
+                        properties:
+                          apiKey:
+                            description: The API key to use when talking to the OpsGenie
+                              API.
+                            type: string
+                          apiUrl:
+                            description: The host to send OpsGenie API requests to.
+                            type: string
+                          tags:
+                            description: Comma separated list of tags attached to the
+                              notifications.
+                            type: string
+                          httpConfig:
+                            description: The HTTP client's configuration.
+                            type: object
+                            properties:
+                              proxyUrl:
+                                description: ""
+                                type: string
+                    webHookConfigs:
+                      description: ""
+                      type: array
+                      items:
+                        description: ""
+                        type: object
+                        properties:
+                          url:
+                            description: The endpoint to send HTTP POST requests to.
+                            type: string
+                          msTeams:
+                            description: Microsoft Teams webhooks need special treatment.
+                              If you set this property to true then it will be
+                              handled appropertly
+                            type: boolean
+                            default: false
+              inhibitRules:
+                description: A list of inhibition rules.
+                type: object
+                properties:
+                  sourceMatch:
+                    description: map of key:value. Matchers for which one or more alerts
+                      have to exist for the inhibition to take effect.
+                    type: object
+                  sourceMatchRe:
+                    description: map of key:value. Regex match
+                    type: object
+                  targetMatch:
+                    description: map of key:value. Matchers that have to be fulfilled in
+                      the alerts to be muted.
+                    type: object
+                  targetMatchRe:
+                    description: map of key:value. Matchers that have to be fulfilled in
+                      the alerts to be muted. Regex.
+                    type: object
+                  equal:
+                    description: ""
+                    type: array
+                    items:
+                      description: ""
+                      type: string
+      required: true
+    v1_instances_grafana-configs_updateData:
+      content:
+        application/json:
+          schema:
+            required:
+              - publicReadAccess
+            type: object
+            properties:
+              publicReadAccess:
+                description: If it is true anyone can access the grafana dashboards without
+                  logging in. If it is false a login is required.
+                type: boolean
+      required: true
+    v1_osb_clusters_instances_createData:
+      content:
+        application/json:
+          schema:
+            required:
+              - planId
+            type: object
+            properties:
+              tags:
+                description: String array of tags
+                type: array
+                items:
+                  type: string
+              serviceName:
+                description: Name of the service
+                type: string
+              orgId:
+                description: Marketplace organization id
+                type: string
+              bucketRetentionTimeRaw:
+                description: Retention time of longtime storage of raw sampled data. Any
+                  value < 1d or wrong time string format will result in 14d.
+                  After that time the data will be down sampled to 5m.
+                type: string
+              bucketRetentionTime5m:
+                description: Retention time of longtime storage of 5m sampled data. Any
+                  value < 1d or wrong time string format will result in 0d.
+                  After that time the data will be down sampled to 1h.
+                type: string
+              bucketRetentionTime1h:
+                description: Retention time of longtime storage of 1h sampled data. Any
+                  value < 1d or wrong time string format will result in 0d.
+                  After that time the data will be deleted permanently.
+                type: string
+              planId:
+                description: plan id that should be a plan in database.
+                type: string
+      required: true
+    v1_instances_alertgroups_createData:
+      content:
+        application/json:
+          schema:
+            description: Alert group that should be created or updated
+            required:
+              - name
+              - interval
+              - rules
+            type: object
+            properties:
+              name:
+                description: The name of the group. Must be unique.
+                type: string
+              interval:
+                description: How often rules in the group are evaluated.
+                type: string
+              rules:
+                description: rules for the alert group
+                type: array
+                items:
+                  required:
+                    - alert
+                    - expr
+                    - labels
+                    - annotations
+                  type: object
+                  properties:
+                    alert:
+                      description: The name of the alert. Must be unique.
+                      type: string
+                    expr:
+                      description: The PromQL expression to evaluate. Every evaluation
+                        cycle this is evaluated at the current time, and all
+                        resultant time series become pending/firing alerts.
+                      type: string
+                    for:
+                      description: Alerts are considered firing once they have been
+                        returned for this long. Alerts which have not yet fired
+                        for long enough are considered pending.
+                      type: string
+                      default: 0s
+                    labels:
+                      description: map of key:value. Labels to add or overwrite for each
+                        alert.
+                      type: object
+                    annotations:
+                      description: map of key:value. Annotations to add to each alert.
+                      type: object
+      required: true
+    v1_instances_alertgroups_partial_updateData:
+      content:
+        application/json:
+          schema:
+            description: Array of alert groups that should be created or updated
+            type: array
+            items:
+              description: Alert group that should be created or updated
+              required:
+                - name
+                - interval
+                - rules
+              type: object
+              properties:
+                name:
+                  description: The name of the group. Must be unique.
+                  type: string
+                interval:
+                  description: How often rules in the group are evaluated.
+                  type: string
+                rules:
+                  description: rules for the alert group
+                  type: array
+                  items:
+                    required:
+                      - alert
+                      - expr
+                      - labels
+                      - annotations
+                    type: object
+                    properties:
+                      alert:
+                        description: The name of the alert. Must be unique.
+                        type: string
+                      expr:
+                        description: The PromQL expression to evaluate. Every evaluation
+                          cycle this is evaluated at the current time, and all
+                          resultant time series become pending/firing alerts.
+                        type: string
+                      for:
+                        description: Alerts are considered firing once they have been
+                          returned for this long. Alerts which have not yet
+                          fired for long enough are considered pending.
+                        type: string
+                        default: 0s
+                      labels:
+                        description: map of key:value. Labels to add or overwrite for each
+                          alert.
+                        type: object
+                      annotations:
+                        description: map of key:value. Annotations to add to each alert.
+                        type: object
+      required: true
+    v1_instances_alertgroups_alertrules_createData:
+      content:
+        application/json:
+          schema:
+            description: Alert rule that should be created or updated
+            required:
+              - alert
+              - expr
+              - labels
+              - annotations
+            type: object
+            properties:
+              alert:
+                description: The name of the alert. Must be unique.
+                type: string
+              expr:
+                description: The PromQL expression to evaluate. Every evaluation cycle this
+                  is evaluated at the current time, and all resultant time
+                  series become pending/firing alerts.
+                type: string
+              for:
+                description: Alerts are considered firing once they have been returned for
+                  this long. Alerts which have not yet fired for long enough are
+                  considered pending.
+                type: string
+                default: 0s
+              labels:
+                description: map of key:value. Labels to add or overwrite for each alert.
+                type: object
+              annotations:
+                description: map of key:value. Annotations to add to each alert.
+                type: object
+      required: true
+    v1_instances_alertgroups_alertrules_partial_updateData:
+      content:
+        application/json:
+          schema:
+            description: Array of alert rules that should be created or updated
+            type: array
+            items:
+              description: Alert rule that should be created or updated
+              required:
+                - alert
+                - expr
+                - labels
+                - annotations
+              type: object
+              properties:
+                alert:
+                  description: The name of the alert. Must be unique.
+                  type: string
+                expr:
+                  description: The PromQL expression to evaluate. Every evaluation cycle
+                    this is evaluated at the current time, and all resultant
+                    time series become pending/firing alerts.
+                  type: string
+                for:
+                  description: Alerts are considered firing once they have been returned
+                    for this long. Alerts which have not yet fired for long
+                    enough are considered pending.
+                  type: string
+                  default: 0s
+                labels:
+                  description: map of key:value. Labels to add or overwrite for each alert.
+                  type: object
+                annotations:
+                  description: map of key:value. Annotations to add to each alert.
+                  type: object
+      required: true
+    v1_instances_bucket-retentions_updateData:
+      content:
+        application/json:
+          schema:
+            required:
+              - bucketRetentionTimeRaw
+              - bucketRetentionTime5m
+              - bucketRetentionTime1h
+            type: object
+            properties:
+              bucketRetentionTimeRaw:
+                description: Retention time of longtime storage of raw sampled data. Any
+                  value < 1d or wrong time string format will result in 14d.
+                  After that time the data will be down sampled to 5m.
+                type: string
+              bucketRetentionTime5m:
+                description: Retention time of longtime storage of 5m sampled data. Any
+                  value < 1d or wrong time string format will result in 0d.
+                  After that time the data will be down sampled to 1h.
+                type: string
+              bucketRetentionTime1h:
+                description: Retention time of longtime storage of 1h sampled data. Any
+                  value < 1d or wrong time string format will result in 0d.
+                  After that time the data will be deleted permanently.
+                type: string
+      required: true
+    v1_instances_scrapeconfigs_createData:
+      content:
+        application/json:
+          schema:
+            required:
+              - jobName
+              - scheme
+              - scrapeInterval
+              - scrapeTimeout
+              - staticConfigs
+              - metricsPath
+            type: object
+            properties:
+              staticConfigs:
+                description: A list of scrape configurations.
+                type: array
+                items:
+                  required:
+                    - targets
+                  type: object
+                  properties:
+                    targets:
+                      description: The targets specified by the static config.
+                      type: array
+                      items:
+                        type: string
+                    labels:
+                      description: Labels assigned to all metrics scraped from the targets.
+                      type: object
+              proxyUrl:
+                description: Proxy url
+                type: string
+              jobName:
+                description: The job name assigned to scraped metrics by default.
+                type: string
+              scheme:
+                description: Configures the protocol scheme used for requests. https or http
+                type: string
+              scrapeInterval:
+                description: How frequently to scrape targets from this job. E.g. 5m
+                type: string
+              scrapeTimeout:
+                description: Per-scrape timeout when scraping this job.
+                type: string
+              metricsPath:
+                description: The HTTP resource path on which to fetch metrics from targets.
+                  E.g. /metrics
+                type: string
+                default: /metrics
+              basicAuth:
+                description: Sets the `Authorization` header on every scrape request with
+                  the configured username and password.
+                type: object
+                properties:
+                  username:
+                    description: username
+                    type: string
+                  password:
+                    description: password
+                    type: string
+              tlsConfig:
+                description: Configures the scrape request's TLS settings.
+                type: object
+                properties:
+                  insecureSkipVerify:
+                    description: Disable validation of the server certificate.
+                    type: boolean
+                    default: false
+              bearerToken:
+                description: Sets the `Authorization` header on every scrape request with
+                  the configured bearer token. It is mutually exclusive with
+                  `bearer_token_file`.
+                type: string
+              metricsRelabelConfigs:
+                description: List of metric relabel configurations
+                type: array
+                items:
+                  type: object
+                  properties:
+                    sourceLabels:
+                      description: The source labels select values from existing labels.
+                        Their content is concatenated using the configured
+                        separator and matched against the configured regular
+                        expression for the replace, keep, and drop actions.
+                      type: array
+                      items:
+                        type: string
+                    separator:
+                      description: Separator placed between concatenated source label
+                        values.
+                      type: string
+                      default: ;
+                    targetLabel:
+                      description: Label to which the resulting value is written in a
+                        replace action. It is mandatory for replace actions.
+                        Regex capture groups are available.
+                      type: string
+                    regex:
+                      description: Regular expression against which the extracted value is
+                        matched.
+                      type: string
+                      default: .*
+                    modulus:
+                      description: Modulus to take of the hash of the source label values.
+                      type: number
+                    replacement:
+                      description: Replacement value against which a regex replace is
+                        performed if the regular expression matches. Regex
+                        capture groups are available.
+                      type: string
+                      default: $1
+                    action:
+                      description: Choice field ['replace', 'keep', 'drop', 'hashmod',
+                        'labelmap', 'labeldrop', 'labelkeep']
+                      type: string
+                      default: replace
+              params:
+                description: Optional http params
+                type: object
+                properties:
+                  string1:
+                    type: array
+                    items:
+                      type: string
+                  string2:
+                    type: array
+                    items:
+                      type: string
+              honorLabels:
+                description: Note that any globally configured 'external_labels' are
+                  unaffected by this setting. In communication with external
+                  systems, they are always applied only when a time series does
+                  not have a given label yet and are ignored otherwise.
+                type: boolean
+                default: "false"
+              honorTimeStamps:
+                description: honor_timestamps controls whether Prometheus respects the
+                  timestamps present in scraped data. If honor_timestamps is set
+                  to 'true', the timestamps of the metrics exposed by the target
+                  will be used.
+                type: boolean
+                default: "false"
+      required: true
+    v1_instances_scrapeconfigs_partial_updateData:
+      content:
+        application/json:
+          schema:
+            description: Array of jobs that should be created or updated
+            type: array
+            items:
+              required:
+                - jobName
+                - scheme
+                - scrapeInterval
+                - scrapeTimeout
+                - staticConfigs
+                - metricsPath
+              type: object
+              properties:
+                staticConfigs:
+                  description: A list of scrape configurations.
+                  type: array
+                  items:
+                    required:
+                      - targets
+                    type: object
+                    properties:
+                      targets:
+                        description: The targets specified by the static config.
+                        type: array
+                        items:
+                          type: string
+                      labels:
+                        description: Labels assigned to all metrics scraped from the
+                          targets.
+                        type: object
+                proxyUrl:
+                  description: Proxy url
+                  type: string
+                jobName:
+                  description: The job name assigned to scraped metrics by default.
+                  type: string
+                scheme:
+                  description: Configures the protocol scheme used for requests. https or
+                    http
+                  type: string
+                scrapeInterval:
+                  description: How frequently to scrape targets from this job. E.g. 5m
+                  type: string
+                scrapeTimeout:
+                  description: Per-scrape timeout when scraping this job.
+                  type: string
+                metricsPath:
+                  description: The HTTP resource path on which to fetch metrics from
+                    targets. E.g. /metrics
+                  type: string
+                  default: /metrics
+                basicAuth:
+                  description: Sets the `Authorization` header on every scrape request with
+                    the configured username and password.
+                  type: object
+                  properties:
+                    username:
+                      description: username
+                      type: string
+                    password:
+                      description: password
+                      type: string
+                tlsConfig:
+                  description: Configures the scrape request's TLS settings.
+                  type: object
+                  properties:
+                    insecureSkipVerify:
+                      description: Disable validation of the server certificate.
+                      type: boolean
+                      default: false
+                bearerToken:
+                  description: Sets the `Authorization` header on every scrape request with
+                    the configured bearer token. It is mutually exclusive with
+                    `bearer_token_file`.
+                  type: string
+                metricsRelabelConfigs:
+                  description: List of metric relabel configurations
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      sourceLabels:
+                        description: The source labels select values from existing labels.
+                          Their content is concatenated using the configured
+                          separator and matched against the configured regular
+                          expression for the replace, keep, and drop actions.
+                        type: array
+                        items:
+                          type: string
+                      separator:
+                        description: Separator placed between concatenated source label
+                          values.
+                        type: string
+                        default: ;
+                      targetLabel:
+                        description: Label to which the resulting value is written in a
+                          replace action. It is mandatory for replace actions.
+                          Regex capture groups are available.
+                        type: string
+                      regex:
+                        description: Regular expression against which the extracted value
+                          is matched.
+                        type: string
+                        default: .*
+                      modulus:
+                        description: Modulus to take of the hash of the source label values.
+                        type: number
+                      replacement:
+                        description: Replacement value against which a regex replace is
+                          performed if the regular expression matches. Regex
+                          capture groups are available.
+                        type: string
+                        default: $1
+                      action:
+                        description: Choice field ['replace', 'keep', 'drop', 'hashmod',
+                          'labelmap', 'labeldrop', 'labelkeep']
+                        type: string
+                        default: replace
+                params:
+                  description: Optional http params
+                  type: object
+                  properties:
+                    string1:
+                      type: array
+                      items:
+                        type: string
+                    string2:
+                      type: array
+                      items:
+                        type: string
+                honorLabels:
+                  description: Note that any globally configured 'external_labels' are
+                    unaffected by this setting. In communication with external
+                    systems, they are always applied only when a time series
+                    does not have a given label yet and are ignored otherwise.
+                  type: boolean
+                  default: "false"
+                honorTimeStamps:
+                  description: honor_timestamps controls whether Prometheus respects the
+                    timestamps present in scraped data. If honor_timestamps is
+                    set to 'true', the timestamps of the metrics exposed by the
+                    target will be used.
+                  type: boolean
+                  default: "false"
+      required: true
+    v1_plans_createData:
+      content:
+        application/json:
+          schema:
+            required:
+              - description
+              - bucketRetentionTimeRaw
+              - bucketRetentionTime5m
+              - bucketRetentionTime1h
+              - bucketSize
+              - grafanaGlobalUsers
+              - grafanaGlobalOrgs
+              - grafanaGlobalDashboards
+              - alertRules
+              - targetNumber
+              - samplesPerMinute
+              - name
+            type: object
+            properties:
+              description:
+                description: Description of the plan
+                type: string
+              bucketRetentionTimeRaw:
+                description: Retention time of the raw data in days
+                type: number
+              bucketRetentionTime5m:
+                description: Retention time of down sampled data to 5m in days
+                type: number
+              bucketRetentionTime1h:
+                description: Retention time of down sampled data to 1h in days
+                type: number
+              bucketSize:
+                description: Size of the bucket in giga byte
+                type: number
+              grafanaGlobalUsers:
+                description: Global grafana users restriction number
+                type: number
+              grafanaGlobalOrgs:
+                description: Global grafana orgs restriction number
+                type: number
+              grafanaGlobalDashboards:
+                description: Global grafana dashboards
+                type: number
+              alertRules:
+                description: Restriction of alert rules
+                type: number
+              targetNumber:
+                description: Restriction of total targets
+                type: number
+              samplesPerMinute:
+                description: Samples per job
+                type: number
+              name:
+                description: Name of the plan
+                type: string
+      required: true
+  securitySchemes:
+    Basic:
+      type: http
+      scheme: basic
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    ClusterList:
+      required:
+        - message
+        - clusters
+      type: object
+      properties:
+        message:
+          title: Message
+          type: string
+          minLength: 1
+        clusters:
+          type: array
+          items:
+            type: string
+            minLength: 1
+    Message:
+      required:
+        - message
+      type: object
+      properties:
+        message:
+          title: Message
+          type: string
+          minLength: 1
+    PermissionDenied:
+      required:
+        - detail
+      type: object
+      properties:
+        detail:
+          title: Detail
+          type: string
+          minLength: 1
+    Status:
+      required:
+        - state
+        - description
+        - instanceUsable
+        - updateRepeatable
+      type: object
+      properties:
+        state:
+          title: State
+          type: string
+          minLength: 1
+        description:
+          title: Description
+          type: string
+          minLength: 1
+        instanceUsable:
+          title: Instance usable
+          type: string
+          minLength: 1
+        updateRepeatable:
+          title: Update repeatable
+          type: string
+          minLength: 1
+    PlanModel:
+      required:
+        - planId
+        - bucketSize
+        - grafanaGlobalUsers
+        - grafanaGlobalOrgs
+        - grafanaGlobalDashboards
+        - alertRules
+        - targetNumber
+        - samplesPerScrape
+        - grafanaGlobalSessions
+      type: object
+      properties:
+        planId:
+          title: Planid
+          type: string
+          format: uuid
+        description:
+          title: Description
+          type: string
+          maxLength: 1000
+          minLength: 1
+        bucketSize:
+          title: Bucketsize
+          type: integer
+          minimum: 20
+        grafanaGlobalUsers:
+          title: Grafanaglobalusers
+          type: integer
+        grafanaGlobalOrgs:
+          title: Grafanaglobalorgs
+          type: integer
+        grafanaGlobalDashboards:
+          title: Grafanaglobaldashboards
+          type: integer
+        alertRules:
+          title: Alertrules
+          type: integer
+        targetNumber:
+          title: Targetnumber
+          type: integer
+        samplesPerScrape:
+          title: Samplesperscrape
+          type: integer
+        grafanaGlobalSessions:
+          title: Grafanaglobalsessions
+          type: integer
+        name:
+          title: Name
+          type: string
+          maxLength: 500
+          minLength: 1
+        amount:
+          title: Amount
+          type: number
+          maximum: 10000000
+          minimum: 0
+    Instance:
+      required:
+        - cluster
+        - instance
+        - plan
+        - bucketRetentionTimeRaw
+        - bucketRetentionTime5m
+        - bucketRetentionTime1h
+        - grafanaPublicReadAccess
+      type: object
+      properties:
+        cluster:
+          title: Cluster
+          type: string
+          maxLength: 63
+          minLength: 1
+        instance:
+          title: Instance
+          type: string
+          maxLength: 63
+          minLength: 1
+        name:
+          title: Name
+          type: string
+          maxLength: 300
+          minLength: 1
+        plan:
+          $ref: "#/components/schemas/PlanModel"
+        bucketRetentionTimeRaw:
+          title: Bucketretentiontimeraw
+          type: integer
+          minimum: 0
+        bucketRetentionTime5m:
+          title: Bucketretentiontime5m
+          type: integer
+          minimum: 0
+        bucketRetentionTime1h:
+          title: Bucketretentiontime1h
+          type: integer
+          minimum: 0
+        state:
+          title: State
+          type: string
+          enum:
+            - Component creation started
+            - Component creation failed
+            - Component creation succeeded
+            - Component deletion started
+            - Component deletion failed
+            - Component deletion succeeded
+            - Component update failed
+            - Component update started
+        grafanaPublicReadAccess:
+          title: Grafanapublicreadaccess
+          type: boolean
+    Services:
+      required:
+        - message
+        - services
+      type: object
+      properties:
+        message:
+          title: Message
+          type: string
+          minLength: 1
+        services:
+          type: array
+          items:
+            $ref: "#/components/schemas/Instance"
+    InstanceSensitiveData:
+      required:
+        - cluster
+        - instance
+        - grafanaUrl
+        - dashboardUrl
+        - grafanaAdminPassword
+        - grafanaAdminUser
+        - plan
+        - bucketRetentionTimeRaw
+        - bucketRetentionTime5m
+        - bucketRetentionTime1h
+        - metricsUrl
+        - grafanaPublicReadAccess
+        - targetsUrl
+        - alertingUrl
+      type: object
+      properties:
+        cluster:
+          title: Cluster
+          type: string
+          maxLength: 63
+          minLength: 1
+        instance:
+          title: Instance
+          type: string
+          maxLength: 63
+          minLength: 1
+        grafanaUrl:
+          title: Grafanaurl
+          type: string
+          minLength: 1
+        name:
+          title: Name
+          type: string
+          maxLength: 300
+          minLength: 1
+        dashboardUrl:
+          title: Dashboardurl
+          type: string
+          minLength: 1
+        grafanaAdminPassword:
+          title: Grafanaadminpassword
+          type: string
+          minLength: 32
+        grafanaAdminUser:
+          title: Grafanaadminuser
+          type: string
+          minLength: 1
+        plan:
+          $ref: "#/components/schemas/PlanModel"
+        bucketRetentionTimeRaw:
+          title: Bucketretentiontimeraw
+          type: integer
+          minimum: 0
+        bucketRetentionTime5m:
+          title: Bucketretentiontime5m
+          type: integer
+          minimum: 0
+        bucketRetentionTime1h:
+          title: Bucketretentiontime1h
+          type: integer
+          minimum: 0
+        metricsUrl:
+          title: Metricsurl
+          type: string
+          minLength: 1
+        state:
+          title: State
+          type: string
+          enum:
+            - Component creation started
+            - Component creation failed
+            - Component creation succeeded
+            - Component deletion started
+            - Component deletion failed
+            - Component deletion succeeded
+            - Component update failed
+            - Component update started
+        grafanaPublicReadAccess:
+          title: Grafanapublicreadaccess
+          type: boolean
+        targetsUrl:
+          title: Targetsurl
+          type: string
+          minLength: 1
+        alertingUrl:
+          title: Alertingurl
+          type: string
+          minLength: 1
+    Service:
+      required:
+        - message
+        - instance
+      type: object
+      properties:
+        message:
+          title: Message
+          type: string
+          minLength: 1
+        instance:
+          $ref: "#/components/schemas/InstanceSensitiveData"
+    RouteSerializer2:
+      type: object
+      properties:
+        receiver:
+          title: Receiver
+          type: string
+          minLength: 1
+        groupBy:
+          type: array
+          items:
+            type: string
+            minLength: 1
+        groupWait:
+          title: Groupwait
+          type: string
+          default: 30s
+          minLength: 1
+        groupInterval:
+          title: Groupinterval
+          type: string
+          default: 5m
+          minLength: 1
+        repeatInterval:
+          title: Repeatinterval
+          type: string
+          default: 4h
+          minLength: 1
+        match:
+          title: Match
+          type: object
+          additionalProperties:
+            type: string
+            minLength: 1
+        matchRe:
+          title: Matchre
+          type: object
+          additionalProperties:
+            type: string
+            minLength: 1
+        continue:
+          title: Continue
+          type: boolean
+          default: false
+    Route:
+      required:
+        - receiver
+      type: object
+      properties:
+        receiver:
+          title: Receiver
+          type: string
+          minLength: 1
+        groupBy:
+          type: array
+          items:
+            type: string
+            minLength: 1
+        groupWait:
+          title: Groupwait
+          type: string
+          default: 30s
+          minLength: 1
+        groupInterval:
+          title: Groupinterval
+          type: string
+          default: 5m
+          minLength: 1
+        repeatInterval:
+          title: Repeatinterval
+          type: string
+          default: 4h
+          minLength: 1
+        match:
+          title: Match
+          type: object
+          additionalProperties:
+            type: string
+            minLength: 1
+        matchRe:
+          title: Matchre
+          type: object
+          additionalProperties:
+            type: string
+            minLength: 1
+        routes:
+          type: array
+          items:
+            $ref: "#/components/schemas/RouteSerializer2"
+        continue:
+          title: Continue
+          type: boolean
+          default: false
+    EmailConfig:
+      required:
+        - to
+      type: object
+      properties:
+        to:
+          title: To
+          type: string
+          minLength: 1
+        fromPerson:
+          title: Fromperson
+          type: string
+          minLength: 1
+        smarthost:
+          title: Smarthost
+          type: string
+          minLength: 1
+        authUsername:
+          title: Authusername
+          type: string
+          minLength: 1
+        authPassword:
+          title: Authpassword
+          type: string
+          minLength: 1
+        authIdentity:
+          title: Authidentity
+          type: string
+          minLength: 1
+    HttpConfig:
+      type: object
+      properties:
+        proxyUrl:
+          title: Proxyurl
+          type: string
+          minLength: 1
+    OpsgenieConfig:
+      type: object
+      properties:
+        apiKey:
+          title: Apikey
+          type: string
+          minLength: 1
+        apiUrl:
+          title: Apiurl
+          type: string
+          minLength: 1
+        tags:
+          title: Tags
+          type: string
+          minLength: 1
+        httpConfig:
+          $ref: "#/components/schemas/HttpConfig"
+    WebHook:
+      required:
+        - url
+      type: object
+      properties:
+        url:
+          title: Url
+          type: string
+          minLength: 1
+        msTeams:
+          title: Msteams
+          type: boolean
+    Receivers:
+      required:
+        - name
+      type: object
+      properties:
+        name:
+          title: Name
+          type: string
+          minLength: 1
+        emailConfigs:
+          type: array
+          items:
+            $ref: "#/components/schemas/EmailConfig"
+        opsgenieConfigs:
+          type: array
+          items:
+            $ref: "#/components/schemas/OpsgenieConfig"
+        webHookConfigs:
+          type: array
+          items:
+            $ref: "#/components/schemas/WebHook"
+    InhibitRules:
+      type: object
+      properties:
+        sourceMatch:
+          title: Sourcematch
+          type: object
+          additionalProperties:
+            type: string
+            minLength: 1
+        sourceMatchRe:
+          title: Sourcematchre
+          type: object
+          additionalProperties:
+            type: string
+            minLength: 1
+        targetMatch:
+          title: Targetmatch
+          type: object
+          additionalProperties:
+            type: string
+            minLength: 1
+        targetMatchRe:
+          title: Targetmatchre
+          type: object
+          additionalProperties:
+            type: string
+            minLength: 1
+        equal:
+          type: array
+          items:
+            type: string
+            minLength: 1
+    Global:
+      type: object
+      properties:
+        resolveTimeout:
+          title: Resolvetimeout
+          type: string
+          default: 5m
+          maxLength: 50
+          minLength: 2
+        smtpFrom:
+          title: Smtpfrom
+          type: string
+          minLength: 1
+        smtpSmarthost:
+          title: Smtpsmarthost
+          type: string
+          minLength: 1
+        smtpAuthUsername:
+          title: Smtpauthusername
+          type: string
+          minLength: 1
+        smtpAuthPassword:
+          title: Smtpauthpassword
+          type: string
+          minLength: 1
+        smtpAuthIdentity:
+          title: Smtpauthidentity
+          type: string
+          minLength: 1
+        opsgenieApiKey:
+          title: Opsgenieapikey
+          type: string
+          minLength: 1
+        opsgenieApiUrl:
+          title: Opsgenieapiurl
+          type: string
+          minLength: 1
+    Alert:
+      required:
+        - route
+        - receivers
+      type: object
+      properties:
+        route:
+          $ref: "#/components/schemas/Route"
+        receivers:
+          type: array
+          items:
+            $ref: "#/components/schemas/Receivers"
+        inhibitRules:
+          type: array
+          items:
+            $ref: "#/components/schemas/InhibitRules"
+        templates:
+          type: array
+          items:
+            type: string
+            minLength: 1
+        global:
+          $ref: "#/components/schemas/Global"
+    GetAlert:
+      required:
+        - message
+        - data
+      type: object
+      properties:
+        message:
+          title: Message
+          type: string
+          minLength: 1
+        data:
+          $ref: "#/components/schemas/Alert"
+    PutAlert:
+      required:
+        - message
+        - data
+      type: object
+      properties:
+        message:
+          title: Message
+          type: string
+          minLength: 1
+        data:
+          $ref: "#/components/schemas/Alert"
+    AlertRule:
+      required:
+        - alert
+        - expr
+        - labels
+        - annotations
+      type: object
+      properties:
+        alert:
+          title: Alert
+          type: string
+          minLength: 1
+        expr:
+          title: Expr
+          type: string
+          minLength: 1
+        labels:
+          title: Labels
+          type: object
+          additionalProperties:
+            type: string
+            minLength: 1
+        annotations:
+          title: Annotations
+          type: object
+          additionalProperties:
+            type: string
+            minLength: 1
+        for:
+          title: For
+          type: string
+          default: 0s
+          minLength: 1
+    AlertGroup:
+      required:
+        - name
+        - interval
+        - rules
+      type: object
+      properties:
+        name:
+          title: Name
+          type: string
+          minLength: 1
+        interval:
+          title: Interval
+          type: string
+          minLength: 1
+        rules:
+          type: array
+          items:
+            $ref: "#/components/schemas/AlertRule"
+    GetAllAlertGroups:
+      required:
+        - message
+        - data
+      type: object
+      properties:
+        message:
+          title: Message
+          type: string
+          minLength: 1
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/AlertGroup"
+    PostAlertGroup:
+      required:
+        - message
+        - data
+      type: object
+      properties:
+        message:
+          title: Message
+          type: string
+          minLength: 1
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/AlertGroup"
+    GetAlertGroup:
+      required:
+        - message
+        - data
+      type: object
+      properties:
+        message:
+          title: Message
+          type: string
+          minLength: 1
+        data:
+          $ref: "#/components/schemas/AlertGroup"
+    PutAlertGroup:
+      required:
+        - message
+        - data
+      type: object
+      properties:
+        message:
+          title: Message
+          type: string
+          minLength: 1
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/AlertGroup"
+    DeleteAlertGroup:
+      required:
+        - message
+        - data
+      type: object
+      properties:
+        message:
+          title: Message
+          type: string
+          minLength: 1
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/AlertGroup"
+    GetAllAlertRules:
+      required:
+        - message
+        - data
+      type: object
+      properties:
+        message:
+          title: Message
+          type: string
+          minLength: 1
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/AlertRule"
+    PostAlertRule:
+      required:
+        - message
+        - data
+      type: object
+      properties:
+        message:
+          title: Message
+          type: string
+          minLength: 1
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/AlertRule"
+    GetAlertRule:
+      required:
+        - message
+        - data
+      type: object
+      properties:
+        message:
+          title: Message
+          type: string
+          minLength: 1
+        data:
+          $ref: "#/components/schemas/AlertRule"
+    PutAlertRule:
+      required:
+        - message
+        - data
+      type: object
+      properties:
+        message:
+          title: Message
+          type: string
+          minLength: 1
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/AlertRule"
+    DeleteAlertRule:
+      required:
+        - message
+        - data
+      type: object
+      properties:
+        message:
+          title: Message
+          type: string
+          minLength: 1
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/AlertRule"
+    BucketRetentionTimeRespond:
+      required:
+        - bucketRetentionTimeRaw
+        - bucketRetentionTime5m
+        - bucketRetentionTime1h
+        - message
+      type: object
+      properties:
+        bucketRetentionTimeRaw:
+          title: Bucketretentiontimeraw
+          type: string
+          maxLength: 20
+          minLength: 2
+        bucketRetentionTime5m:
+          title: Bucketretentiontime5m
+          type: string
+          maxLength: 20
+          minLength: 2
+        bucketRetentionTime1h:
+          title: Bucketretentiontime1h
+          type: string
+          maxLength: 20
+          minLength: 2
+        message:
+          title: Message
+          type: string
+          minLength: 1
+    GrafanaConfigsSerializerRespond:
+      required:
+        - publicReadAccess
+        - message
+      type: object
+      properties:
+        publicReadAccess:
+          title: Publicreadaccess
+          type: boolean
+        message:
+          title: Message
+          type: string
+          minLength: 1
+    StaticConfigs:
+      required:
+        - targets
+      type: object
+      properties:
+        targets:
+          type: array
+          items:
+            type: string
+            maxLength: 1000
+            minLength: 1
+        labels:
+          title: Labels
+          type: object
+          additionalProperties:
+            type: string
+            minLength: 1
+    BasicAuth:
+      required:
+        - username
+        - password
+      type: object
+      properties:
+        username:
+          title: Username
+          type: string
+          minLength: 1
+        password:
+          title: Password
+          type: string
+          minLength: 1
+    TLSConfig:
+      type: object
+      properties:
+        insecureSkipVerify:
+          title: Insecureskipverify
+          type: boolean
+          default: false
+    MetricsRelabelConfig:
+      type: object
+      properties:
+        sourceLabels:
+          type: array
+          items:
+            type: string
+            minLength: 1
+        separator:
+          title: Separator
+          type: string
+          default: ;
+          minLength: 1
+        targetLabel:
+          title: Targetlabel
+          type: string
+          minLength: 1
+        regex:
+          title: Regex
+          type: string
+          default: .*
+          minLength: 1
+        modulus:
+          title: Modulus
+          type: integer
+        replacement:
+          title: Replacement
+          type: string
+          default: $1
+          minLength: 1
+        action:
+          title: Action
+          type: string
+          enum:
+            - replace
+            - keep
+            - drop
+            - hashmod
+            - labelmap
+            - labeldrop
+            - labelkeep
+          default: replace
+    Job:
+      required:
+        - jobName
+        - scrapeInterval
+        - scrapeTimeout
+        - staticConfigs
+      type: object
+      properties:
+        jobName:
+          title: Jobname
+          type: string
+          maxLength: 200
+          minLength: 1
+        scheme:
+          title: Scheme
+          type: string
+          enum:
+            - http
+            - https
+          default: http
+        proxyUrl:
+          title: Proxyurl
+          type: string
+          maxLength: 200
+          minLength: 1
+        scrapeInterval:
+          title: Scrapeinterval
+          type: string
+          maxLength: 10
+          minLength: 2
+        scrapeTimeout:
+          title: Scrapetimeout
+          type: string
+          maxLength: 10
+          minLength: 2
+        metricsPath:
+          title: Metricspath
+          type: string
+          default: /metrics
+          minLength: 1
+        staticConfigs:
+          type: array
+          items:
+            $ref: "#/components/schemas/StaticConfigs"
+        basicAuth:
+          $ref: "#/components/schemas/BasicAuth"
+        tlsConfig:
+          $ref: "#/components/schemas/TLSConfig"
+        bearerToken:
+          title: Bearertoken
+          type: string
+          minLength: 1
+        metricsRelabelConfigs:
+          type: array
+          items:
+            $ref: "#/components/schemas/MetricsRelabelConfig"
+        params:
+          title: Params
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+              minLength: 1
+        honorLabels:
+          title: Honorlabels
+          type: boolean
+          default: false
+        honorTimeStamps:
+          title: Honortimestamps
+          type: boolean
+          default: false
+    GetAllJob:
+      required:
+        - message
+        - data
+      type: object
+      properties:
+        message:
+          title: Message
+          type: string
+          minLength: 1
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Job"
+    CreateJob:
+      required:
+        - message
+        - data
+      type: object
+      properties:
+        message:
+          title: Message
+          type: string
+          minLength: 1
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Job"
+    GetJob:
+      required:
+        - message
+        - data
+      type: object
+      properties:
+        message:
+          title: Message
+          type: string
+          minLength: 1
+        data:
+          $ref: "#/components/schemas/Job"
+    DeleteJob:
+      required:
+        - message
+        - data
+      type: object
+      properties:
+        message:
+          title: Message
+          type: string
+          minLength: 1
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Job"
+    Dashboard:
+      required:
+        - message
+        - dashboardUrl
+      type: object
+      properties:
+        message:
+          title: Message
+          type: string
+          minLength: 1
+        dashboardUrl:
+          title: Dashboardurl
+          type: string
+          minLength: 1
+    ApiUser:
+      required:
+        - message
+        - apiUsers
+      type: object
+      properties:
+        message:
+          title: Message
+          type: string
+          minLength: 1
+        apiUsers:
+          type: array
+          items:
+            type: string
+            minLength: 1
+    Plan:
+      required:
+        - message
+        - plans
+      type: object
+      properties:
+        message:
+          title: Message
+          type: string
+          minLength: 1
+        plans:
+          type: array
+          items:
+            $ref: "#/components/schemas/PlanModel"
+    PlanSingle:
+      required:
+        - message
+        - plans
+      type: object
+      properties:
+        message:
+          title: Message
+          type: string
+          minLength: 1
+        plans:
+          $ref: "#/components/schemas/PlanModel"
+    Tag:
+      required:
+        - message
+        - tags
+      type: object
+      properties:
+        message:
+          title: Message
+          type: string
+          minLength: 1
+        tags:
+          type: array
+          items:
+            type: string
+            minLength: 1

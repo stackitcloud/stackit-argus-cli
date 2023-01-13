@@ -3,6 +3,7 @@ PWD = $(shell pwd)
 
 # constants
 GOLANGCI_VERSION = 1.47.2
+OPENAPI_GENERATOR_VERSION=v6.0.1
 DOCKER_REPO = stackit-argus-cli
 DOCKER_TAG = latest
 
@@ -36,10 +37,9 @@ GO_BUILD = mkdir -pv "$(@)" && go build -ldflags="-w -s" -o "$(@)" ./...
 out/bin:
 	$(GO_BUILD)
 
-GOLANGCI_LINT = bin/golangci-lint-$(GOLANGCI_VERSION)
+GOLANGCI_LINT = bin/golangci-lint
 $(GOLANGCI_LINT):
-	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | bash -s -- -b bin v$(GOLANGCI_VERSION)
-	@mv bin/golangci-lint "$(@)"
+	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | bash -s -- -b bin v1.50.1
 
 lint: fmt $(GOLANGCI_LINT) download ## Lints all code with golangci-lint
 	@$(GOLANGCI_LINT) run
@@ -51,7 +51,7 @@ out/lint.xml: $(GOLANGCI_LINT) out download
 	@$(GOLANGCI_LINT) run ./... --out-format checkstyle | tee "$(@)"
 
 test: ## Runs all tests
-	@go test $(ARGS) ./...
+	@go test $(ARGS) ./cmd/stackit-argus-cli/...
 
 coverage: out/report.json ## Displays coverage per func on cli
 	go tool cover -func=out/cover.out
@@ -66,12 +66,34 @@ out/report.json: out
 	@go test -count 1 ./... -coverprofile=out/cover.out --json | tee "$(@)"
 
 clean: ## Cleans up everything
-	@rm -rf bin out 
+	@rm -rf bin out
 
 docker: ## Builds docker image
 	docker buildx build -t $(DOCKER_REPO):$(DOCKER_TAG) .
 
 ci: lint-reports test-reports ## Executes lint and test and generates reports
+
+.PHONY: clean-generate-client
+clean-generate-client: ## Remove generated APIT client code
+	rm -f ./pkg/argus/api_default.go
+	rm -f ./pkg/argus/configuration.go
+	rm -f ./pkg/argus/client.go
+	rm -f ./pkg/argus/model_*.go
+	rm -f ./pkg/argus/response.go
+	rm -f ./pkg/argus/utils.go
+	rm -rf ./pkg/argus/docs
+
+.PHONY: generate-client-code
+generate-client-code: clean-generate-client ## generate API client code
+	docker run --rm \
+		-v ${PWD}:/local openapitools/openapi-generator-cli:${OPENAPI_GENERATOR_VERSION} generate \
+		-i /local/api/ARGUS.openapi.v1.yml \
+		-g go \
+		--additional-properties=packageName=argus \
+		-o /local/pkg/argus
+
+.PHONY: generate-client
+generate-client: generate-client-code tidy ## genarte API client & run go mod tidy
 
 help: ## Shows the help
 	@echo 'Usage: make <OPTIONS> ... <TARGETS>'

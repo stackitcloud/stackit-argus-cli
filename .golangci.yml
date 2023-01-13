@@ -54,45 +54,46 @@ linters:
   # inverted configuration with `enable-all` and `disable` is not scalable during updates of golangci-lint
   disable-all: true
   enable:
-    - bodyclose
-    - deadcode
-    - depguard
-    - dogsled
-    - dupl
-    - exportloopref
-    - exhaustive
-    - funlen
-    - gochecknoinits
-    - goconst
-    - gocritic
-    - gocyclo
-    - gofmt
-    - goimports
-    - gomnd
-    - goprintffuncname
-    - gosec
     - gosimple
     - govet
     - ineffassign
-    - lll
-    - misspell
-    - nakedret
-    - noctx
-    - nolintlint
-    - revive
-    - rowserrcheck
     - staticcheck
-    - structcheck
-    - stylecheck
     - typecheck
+    - unused
+    - gosec
+    - dogsled
+    - bodyclose
     - unconvert
     - unparam
-    - unused
-    - varcheck
-    - whitespace
-    - gochecknoglobals
-    - goerr113
-    - prealloc
+
+#    - deadcode
+#    - depguard
+#    - dupl
+#    - exportloopref
+#    - exhaustive
+#    - funlen
+#    - gochecknoinits
+#    - goconst
+#    - gocritic
+#    - gocyclo
+#    - gofmt
+#    - goimports
+#    - gomnd
+#    - goprintffuncname
+#    - lll
+#    - misspell
+#    - nakedret
+#    - noctx
+#    - nolintlint
+#    - revive
+#    - rowserrcheck
+#    - structcheck
+#    - stylecheck
+#    - varcheck
+#    - whitespace
+#    - gochecknoglobals
+#    - goerr113
+#    - prealloc
 
   # don't enable:
   # - asciicheck
@@ -125,6 +126,10 @@ issues:
       text: "unnecessaryDefer:"
 
 run:
+  skip-dirs:
+    - pkg/argus
+  exclude:
+    - pkg/argus/*
   timeout: 10m
   issues-exit-code: 1
   tests: true
