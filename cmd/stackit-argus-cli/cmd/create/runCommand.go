@@ -8,8 +8,8 @@ import (
 	"bytes"
 	"fmt"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/YAMLToJSON"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/yamltojson"
 	"net/http"
 	"os"
 	"path"
@@ -84,13 +84,13 @@ func runCommand(url, resource, keyTarget string, targets []string) error {
 	if path.Ext(file) == ".yaml" {
 		switch resource {
 		case "scrape configs":
-			body, err = YAMLToJSON.ScrapeConfig(body)
+			body, err = yamltojson.ScrapeConfig(body)
 		case "alert config receiver":
-			body, err = YAMLToJSON.Receivers(body)
+			body, err = yamltojson.Receivers(body)
 		case "alert config route":
-			body, err = YAMLToJSON.Routes(body)
+			body, err = yamltojson.Routes(body)
 		default:
-			body, err = YAMLToJSON.Convert(body)
+			body, err = yamltojson.Convert(body)
 		}
 
 		if err != nil {

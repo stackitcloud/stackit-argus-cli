@@ -27,7 +27,6 @@ var ReceiversCmd = &cobra.Command{
 		// call command
 		if err := runCommand(url, "alert config receiver", "PUT"); err != nil {
 			cmd.SilenceUsage = true
-
 			return err
 		}
 

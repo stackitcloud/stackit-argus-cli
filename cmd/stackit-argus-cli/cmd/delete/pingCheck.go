@@ -22,7 +22,6 @@ var PingCheckCmd = &cobra.Command{
 		// call command
 		if err := runCommand(url, "ping check"); err != nil {
 			cmd.SilenceUsage = true
-
 			return err
 		}
 

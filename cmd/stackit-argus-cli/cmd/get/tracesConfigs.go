@@ -8,7 +8,7 @@ import (
 	"encoding/json"
 	"github.com/spf13/cobra"
 	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	output_table "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
+	outputtable "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
 )
 
 // tracesConfigs is used to unmarshal traces configs response body and generate a outputTable out of it
@@ -28,7 +28,7 @@ func printTracesConfigsListTable(body []byte) error {
 	}
 
 	// print the outputTable
-	output_table.PrintTable(tracesConfigs.Config)
+	outputtable.PrintTable(tracesConfigs.Config)
 
 	return nil
 }

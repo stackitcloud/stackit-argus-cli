@@ -26,7 +26,6 @@ var MetricsStorageRetentionCmd = &cobra.Command{
 		// call command
 		if err := runCommand(url, "metrics storage retention", "PUT"); err != nil {
 			cmd.SilenceUsage = true
-
 			return err
 		}
 

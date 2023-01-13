@@ -8,7 +8,7 @@ import (
 	"encoding/json"
 	"github.com/spf13/cobra"
 	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	output_table "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
+	outputtable "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
 )
 
 // acl is used to unmarshal acl response body
@@ -37,7 +37,7 @@ func printAclTable(body []byte) error {
 	}
 
 	// print the outputTable
-	output_table.PrintTable(table)
+	outputtable.PrintTable(table)
 
 	return nil
 }

@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	output_table "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
+	outputtable "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
 )
 
 // receiver is used to unmarshal receiver response body
@@ -78,7 +78,7 @@ func printReceiverTable(body []byte) error {
 			})
 
 			fmt.Println("\nWEB HOOK CONFIGS")
-			output_table.PrintTable(table)
+			outputtable.PrintTable(table)
 		}
 	}
 	if len(receiver.Data.EmailConfigs) > 0 {
@@ -92,7 +92,7 @@ func printReceiverTable(body []byte) error {
 			})
 
 			fmt.Println("\nEMAIL CONFIGS")
-			output_table.PrintTable(table)
+			outputtable.PrintTable(table)
 		}
 	}
 	if len(receiver.Data.OpsgenieConfigs) > 0 {
@@ -106,7 +106,7 @@ func printReceiverTable(body []byte) error {
 			})
 
 			fmt.Println("\nOPSGENIE CONFIGS")
-			output_table.PrintTable(table)
+			outputtable.PrintTable(table)
 		}
 	}
 
@@ -155,7 +155,7 @@ func printReceiversListTable(body []byte) error {
 	}
 
 	// print the outputTable
-	output_table.PrintTable(table)
+	outputtable.PrintTable(table)
 
 	return nil
 }

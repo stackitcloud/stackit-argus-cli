@@ -8,7 +8,7 @@ import (
 	"encoding/json"
 	"github.com/spf13/cobra"
 	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	output_table "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
+	outputtable "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
 )
 
 // httpCheck struct is used to unmarshal http check response body
@@ -28,7 +28,7 @@ func printHttpCheckTable(body []byte) error {
 	}
 
 	// print the outputTable
-	output_table.PrintTable(httpCheck.HttpChecks)
+	outputtable.PrintTable(httpCheck.HttpChecks)
 
 	return nil
 }

@@ -29,7 +29,6 @@ var CredentialsCmd = &cobra.Command{
 		// call command
 		if err := runCommand(url, resource); err != nil {
 			cmd.SilenceUsage = true
-
 			return err
 		}
 

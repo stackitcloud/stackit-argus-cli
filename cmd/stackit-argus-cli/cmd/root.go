@@ -24,13 +24,11 @@ func Execute() error {
 	// init info from configuration file
 	if err := config.InitFromConfigFile(config.GetConfigFile()); err != nil {
 		config.ResetConfigurations()
-
 		return err
 	}
 
 	if err := rootCmd.Execute(); err != nil {
 		config.ResetConfigurations()
-
 		return err
 	}
 

@@ -8,7 +8,7 @@ import (
 	"encoding/json"
 	"github.com/spf13/cobra"
 	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	output_table "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
+	outputtable "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
 )
 
 // grafanaConfigs is used to unmarshal grafana configs response body
@@ -69,11 +69,11 @@ func printGrafanaConfigsTable(body []byte, outputType config2.OutputType) error 
 	// print the outputTable
 	if outputType != "wide" {
 		//remove attributes that are not needed for default outputTable
-		table := output_table.RemoveColumnsFromTable(wideTable,
+		table := outputtable.RemoveColumnsFromTable(wideTable,
 			[]string{"RoleAttributePath", "EmailAttributePath", "LoginAttributePath", "Scopes"})
-		output_table.PrintTable(table)
+		outputtable.PrintTable(table)
 	} else {
-		output_table.PrintTable(wideTable)
+		outputtable.PrintTable(wideTable)
 	}
 
 	return nil

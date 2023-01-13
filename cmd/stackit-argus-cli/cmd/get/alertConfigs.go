@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	output_table "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
+	outputtable "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
 )
 
 // alertConfigs is used to unmarshal alert configs response body
@@ -79,7 +79,7 @@ func printAlertConfigsTable(body []byte, outputType config2.OutputType) error {
 		table.SmtpFrom = alertConfigs.Data.Global.SmtpFrom
 		table.SmtpSmarthost = alertConfigs.Data.Global.SmtpSmarthost
 	}
-	output_table.PrintTable(table)
+	outputtable.PrintTable(table)
 
 	// print wide outputTable
 	if outputType == "wide" {
@@ -103,7 +103,7 @@ func printAlertConfigsTable(body []byte, outputType config2.OutputType) error {
 
 		if len(table) > 0 {
 			fmt.Println("\nINHIBIT RULES")
-			output_table.PrintTable(table)
+			outputtable.PrintTable(table)
 		}
 	}
 

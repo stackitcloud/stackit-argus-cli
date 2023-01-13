@@ -16,9 +16,8 @@ var updateCmd = &cobra.Command{
 	Args:  cobra.NoArgs,
 }
 
-// init subcommands and flags
+// init subcommands
 func init() {
-	// init subcommands
 	updateCmd.AddCommand(update.InstanceCmd)
 	updateCmd.AddCommand(update.CredentialsCmd)
 	updateCmd.AddCommand(update.AlertConfigsCmd)

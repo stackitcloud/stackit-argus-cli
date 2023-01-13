@@ -16,9 +16,8 @@ var getCmd = &cobra.Command{
 	Args:  cobra.NoArgs,
 }
 
-// init subcommands and flags
+// init subcommands
 func init() {
-	// add subcommands
 	getCmd.AddCommand(get.InstanceCmd)
 	getCmd.AddCommand(get.CredentialsCmd)
 	getCmd.AddCommand(get.AlertConfigsCmd)

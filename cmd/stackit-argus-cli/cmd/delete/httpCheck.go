@@ -22,7 +22,6 @@ var HttpCheckCmd = &cobra.Command{
 		// call command
 		if err := runCommand(url, "http check"); err != nil {
 			cmd.SilenceUsage = true
-
 			return err
 		}
 

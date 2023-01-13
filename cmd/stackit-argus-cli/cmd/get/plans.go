@@ -8,7 +8,7 @@ import (
 	"encoding/json"
 	"github.com/spf13/cobra"
 	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	output_table "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
+	outputtable "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
 )
 
 // acl is used to unmarshal acl response body
@@ -52,12 +52,12 @@ func printPlansTable(body []byte, outputType config2.OutputType) error {
 		var table []interface{}
 
 		for _, plan := range plans.Plans {
-			table = append(table, output_table.RemoveColumnsFromTable(plan,
+			table = append(table, outputtable.RemoveColumnsFromTable(plan,
 				[]string{"BucketSize", "AlertRules", "SamplesPerScrape", "TargetNumber", "Amount", "LogsAlert"}))
 		}
-		output_table.PrintTable(table)
+		outputtable.PrintTable(table)
 	} else {
-		output_table.PrintTable(plans.Plans)
+		outputtable.PrintTable(plans.Plans)
 	}
 
 	return nil

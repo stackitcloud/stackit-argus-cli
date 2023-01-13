@@ -21,7 +21,6 @@ var GrafanaConfigsCmd = &cobra.Command{
 		// call command
 		if err := runCommand(url, "grafana config", "PUT"); err != nil {
 			cmd.SilenceUsage = true
-
 			return err
 		}
 

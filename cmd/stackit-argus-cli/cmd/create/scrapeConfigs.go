@@ -26,7 +26,6 @@ var ScrapeConfigsCmd = &cobra.Command{
 		// call command
 		if err := runCommand(url, "scrape configs", "", nil); err != nil {
 			cmd.SilenceUsage = true
-
 			return err
 		}
 

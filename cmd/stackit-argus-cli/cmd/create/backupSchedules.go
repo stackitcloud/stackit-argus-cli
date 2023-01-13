@@ -29,7 +29,6 @@ var BackupSchedulesCmd = &cobra.Command{
 			case "alertConfig", "alertRules", "scrapeConfig", "grafana":
 			default:
 				cmd.SilenceUsage = true
-
 				return errors.New("wrong targets, possible targets: alertConfig, alertRules, scrapeConfig or grafana")
 			}
 		}
@@ -40,7 +39,6 @@ var BackupSchedulesCmd = &cobra.Command{
 		// call command
 		if err := runCommand(url, "backup schedules", "backupTarget", backupTargets); err != nil {
 			cmd.SilenceUsage = true
-
 			return err
 		}
 

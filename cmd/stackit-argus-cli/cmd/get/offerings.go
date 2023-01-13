@@ -8,7 +8,7 @@ import (
 	"encoding/json"
 	"github.com/spf13/cobra"
 	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	output_table "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
+	outputtable "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
 )
 
 // offerings struct is used to unmarshal offerings response body
@@ -31,9 +31,9 @@ func printOfferingsTable(body []byte, outputType config2.OutputType) error {
 
 	// print the outputTable
 	if outputType != "wide" {
-		output_table.PrintTable(output_table.RemoveColumnsFromTable(offerings, []string{"DocumentationUrl", "Tags"}))
+		outputtable.PrintTable(outputtable.RemoveColumnsFromTable(offerings, []string{"DocumentationUrl", "Tags"}))
 	} else {
-		output_table.PrintTable(offerings)
+		outputtable.PrintTable(offerings)
 	}
 
 	return nil

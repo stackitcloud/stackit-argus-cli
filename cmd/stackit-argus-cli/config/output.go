@@ -23,7 +23,6 @@ func (o *OutputType) Set(s string) error {
 	switch s {
 	case "json", "yaml", "wide":
 		*o = OutputType(s)
-
 		return nil
 	default:
 		return errors.New("output type should be one of these: \"json\", \"yaml\" or \"wide\"")

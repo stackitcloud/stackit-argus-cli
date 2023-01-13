@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	output_table "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
+	outputtable "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
 )
 
 // recordsList is used to unmarshal records list response body and generate a outputTable out of it
@@ -44,11 +44,11 @@ func printRecordsListTable(body []byte, outputType config2.OutputType) error {
 		var table []interface{}
 
 		for _, d := range records.Data {
-			table = append(table, output_table.RemoveColumnsFromTable(d, []string{"Labels"}))
+			table = append(table, outputtable.RemoveColumnsFromTable(d, []string{"Labels"}))
 		}
-		output_table.PrintTable(table)
+		outputtable.PrintTable(table)
 	} else {
-		output_table.PrintTable(records.Data)
+		outputtable.PrintTable(records.Data)
 	}
 
 	return nil
@@ -65,9 +65,9 @@ func printRecordTable(body []byte, outputType config2.OutputType) error {
 
 	// print the outputTable
 	if outputType != "wide" {
-		output_table.PrintTable(output_table.RemoveColumnsFromTable(record.Data, []string{"Labels"}))
+		outputtable.PrintTable(outputtable.RemoveColumnsFromTable(record.Data, []string{"Labels"}))
 	} else {
-		output_table.PrintTable(record.Data)
+		outputtable.PrintTable(record.Data)
 	}
 
 	return nil

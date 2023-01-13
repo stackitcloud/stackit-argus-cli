@@ -36,6 +36,7 @@ func TestGetCommand(t *testing.T) {
 	// Open /dev/null as a file
 	nullFile, err := os.Open(os.DevNull)
 	assert.NoError(t, err)
+
 	defer func(nullFile *os.File) {
 		err := nullFile.Close()
 		assert.NoError(t, err)
@@ -106,6 +107,7 @@ func TestDeleteCommand(t *testing.T) {
 	// Open /dev/null as a file
 	nullFile, err := os.Open(os.DevNull)
 	assert.NoError(t, err)
+
 	defer func(nullFile *os.File) {
 		err := nullFile.Close()
 		assert.NoError(t, err)

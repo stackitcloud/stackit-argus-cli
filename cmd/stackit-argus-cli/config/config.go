@@ -84,6 +84,7 @@ func InitConfig(cmd *cobra.Command) {
 	cmd.PersistentFlags().BoolVarP(&remoteWriteLimits, "remote-write-limits", "r", false, "delete remote write config for credentials")
 	cmd.PersistentFlags().VarP(&flagOutputType, "output", "o", "defines output format: yaml, json or wide")
 
+	// init flag possible values
 	err := cmd.RegisterFlagCompletionFunc("output", outputFlagCompletion)
 	cobra.CheckErr(err)
 

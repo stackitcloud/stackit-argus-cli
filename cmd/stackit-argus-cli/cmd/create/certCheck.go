@@ -26,7 +26,6 @@ var CertCheckCmd = &cobra.Command{
 		// call command
 		if err := runCommand(url, "cert check", "", nil); err != nil {
 			cmd.SilenceUsage = true
-
 			return err
 		}
 

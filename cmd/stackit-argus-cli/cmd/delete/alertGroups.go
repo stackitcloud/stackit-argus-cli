@@ -22,7 +22,6 @@ var AlertGroupsCmd = &cobra.Command{
 		// call command
 		if err := runCommand(url, "alert group"); err != nil {
 			cmd.SilenceUsage = true
-
 			return err
 		}
 

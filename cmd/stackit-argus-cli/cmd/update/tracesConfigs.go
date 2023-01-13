@@ -26,7 +26,6 @@ var TracesConfigsCmd = &cobra.Command{
 		// call command
 		if err := runCommand(url, "traces config", "PUT"); err != nil {
 			cmd.SilenceUsage = true
-
 			return err
 		}
 

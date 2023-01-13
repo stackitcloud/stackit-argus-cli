@@ -26,7 +26,6 @@ var LogsConfigsCmd = &cobra.Command{
 		// call command
 		if err := runCommand(url, "logs config", "PUT"); err != nil {
 			cmd.SilenceUsage = true
-
 			return err
 		}
 

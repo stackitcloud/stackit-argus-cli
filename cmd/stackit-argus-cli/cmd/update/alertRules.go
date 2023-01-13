@@ -37,7 +37,6 @@ var AlertRulesCmd = &cobra.Command{
 		// call command
 		if err := runCommand(url, resource, method); err != nil {
 			cmd.SilenceUsage = true
-
 			return err
 		}
 

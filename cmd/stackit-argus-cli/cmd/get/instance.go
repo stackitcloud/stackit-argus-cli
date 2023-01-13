@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	output_table "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
+	outputtable "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
 )
 
 // instance is used to unmarshal instance response body
@@ -50,10 +50,10 @@ func printInstanceTable(body []byte, outputType config2.OutputType) error {
 
 	// print the outputTable
 	if outputType != "wide" {
-		table := output_table.RemoveColumnsFromTable(instance, []string{"PlanId", "Error"})
-		output_table.PrintTable(table)
+		table := outputtable.RemoveColumnsFromTable(instance, []string{"PlanId", "Error"})
+		outputtable.PrintTable(table)
 	} else {
-		output_table.PrintTable(instance)
+		outputtable.PrintTable(instance)
 	}
 
 	return nil
@@ -73,11 +73,11 @@ func printListInstancesListTable(body []byte, outputType config2.OutputType) err
 		var table []interface{}
 
 		for _, instance := range instances.Instances {
-			table = append(table, output_table.RemoveColumnsFromTable(instance, []string{"Error"}))
+			table = append(table, outputtable.RemoveColumnsFromTable(instance, []string{"Error"}))
 		}
-		output_table.PrintTable(table)
+		outputtable.PrintTable(table)
 	} else {
-		output_table.PrintTable(instances.Instances)
+		outputtable.PrintTable(instances.Instances)
 	}
 
 	return nil

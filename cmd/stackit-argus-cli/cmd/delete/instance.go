@@ -22,7 +22,6 @@ var InstanceCmd = &cobra.Command{
 		// call command
 		if err := runCommand(url, "instance"); err != nil {
 			cmd.SilenceUsage = true
-
 			return err
 		}
 

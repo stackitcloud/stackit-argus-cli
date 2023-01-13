@@ -26,7 +26,6 @@ var AclCmd = &cobra.Command{
 		// call command
 		if err := runCommand(url, "acl", "PUT"); err != nil {
 			cmd.SilenceUsage = true
-
 			return err
 		}
 

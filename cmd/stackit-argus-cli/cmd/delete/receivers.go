@@ -22,7 +22,6 @@ var ReceiversCmd = &cobra.Command{
 		// call command
 		if err := runCommand(url, "receiver"); err != nil {
 			cmd.SilenceUsage = true
-
 			return err
 		}
 

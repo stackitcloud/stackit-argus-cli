@@ -22,7 +22,6 @@ var AlertRecordsCmd = &cobra.Command{
 		// call command
 		if err := runCommand(url, "alert record"); err != nil {
 			cmd.SilenceUsage = true
-
 			return err
 		}
 

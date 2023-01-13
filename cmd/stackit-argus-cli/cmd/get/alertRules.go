@@ -43,13 +43,13 @@ func printAlertRulesTable(body []byte, outputType config2.OutputType) error {
 
 	// print the outputTable
 	if outputType == "wide" {
-		output_table.PrintTable(alertRules.Data)
+		outputtable.PrintTable(alertRules.Data)
 	} else {
 		var table []interface{}
 		for _, data := range alertRules.Data {
-			table = append(table, output_table.RemoveColumnsFromTable(data, []string{"Labels", "Annotations"}))
+			table = append(table, outputtable.RemoveColumnsFromTable(data, []string{"Labels", "Annotations"}))
 		}
-		output_table.PrintTable(table)
+		outputtable.PrintTable(table)
 	}
 
 	return nil
@@ -66,10 +66,10 @@ func printAlertRuleTable(body []byte, outputType config2.OutputType) error {
 
 	// print the outputTable
 	if outputType == "wide" {
-		output_table.PrintTable(alertRule.Data)
+		outputtable.PrintTable(alertRule.Data)
 	} else {
-		table := output_table.RemoveColumnsFromTable(alertRule.Data, []string{"Labels", "Annotations"})
-		output_table.PrintTable(table)
+		table := outputtable.RemoveColumnsFromTable(alertRule.Data, []string{"Labels", "Annotations"})
+		outputtable.PrintTable(table)
 	}
 
 	return nil

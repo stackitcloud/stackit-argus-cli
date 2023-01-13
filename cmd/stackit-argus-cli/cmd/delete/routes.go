@@ -22,7 +22,6 @@ var RoutesCmd = &cobra.Command{
 		// call command
 		if err := runCommand(url, "alert config route"); err != nil {
 			cmd.SilenceUsage = true
-
 			return err
 		}
 

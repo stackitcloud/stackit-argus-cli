@@ -5,9 +5,13 @@ linters:
   enable:
     - errcheck
     - gosimple
-    - govet
-    - ineffassign
+    - govet # reports suspicious constructs
+    - ineffassign # detect ineffectual assignments
     - staticcheck
     - typecheck
     - unused
-    - gosec
+    - gosec # inspects source code for security problems
+    - dogsled # checks assignments with too many blank identifiers; default is 2
+    - bodyclose # checks whether HTTP response body is closed successfully
+    - unconvert # remove unnecessary type conversions
+    - unparam # reports unused function parameters

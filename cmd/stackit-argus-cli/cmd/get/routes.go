@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	output_table "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
+	outputtable "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
 )
 
 // route is used to unmarshal routes response body and generate a outputTable out of it
@@ -59,12 +59,12 @@ func printRoutesListTable(body []byte, outputType config2.OutputType) error {
 		var newTable []interface{}
 
 		for _, data := range table {
-			newTable = append(newTable, output_table.RemoveColumnsFromTable(data,
+			newTable = append(newTable, outputtable.RemoveColumnsFromTable(data,
 				[]string{"GroupBy", "Match", "MatchRe", "Matchers"}))
 		}
-		output_table.PrintTable(newTable)
+		outputtable.PrintTable(newTable)
 	} else {
-		output_table.PrintTable(table)
+		outputtable.PrintTable(table)
 	}
 
 	return nil

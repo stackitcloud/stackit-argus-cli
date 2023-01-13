@@ -8,8 +8,10 @@ import (
 	"encoding/json"
 	"github.com/spf13/cobra"
 	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	output_table "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
+	outputtable "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
 )
+
+var numberOfBackups = 10
 
 // backups struct is used to unmarshal backups response body
 type backups struct {
@@ -30,25 +32,25 @@ func printBackupsTable(body []byte, outputType config2.OutputType) error {
 
 	if outputType != "wide" {
 		l := len(backups.Grafana)
-		if l > 10 {
-			backups.Grafana = backups.Grafana[l-10 : l]
+		if l > numberOfBackups {
+			backups.Grafana = backups.Grafana[l-numberOfBackups : l]
 		}
 		l = len(backups.AlertConfig)
-		if l > 10 {
-			backups.AlertConfig = backups.AlertConfig[l-10 : l]
+		if l > numberOfBackups {
+			backups.AlertConfig = backups.AlertConfig[l-numberOfBackups : l]
 		}
 		l = len(backups.ScrapeConfig)
-		if l > 10 {
-			backups.ScrapeConfig = backups.ScrapeConfig[l-10 : l]
+		if l > numberOfBackups {
+			backups.ScrapeConfig = backups.ScrapeConfig[l-numberOfBackups : l]
 		}
 		l = len(backups.AlertRules)
-		if l > 10 {
-			backups.AlertRules = backups.AlertRules[l-10 : l]
+		if l > numberOfBackups {
+			backups.AlertRules = backups.AlertRules[l-numberOfBackups : l]
 		}
 	}
 
 	// print the outputTable
-	output_table.PrintTable(backups)
+	outputtable.PrintTable(backups)
 
 	return nil
 }

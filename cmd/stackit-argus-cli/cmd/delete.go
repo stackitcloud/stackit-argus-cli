@@ -16,9 +16,8 @@ var deleteCmd = &cobra.Command{
 	Args:  cobra.NoArgs,
 }
 
-// init subcommands and flags
+// init subcommands
 func init() {
-	// init subcommands
 	deleteCmd.AddCommand(delete.InstanceCmd)
 	deleteCmd.AddCommand(delete.CredentialsCmd)
 	deleteCmd.AddCommand(delete.ReceiversCmd)
