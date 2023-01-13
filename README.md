@@ -36,3 +36,16 @@ Run tests
 ```bash
 make test
 ```
+## Build & run
+
+Build binary
+
+```bash
+make build
+```
+
+Run cli
+
+```bash
+./out/bin/stackit-argus-cli
+```
