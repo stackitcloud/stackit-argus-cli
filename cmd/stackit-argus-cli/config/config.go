@@ -36,18 +36,15 @@ func InitFromConfigFile(f string) error {
 	// get instance id from a config file, if it is not set via flag
 	if instanceId == "" {
 		instanceId = viper.GetString("instance_id")
-		if instanceId == "" {
-			return errors.New("please, set a current instance id in a config file. Default config file path is" +
-				"'./.stackit-argus-cli.yaml'. Current instance id key is 'current_instance'")
-		}
 	}
 
 	// get project id from a config file, if it is not set via flag
 	if projectId == "" {
 		projectId = viper.GetString("project_id")
 		if projectId == "" {
-			return errors.New("please, set a current project id in a config file. Default config file path is" +
-				"'./.stackit-argus-cli.yaml'. Current project id key is 'current_project'")
+			return errors.New("please, set a current project id in a config file or with appropriate flag. " +
+				"Default config file path is './cmd/stackit-argus-cli/.stackit-argus-cli.yaml'." +
+				"Current project id key is 'current_project'")
 		}
 	}
 
@@ -55,13 +52,14 @@ func InitFromConfigFile(f string) error {
 	token = viper.GetString("token")
 	if token == "" {
 		return errors.New("please, set an auth token in a config file. Default config file path is" +
-			"'./.stackit-argus-cli.yaml'. Token id key is 'token'")
+			"'./cmd/stackit-argus-cli/.stackit-argus-cli.yaml'. Token id key is 'token'")
 	}
 
 	// get base url from config file
 	baseUrl = viper.GetString("base_url")
 	if baseUrl == "" {
-		return errors.New("please, set an base url in a config file. Base url key is 'base_url'")
+		return errors.New("please, set a base url in a config file. Default config file path is" +
+			"'./cmd/stackit-argus-cli/.stackit-argus-cli.yaml'. Base url key is 'base_url'")
 	}
 
 	return nil
@@ -99,6 +97,11 @@ func InitConfig(cmd *cobra.Command) {
 
 // GetBaseUrl returns basic url for mostly all api calls
 func GetBaseUrl() string {
+	if instanceId == "" {
+		cobra.CheckErr("please, set a current instance id in a config file or with appropriate flag. " +
+			"Default config file path is './cmd/stackit-argus-cli/.stackit-argus-cli.yaml'. " +
+			"Current instance id key is 'current_instance'")
+	}
 	return fmt.Sprintf("%s/projects/%s/instances/%s/", baseUrl, projectId, instanceId)
 }
 
