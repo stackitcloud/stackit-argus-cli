@@ -16,12 +16,13 @@ func TestReceivers(t *testing.T) {
 
 	expectedResult := "{\"name\":\"receiver1\",\"emailConfigs\":[{\"to\":\"to\",\"from\":\"from\",\"smarthost\":" +
 		"\"smarthost\",\"authUsername\":\"username\",\"authPassword\":\"pass\",\"authIdentity\":\"identity\"}," +
-		"{\"to\":\"to\",\"from\":\"from\",\"smarthost\":\"smarthost\",\"authUsername\":\"username\"," +
-		"\"authPassword\":\"pass\",\"authIdentity\":\"identity\"}],\"opsgenieConfigs\":[{\"apiKey\":\"key\"," +
-		"\"apiUrl\":\"url\",\"tags\":\"tag\"},{\"apiKey\":\"key\",\"apiUrl\":\"url\",\"tags\":\"tag\"}]," +
-		"\"webhookConfigs\":[{\"url\":\"url\",\"msTeams\":true},{\"url\":\"url\",\"msTeams\":false}]}"
+		"{\"to\":\"to\",\"from\":\"from\",\"smarthost\":\"smarthost\",\"authUsername\":\"username\",\"authPassword\":" +
+		"\"pass\",\"authIdentity\":\"identity\"}],\"opsgenieConfigs\":[{\"apiKey\":\"key\",\"apiUrl\":\"url\",\"tags\":" +
+		"\"tag\"},{\"apiKey\":\"key\",\"apiUrl\":\"url\",\"tags\":\"tag\"}],\"webhookConfigs\":[{\"url\":\"url\"," +
+		"\"msTeams\":true},{\"url\":\"url\"}]}"
 
 	res, err := Receivers([]byte(value))
+	println(string(res))
 	assert.NoError(t, err, "test working case")
 	assert.Equal(t, []byte(expectedResult), res)
 
@@ -66,14 +67,14 @@ func TestRoutes(t *testing.T) {
 		"\"matchers\":[\"matcher1\",\"matcher2\"],\"routes\":[{\"receiver\":\"receiver\"," +
 		"\"groupBy\":[\"group\",\"by\"],\"groupWait\":\"group wait\",\"groupInterval\":\"group_interval\"," +
 		"\"repeatInterval\":\"repeat_interval\",\"match\":{\"key1\":\"value1\",\"key2\":\"value2\"}," +
-		"\"matchRe\":{\"key1\":\"value1\",\"key2\":\"value2\"},\"matchers\":[\"matcher1\",\"matcher2\"]," +
-		"\"routes\":null}]},{\"receiver\":\"receiver\",\"groupBy\":[\"group\",\"by\"],\"groupWait\":\"group wait\"," +
+		"\"matchRe\":{\"key1\":\"value1\",\"key2\":\"value2\"},\"matchers\":[\"matcher1\",\"matcher2\"]" +
+		"}]},{\"receiver\":\"receiver\",\"groupBy\":[\"group\",\"by\"],\"groupWait\":\"group wait\"," +
 		"\"groupInterval\":\"group_interval\",\"repeatInterval\":\"repeat_interval\",\"match\":{\"key1\":\"value1\"," +
 		"\"key2\":\"value2\"},\"matchRe\":{\"key1\":\"value1\",\"key2\":\"value2\"},\"matchers\":[\"matcher1\"," +
 		"\"matcher2\"],\"routes\":[{\"receiver\":\"receiver\",\"groupBy\":[\"group\",\"by\"]," +
 		"\"groupWait\":\"group wait\",\"groupInterval\":\"group_interval\",\"repeatInterval\":\"repeat_interval\"," +
 		"\"match\":{\"key1\":\"value1\",\"key2\":\"value2\"},\"matchRe\":{\"key1\":\"value1\",\"key2\":\"value2\"}," +
-		"\"matchers\":[\"matcher1\",\"matcher2\"],\"routes\":null}]}]}"
+		"\"matchers\":[\"matcher1\",\"matcher2\"]}]}]}"
 
 	res, err := Routes([]byte(value))
 	assert.NoError(t, err, "test working case")
@@ -138,44 +139,40 @@ func TestAlertConfig(t *testing.T) {
 		"\"key2\": \"value2\"\n    target_match_re:\n      \"key1\": \"value1\"\n      \"key2\": \"value2\"\n    " +
 		"equal:\n      - \"1\"\n      - \"2\""
 
-	expectedResult := "{\"global\":{\"resolveTimeout\":\"5m\",\"smtpFrom\":\"form smtp\",\"" +
-		"smtpSmarthost\":\"very smart\",\"smtpAuthUsername\":\"name\",\"smtpAuthPassword\":\"password\"," +
-		"\"smtpAuthIdentity\":\"smart identity\",\"opsgenieApiKey\":\"api key\",\"opsgenieApiUrl\":\"api url\"}," +
-		"\"route\":{\"receiver\":\"receiver\",\"groupBy\":[\"group\",\"by\"],\"groupWait\":\"group wait\"," +
+	expectedResult := "{\"global\":{\"resolveTimeout\":\"5m\",\"smtpFrom\":\"form smtp\",\"smtpSmarthost\":" +
+		"\"very smart\",\"smtpAuthUsername\":\"name\",\"smtpAuthPassword\":\"password\",\"smtpAuthIdentity\":" +
+		"\"smart identity\",\"opsgenieApiKey\":\"api key\",\"opsgenieApiUrl\":\"api url\"},\"route\":{\"receiver\":" +
+		"\"receiver\",\"groupBy\":[\"group\",\"by\"],\"groupWait\":\"group wait\",\"groupInterval\":" +
+		"\"group_interval\",\"repeatInterval\":\"repeat_interval\",\"match\":{\"key1\":\"value1\",\"key2\":" +
+		"\"value2\"},\"matchRe\":{\"key1\":\"value1\",\"key2\":\"value2\"},\"matchers\":[\"matcher1\",\"matcher2\"]," +
+		"\"routes\":[{\"receiver\":\"receiver\",\"groupBy\":[\"group\",\"by\"],\"groupWait\":\"group wait\"," +
 		"\"groupInterval\":\"group_interval\",\"repeatInterval\":\"repeat_interval\",\"match\":{\"key1\":\"value1\"," +
 		"\"key2\":\"value2\"},\"matchRe\":{\"key1\":\"value1\",\"key2\":\"value2\"},\"matchers\":[\"matcher1\"," +
-		"\"matcher2\"],\"routes\":[{\"receiver\":\"receiver\",\"groupBy\":[\"group\",\"by\"],\"" +
-		"groupWait\":\"group wait\",\"groupInterval\":\"group_interval\",\"repeatInterval\":\"repeat_interval\"," +
-		"\"match\":{\"key1\":\"value1\",\"key2\":\"value2\"},\"matchRe\":{\"key1\":\"value1\",\"key2\":\"value2\"" +
-		"},\"matchers\":[\"matcher1\",\"matcher2\"],\"routes\":[{\"receiver\":\"receiver\"," +
-		"\"groupBy\":[\"group\",\"by\"],\"groupWait\":\"group wait\",\"groupInterval\":\"group_interval\"," +
-		"\"repeatInterval\":\"repeat_interval\",\"match\":{\"key1\":\"value1\",\"key2\":\"value2\"}," +
-		"\"matchRe\":{\"key1\":\"value1\",\"key2\":\"value2\"},\"matchers\":[\"matcher1\",\"matcher2\"]," +
-		"\"routes\":null}]},{\"receiver\":\"receiver\",\"groupBy\":[\"group\",\"by\"],\"groupWait\":\"group wait\"," +
-		"\"groupInterval\":\"group_interval\",\"repeatInterval\":\"repeat_interval\",\"match\":{\"key1\":\"value1\"," +
-		"\"key2\":\"value2\"},\"matchRe\":{\"key1\":\"value1\",\"key2\":\"value2\"},\"matchers\":[\"matcher1\"," +
-		"\"matcher2\"],\"routes\":[{\"receiver\":\"receiver\",\"groupBy\":[\"group\",\"by\"],\"" +
+		"\"matcher2\"],\"routes\":[{\"receiver\":\"receiver\",\"groupBy\":[\"group\",\"by\"],\"groupWait\":" +
+		"\"group wait\",\"groupInterval\":\"group_interval\",\"repeatInterval\":\"repeat_interval\",\"match\":" +
+		"{\"key1\":\"value1\",\"key2\":\"value2\"},\"matchRe\":{\"key1\":\"value1\",\"key2\":\"value2\"},\"matchers" +
+		"\":[\"matcher1\",\"matcher2\"]}]},{\"receiver\":\"receiver\",\"groupBy\":[\"group\",\"by\"],\"groupWait" +
+		"\":\"group wait\",\"groupInterval\":\"group_interval\",\"repeatInterval\":\"repeat_interval\",\"match\"" +
+		":{\"key1\":\"value1\",\"key2\":\"value2\"},\"matchRe\":{\"key1\":\"value1\",\"key2\":\"value2\"},\"matchers\"" +
+		":[\"matcher1\",\"matcher2\"],\"routes\":[{\"receiver\":\"receiver\",\"groupBy\":[\"group\",\"by\"],\"" +
 		"groupWait\":\"group wait\",\"groupInterval\":\"group_interval\",\"repeatInterval\":\"repeat_interval\"," +
 		"\"match\":{\"key1\":\"value1\",\"key2\":\"value2\"},\"matchRe\":{\"key1\":\"value1\",\"key2\":\"value2\"}," +
-		"\"matchers\":[\"matcher1\",\"matcher2\"],\"routes\":null}]}]},\"receivers\":[{\"name\":\"receiver1\"," +
+		"\"matchers\":[\"matcher1\",\"matcher2\"]}]}]},\"receivers\":[{\"name\":\"receiver1\",\"emailConfigs\":" +
+		"[{\"to\":\"to\",\"from\":\"from\",\"smarthost\":\"smarthost\",\"authUsername\":\"username\",\"authPassword\":" +
+		"\"pass\",\"authIdentity\":\"identity\"},{\"to\":\"to\",\"from\":\"from\",\"smarthost\":\"smarthost\"," +
+		"\"authUsername\":\"username\",\"authPassword\":\"pass\",\"authIdentity\":\"identity\"}],\"opsgenieConfigs\"" +
+		":[{\"apiKey\":\"key\",\"apiUrl\":\"url\",\"tags\":\"tag\"},{\"apiKey\":\"key\",\"apiUrl\":\"url\",\"tags\"" +
+		":\"tag\"}],\"webhookConfigs\":[{\"url\":\"url\",\"msTeams\":true},{\"url\":\"url\"}]},{\"name\":\"receiver2\"," +
 		"\"emailConfigs\":[{\"to\":\"to\",\"from\":\"from\",\"smarthost\":\"smarthost\",\"authUsername\":\"username\"," +
-		"\"authPassword\":\"pass\",\"authIdentity\":\"identity\"},{\"to\":\"to\",\"from\":\"from\"," +
-		"\"smarthost\":\"smarthost\",\"authUsername\":\"username\",\"authPassword\":\"pass\"," +
-		"\"authIdentity\":\"identity\"}],\"opsgenieConfigs\":[{\"apiKey\":\"key\",\"apiUrl\":\"url\"," +
-		"\"tags\":\"tag\"},{\"apiKey\":\"key\",\"apiUrl\":\"url\",\"tags\":\"tag\"}]," +
-		"\"webhookConfigs\":[{\"url\":\"url\",\"msTeams\":true},{\"url\":\"url\",\"msTeams\":false}]}," +
-		"{\"name\":\"receiver2\",\"emailConfigs\":[{\"to\":\"to\",\"from\":\"from\",\"smarthost\":\"smarthost\"," +
-		"\"authUsername\":\"username\",\"authPassword\":\"pass\",\"authIdentity\":\"identity\"},{\"to\":\"to\"," +
-		"\"from\":\"from\",\"smarthost\":\"smarthost\",\"authUsername\":\"username\",\"authPassword\":\"pass\"," +
-		"\"authIdentity\":\"identity\"}],\"opsgenieConfigs\":[{\"apiKey\":\"key\",\"apiUrl\":\"url\"," +
-		"\"tags\":\"tag\"},{\"apiKey\":\"key\",\"apiUrl\":\"url\",\"tags\":\"tag\"}]," +
-		"\"webhookConfigs\":[{\"url\":\"url\",\"msTeams\":true},{\"url\":\"url\",\"msTeams\":false}]}]," +
-		"\"inhibitRules\":[{\"sourceMatch\":{\"key1\":\"value1\",\"key2\":\"value2\"}," +
-		"\"sourceMatchRe\":{\"key1\":\"value1\",\"key2\":\"value2\"},\"targetMatch\":{\"key1\":\"value1\"," +
-		"\"key2\":\"value2\"},\"targetMatchRe\":{\"key1\":\"value1\",\"key2\":\"value2\"},\"equal\":[\"1\"," +
-		"\"2\"]},{\"sourceMatch\":{\"key1\":\"value1\",\"key2\":\"value2\"},\"sourceMatchRe\":{\"key1\":\"value1\"," +
-		"\"key2\":\"value2\"},\"targetMatch\":{\"key1\":\"value1\",\"key2\":\"value2\"}," +
-		"\"targetMatchRe\":{\"key1\":\"value1\",\"key2\":\"value2\"},\"equal\":[\"1\",\"2\"]}]}"
+		"\"authPassword\":\"pass\",\"authIdentity\":\"identity\"},{\"to\":\"to\",\"from\":\"from\",\"smarthost\":" +
+		"\"smarthost\",\"authUsername\":\"username\",\"authPassword\":\"pass\",\"authIdentity\":\"identity\"}]," +
+		"\"opsgenieConfigs\":[{\"apiKey\":\"key\",\"apiUrl\":\"url\",\"tags\":\"tag\"},{\"apiKey\":\"key\",\"apiUrl\":" +
+		"\"url\",\"tags\":\"tag\"}],\"webhookConfigs\":[{\"url\":\"url\",\"msTeams\":true},{\"url\":\"url\"}]}]," +
+		"\"inhibitRules\":[{\"sourceMatch\":{\"key1\":\"value1\",\"key2\":\"value2\"},\"sourceMatchRe\":{\"key1\":" +
+		"\"value1\",\"key2\":\"value2\"},\"targetMatch\":{\"key1\":\"value1\",\"key2\":\"value2\"},\"targetMatchRe\":" +
+		"{\"key1\":\"value1\",\"key2\":\"value2\"},\"equal\":[\"1\",\"2\"]},{\"sourceMatch\":{\"key1\":\"value1\"," +
+		"\"key2\":\"value2\"},\"sourceMatchRe\":{\"key1\":\"value1\",\"key2\":\"value2\"},\"targetMatch\":{\"key1\":" +
+		"\"value1\",\"key2\":\"value2\"},\"targetMatchRe\":{\"key1\":\"value1\",\"key2\":\"value2\"},\"equal\":[\"1\",\"2\"]}]}"
 
 	res, err := AlertConfig([]byte(value))
 	assert.NoError(t, err, "test working case")
