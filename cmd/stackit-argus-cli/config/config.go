@@ -42,9 +42,9 @@ func InitFromConfigFile(f string) error {
 	if projectId == "" {
 		projectId = viper.GetString("project_id")
 		if projectId == "" {
-			return errors.New("please, set a current project id in a config file or with appropriate flag. " +
+			return errors.New("please, set a project id in a config file or with appropriate flag. " +
 				"Default config file path is './cmd/stackit-argus-cli/.stackit-argus-cli.yaml'." +
-				"Current project id key is 'current_project'")
+				"Current project id key is 'project_id'")
 		}
 	}
 
@@ -98,9 +98,9 @@ func InitConfig(cmd *cobra.Command) {
 // GetBaseUrl returns basic url for mostly all api calls
 func GetBaseUrl() string {
 	if instanceId == "" {
-		cobra.CheckErr("please, set a current instance id in a config file or with appropriate flag. " +
+		cobra.CheckErr("please, set an instance id in a config file or with appropriate flag. " +
 			"Default config file path is './cmd/stackit-argus-cli/.stackit-argus-cli.yaml'. " +
-			"Current instance id key is 'current_instance'")
+			"Current instance id key is 'instance_id'")
 	}
 	return fmt.Sprintf("%s/projects/%s/instances/%s/", baseUrl, projectId, instanceId)
 }
