@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output_table"
 )
 
 // data stores alert rule properties
@@ -17,7 +17,7 @@ type data struct {
 	Alert string `json:"alert" header:"alert"`
 	Expr  string `json:"expr" header:"expr"`
 	For   string `json:"for" header:"for"`
-	// wide outputTable attributes
+	// wide output_table attributes
 	Labels      map[string]string `json:"labels" header:"labels"`
 	Annotations map[string]string `json:"annotations" header:"annotations"`
 }
@@ -32,7 +32,7 @@ type alertRule struct {
 	Data data `json:"data" validate:"required"`
 }
 
-// printAlertRulesTable prints alert rules outputTable
+// printAlertRulesTable prints alert rules output_table
 func printAlertRulesTable(body []byte, outputType config2.OutputType) error {
 	var alertRules alertRules
 
@@ -41,21 +41,21 @@ func printAlertRulesTable(body []byte, outputType config2.OutputType) error {
 		return err
 	}
 
-	// print the outputTable
+	// print the output_table
 	if outputType == "wide" {
-		outputtable.PrintTable(alertRules.Data)
+		output_table.PrintTable(alertRules.Data)
 	} else {
 		var table []interface{}
 		for _, data := range alertRules.Data {
-			table = append(table, outputtable.RemoveColumnsFromTable(data, []string{"Labels", "Annotations"}))
+			table = append(table, output_table.RemoveColumnsFromTable(data, []string{"Labels", "Annotations"}))
 		}
-		outputtable.PrintTable(table)
+		output_table.PrintTable(table)
 	}
 
 	return nil
 }
 
-// printAlertRuleTable prints alert rule outputTable
+// printAlertRuleTable prints alert rule output_table
 func printAlertRuleTable(body []byte, outputType config2.OutputType) error {
 	var alertRule alertRule
 
@@ -64,12 +64,12 @@ func printAlertRuleTable(body []byte, outputType config2.OutputType) error {
 		return err
 	}
 
-	// print the outputTable
+	// print the output_table
 	if outputType == "wide" {
-		outputtable.PrintTable(alertRule.Data)
+		output_table.PrintTable(alertRule.Data)
 	} else {
-		table := outputtable.RemoveColumnsFromTable(alertRule.Data, []string{"Labels", "Annotations"})
-		outputtable.PrintTable(table)
+		table := output_table.RemoveColumnsFromTable(alertRule.Data, []string{"Labels", "Annotations"})
+		output_table.PrintTable(table)
 	}
 
 	return nil
@@ -102,7 +102,7 @@ var AlertRulesCmd = &cobra.Command{
 			return err
 		}
 
-		// print outputTable output
+		// print output_table output
 		if body != nil && (outputType == "" || outputType == "wide") {
 			if len(args) == 1 {
 				if err := printAlertRulesTable(body, outputType); err != nil {

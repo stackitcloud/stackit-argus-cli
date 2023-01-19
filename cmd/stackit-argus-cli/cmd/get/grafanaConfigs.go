@@ -8,7 +8,7 @@ import (
 	"encoding/json"
 	"github.com/spf13/cobra"
 	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	outputtable "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output_table"
 )
 
 // grafanaConfigs is used to unmarshal grafana configs response body
@@ -29,20 +29,20 @@ type grafanaConfigs struct {
 	} `json:"genericOauth"`
 }
 
-// grafanaConfigsTable holds structure of grafana configs outputTable
+// grafanaConfigsTable holds structure of grafana configs output_table
 type grafanaConfigsTable struct {
 	OauthClientId       string `header:"oauth client id"`
 	PublicReadAccess    bool   `header:"public read access"`
 	Enabled             bool   `header:"generic auth enabled"`
 	RoleAttributeStrict bool   `header:"role attribute strict"`
-	// wide outputTable attributes
+	// wide output_table attributes
 	Scopes             string `header:"scopes"`
 	RoleAttributePath  string `header:"role attribute path"`
 	EmailAttributePath string `header:"email attribute path"`
 	LoginAttributePath string `header:"login attribute path"`
 }
 
-// printGrafanaConfigsTable prints grafana configs response body as a outputTable
+// printGrafanaConfigsTable prints grafana configs response body as a output_table
 func printGrafanaConfigsTable(body []byte, outputType config2.OutputType) error {
 	var grafanaConfigs grafanaConfigs
 
@@ -51,7 +51,7 @@ func printGrafanaConfigsTable(body []byte, outputType config2.OutputType) error 
 		return err
 	}
 
-	// generate a outputTable
+	// generate a output_table
 	wideTable := grafanaConfigsTable{}
 	if grafanaConfigs.GenericOauth != nil {
 		wideTable = grafanaConfigsTable{
@@ -66,14 +66,14 @@ func printGrafanaConfigsTable(body []byte, outputType config2.OutputType) error 
 		}
 	}
 
-	// print the outputTable
+	// print the output_table
 	if outputType != "wide" {
-		//remove attributes that are not needed for default outputTable
-		table := outputtable.RemoveColumnsFromTable(wideTable,
+		//remove attributes that are not needed for default output_table
+		table := output_table.RemoveColumnsFromTable(wideTable,
 			[]string{"RoleAttributePath", "EmailAttributePath", "LoginAttributePath", "Scopes"})
-		outputtable.PrintTable(table)
+		output_table.PrintTable(table)
 	} else {
-		outputtable.PrintTable(wideTable)
+		output_table.PrintTable(wideTable)
 	}
 
 	return nil
@@ -98,7 +98,7 @@ var GrafanaConfigsCmd = &cobra.Command{
 			return err
 		}
 
-		// print outputTable output
+		// print output_table output
 		if body != nil && (outputType == "" || outputType == "wide") {
 			if err := printGrafanaConfigsTable(body, outputType); err != nil {
 				cmd.SilenceUsage = true

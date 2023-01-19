@@ -1,4 +1,4 @@
-package yamltojson
+package yaml_to_json
 
 /*
  * YAML to JSON converter.

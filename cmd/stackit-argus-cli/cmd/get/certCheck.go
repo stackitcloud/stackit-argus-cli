@@ -8,7 +8,7 @@ import (
 	"encoding/json"
 	"github.com/spf13/cobra"
 	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	outputtable "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output_table"
 )
 
 // certCheck struct is used to unmarshal cert check response body
@@ -18,7 +18,7 @@ type certCheck struct {
 	} `json:"certChecks"`
 }
 
-// printCertCheckTable prints cert checks as a outputTable
+// printCertCheckTable prints cert checks as a output_table
 func printCertCheckTable(body []byte) error {
 	var certCheck certCheck
 
@@ -27,8 +27,8 @@ func printCertCheckTable(body []byte) error {
 		return err
 	}
 
-	// print the outputTable
-	outputtable.PrintTable(certCheck.CertChecks)
+	// print the output_table
+	output_table.PrintTable(certCheck.CertChecks)
 
 	return nil
 }
@@ -52,7 +52,7 @@ var CertCheckCmd = &cobra.Command{
 			return err
 		}
 
-		// print outputTable output
+		// print output_table output
 		if body != nil && (outputType == "" || outputType == "wide") {
 			if err := printCertCheckTable(body); err != nil {
 				cmd.SilenceUsage = true

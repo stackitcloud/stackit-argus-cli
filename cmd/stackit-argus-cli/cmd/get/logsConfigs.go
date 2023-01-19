@@ -8,7 +8,7 @@ import (
 	"encoding/json"
 	"github.com/spf13/cobra"
 	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	outputtable "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output_table"
 )
 
 // logsConfigs is used to unmarshal logs configs response body
@@ -18,7 +18,7 @@ type logsConfigs struct {
 	} `json:"config"`
 }
 
-// printLogsConfigsTable prints logs configs response body as outputTable
+// printLogsConfigsTable prints logs configs response body as output_table
 func printLogsConfigsTable(body []byte) error {
 	var logsConfigs logsConfigs
 
@@ -27,8 +27,8 @@ func printLogsConfigsTable(body []byte) error {
 		return err
 	}
 
-	// print the outputTable
-	outputtable.PrintTable(logsConfigs.Config)
+	// print the output_table
+	output_table.PrintTable(logsConfigs.Config)
 
 	return nil
 }
@@ -52,7 +52,7 @@ var LogsConfigsCmd = &cobra.Command{
 			return err
 		}
 
-		// print outputTable output
+		// print output_table output
 		if body != nil && (outputType == "" || outputType == "wide") {
 			if err := printLogsConfigsTable(body); err != nil {
 				cmd.SilenceUsage = true

@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	outputtable "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output_table"
 )
 
 // show number of rules
@@ -32,20 +32,20 @@ type alertGroup struct {
 	} `json:"data" validate:"required"`
 }
 
-// alertGroupTable holds structure of alert group outputTable
+// alertGroupTable holds structure of alert group output_table
 type alertGroupTable struct {
 	Interval string `header:"interval"`
 	Rules    int    `header:"rules"`
 }
 
-// alertGroupsTable holds structure of alert groups outputTable
+// alertGroupsTable holds structure of alert groups output_table
 type alertGroupsTable struct {
 	Name     string `header:"name"`
 	Interval string `header:"interval"`
 	Rules    int    `header:"rules"`
 }
 
-// printAlertGroupTable prints alert group response body as a outputTable
+// printAlertGroupTable prints alert group response body as a output_table
 func printAlertGroupTable(body []byte) error {
 	var alertGroup alertGroup
 
@@ -54,8 +54,8 @@ func printAlertGroupTable(body []byte) error {
 		return err
 	}
 
-	// print the outputTable
-	outputtable.PrintTable(alertGroupTable{
+	// print the output_table
+	output_table.PrintTable(alertGroupTable{
 		Interval: alertGroup.Data.Interval,
 		Rules:    len(alertGroup.Data.Rules),
 	})
@@ -63,7 +63,7 @@ func printAlertGroupTable(body []byte) error {
 	return nil
 }
 
-// printAlertGroupsListTable prints alert groups response body as a outputTable
+// printAlertGroupsListTable prints alert groups response body as a output_table
 func printAlertGroupsListTable(body []byte) error {
 	var alertGroups alertGroups
 	var table []alertGroupsTable
@@ -73,7 +73,7 @@ func printAlertGroupsListTable(body []byte) error {
 		return err
 	}
 
-	// fill the outputTable with values
+	// fill the output_table with values
 	for _, data := range alertGroups.Data {
 		table = append(table, alertGroupsTable{
 			Name:     data.Name,
@@ -82,8 +82,8 @@ func printAlertGroupsListTable(body []byte) error {
 		})
 	}
 
-	// print the outputTable
-	outputtable.PrintTable(table)
+	// print the output_table
+	output_table.PrintTable(table)
 
 	return nil
 }
@@ -115,7 +115,7 @@ var AlertGroupsCmd = &cobra.Command{
 			return err
 		}
 
-		// print outputTable output
+		// print output_table output
 		if body != nil && (outputType == "" || outputType == "wide") {
 			if len(args) == 0 {
 				if err := printAlertGroupsListTable(body); err != nil {

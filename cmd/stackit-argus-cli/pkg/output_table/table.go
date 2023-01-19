@@ -1,7 +1,7 @@
-package outputtable
+package output_table
 
 /*
- * Implements outputTable printer operations.
+ * Implements output_table printer operations.
  */
 
 import (
@@ -9,7 +9,7 @@ import (
 	"os"
 )
 
-// RemoveColumnsFromTable removes columns form the outputTable
+// RemoveColumnsFromTable removes columns form the output_table
 func RemoveColumnsFromTable(originalTable interface{}, fieldNames []string) interface{} {
 	if len(fieldNames) == 0 {
 		return originalTable
@@ -23,12 +23,12 @@ func RemoveColumnsFromTable(originalTable interface{}, fieldNames []string) inte
 	return newTable
 }
 
-// PrintTable prints a outputTable
+// PrintTable prints a output_table
 func PrintTable(in interface{}) {
-	// init outputTable printer
+	// init output_table printer
 	printer := tableprinter.New(os.Stdout)
 
-	// customize the outputTable
+	// customize the output_table
 	printer.BorderLeft = true
 	printer.BorderRight = true
 	printer.RowLine = true

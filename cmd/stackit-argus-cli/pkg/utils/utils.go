@@ -42,7 +42,6 @@ func ResponseMessage(status int, resource, action string) error {
 
 	switch status {
 	case 202, 200:
-		fmt.Printf("\033[32msuccessfully %s %s\n\033[0m", m[action][0], resource)
 		return nil
 	case 400, 500:
 		return fmt.Errorf("\033[31msomething went wrong %s the %s\033[0m", m[action][1], resource)

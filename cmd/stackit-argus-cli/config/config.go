@@ -29,8 +29,9 @@ var (
 func InitFromConfigFile(f string) error {
 	viper.SetConfigFile(f)
 
+	// ask user to set up conf file if it is not found
 	if err := viper.ReadInConfig(); err != nil {
-		return err
+		return nil
 	}
 
 	// get instance id from a config file, if it is not set via flag
@@ -43,36 +44,38 @@ func InitFromConfigFile(f string) error {
 		projectId = viper.GetString("project_id")
 		if projectId == "" {
 			return errors.New("please, set a current project id in a config file or with appropriate flag. " +
-				"Default config file path is './cmd/stackit-argus-cli/.stackit-argus-cli.yaml'." +
-				"Current project id key is 'current_project'")
+				"To set project id run \"configure\" command")
 		}
 	}
 
 	// get auth token from config file
 	token = viper.GetString("token")
 	if token == "" {
-		return errors.New("please, set an auth token in a config file. Default config file path is" +
-			"'./cmd/stackit-argus-cli/.stackit-argus-cli.yaml'. Token id key is 'token'")
+		return errors.New("please, set an auth token in a config file. " +
+			"To set auth token run \"configure\" command")
 	}
 
 	// get base url from config file
 	baseUrl = viper.GetString("base_url")
 	if baseUrl == "" {
-		return errors.New("please, set a base url in a config file. Default config file path is" +
-			"'./cmd/stackit-argus-cli/.stackit-argus-cli.yaml'. Base url key is 'base_url'")
+		return errors.New("please, set a base url in a config file. " +
+			"To set bae url run \"configure\" command")
 	}
 
 	return nil
 }
 
-// InitConfig inits global flags and info from configuration file
-func InitConfig(cmd *cobra.Command) {
+// Init inits global flags
+func Init(cmd *cobra.Command) {
+	homeDir, err := os.UserHomeDir()
+	cobra.CheckErr(err)
+
 	// init flags
-	cmd.PersistentFlags().StringVarP(&confFile, "config", "c", "./cmd/stackit-argus-cli/.stackit-argus-cli.yaml",
-		"provide config file (default is ./cmd/stackit-argus-cli/.stackit-argus-cli.yaml from root of the project)")
-	cmd.PersistentFlags().StringVarP(&instanceId, "instanceId", "i", "",
+	cmd.PersistentFlags().StringVarP(&confFile, "config", "c", homeDir+"/.stackit-argus-cli.yaml",
+		"provide config file")
+	cmd.PersistentFlags().StringVarP(&instanceId, "instance-id", "i", "",
 		"provide instance id that should be used")
-	cmd.PersistentFlags().StringVarP(&projectId, "projectId", "p", "",
+	cmd.PersistentFlags().StringVarP(&projectId, "project-id", "p", "",
 		"provide project id that should be used")
 	cmd.PersistentFlags().BoolVarP(&debugMode, "debug", "d", false,
 		"turn on debug mode to see more information about the command")
@@ -83,7 +86,7 @@ func InitConfig(cmd *cobra.Command) {
 	cmd.PersistentFlags().VarP(&flagOutputType, "output", "o", "defines output format: yaml, json or wide")
 
 	// init flag possible values
-	err := cmd.RegisterFlagCompletionFunc("output", outputFlagCompletion)
+	err = cmd.RegisterFlagCompletionFunc("output", outputFlagCompletion)
 	cobra.CheckErr(err)
 
 	// parse the flags passed to the command-line application
@@ -99,8 +102,7 @@ func InitConfig(cmd *cobra.Command) {
 func GetBaseUrl() string {
 	if instanceId == "" {
 		cobra.CheckErr("please, set a current instance id in a config file or with appropriate flag. " +
-			"Default config file path is './cmd/stackit-argus-cli/.stackit-argus-cli.yaml'. " +
-			"Current instance id key is 'current_instance'")
+			"To set instance id run \"configure\" command.")
 	}
 	return fmt.Sprintf("%s/projects/%s/instances/%s/", baseUrl, projectId, instanceId)
 }

@@ -8,17 +8,17 @@ import (
 	"encoding/json"
 	"github.com/spf13/cobra"
 	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	outputtable "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output_table"
 )
 
-// tracesConfigs is used to unmarshal traces configs response body and generate a outputTable out of it
+// tracesConfigs is used to unmarshal traces configs response body and generate a output_table out of it
 type tracesConfigs struct {
 	Config struct {
 		Retention string `json:"retention" header:"retention"`
 	} `json:"config"`
 }
 
-// printTracesConfigsListTable prints traces configs response body as outputTable
+// printTracesConfigsListTable prints traces configs response body as output_table
 func printTracesConfigsListTable(body []byte) error {
 	var tracesConfigs tracesConfigs
 
@@ -27,8 +27,8 @@ func printTracesConfigsListTable(body []byte) error {
 		return err
 	}
 
-	// print the outputTable
-	outputtable.PrintTable(tracesConfigs.Config)
+	// print the output_table
+	output_table.PrintTable(tracesConfigs.Config)
 
 	return nil
 }
@@ -52,7 +52,7 @@ var TracesConfigsCmd = &cobra.Command{
 			return err
 		}
 
-		// print outputTable output
+		// print output_table output
 		if body != nil && (outputType == "" || outputType == "wide") {
 			if err := printTracesConfigsListTable(body); err != nil {
 				cmd.SilenceUsage = true

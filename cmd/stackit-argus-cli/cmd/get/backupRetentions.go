@@ -8,7 +8,7 @@ import (
 	"encoding/json"
 	"github.com/spf13/cobra"
 	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	outputtable "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output_table"
 )
 
 // backupRetentions is used to unmarshal backup retentions response body
@@ -28,8 +28,8 @@ func printBackupRetentionsTable(body []byte) error {
 		return err
 	}
 
-	// print the outputTable
-	outputtable.PrintTable(backupRetentions)
+	// print the output_table
+	output_table.PrintTable(backupRetentions)
 
 	return nil
 }
@@ -53,7 +53,7 @@ var BackupRetentionsCmd = &cobra.Command{
 			return err
 		}
 
-		// print outputTable output
+		// print output_table output
 		if body != nil && (outputType == "" || outputType == "wide") {
 			if err := printBackupRetentionsTable(body); err != nil {
 				cmd.SilenceUsage = true

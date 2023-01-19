@@ -59,3 +59,10 @@ Run cli
 ```bash
 ./out/bin/stackit-argus-cli
 ```
+## Configuration
+
+The configuration file location is:
+
+```bash
+./cmd/stackit-argus-cli/.stackit-argus-cli.yaml
+```

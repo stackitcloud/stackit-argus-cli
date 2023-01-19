@@ -8,7 +8,7 @@ import (
 	"encoding/json"
 	"github.com/spf13/cobra"
 	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	outputtable "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output_table"
 )
 
 // schedule is used to unmarshal backup schedules response
@@ -25,14 +25,14 @@ type backupSchedules struct {
 	Grafana      []schedule `json:"grafanaBackupSchedules"`
 }
 
-// backupSchedulesTable holds structure of backup schedules outputTable
+// backupSchedulesTable holds structure of backup schedules output_table
 type backupSchedulesTable struct {
 	Resource   string `header:"resource"`
 	Schedule   string `header:"schedule"`
 	ScheduleId string `header:"scheduleId"`
 }
 
-// printBackupSchedulesTable prints backup schedules response body as outputTable
+// printBackupSchedulesTable prints backup schedules response body as output_table
 func printBackupSchedulesTable(body []byte) error {
 	var check [4]bool
 	var backupSchedules backupSchedules
@@ -43,7 +43,7 @@ func printBackupSchedulesTable(body []byte) error {
 		return err
 	}
 
-	// fill the outputTable
+	// fill the output_table
 	for i := 0; !check[0] && !check[1] && !check[2] && !check[3]; i++ {
 		if i < len(backupSchedules.AlertConfig) {
 			table = append(table, backupSchedulesTable{
@@ -83,8 +83,8 @@ func printBackupSchedulesTable(body []byte) error {
 		}
 	}
 
-	// print the outputTable
-	outputtable.PrintTable(table)
+	// print the output_table
+	output_table.PrintTable(table)
 
 	return nil
 }
@@ -108,7 +108,7 @@ var BackupSchedulesCmd = &cobra.Command{
 			return err
 		}
 
-		// print outputTable output
+		// print output_table output
 		if body != nil && (outputType == "" || outputType == "wide") {
 			if err := printBackupSchedulesTable(body); err != nil {
 				cmd.SilenceUsage = true

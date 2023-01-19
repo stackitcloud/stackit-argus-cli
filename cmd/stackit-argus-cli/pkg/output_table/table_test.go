@@ -1,4 +1,4 @@
-package outputtable
+package output_table
 
 import (
 	"reflect"

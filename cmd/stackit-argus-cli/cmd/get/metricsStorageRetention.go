@@ -8,7 +8,7 @@ import (
 	"encoding/json"
 	"github.com/spf13/cobra"
 	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	outputtable "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output_table"
 )
 
 // metricsStorageRetention is used to unmarshal metrics storage retention response body
@@ -18,7 +18,7 @@ type metricsStorageRetention struct {
 	MetricsRetentionTime1H  string `json:"metricsRetentionTime1h" header:"metrics retention time 1h"`
 }
 
-// printMetricsStorageRetentionTable prints routes response body as outputTable
+// printMetricsStorageRetentionTable prints routes response body as output_table
 func printMetricsStorageRetentionTable(body []byte) error {
 	var metricsStorageRetention metricsStorageRetention
 
@@ -27,8 +27,8 @@ func printMetricsStorageRetentionTable(body []byte) error {
 		return err
 	}
 
-	// print the outputTable
-	outputtable.PrintTable(metricsStorageRetention)
+	// print the output_table
+	output_table.PrintTable(metricsStorageRetention)
 
 	return nil
 }
@@ -52,7 +52,7 @@ var MetricsStorageRetentionCmd = &cobra.Command{
 			return err
 		}
 
-		// print outputTable output
+		// print output_table output
 		if body != nil && (outputType == "" || outputType == "wide") {
 			if err := printMetricsStorageRetentionTable(body); err != nil {
 				cmd.SilenceUsage = true

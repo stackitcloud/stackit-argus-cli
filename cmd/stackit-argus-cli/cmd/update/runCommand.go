@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/yamltojson"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/yaml_to_json"
 	"net/http"
 	"os"
 	"path"
@@ -74,17 +74,17 @@ func runCommand(url, resource, method string) error {
 	if path.Ext(file) == ".yaml" {
 		switch resource {
 		case "alert config":
-			body, err = yamltojson.AlertConfig(body)
+			body, err = yaml_to_json.AlertConfig(body)
 		case "scrape configs":
-			body, err = yamltojson.ScrapeConfigs(body)
+			body, err = yaml_to_json.ScrapeConfigs(body)
 		case "scrape config":
-			body, err = yamltojson.ScrapeConfig(body)
+			body, err = yaml_to_json.ScrapeConfig(body)
 		case "alert config receiver":
-			body, err = yamltojson.Receivers(body)
+			body, err = yaml_to_json.Receivers(body)
 		case "alert config route":
-			body, err = yamltojson.Routes(body)
+			body, err = yaml_to_json.Routes(body)
 		default:
-			body, err = yamltojson.Convert(body)
+			body, err = yaml_to_json.Convert(body)
 		}
 
 		if err != nil {

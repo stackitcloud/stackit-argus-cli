@@ -1,4 +1,4 @@
-package yamltojson
+package yaml_to_json
 
 import (
 	"github.com/stretchr/testify/assert"

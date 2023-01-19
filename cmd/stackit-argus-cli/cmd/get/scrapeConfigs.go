@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	outputtable "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output_table"
 )
 
 type scrapeConfigData struct {
@@ -17,7 +17,7 @@ type scrapeConfigData struct {
 	ScrapeInterval string `json:"scrapeInterval"`
 	ScrapeTimeout  string `json:"scrapeTimeout"`
 	MetricsPath    string `json:"metricsPath"`
-	// wide outputTable attributes
+	// wide output_table attributes
 	Scheme          string `json:"scheme"`
 	SampleLimit     int    `json:"sampleLimit"`
 	HonorLabels     bool   `json:"honorLabels"`
@@ -38,20 +38,20 @@ type scrapeConfigsList struct {
 	Data []scrapeConfigData `json:"data" validate:"required"`
 }
 
-// scrapeConfigsTable holds structure of scrape configs outputTable
+// scrapeConfigsTable holds structure of scrape configs output_table
 type scrapeConfigsTable struct {
 	JobName        string   `header:"job name"`
 	ScrapeInterval string   `header:"scrape interval"`
 	ScrapeTimeout  string   `header:"scrape timeout"`
 	SampleLimit    int      `header:"sample limit"`
 	Targets        []string `header:"targets"`
-	// wide outputTable attributes
+	// wide output_table attributes
 	MetricsPath     string `header:"metrics path"`
 	HonorLabels     bool   `header:"honor labels"`
 	HonorTimeStamps bool   `header:"honor time stamps"`
 }
 
-// printScrapeConfigTable prints scrape config response body as outputTable
+// printScrapeConfigTable prints scrape config response body as output_table
 func printScrapeConfigTable(body []byte, outputType config2.OutputType) error {
 	var scrapeConfig scrapeConfig
 	var targets []string
@@ -61,7 +61,7 @@ func printScrapeConfigTable(body []byte, outputType config2.OutputType) error {
 		return err
 	}
 
-	// fill the outputTable
+	// fill the output_table
 	for _, sc := range scrapeConfig.Data.StaticConfigs {
 		targets = append(targets, sc.Targets...)
 	}
@@ -75,19 +75,19 @@ func printScrapeConfigTable(body []byte, outputType config2.OutputType) error {
 		HonorTimeStamps: scrapeConfig.Data.HonorTimeStamps,
 	}
 
-	// print the outputTable
+	// print the output_table
 	if outputType != "wide" {
-		outputtable.PrintTable(outputtable.RemoveColumnsFromTable(table,
+		output_table.PrintTable(output_table.RemoveColumnsFromTable(table,
 			[]string{"MetricsPath", "HonorLabels", "HonorTimeStamps", "JobName"}))
 	} else {
-		outputtable.PrintTable(outputtable.RemoveColumnsFromTable(table,
+		output_table.PrintTable(output_table.RemoveColumnsFromTable(table,
 			[]string{"JobName"}))
 	}
 
 	return nil
 }
 
-// printScrapeConfigsListTable prints scrape configs response body as outputTable
+// printScrapeConfigsListTable prints scrape configs response body as output_table
 func printScrapeConfigsListTable(body []byte, outputType config2.OutputType) error {
 	var scrapeConfigs scrapeConfigsList
 	var table []scrapeConfigsTable
@@ -98,7 +98,7 @@ func printScrapeConfigsListTable(body []byte, outputType config2.OutputType) err
 		return err
 	}
 
-	// fill the outputTable
+	// fill the output_table
 	for _, data := range scrapeConfigs.Data {
 		for _, sc := range data.StaticConfigs {
 			targets = append(targets, sc.Targets...)
@@ -116,17 +116,17 @@ func printScrapeConfigsListTable(body []byte, outputType config2.OutputType) err
 		targets = nil
 	}
 
-	// print the outputTable
+	// print the output_table
 	if outputType != "wide" {
 		var newTable []interface{}
 
 		for _, data := range table {
-			newTable = append(newTable, outputtable.RemoveColumnsFromTable(data,
+			newTable = append(newTable, output_table.RemoveColumnsFromTable(data,
 				[]string{"MetricsPath", "HonorLabels", "HonorTimeStamps"}))
 		}
-		outputtable.PrintTable(newTable)
+		output_table.PrintTable(newTable)
 	} else {
-		outputtable.PrintTable(table)
+		output_table.PrintTable(table)
 	}
 
 	return nil
@@ -159,7 +159,7 @@ var ScrapeConfigsCmd = &cobra.Command{
 			return err
 		}
 
-		// print outputTable output
+		// print output_table output
 		if body != nil && (outputType == "" || outputType == "wide") {
 			if len(args) == 0 {
 				if err := printScrapeConfigsListTable(body, outputType); err != nil {

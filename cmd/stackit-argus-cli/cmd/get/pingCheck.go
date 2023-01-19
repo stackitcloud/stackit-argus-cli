@@ -8,7 +8,7 @@ import (
 	"encoding/json"
 	"github.com/spf13/cobra"
 	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	outputtable "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output_table"
 )
 
 // pingCheck struct is used to unmarshal ping check response body
@@ -18,7 +18,7 @@ type pingCheck struct {
 	} `json:"pingChecks"`
 }
 
-// printPingCheckTable prints ping checks as a outputTable
+// printPingCheckTable prints ping checks as a output_table
 func printPingCheckTable(body []byte) error {
 	var pingCheck pingCheck
 
@@ -27,8 +27,8 @@ func printPingCheckTable(body []byte) error {
 		return err
 	}
 
-	// print the outputTable
-	outputtable.PrintTable(pingCheck.PingChecks)
+	// print the output_table
+	output_table.PrintTable(pingCheck.PingChecks)
 
 	return nil
 }
@@ -52,7 +52,7 @@ var PingCheckCmd = &cobra.Command{
 			return err
 		}
 
-		// print outputTable output
+		// print output_table output
 		if body != nil && (outputType == "" || outputType == "wide") {
 			if err := printPingCheckTable(body); err != nil {
 				cmd.SilenceUsage = true
