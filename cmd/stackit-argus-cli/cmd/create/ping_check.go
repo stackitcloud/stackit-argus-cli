@@ -1,31 +1,30 @@
-package update
+package create
 
 /*
- * Update an instance.
+ * Create ping check.
  */
 
 import (
 	"errors"
-	"fmt"
 	"github.com/spf13/cobra"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
 )
 
-// InstanceCmd represents the instance command
-var InstanceCmd = &cobra.Command{
-	Use:   "instance <instance-id>",
-	Short: "Update an instance.",
-	Args:  cobra.ExactArgs(1),
+// PingCheckCmd represents the PingCheck command
+var PingCheckCmd = &cobra.Command{
+	Use:   "ping-check",
+	Short: "Create a ping check.",
+	Args:  cobra.NoArgs,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		if config.GetBodyFile() == "" {
 			return errors.New("required flag \"--file(-f)\" not set")
 		}
 
 		// generate an url
-		url := config.GetInstancesUrl() + fmt.Sprintf("/%s", args[0])
+		url := config.GetBaseUrl() + "ping-checks"
 
 		// call command
-		if err := runCommand(url, "instance", "PUT"); err != nil {
+		if err := runCommand(url, "ping check", "", nil); err != nil {
 			cmd.SilenceUsage = true
 			return err
 		}

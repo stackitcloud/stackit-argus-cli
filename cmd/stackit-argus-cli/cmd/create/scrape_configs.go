@@ -1,31 +1,30 @@
-package update
+package create
 
 /*
- * Update an instance.
+ * Create a scrape config.
  */
 
 import (
 	"errors"
-	"fmt"
 	"github.com/spf13/cobra"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
 )
 
-// InstanceCmd represents the instance command
-var InstanceCmd = &cobra.Command{
-	Use:   "instance <instance-id>",
-	Short: "Update an instance.",
-	Args:  cobra.ExactArgs(1),
+// ScrapeConfigsCmd represents the scrapeConfigs command
+var ScrapeConfigsCmd = &cobra.Command{
+	Use:   "scrape-config",
+	Short: "Create a scrape config.",
+	Args:  cobra.NoArgs,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		if config.GetBodyFile() == "" {
 			return errors.New("required flag \"--file(-f)\" not set")
 		}
 
 		// generate an url
-		url := config.GetInstancesUrl() + fmt.Sprintf("/%s", args[0])
+		url := config.GetBaseUrl() + "scrapeconfigs"
 
 		// call command
-		if err := runCommand(url, "instance", "PUT"); err != nil {
+		if err := runCommand(url, "scrape configs", "", nil); err != nil {
 			cmd.SilenceUsage = true
 			return err
 		}

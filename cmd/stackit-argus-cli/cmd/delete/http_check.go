@@ -1,7 +1,7 @@
 package delete
 
 /*
- * Delete an instance.
+ * Delete http check.
  */
 
 import (
@@ -10,17 +10,17 @@ import (
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
 )
 
-// InstanceCmd represents the instance command
-var InstanceCmd = &cobra.Command{
-	Use:   "instance <instance-id>",
-	Short: "Delete an instance.",
+// HttpCheckCmd represents the HttpCheck command
+var HttpCheckCmd = &cobra.Command{
+	Use:   "http-check <url>",
+	Short: "Delete a http check.",
 	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
-		url := config.GetInstancesUrl() + fmt.Sprintf("/%s", args[0])
+		url := config.GetBaseUrl() + fmt.Sprintf("http-checks/%s", args[0])
 
 		// call command
-		if err := runCommand(url, "instance"); err != nil {
+		if err := runCommand(url, "http check"); err != nil {
 			cmd.SilenceUsage = true
 			return err
 		}

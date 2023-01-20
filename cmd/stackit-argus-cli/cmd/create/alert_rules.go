@@ -1,7 +1,7 @@
-package update
+package create
 
 /*
- * Update an instance.
+ * Create an alert rule.
  */
 
 import (
@@ -11,10 +11,10 @@ import (
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
 )
 
-// InstanceCmd represents the instance command
-var InstanceCmd = &cobra.Command{
-	Use:   "instance <instance-id>",
-	Short: "Update an instance.",
+// AlertRulesCmd represents the alertRules command
+var AlertRulesCmd = &cobra.Command{
+	Use:   "alert-rule <group-name>",
+	Short: "Create an alert rule.",
 	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		if config.GetBodyFile() == "" {
@@ -22,10 +22,10 @@ var InstanceCmd = &cobra.Command{
 		}
 
 		// generate an url
-		url := config.GetInstancesUrl() + fmt.Sprintf("/%s", args[0])
+		url := config.GetBaseUrl() + fmt.Sprintf("alertgroups/%s/alertrules", args[0])
 
 		// call command
-		if err := runCommand(url, "instance", "PUT"); err != nil {
+		if err := runCommand(url, "alert rule", "", nil); err != nil {
 			cmd.SilenceUsage = true
 			return err
 		}

@@ -75,7 +75,7 @@ func printRecordTable(body []byte, outputType config2.OutputType) error {
 
 // RecordsCmd represents the alertRecords command
 var RecordsCmd = &cobra.Command{
-	Use:   "records <groupName> <alertRecord>",
+	Use:   "records <group-name> <alert-record>",
 	Short: "Get alert records.",
 	Long:  "Get list of alert records if alert record was not specified, otherwise get alert record.",
 	Args:  cobra.RangeArgs(1, 2),

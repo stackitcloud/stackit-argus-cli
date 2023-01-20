@@ -1,31 +1,30 @@
 package update
 
 /*
- * Update an instance.
+ * Update an alert config.
  */
 
 import (
 	"errors"
-	"fmt"
 	"github.com/spf13/cobra"
 	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
 )
 
-// InstanceCmd represents the instance command
-var InstanceCmd = &cobra.Command{
-	Use:   "instance <instance-id>",
-	Short: "Update an instance.",
-	Args:  cobra.ExactArgs(1),
+// AlertConfigsCmd represents the alertConfigs command
+var AlertConfigsCmd = &cobra.Command{
+	Use:   "alert-config",
+	Short: "Update an alert config.",
+	Args:  cobra.NoArgs,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		if config.GetBodyFile() == "" {
 			return errors.New("required flag \"--file(-f)\" not set")
 		}
 
 		// generate an url
-		url := config.GetInstancesUrl() + fmt.Sprintf("/%s", args[0])
+		url := config.GetBaseUrl() + "alertconfigs"
 
 		// call command
-		if err := runCommand(url, "instance", "PUT"); err != nil {
+		if err := runCommand(url, "alert config", "PUT"); err != nil {
 			cmd.SilenceUsage = true
 			return err
 		}

@@ -85,7 +85,7 @@ func printListInstancesListTable(body []byte, outputType config2.OutputType) err
 
 // InstanceCmd represents the instance command
 var InstanceCmd = &cobra.Command{
-	Use:   "instances <instanceId>",
+	Use:   "instances <instance-id>",
 	Short: "Get project instance.",
 	Long:  "Get list of all project's instances if instance id was not specified, otherwise get instance.",
 	Args:  cobra.MaximumNArgs(1),

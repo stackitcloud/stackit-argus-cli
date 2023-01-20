@@ -130,7 +130,7 @@ func TestDeleteCommand(t *testing.T) {
 
 	// get root command and set arguments
 	c := cmd.NewArgusCliCmd()
-	c.SetArgs([]string{"delete", "alertGroup", "group"})
+	c.SetArgs([]string{"delete", "alert-group", "group"})
 	err = c.Flags().Set("config", "./.test.yaml")
 	assert.NoError(t, err)
 	defer c.SetArgs([]string{})
@@ -174,7 +174,7 @@ func TestCreateCommand(t *testing.T) {
 
 	// get root command and set arguments
 	c := cmd.NewArgusCliCmd()
-	c.SetArgs([]string{"create", "backupRestore", "date", "-t", "alertRules", "-f", ".test.yaml"})
+	c.SetArgs([]string{"create", "backup-restore", "date", "-t", "alertRules", "-f", ".test.yaml"})
 	err = c.Flags().Set("config", "./.test.yaml")
 	assert.NoError(t, err)
 	defer c.SetArgs([]string{})
@@ -186,15 +186,15 @@ func TestCreateCommand(t *testing.T) {
 	runCmd(server.URL, "instance_id", "wrong_instance_id", t, nullFile, false)
 
 	// test without targets
-	c.SetArgs([]string{"create", "backupRestore", "date", "-f", ".test.yaml"})
+	c.SetArgs([]string{"create", "backup-restore", "date", "-f", ".test.yaml"})
 	runCmd(server.URL, "", "", t, nullFile, false)
 
 	// test without argument
-	c.SetArgs([]string{"create", "backupRestore", "-f", ".test.yaml"})
+	c.SetArgs([]string{"create", "backup-restore", "-f", ".test.yaml"})
 	runCmd(server.URL, "", "", t, nullFile, false)
 
 	// test without body file
-	c.SetArgs([]string{"create", "backupRestore", "date", "-t", "alertRules"})
+	c.SetArgs([]string{"create", "backup-restore", "date", "-t", "alertRules"})
 	runCmd(server.URL, "", "", t, nullFile, true)
 }
 
@@ -293,37 +293,37 @@ func TestCommands(t *testing.T) {
 			noErr:     true,
 		},
 		{
-			arguments: []string{"get", "alertConfigs"},
+			arguments: []string{"get", "alert-configs"},
 			path:      "/projects/project/instances/instance/alertconfigs",
 			noErr:     true,
 		},
 		{
-			arguments: []string{"get", "alertGroups"},
+			arguments: []string{"get", "alert-groups"},
 			path:      "/projects/project/instances/instance/alertgroups",
 			noErr:     true,
 		},
 		{
-			arguments: []string{"get", "alertGroups", "group"},
+			arguments: []string{"get", "alert-groups", "group"},
 			path:      "/projects/project/instances/instance/alertgroups/group",
 			noErr:     true,
 		},
 		{
-			arguments: []string{"get", "alertRules", "group"},
+			arguments: []string{"get", "alert-rules", "group"},
 			path:      "/projects/project/instances/instance/alertgroups/group/alertrules",
 			noErr:     true,
 		},
 		{
-			arguments: []string{"get", "alertRules", "group", "alert"},
+			arguments: []string{"get", "alert-rules", "group", "alert"},
 			path:      "/projects/project/instances/instance/alertgroups/group/alertrules/alert",
 			noErr:     true,
 		},
 		{
-			arguments: []string{"get", "alertRules"},
+			arguments: []string{"get", "alert-rules"},
 			path:      "/projects/project/instances/instance/alertgroups/group/alertrules",
 			noErr:     false,
 		},
 		{
-			arguments: []string{"get", "backupRetentions"},
+			arguments: []string{"get", "backup-retentions"},
 			path:      "/projects/project/instances/instance/backup-retentions",
 			noErr:     true,
 		},
@@ -333,12 +333,12 @@ func TestCommands(t *testing.T) {
 			noErr:     true,
 		},
 		{
-			arguments: []string{"get", "backupSchedules"},
+			arguments: []string{"get", "backup-schedules"},
 			path:      "/projects/project/instances/instance/backup-schedules",
 			noErr:     true,
 		},
 		{
-			arguments: []string{"get", "certCheck"},
+			arguments: []string{"get", "cert-check"},
 			path:      "/projects/project/instances/instance/cert-checks",
 			noErr:     true,
 		},
@@ -348,12 +348,12 @@ func TestCommands(t *testing.T) {
 			noErr:     true,
 		},
 		{
-			arguments: []string{"get", "grafanaConfigs"},
+			arguments: []string{"get", "grafana-configs"},
 			path:      "/projects/project/instances/instance/grafana-configs",
 			noErr:     true,
 		},
 		{
-			arguments: []string{"get", "httpCheck"},
+			arguments: []string{"get", "http-check"},
 			path:      "/projects/project/instances/instance/http-checks",
 			noErr:     true,
 		},
@@ -368,27 +368,27 @@ func TestCommands(t *testing.T) {
 			noErr:     true,
 		},
 		{
-			arguments: []string{"get", "logsAlertGroups"},
+			arguments: []string{"get", "logs-alert-groups"},
 			path:      "/projects/project/instances/instance/logs-alertgroups",
 			noErr:     true,
 		},
 		{
-			arguments: []string{"get", "logsAlertGroups", "group"},
+			arguments: []string{"get", "logs-alert-groups", "group"},
 			path:      "/projects/project/instances/instance/logs-alertgroups/group",
 			noErr:     true,
 		},
 		{
-			arguments: []string{"get", "logsConfigs"},
+			arguments: []string{"get", "logs-configs"},
 			path:      "/projects/project/instances/instance/logs-configs",
 			noErr:     true,
 		},
 		{
-			arguments: []string{"get", "metricsStorageRetention"},
+			arguments: []string{"get", "metrics-storage-retention"},
 			path:      "/projects/project/instances/instance/metrics-storage-retentions",
 			noErr:     true,
 		},
 		{
-			arguments: []string{"get", "networkCheck"},
+			arguments: []string{"get", "network-check"},
 			path:      "/projects/project/instances/instance/network-checks",
 			noErr:     true,
 		},
@@ -398,7 +398,7 @@ func TestCommands(t *testing.T) {
 			noErr:     true,
 		},
 		{
-			arguments: []string{"get", "pingCheck"},
+			arguments: []string{"get", "ping-check"},
 			path:      "/projects/project/instances/instance/ping-checks",
 			noErr:     true,
 		},
@@ -443,68 +443,68 @@ func TestCommands(t *testing.T) {
 			noErr:     true,
 		},
 		{
-			arguments: []string{"get", "scrapeConfigs"},
+			arguments: []string{"get", "scrape-configs"},
 			path:      "/projects/project/instances/instance/scrapeconfigs",
 			noErr:     true,
 		},
 		{
-			arguments: []string{"get", "scrapeConfigs", "job"},
+			arguments: []string{"get", "scrape-configs", "job"},
 			path:      "/projects/project/instances/instance/scrapeconfigs/job",
 			noErr:     true,
 		},
 		{
-			arguments: []string{"get", "tracesConfigs"},
+			arguments: []string{"get", "traces-configs"},
 			path:      "/projects/project/instances/instance/traces-configs",
 			noErr:     true,
 		},
 		// delete commands
 		{
-			arguments: []string{"delete", "alertGroup", "group"},
+			arguments: []string{"delete", "alert-group", "group"},
 			path:      "/projects/project/instances/instance/alertgroups/group",
 			noErr:     true,
 		},
 		{
-			arguments: []string{"delete", "alertGroup"},
+			arguments: []string{"delete", "alert-group"},
 			path:      "/projects/project/instances/instance/alertgroups/group",
 			noErr:     false,
 		},
 		{
-			arguments: []string{"delete", "alertRecord", "group", "record"},
+			arguments: []string{"delete", "alert-record", "group", "record"},
 			path:      "/projects/project/instances/instance/alertgroups/group/records/record",
 			noErr:     true,
 		},
 		{
-			arguments: []string{"delete", "alertRecord", "group"},
+			arguments: []string{"delete", "alert-record", "group"},
 			path:      "/projects/project/instances/instance/alertgroups/group/records/record",
 			noErr:     false,
 		},
 		{
-			arguments: []string{"delete", "alertRecord"},
+			arguments: []string{"delete", "alert-record"},
 			path:      "/projects/project/instances/instance/alertgroups/group/records/record",
 			noErr:     false,
 		},
 		{
-			arguments: []string{"delete", "alertRule", "group", "alert"},
+			arguments: []string{"delete", "alert-rule", "group", "alert"},
 			path:      "/projects/project/instances/instance/alertgroups/group/alertrules/alert",
 			noErr:     true,
 		},
 		{
-			arguments: []string{"delete", "alertRule", "group"},
+			arguments: []string{"delete", "alert-rule", "group"},
 			path:      "/projects/project/instances/instance/alertgroups/group/alertrules/alert",
 			noErr:     false,
 		},
 		{
-			arguments: []string{"delete", "alertRule"},
+			arguments: []string{"delete", "alert-rule"},
 			path:      "/projects/project/instances/instance/alertgroups/group/alertrules/alert",
 			noErr:     false,
 		},
 		{
-			arguments: []string{"delete", "certCheck", "source"},
+			arguments: []string{"delete", "cert-check", "source"},
 			path:      "/projects/project/instances/instance/cert-checks/source",
 			noErr:     true,
 		},
 		{
-			arguments: []string{"delete", "certCheck"},
+			arguments: []string{"delete", "cert-check"},
 			path:      "/projects/project/instances/instance/cert-checks/source",
 			noErr:     false,
 		},
@@ -524,12 +524,12 @@ func TestCommands(t *testing.T) {
 			noErr:     false,
 		},
 		{
-			arguments: []string{"delete", "httpCheck", "url"},
+			arguments: []string{"delete", "http-check", "url"},
 			path:      "/projects/project/instances/instance/http-checks/url",
 			noErr:     true,
 		},
 		{
-			arguments: []string{"delete", "httpCheck"},
+			arguments: []string{"delete", "http-check"},
 			path:      "/projects/project/instances/instance/http-checks/source",
 			noErr:     false,
 		},
@@ -544,32 +544,32 @@ func TestCommands(t *testing.T) {
 			noErr:     false,
 		},
 		{
-			arguments: []string{"delete", "logsAlertGroup", "group"},
+			arguments: []string{"delete", "logs-alert-group", "group"},
 			path:      "/projects/project/instances/instance/logs-alertgroups/group",
 			noErr:     true,
 		},
 		{
-			arguments: []string{"delete", "logsAlertGroup"},
+			arguments: []string{"delete", "logs-alert-group"},
 			path:      "/projects/project/instances/instance/logs-alertgroups/group",
 			noErr:     false,
 		},
 		{
-			arguments: []string{"delete", "networkCheck", "address"},
+			arguments: []string{"delete", "network-check", "address"},
 			path:      "/projects/project/instances/instance/network-checks/address",
 			noErr:     true,
 		},
 		{
-			arguments: []string{"delete", "networkCheck"},
+			arguments: []string{"delete", "network-check"},
 			path:      "/projects/project/instances/instance/network-checks/address",
 			noErr:     false,
 		},
 		{
-			arguments: []string{"delete", "pingCheck", "domain"},
+			arguments: []string{"delete", "ping-check", "domain"},
 			path:      "/projects/project/instances/instance/ping-checks/domain",
 			noErr:     true,
 		},
 		{
-			arguments: []string{"delete", "pingCheck"},
+			arguments: []string{"delete", "ping-check"},
 			path:      "/projects/project/instances/instance/ping-checks/domain",
 			noErr:     false,
 		},
@@ -594,53 +594,53 @@ func TestCommands(t *testing.T) {
 			noErr:     false,
 		},
 		{
-			arguments: []string{"delete", "scrapeConfig", "job"},
+			arguments: []string{"delete", "scrape-config", "job"},
 			path:      "/projects/project/instances/instance/scrapeconfigs/job",
 			noErr:     true,
 		},
 		{
-			arguments: []string{"delete", "scrapeConfig"},
+			arguments: []string{"delete", "scrape-config"},
 			path:      "/projects/project/instances/instance/scrapeconfigs/job",
 			noErr:     false,
 		},
 		// create commands
 		{
-			arguments: []string{"create", "alertGroup", "-f", "./.test.yaml"},
+			arguments: []string{"create", "alert-group", "-f", "./.test.yaml"},
 			path:      "/projects/project/instances/instance/alertgroups",
 			noErr:     true,
 		},
 		{
-			arguments: []string{"create", "alertGroup"},
+			arguments: []string{"create", "alert-group"},
 			path:      "/projects/project/instances/instance/alertgroups",
 			noErr:     false,
 		},
 		{
-			arguments: []string{"create", "alertRecord", "group", "-f", "./.test.yaml"},
+			arguments: []string{"create", "alert-record", "group", "-f", "./.test.yaml"},
 			path:      "/projects/project/instances/instance/alertgroups/group/records",
 			noErr:     true,
 		},
 		{
-			arguments: []string{"create", "alertRecord", "-f", "./.test.yaml"},
+			arguments: []string{"create", "alert-record", "-f", "./.test.yaml"},
 			path:      "/projects/project/instances/instance/alertgroups/group/records",
 			noErr:     false,
 		},
 		{
-			arguments: []string{"create", "alertRecord"},
+			arguments: []string{"create", "alert-record"},
 			path:      "/projects/project/instances/instance/alertgroups/group/records",
 			noErr:     false,
 		},
 		{
-			arguments: []string{"create", "alertRule", "group", "-f", "./.test.yaml"},
+			arguments: []string{"create", "alert-rule", "group", "-f", "./.test.yaml"},
 			path:      "/projects/project/instances/instance/alertgroups/group/alertrules",
 			noErr:     true,
 		},
 		{
-			arguments: []string{"create", "alertRule", "-f", "./.test.yaml"},
+			arguments: []string{"create", "alert-rule", "-f", "./.test.yaml"},
 			path:      "/projects/project/instances/instance/alertgroups/group/alertrules",
 			noErr:     false,
 		},
 		{
-			arguments: []string{"create", "alertRule"},
+			arguments: []string{"create", "alert-rule"},
 			path:      "/projects/project/instances/instance/alertgroups/group/alertrules",
 			noErr:     false,
 		},
@@ -661,58 +661,58 @@ func TestCommands(t *testing.T) {
 			noErr:     false,
 		},
 		{
-			arguments: []string{"create", "backupRestore", "date", "-t", "alertConfig"},
+			arguments: []string{"create", "backup-restore", "date", "-t", "alertConfig"},
 			path:      "/projects/project/instances/instance/backup-restores/date",
 			noErr:     true,
 		},
 		{
-			arguments: []string{"create", "backupRestore", "date", "-t", "alertConfig", "-t", "alertRules"},
+			arguments: []string{"create", "backup-restore", "date", "-t", "alertConfig", "-t", "alertRules"},
 			path:      "/projects/project/instances/instance/backup-restores/date",
 			noErr:     false,
 		},
 		{
-			arguments: []string{"create", "backupRestore", "date", "-t", "alertCon"},
+			arguments: []string{"create", "backup-restore", "date", "-t", "alertCon"},
 			path:      "/projects/project/instances/instance/backup-restores/date",
 			noErr:     false,
 		},
 		{
-			arguments: []string{"create", "backupRestore", "date"},
+			arguments: []string{"create", "backup-restore", "date"},
 			path:      "/projects/project/instances/instance/backup-restores/date",
 			noErr:     false,
 		},
 		{
-			arguments: []string{"create", "backupRestore", "-t", "alertConfig"},
+			arguments: []string{"create", "backup-restore", "-t", "alertConfig"},
 			path:      "/projects/project/instances/instance/backup-restores/date",
 			noErr:     false,
 		},
 		{
-			arguments: []string{"create", "backupSchedule", "-f", "./.test.yaml"},
+			arguments: []string{"create", "backup-schedule", "-f", "./.test.yaml"},
 			path:      "/projects/project/instances/instance/backup-schedules",
 			noErr:     true,
 		},
 		{
-			arguments: []string{"create", "backupSchedule", "-t", "alertConfig", "-t", "alertRules", "-t", "scrapeConfig", "-t",
+			arguments: []string{"create", "backup-schedule", "-t", "alertConfig", "-t", "alertRules", "-t", "scrapeConfig", "-t",
 				"grafana", "-f", "./.test.yaml"},
 			path:  "/projects/project/instances/instance/backup-schedules",
 			noErr: true,
 		},
 		{
-			arguments: []string{"create", "backupSchedule", "-t", "alertCo", "-f", "./.test.yaml"},
+			arguments: []string{"create", "backup-schedule", "-t", "alertCo", "-f", "./.test.yaml"},
 			path:      "/projects/project/instances/instance/backup-schedules",
 			noErr:     false,
 		},
 		{
-			arguments: []string{"create", "backupSchedule"},
+			arguments: []string{"create", "backup-schedule"},
 			path:      "/projects/project/instances/instance/backup-schedules",
 			noErr:     false,
 		},
 		{
-			arguments: []string{"create", "certCheck", "-f", "./.test.yaml"},
+			arguments: []string{"create", "cert-check", "-f", "./.test.yaml"},
 			path:      "/projects/project/instances/instance/cert-checks",
 			noErr:     true,
 		},
 		{
-			arguments: []string{"create", "certCheck"},
+			arguments: []string{"create", "cert-check"},
 			path:      "/projects/project/instances/instance/cert-checks",
 			noErr:     false,
 		},
@@ -722,12 +722,12 @@ func TestCommands(t *testing.T) {
 			noErr:     true,
 		},
 		{
-			arguments: []string{"create", "httpCheck", "-f", "./.test.yaml"},
+			arguments: []string{"create", "http-check", "-f", "./.test.yaml"},
 			path:      "/projects/project/instances/instance/http-checks",
 			noErr:     true,
 		},
 		{
-			arguments: []string{"create", "httpCheck"},
+			arguments: []string{"create", "http-check"},
 			path:      "/projects/project/instances/instance/http-checks",
 			noErr:     false,
 		},
@@ -742,32 +742,32 @@ func TestCommands(t *testing.T) {
 			noErr:     false,
 		},
 		{
-			arguments: []string{"create", "logsAlertGroup", "-f", "./.test.yaml"},
+			arguments: []string{"create", "logs-alert-group", "-f", "./.test.yaml"},
 			path:      "/projects/project/instances/instance/logs-alertgroups",
 			noErr:     true,
 		},
 		{
-			arguments: []string{"create", "logsAlertGroup"},
+			arguments: []string{"create", "logs-alert-group"},
 			path:      "/projects/project/instances/instance/logs-alertgroups",
 			noErr:     false,
 		},
 		{
-			arguments: []string{"create", "networkCheck", "-f", "./.test.yaml"},
+			arguments: []string{"create", "network-check", "-f", "./.test.yaml"},
 			path:      "/projects/project/instances/instance/network-checks",
 			noErr:     true,
 		},
 		{
-			arguments: []string{"create", "networkCheck"},
+			arguments: []string{"create", "network-check"},
 			path:      "/projects/project/instances/instance/network-checks",
 			noErr:     false,
 		},
 		{
-			arguments: []string{"create", "pingCheck", "-f", "./.test.yaml"},
+			arguments: []string{"create", "ping-check", "-f", "./.test.yaml"},
 			path:      "/projects/project/instances/instance/ping-checks",
 			noErr:     true,
 		},
 		{
-			arguments: []string{"create", "pingCheck"},
+			arguments: []string{"create", "ping-check"},
 			path:      "/projects/project/instances/instance/ping-checks",
 			noErr:     false,
 		},
@@ -792,12 +792,12 @@ func TestCommands(t *testing.T) {
 			noErr:     false,
 		},
 		{
-			arguments: []string{"create", "scrapeConfig", "-f", "./.test.yaml"},
+			arguments: []string{"create", "scrape-config", "-f", "./.test.yaml"},
 			path:      "/projects/project/instances/instance/scrapeconfigs",
 			noErr:     true,
 		},
 		{
-			arguments: []string{"create", "scrapeConfig"},
+			arguments: []string{"create", "scrape-config"},
 			path:      "/projects/project/instances/instance/scrapeconfigs",
 			noErr:     false,
 		},
@@ -813,82 +813,82 @@ func TestCommands(t *testing.T) {
 			noErr:     false,
 		},
 		{
-			arguments: []string{"update", "alertConfig", "-f", "./.test.yaml"},
+			arguments: []string{"update", "alert-config", "-f", "./.test.yaml"},
 			path:      "/projects/project/instances/instance/alertconfigs",
 			noErr:     true,
 		},
 		{
-			arguments: []string{"update", "alertConfig"},
+			arguments: []string{"update", "alert-config"},
 			path:      "/projects/project/instances/instance/alertconfigs",
 			noErr:     false,
 		},
 		{
-			arguments: []string{"update", "alertGroups", "-f", "./.test.yaml"},
+			arguments: []string{"update", "alert-groups", "-f", "./.test.yaml"},
 			path:      "/projects/project/instances/instance/alertgroups",
 			noErr:     true,
 		},
 		{
-			arguments: []string{"update", "alertGroups", "group", "-f", "./.test.yaml"},
+			arguments: []string{"update", "alert-groups", "group", "-f", "./.test.yaml"},
 			path:      "/projects/project/instances/instance/alertgroups/group",
 			noErr:     true,
 		},
 		{
-			arguments: []string{"update", "alertGroups"},
+			arguments: []string{"update", "alert-groups"},
 			path:      "/projects/project/instances/instance/alertgroups",
 			noErr:     false,
 		},
 		{
-			arguments: []string{"update", "alertGroups", "group"},
+			arguments: []string{"update", "alert-groups", "group"},
 			path:      "/projects/project/instances/instance/alertgroups/group",
 			noErr:     false,
 		},
 		{
-			arguments: []string{"update", "alertRecords", "group", "-f", "./.test.yaml"},
+			arguments: []string{"update", "alert-records", "group", "-f", "./.test.yaml"},
 			path:      "/projects/project/instances/instance/alertgroups/group/records",
 			noErr:     true,
 		},
 		{
-			arguments: []string{"update", "alertRecords", "group", "record", "-f", "./.test.yaml"},
+			arguments: []string{"update", "alert-records", "group", "record", "-f", "./.test.yaml"},
 			path:      "/projects/project/instances/instance/alertgroups/group/records/record",
 			noErr:     true,
 		},
 		{
-			arguments: []string{"update", "alertRecords", "group"},
+			arguments: []string{"update", "alert-records", "group"},
 			path:      "/projects/project/instances/instance/alertgroups/group/records",
 			noErr:     false,
 		},
 		{
-			arguments: []string{"update", "alertRecords", "group", "record"},
+			arguments: []string{"update", "alert-records", "group", "record"},
 			path:      "/projects/project/instances/instance/alertgroups/group/records/record",
 			noErr:     false,
 		},
 		{
-			arguments: []string{"update", "alertRecords", "-f", "./.test.yaml"},
+			arguments: []string{"update", "alert-records", "-f", "./.test.yaml"},
 			path:      "/projects/project/instances/instance/alertgroups/group/records",
 			noErr:     false,
 		},
 		{
-			arguments: []string{"update", "alertRules", "group", "-f", "./.test.yaml"},
+			arguments: []string{"update", "alert-rules", "group", "-f", "./.test.yaml"},
 			path:      "/projects/project/instances/instance/alertgroups/group/alertrules",
 			noErr:     true,
 		},
 		{
-			arguments: []string{"update", "alertRules", "group", "alert", "-f", "./.test.yaml"},
+			arguments: []string{"update", "alert-rules", "group", "alert", "-f", "./.test.yaml"},
 			path:      "/projects/project/instances/instance/alertgroups/group/alertrules/alert",
 			noErr:     true,
 		},
 		{
-			arguments: []string{"update", "alertRules", "group"},
+			arguments: []string{"update", "alert-rules", "group"},
 			path:      "/projects/project/instances/instance/alertgroups/group/alertrules",
 			noErr:     false,
 		},
 		{
-			arguments: []string{"update", "alertRules", "group", "record"},
+			arguments: []string{"update", "alert-rules", "group", "record"},
 			path:      "/projects/project/instances/instance/alertgroups/group/alertrules/record",
 			noErr:     false,
 		},
 		{
-			arguments: []string{"update", "alertRules", "-f", "./.test.yaml"},
+			arguments: []string{"update", "alert-rules", "-f", "./.test.yaml"},
 			path:      "/projects/project/instances/instance/alertgroups/group/alertrules",
 			noErr:     false,
 		},
@@ -908,12 +908,12 @@ func TestCommands(t *testing.T) {
 			noErr:     false,
 		},
 		{
-			arguments: []string{"update", "grafanaConfig", "-f", "./.test.yaml"},
+			arguments: []string{"update", "grafana-config", "-f", "./.test.yaml"},
 			path:      "/projects/project/instances/instance/grafana-configs",
 			noErr:     true,
 		},
 		{
-			arguments: []string{"update", "grafanaConfig"},
+			arguments: []string{"update", "grafana-config"},
 			path:      "/projects/project/instances/instance/grafana-configs",
 			noErr:     true,
 		},
@@ -933,37 +933,37 @@ func TestCommands(t *testing.T) {
 			noErr:     false,
 		},
 		{
-			arguments: []string{"update", "logsAlertGroup", "group", "-f", "./.test.yaml"},
+			arguments: []string{"update", "logs-alert-group", "group", "-f", "./.test.yaml"},
 			path:      "/projects/project/instances/instance/logs-alertgroups/group",
 			noErr:     true,
 		},
 		{
-			arguments: []string{"update", "logsAlertGroup", "group"},
+			arguments: []string{"update", "logs-alert-group", "group"},
 			path:      "/projects/project/instances/instance/logs-alertgroups/group",
 			noErr:     false,
 		},
 		{
-			arguments: []string{"update", "logsAlertGroup", "-f", "./.test.yaml"},
+			arguments: []string{"update", "logs-alert-group", "-f", "./.test.yaml"},
 			path:      "/projects/project/instances/instance/logs-alertgroups/group",
 			noErr:     false,
 		},
 		{
-			arguments: []string{"update", "logsConfigs", "-f", "./.test.yaml"},
+			arguments: []string{"update", "logs-configs", "-f", "./.test.yaml"},
 			path:      "/projects/project/instances/instance/logs-configs",
 			noErr:     true,
 		},
 		{
-			arguments: []string{"update", "logsConfigs"},
+			arguments: []string{"update", "logs-configs"},
 			path:      "/projects/project/instances/instance/logs-configs",
 			noErr:     false,
 		},
 		{
-			arguments: []string{"update", "metricsStorageRetention", "-f", "./.test.yaml"},
+			arguments: []string{"update", "metrics-storage-retention", "-f", "./.test.yaml"},
 			path:      "/projects/project/instances/instance/metrics-storage-retentions",
 			noErr:     true,
 		},
 		{
-			arguments: []string{"update", "metricsStorageRetention"},
+			arguments: []string{"update", "metrics-storage-retention"},
 			path:      "/projects/project/instances/instance/metrics-storage-retentions",
 			noErr:     false,
 		},
@@ -998,33 +998,33 @@ func TestCommands(t *testing.T) {
 			noErr:     false,
 		},
 		{
-			arguments: []string{"update", "scrapeConfigs", "job", "-f", "./.test.yaml"},
+			arguments: []string{"update", "scrape-configs", "job", "-f", "./.test.yaml"},
 			path:      "/projects/project/instances/instance/scrapeconfigs/job",
 			noErr:     true,
 		},
 		{
 			// error because of unmarshaling, should be like that
-			arguments: []string{"update", "scrapeConfigs", "-f", "./.test.yaml"},
+			arguments: []string{"update", "scrape-configs", "-f", "./.test.yaml"},
 			path:      "/projects/project/instances/instance/scrapeconfigs",
 			noErr:     false,
 		},
 		{
-			arguments: []string{"update", "scrapeConfigs"},
+			arguments: []string{"update", "scrape-configs"},
 			path:      "/projects/project/instances/instance/scrapeconfigs",
 			noErr:     false,
 		},
 		{
-			arguments: []string{"update", "scrapeConfigs", "job"},
+			arguments: []string{"update", "scrape-configs", "job"},
 			path:      "/projects/project/instances/instance/scrapeconfigs/job",
 			noErr:     false,
 		},
 		{
-			arguments: []string{"update", "tracesConfig", "-f", "./.test.yaml"},
+			arguments: []string{"update", "traces-config", "-f", "./.test.yaml"},
 			path:      "/projects/project/instances/instance/traces-configs",
 			noErr:     true,
 		},
 		{
-			arguments: []string{"update", "tracesConfig"},
+			arguments: []string{"update", "traces-config"},
 			path:      "/projects/project/instances/instance/traces-configs",
 			noErr:     false,
 		},
