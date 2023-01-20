@@ -8,7 +8,7 @@ import (
 	"encoding/json"
 	"github.com/spf13/cobra"
 	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	outputtable "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output_table"
 )
 
 // acl is used to unmarshal acl response body
@@ -16,12 +16,12 @@ type acl struct {
 	Acl []string `json:"acl"`
 }
 
-// aclTable holds structure of acl outputTable
+// aclTable holds structure of acl output_table
 type aclTable struct {
 	Acl string `header:"acl"`
 }
 
-// printAclTable prints acl response body as outputTable
+// printAclTable prints acl response body as output_table
 func printAclTable(body []byte) error {
 	var acl acl
 	var table []aclTable
@@ -31,13 +31,13 @@ func printAclTable(body []byte) error {
 		return err
 	}
 
-	// fill outputTable with values
+	// fill output_table with values
 	for _, a := range acl.Acl {
 		table = append(table, aclTable{a})
 	}
 
-	// print the outputTable
-	outputtable.PrintTable(table)
+	// print the output_table
+	output_table.PrintTable(table)
 
 	return nil
 }
@@ -61,7 +61,7 @@ var AclCmd = &cobra.Command{
 			return err
 		}
 
-		// print outputTable output
+		// print output_table output
 		if body != nil && (outputType == "" || outputType == "wide") {
 			if err := printAclTable(body); err != nil {
 				cmd.SilenceUsage = true

@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	outputtable "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output_table"
 )
 
 // receiver is used to unmarshal receiver response body
@@ -36,28 +36,28 @@ type receiver struct {
 	} `json:"data" validate:"required"`
 }
 
-// webHooksConfigTable holds structure of web hook config outputTable
+// webHooksConfigTable holds structure of web hook config output_table
 type webHooksConfigTable struct {
 	Url          string `header:"url"`
 	MsTeams      bool   `header:"MS teams"`
 	SendResolved bool   `header:"send resolved"`
 }
 
-// emailConfigTable holds structure of email config outputTable
+// emailConfigTable holds structure of email config output_table
 type emailConfigTable struct {
 	To        string `header:"to"`
 	From      string `header:"from"`
 	SmartHost string `header:"smart host"`
 }
 
-// opsgenieConfigTable holds structure of opsgenie config outputTable
+// opsgenieConfigTable holds structure of opsgenie config output_table
 type opsgenieConfigTable struct {
 	ApiKey string `header:"api key"`
 	ApiUrl string `header:"api url"`
 	Tags   string `header:"tags"`
 }
 
-// printReceiverTable prints receiver response body as outputTable
+// printReceiverTable prints receiver response body as output_table
 func printReceiverTable(body []byte) error {
 	var receiver receiver
 
@@ -66,7 +66,7 @@ func printReceiverTable(body []byte) error {
 		return err
 	}
 
-	// print configs' outputTable
+	// print configs' output_table
 	if len(receiver.Data.WebHookConfigs) > 0 {
 		var table []webHooksConfigTable
 
@@ -78,7 +78,7 @@ func printReceiverTable(body []byte) error {
 			})
 
 			fmt.Println("\nWEB HOOK CONFIGS")
-			outputtable.PrintTable(table)
+			output_table.PrintTable(table)
 		}
 	}
 	if len(receiver.Data.EmailConfigs) > 0 {
@@ -92,7 +92,7 @@ func printReceiverTable(body []byte) error {
 			})
 
 			fmt.Println("\nEMAIL CONFIGS")
-			outputtable.PrintTable(table)
+			output_table.PrintTable(table)
 		}
 	}
 	if len(receiver.Data.OpsgenieConfigs) > 0 {
@@ -106,7 +106,7 @@ func printReceiverTable(body []byte) error {
 			})
 
 			fmt.Println("\nOPSGENIE CONFIGS")
-			outputtable.PrintTable(table)
+			output_table.PrintTable(table)
 		}
 	}
 
@@ -126,7 +126,7 @@ type receiversList struct {
 	} `json:"data"`
 }
 
-// receiversListTable holds structure of receivers list outputTable
+// receiversListTable holds structure of receivers list output_table
 type receiversListTable struct {
 	Name            string `header:"name"`
 	EmailConfigs    int    `header:"email configs"`
@@ -134,7 +134,7 @@ type receiversListTable struct {
 	OpsgenieConfigs int    `header:"opsgenie configs"`
 }
 
-// printReceiversListTable prints receivers list response body as outputTable
+// printReceiversListTable prints receivers list response body as output_table
 func printReceiversListTable(body []byte) error {
 	var receiversList receiversList
 	var table []receiversListTable
@@ -144,7 +144,7 @@ func printReceiversListTable(body []byte) error {
 		return err
 	}
 
-	// fill the outputTable with values
+	// fill the output_table with values
 	for _, data := range receiversList.Data {
 		table = append(table, receiversListTable{
 			Name:            data.Name,
@@ -154,8 +154,8 @@ func printReceiversListTable(body []byte) error {
 		})
 	}
 
-	// print the outputTable
-	outputtable.PrintTable(table)
+	// print the output_table
+	output_table.PrintTable(table)
 
 	return nil
 }
@@ -187,7 +187,7 @@ var ReceiversCmd = &cobra.Command{
 			return err
 		}
 
-		// print outputTable output
+		// print output_table output
 		if body != nil && (outputType == "" || outputType == "wide") {
 			if len(args) == 0 {
 				if err := printReceiversListTable(body); err != nil {

@@ -12,7 +12,7 @@ import (
 
 // InstanceCmd represents the instance command
 var InstanceCmd = &cobra.Command{
-	Use:   "instance <instanceId>",
+	Use:   "instance <instance-id>",
 	Short: "Delete an instance.",
 	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {

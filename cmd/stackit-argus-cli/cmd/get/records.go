@@ -9,10 +9,10 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	outputtable "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output_table"
 )
 
-// recordsList is used to unmarshal records list response body and generate a outputTable out of it
+// recordsList is used to unmarshal records list response body and generate a output_table out of it
 type recordsList struct {
 	Data []struct {
 		Record string            `json:"record" header:"record"`
@@ -21,7 +21,7 @@ type recordsList struct {
 	} `json:"data" validate:"required"`
 }
 
-// record is used to unmarshal record response body and generate a outputTable out of it
+// record is used to unmarshal record response body and generate a output_table out of it
 type record struct {
 	Data struct {
 		Record string            `json:"record" header:"record"`
@@ -30,7 +30,7 @@ type record struct {
 	} `json:"data" validate:"required"`
 }
 
-// printRecordsListTable prints records list response body as outputTable
+// printRecordsListTable prints records list response body as output_table
 func printRecordsListTable(body []byte, outputType config2.OutputType) error {
 	var records recordsList
 
@@ -39,22 +39,22 @@ func printRecordsListTable(body []byte, outputType config2.OutputType) error {
 		return err
 	}
 
-	// print the outputTable
+	// print the output_table
 	if outputType != "wide" {
 		var table []interface{}
 
 		for _, d := range records.Data {
-			table = append(table, outputtable.RemoveColumnsFromTable(d, []string{"Labels"}))
+			table = append(table, output_table.RemoveColumnsFromTable(d, []string{"Labels"}))
 		}
-		outputtable.PrintTable(table)
+		output_table.PrintTable(table)
 	} else {
-		outputtable.PrintTable(records.Data)
+		output_table.PrintTable(records.Data)
 	}
 
 	return nil
 }
 
-// printRecordTable prints record response body as outputTable
+// printRecordTable prints record response body as output_table
 func printRecordTable(body []byte, outputType config2.OutputType) error {
 	var record record
 
@@ -63,11 +63,11 @@ func printRecordTable(body []byte, outputType config2.OutputType) error {
 		return err
 	}
 
-	// print the outputTable
+	// print the output_table
 	if outputType != "wide" {
-		outputtable.PrintTable(outputtable.RemoveColumnsFromTable(record.Data, []string{"Labels"}))
+		output_table.PrintTable(output_table.RemoveColumnsFromTable(record.Data, []string{"Labels"}))
 	} else {
-		outputtable.PrintTable(record.Data)
+		output_table.PrintTable(record.Data)
 	}
 
 	return nil
@@ -75,7 +75,7 @@ func printRecordTable(body []byte, outputType config2.OutputType) error {
 
 // RecordsCmd represents the alertRecords command
 var RecordsCmd = &cobra.Command{
-	Use:   "records <groupName> <alertRecord>",
+	Use:   "records <group-name> <alert-record>",
 	Short: "Get alert records.",
 	Long:  "Get list of alert records if alert record was not specified, otherwise get alert record.",
 	Args:  cobra.RangeArgs(1, 2),
@@ -100,7 +100,7 @@ var RecordsCmd = &cobra.Command{
 			return err
 		}
 
-		// print outputTable output
+		// print output_table output
 		if body != nil && (outputType == "" || outputType == "wide") {
 			if len(args) == 1 {
 				if err := printRecordsListTable(body, outputType); err != nil {

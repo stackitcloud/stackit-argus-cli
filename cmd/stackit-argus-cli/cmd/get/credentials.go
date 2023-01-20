@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	outputtable "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output_table"
 )
 
 var remoteWriteLimits string
@@ -33,12 +33,12 @@ type credentials struct {
 	} `json:"credentials" validate:"required"`
 }
 
-// credentialsTable holds structure of credentials outputTable
+// credentialsTable holds structure of credentials output_table
 type credentialsTable struct {
 	UserName string `header:"username"`
 }
 
-// printRemoteWriteLimitsTable prints remote write limits response body as outputTable
+// printRemoteWriteLimitsTable prints remote write limits response body as output_table
 func printRemoteWriteLimitsTable(body []byte) error {
 	var remoteWriteLimit remoteWriteLimit
 
@@ -47,8 +47,8 @@ func printRemoteWriteLimitsTable(body []byte) error {
 		return err
 	}
 
-	// print the outputTable
-	outputtable.PrintTable(remoteWriteLimits)
+	// print the output_table
+	output_table.PrintTable(remoteWriteLimits)
 
 	return nil
 }
@@ -63,7 +63,7 @@ func printCredentialsListTable(body []byte) error {
 		return err
 	}
 
-	// fill outputTable with values
+	// fill output_table with values
 	for _, data := range credentials.Credentials {
 		if data.CredentialsInfo != nil {
 			table = append(table, credentialsTable{
@@ -74,8 +74,8 @@ func printCredentialsListTable(body []byte) error {
 		}
 	}
 
-	// print the outputTable
-	outputtable.PrintTable(table)
+	// print the output_table
+	output_table.PrintTable(table)
 
 	return nil
 }
@@ -107,7 +107,7 @@ var CredentialsCmd = &cobra.Command{
 			return err
 		}
 
-		// print outputTable output
+		// print output_table output
 		if body != nil && (outputType == "" || outputType == "wide") {
 			if remoteWriteLimits != "" {
 				if err := printRemoteWriteLimitsTable(body); err != nil {

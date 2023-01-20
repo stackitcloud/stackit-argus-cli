@@ -8,19 +8,19 @@ import (
 	"encoding/json"
 	"github.com/spf13/cobra"
 	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	outputtable "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output_table"
 )
 
 // offerings struct is used to unmarshal offerings response body
 type offerings struct {
 	Name        string `json:"name" header:"name"`
 	Description string `json:"description" header:"description"`
-	// wide outputTable attributes
+	// wide output_table attributes
 	DocumentationUrl string   `json:"documentationUrl" header:"documentation url"`
 	Tags             []string `json:"tags" header:"tags"`
 }
 
-// printOfferingsTable prints offerings response body as outputTable
+// printOfferingsTable prints offerings response body as output_table
 func printOfferingsTable(body []byte, outputType config2.OutputType) error {
 	var offerings offerings
 
@@ -29,11 +29,11 @@ func printOfferingsTable(body []byte, outputType config2.OutputType) error {
 		return err
 	}
 
-	// print the outputTable
+	// print the output_table
 	if outputType != "wide" {
-		outputtable.PrintTable(outputtable.RemoveColumnsFromTable(offerings, []string{"DocumentationUrl", "Tags"}))
+		output_table.PrintTable(output_table.RemoveColumnsFromTable(offerings, []string{"DocumentationUrl", "Tags"}))
 	} else {
-		outputtable.PrintTable(offerings)
+		output_table.PrintTable(offerings)
 	}
 
 	return nil
@@ -58,7 +58,7 @@ var OfferingsCmd = &cobra.Command{
 			return err
 		}
 
-		// print outputTable output
+		// print output_table output
 		if body != nil && (outputType == "" || outputType == "wide") {
 			if err := printOfferingsTable(body, outputType); err != nil {
 				cmd.SilenceUsage = true

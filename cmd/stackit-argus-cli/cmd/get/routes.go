@@ -9,17 +9,17 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	outputtable "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output_table"
 )
 
-// route is used to unmarshal routes response body and generate a outputTable out of it
+// route is used to unmarshal routes response body and generate a output_table out of it
 type route struct {
 	Receiver       string `json:"receiver" header:"receiver" validate:"required"`
 	GroupWait      string `json:"groupWait" header:"groupWait"`
 	GroupInterval  string `json:"groupInterval" header:"groupInterval"`
 	RepeatInterval string `json:"repeatInterval" header:"repeatInterval"`
 	Continue       bool   `json:"continue" header:"continue"`
-	// wide outputTable attributes
+	// wide output_table attributes
 	GroupBy  []string          `json:"groupBy" header:"groupBy"`
 	Match    map[string]string `json:"match" header:"match"`
 	MatchRe  map[string]string `json:"matchRe" header:"matchRe"`
@@ -41,7 +41,7 @@ func getAllRoutes(routes []route, newRoutes *[]route) {
 	}
 }
 
-// printRoutesListTable prints routes response body as outputTable
+// printRoutesListTable prints routes response body as output_table
 func printRoutesListTable(body []byte, outputType config2.OutputType) error {
 	var routes routesList
 	var table []route
@@ -54,17 +54,17 @@ func printRoutesListTable(body []byte, outputType config2.OutputType) error {
 	getAllRoutes(routes.Data.Routes, &table)
 	table = append(table, routes.Data)
 
-	// print the outputTable
+	// print the output_table
 	if outputType != "wide" {
 		var newTable []interface{}
 
 		for _, data := range table {
-			newTable = append(newTable, outputtable.RemoveColumnsFromTable(data,
+			newTable = append(newTable, output_table.RemoveColumnsFromTable(data,
 				[]string{"GroupBy", "Match", "MatchRe", "Matchers"}))
 		}
-		outputtable.PrintTable(newTable)
+		output_table.PrintTable(newTable)
 	} else {
-		outputtable.PrintTable(table)
+		output_table.PrintTable(table)
 	}
 
 	return nil
@@ -97,7 +97,7 @@ var RoutesCmd = &cobra.Command{
 			return err
 		}
 
-		// print outputTable output
+		// print output_table output
 		if body != nil && (outputType == "" || outputType == "wide") {
 			if err := printRoutesListTable(body, outputType); err != nil {
 				cmd.SilenceUsage = true

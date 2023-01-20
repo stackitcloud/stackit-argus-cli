@@ -8,7 +8,7 @@ import (
 	"encoding/json"
 	"github.com/spf13/cobra"
 	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	outputtable "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output_table"
 )
 
 var numberOfBackups = 10
@@ -21,7 +21,7 @@ type backups struct {
 	Grafana      []string `json:"grafanaBackups" header:"grafana"`
 }
 
-// printBackupsTable prints backups response body as a outputTable
+// printBackupsTable prints backups response body as a output_table
 func printBackupsTable(body []byte, outputType config2.OutputType) error {
 	var backups backups
 
@@ -49,8 +49,8 @@ func printBackupsTable(body []byte, outputType config2.OutputType) error {
 		}
 	}
 
-	// print the outputTable
-	outputtable.PrintTable(backups)
+	// print the output_table
+	output_table.PrintTable(backups)
 
 	return nil
 }
@@ -74,7 +74,7 @@ var BackupCmd = &cobra.Command{
 			return nil
 		}
 
-		// print outputTable output
+		// print output_table output
 		if body != nil && (outputType == "" || outputType == "wide") {
 			if err := printBackupsTable(body, outputType); err != nil {
 				cmd.SilenceUsage = true

@@ -40,13 +40,14 @@ func Execute() error {
 // init commands and flags for the root command
 func init() {
 	// init subcommands
+	rootCmd.AddCommand(configureCmd)
 	rootCmd.AddCommand(getCmd)
 	rootCmd.AddCommand(createCmd)
 	rootCmd.AddCommand(updateCmd)
 	rootCmd.AddCommand(deleteCmd)
 
-	// init flags and config file
-	config.InitConfig(rootCmd)
+	// init flags
+	config.Init(rootCmd)
 }
 
 // NewArgusCliCmd returns root cmd

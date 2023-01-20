@@ -8,7 +8,7 @@ import (
 	"encoding/json"
 	"github.com/spf13/cobra"
 	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	outputtable "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/outputTable"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output_table"
 )
 
 // acl is used to unmarshal acl response body
@@ -17,7 +17,7 @@ type plans struct {
 		Id          string `json:"id" header:"id"`
 		Description string `json:"description" header:"description"`
 		Name        string `json:"name" header:"name"`
-		// wide outputTable attributes
+		// wide output_table attributes
 		BucketSize    int `json:"bucketSize" header:"metrics storage(GB)"`
 		AlertRules    int `json:"alertRules" header:"alert rules"`
 		TargetNumber  int `json:"targetNumber" header:"target number"`
@@ -38,7 +38,7 @@ type plans struct {
 	} `json:"plans"`
 }
 
-// printPlansTable prints plans response body as outputTable
+// printPlansTable prints plans response body as output_table
 func printPlansTable(body []byte, outputType config2.OutputType) error {
 	var plans plans
 
@@ -47,17 +47,17 @@ func printPlansTable(body []byte, outputType config2.OutputType) error {
 		return err
 	}
 
-	// print the outputTable
+	// print the output_table
 	if outputType != "wide" {
 		var table []interface{}
 
 		for _, plan := range plans.Plans {
-			table = append(table, outputtable.RemoveColumnsFromTable(plan,
+			table = append(table, output_table.RemoveColumnsFromTable(plan,
 				[]string{"BucketSize", "AlertRules", "SamplesPerScrape", "TargetNumber", "Amount", "LogsAlert"}))
 		}
-		outputtable.PrintTable(table)
+		output_table.PrintTable(table)
 	} else {
-		outputtable.PrintTable(plans.Plans)
+		output_table.PrintTable(plans.Plans)
 	}
 
 	return nil
@@ -82,7 +82,7 @@ var PlansCmd = &cobra.Command{
 			return err
 		}
 
-		// print outputTable output
+		// print output_table output
 		if body != nil && (outputType == "" || outputType == "wide") {
 			if err := printPlansTable(body, outputType); err != nil {
 				cmd.SilenceUsage = true
