@@ -27,6 +27,7 @@ builds:
       - arm64
 
 source:
+  rlcp: true
   enabled: true
 
 sboms:
