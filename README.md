@@ -16,11 +16,22 @@ make help
 
 ## Installation
 
+### From source
+
+If you have Go on your machine, you can directly install by running:
+
+```bash
+go install github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli@latest
+```
+> Based on your go configuration the `stackit-argus-cli` binary can be found in `$GOPATH/bin` or `$HOME/go/bin` in case `$GOPATH` is not set. Make sure to add the respective directory to your `$PATH`. [For more information see go docs](https://go.dev/ref/mod#go-install). Run `go env` to view your current configuration.
+
+### From the released binaries
+
 Download the desired version for your operating system and processor architecture from the [STACKIT ARGUS CLI](https://github.com/stackitcloud/stackit-argus-cli/releases/tag/v0.0.1). Make the file executable and place it in a directory available in your $PATH.
 
 ## Configuration
 
-Set up configurations
+To set up configurations run:
 
 ```bash
 statckit-argus-cli configure
@@ -47,7 +58,6 @@ make
 ```
 
 This will initialize a git repo, download the dependencies in the latest versions, install all needed tools and generate binary in ./out/bin directory.
-If needed code generation will be triggered in this target as well.
 
 ## Test & lint
 
