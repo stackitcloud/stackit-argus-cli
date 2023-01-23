@@ -46,9 +46,9 @@ func printRecordsListTable(body []byte, outputType config2.OutputType) error {
 		for _, d := range records.Data {
 			table = append(table, output_table.RemoveColumnsFromTable(d, []string{"Labels"}))
 		}
-		output_table.PrintTable(table)
+		output_table.PrintTable(table, outputType)
 	} else {
-		output_table.PrintTable(records.Data)
+		output_table.PrintTable(records.Data, outputType)
 	}
 
 	return nil
@@ -56,18 +56,18 @@ func printRecordsListTable(body []byte, outputType config2.OutputType) error {
 
 // printRecordTable prints record response body as output_table
 func printRecordTable(body []byte, outputType config2.OutputType) error {
-	var record record
+	var r record
 
 	// unmarshal response body
-	if err := json.Unmarshal(body, &record); err != nil {
+	if err := json.Unmarshal(body, &r); err != nil {
 		return err
 	}
 
 	// print the output_table
-	if outputType != "wide" {
-		output_table.PrintTable(output_table.RemoveColumnsFromTable(record.Data, []string{"Labels"}))
+	if outputType != "wide" && outputType != "wide-table" {
+		output_table.PrintTable(output_table.RemoveColumnsFromTable(r.Data, []string{"Labels"}), outputType)
 	} else {
-		output_table.PrintTable(record.Data)
+		output_table.PrintTable(r.Data, outputType)
 	}
 
 	return nil
@@ -101,7 +101,7 @@ var RecordsCmd = &cobra.Command{
 		}
 
 		// print output_table output
-		if body != nil && (outputType == "" || outputType == "wide") {
+		if body != nil && outputType != "yaml" && outputType != "json" {
 			if len(args) == 1 {
 				if err := printRecordsListTable(body, outputType); err != nil {
 					cmd.SilenceUsage = true

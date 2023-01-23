@@ -39,32 +39,32 @@ type credentialsTable struct {
 }
 
 // printRemoteWriteLimitsTable prints remote write limits response body as output_table
-func printRemoteWriteLimitsTable(body []byte) error {
-	var remoteWriteLimit remoteWriteLimit
+func printRemoteWriteLimitsTable(body []byte, outputType config2.OutputType) error {
+	var rwl remoteWriteLimit
 
 	// unmarshal response body
-	if err := json.Unmarshal(body, &remoteWriteLimit); err != nil {
+	if err := json.Unmarshal(body, &rwl); err != nil {
 		return err
 	}
 
 	// print the output_table
-	output_table.PrintTable(remoteWriteLimits)
+	output_table.PrintTable(remoteWriteLimits, outputType)
 
 	return nil
 }
 
 // printCredentialsListTable prints credentials
-func printCredentialsListTable(body []byte) error {
-	var credentials credentials
+func printCredentialsListTable(body []byte, outputType config2.OutputType) error {
+	var c credentials
 	var table []credentialsTable
 
 	// unmarshal response body
-	if err := json.Unmarshal(body, &credentials); err != nil {
+	if err := json.Unmarshal(body, &c); err != nil {
 		return err
 	}
 
 	// fill output_table with values
-	for _, data := range credentials.Credentials {
+	for _, data := range c.Credentials {
 		if data.CredentialsInfo != nil {
 			table = append(table, credentialsTable{
 				UserName: data.CredentialsInfo.Username,
@@ -75,7 +75,7 @@ func printCredentialsListTable(body []byte) error {
 	}
 
 	// print the output_table
-	output_table.PrintTable(table)
+	output_table.PrintTable(table, outputType)
 
 	return nil
 }
@@ -108,14 +108,14 @@ var CredentialsCmd = &cobra.Command{
 		}
 
 		// print output_table output
-		if body != nil && (outputType == "" || outputType == "wide") {
+		if body != nil && outputType != "yaml" && outputType != "json" {
 			if remoteWriteLimits != "" {
-				if err := printRemoteWriteLimitsTable(body); err != nil {
+				if err := printRemoteWriteLimitsTable(body, outputType); err != nil {
 					cmd.SilenceUsage = true
 					return err
 				}
 			} else {
-				if err := printCredentialsListTable(body); err != nil {
+				if err := printCredentialsListTable(body, outputType); err != nil {
 					cmd.SilenceUsage = true
 					return err
 				}

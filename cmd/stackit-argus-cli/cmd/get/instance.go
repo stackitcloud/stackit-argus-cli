@@ -41,19 +41,19 @@ type instances struct {
 
 // printInstanceTable prints instance as a output_table
 func printInstanceTable(body []byte, outputType config2.OutputType) error {
-	var instance instance
+	var i instance
 
 	// unmarshal response body
-	if err := json.Unmarshal(body, &instance); err != nil {
+	if err := json.Unmarshal(body, &i); err != nil {
 		return err
 	}
 
 	// print the output_table
-	if outputType != "wide" {
-		table := output_table.RemoveColumnsFromTable(instance, []string{"PlanId", "Error"})
-		output_table.PrintTable(table)
+	if outputType != "wide" && outputType != "wide-table" {
+		table := output_table.RemoveColumnsFromTable(i, []string{"PlanId", "Error"})
+		output_table.PrintTable(table, outputType)
 	} else {
-		output_table.PrintTable(instance)
+		output_table.PrintTable(i, outputType)
 	}
 
 	return nil
@@ -61,23 +61,23 @@ func printInstanceTable(body []byte, outputType config2.OutputType) error {
 
 // printListInstancesListTable prints instances list as a output_table
 func printListInstancesListTable(body []byte, outputType config2.OutputType) error {
-	var instances instances
+	var is instances
 
 	// unmarshal response body
-	if err := json.Unmarshal(body, &instances); err != nil {
+	if err := json.Unmarshal(body, &is); err != nil {
 		return err
 	}
 
 	// print the output_table
-	if outputType != "wide" {
+	if outputType != "wide" && outputType != "wide-table" {
 		var table []interface{}
 
-		for _, instance := range instances.Instances {
-			table = append(table, output_table.RemoveColumnsFromTable(instance, []string{"Error"}))
+		for _, i := range is.Instances {
+			table = append(table, output_table.RemoveColumnsFromTable(i, []string{"Error"}))
 		}
-		output_table.PrintTable(table)
+		output_table.PrintTable(table, outputType)
 	} else {
-		output_table.PrintTable(instances.Instances)
+		output_table.PrintTable(is.Instances, outputType)
 	}
 
 	return nil
@@ -111,7 +111,7 @@ var InstanceCmd = &cobra.Command{
 		}
 
 		// print output_table output
-		if body != nil && (outputType == "" || outputType == "wide") {
+		if body != nil && outputType != "yaml" && outputType != "json" {
 			if len(args) == 0 {
 				if err := printListInstancesListTable(body, outputType); err != nil {
 					cmd.SilenceUsage = true

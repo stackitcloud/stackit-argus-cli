@@ -39,12 +39,12 @@ var LogsAlertGroupsCmd = &cobra.Command{
 
 		if body != nil {
 			if len(args) == 0 {
-				if err := printAlertGroupsListTable(body); err != nil {
+				if err := printAlertGroupsListTable(body, outputType); err != nil {
 					cmd.SilenceUsage = true
 					return err
 				}
 			} else {
-				if err := printAlertGroupTable(body); err != nil {
+				if err := printAlertGroupTable(body, outputType); err != nil {
 					cmd.SilenceUsage = true
 					return err
 				}

@@ -46,35 +46,35 @@ type alertGroupsTable struct {
 }
 
 // printAlertGroupTable prints alert group response body as a output_table
-func printAlertGroupTable(body []byte) error {
-	var alertGroup alertGroup
+func printAlertGroupTable(body []byte, outputType config2.OutputType) error {
+	var ag alertGroup
 
 	// unmarshal response body
-	if err := json.Unmarshal(body, &alertGroup); err != nil {
+	if err := json.Unmarshal(body, &ag); err != nil {
 		return err
 	}
 
 	// print the output_table
 	output_table.PrintTable(alertGroupTable{
-		Interval: alertGroup.Data.Interval,
-		Rules:    len(alertGroup.Data.Rules),
-	})
+		Interval: ag.Data.Interval,
+		Rules:    len(ag.Data.Rules),
+	}, outputType)
 
 	return nil
 }
 
 // printAlertGroupsListTable prints alert groups response body as a output_table
-func printAlertGroupsListTable(body []byte) error {
-	var alertGroups alertGroups
+func printAlertGroupsListTable(body []byte, outputType config2.OutputType) error {
+	var ag alertGroups
 	var table []alertGroupsTable
 
 	// unmarshal response body
-	if err := json.Unmarshal(body, &alertGroups); err != nil {
+	if err := json.Unmarshal(body, &ag); err != nil {
 		return err
 	}
 
 	// fill the output_table with values
-	for _, data := range alertGroups.Data {
+	for _, data := range ag.Data {
 		table = append(table, alertGroupsTable{
 			Name:     data.Name,
 			Interval: data.Interval,
@@ -83,7 +83,7 @@ func printAlertGroupsListTable(body []byte) error {
 	}
 
 	// print the output_table
-	output_table.PrintTable(table)
+	output_table.PrintTable(table, outputType)
 
 	return nil
 }
@@ -116,14 +116,14 @@ var AlertGroupsCmd = &cobra.Command{
 		}
 
 		// print output_table output
-		if body != nil && (outputType == "" || outputType == "wide") {
+		if body != nil && outputType != "yaml" && outputType != "json" {
 			if len(args) == 0 {
-				if err := printAlertGroupsListTable(body); err != nil {
+				if err := printAlertGroupsListTable(body, outputType); err != nil {
 					cmd.SilenceUsage = true
 					return err
 				}
 			} else {
-				if err := printAlertGroupTable(body); err != nil {
+				if err := printAlertGroupTable(body, outputType); err != nil {
 					cmd.SilenceUsage = true
 					return err
 				}

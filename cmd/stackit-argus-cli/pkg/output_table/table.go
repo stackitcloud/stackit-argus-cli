@@ -6,6 +6,7 @@ package output_table
 
 import (
 	"github.com/lensesio/tableprinter"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
 	"os"
 )
 
@@ -23,21 +24,40 @@ func RemoveColumnsFromTable(originalTable interface{}, fieldNames []string) inte
 	return newTable
 }
 
-// PrintTable prints a output_table
-func PrintTable(in interface{}) {
-	// init output_table printer
-	printer := tableprinter.New(os.Stdout)
+// customizeTabs customizes a table
+func customizeTabs(printer *tableprinter.Printer) {
+	printer.HeaderLine = false
+	printer.RowCharLimit = 30
+	printer.RowTextWrap = true
+	printer.NumbersAlignment = tableprinter.AlignLeft
+	printer.DefaultAlignment = tableprinter.AlignLeft
+}
 
-	// customize the output_table
+// customizeTable customizes a table
+func customizeTable(printer *tableprinter.Printer) {
 	printer.BorderLeft = true
 	printer.BorderRight = true
 	printer.RowLine = true
 	printer.CenterSeparator = "│"
 	printer.ColumnSeparator = "│"
-	printer.HeaderAlignment = tableprinter.AlignCenter
-	printer.DefaultAlignment = tableprinter.AlignCenter
+	printer.HeaderLine = false
 	printer.RowCharLimit = 30
 	printer.RowTextWrap = true
+	printer.HeaderAlignment = tableprinter.AlignCenter
+	printer.NumbersAlignment = tableprinter.AlignLeft
+	printer.DefaultAlignment = tableprinter.AlignLeft
+}
+
+// PrintTable prints a output table
+func PrintTable(in interface{}, outputType config.OutputType) {
+	// init output_table printer
+	printer := tableprinter.New(os.Stdout)
+
+	if outputType == "table" || outputType == "wide-table" {
+		customizeTable(printer)
+	} else {
+		customizeTabs(printer)
+	}
 
 	printer.Print(in)
 }

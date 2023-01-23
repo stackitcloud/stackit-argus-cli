@@ -19,16 +19,16 @@ type logsConfigs struct {
 }
 
 // printLogsConfigsTable prints logs configs response body as output_table
-func printLogsConfigsTable(body []byte) error {
-	var logsConfigs logsConfigs
+func printLogsConfigsTable(body []byte, outputType config2.OutputType) error {
+	var lc logsConfigs
 
 	// unmarshal response body
-	if err := json.Unmarshal(body, &logsConfigs); err != nil {
+	if err := json.Unmarshal(body, &lc); err != nil {
 		return err
 	}
 
 	// print the output_table
-	output_table.PrintTable(logsConfigs.Config)
+	output_table.PrintTable(lc.Config, outputType)
 
 	return nil
 }
@@ -53,8 +53,8 @@ var LogsConfigsCmd = &cobra.Command{
 		}
 
 		// print output_table output
-		if body != nil && (outputType == "" || outputType == "wide") {
-			if err := printLogsConfigsTable(body); err != nil {
+		if body != nil && outputType != "yaml" && outputType != "json" {
+			if err := printLogsConfigsTable(body, outputType); err != nil {
 				cmd.SilenceUsage = true
 				return err
 			}

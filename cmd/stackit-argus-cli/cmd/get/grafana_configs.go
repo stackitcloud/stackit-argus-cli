@@ -44,36 +44,36 @@ type grafanaConfigsTable struct {
 
 // printGrafanaConfigsTable prints grafana configs response body as a output_table
 func printGrafanaConfigsTable(body []byte, outputType config2.OutputType) error {
-	var grafanaConfigs grafanaConfigs
+	var gc grafanaConfigs
 
 	// unmarshal response body
-	if err := json.Unmarshal(body, &grafanaConfigs); err != nil {
+	if err := json.Unmarshal(body, &gc); err != nil {
 		return err
 	}
 
 	// generate a output_table
 	wideTable := grafanaConfigsTable{}
-	if grafanaConfigs.GenericOauth != nil {
+	if gc.GenericOauth != nil {
 		wideTable = grafanaConfigsTable{
-			OauthClientId:       grafanaConfigs.GenericOauth.OauthClientId,
-			PublicReadAccess:    grafanaConfigs.PublicReadAccess,
-			Enabled:             grafanaConfigs.GenericOauth.Enabled,
-			RoleAttributeStrict: grafanaConfigs.GenericOauth.RoleAttributeStrict,
-			Scopes:              grafanaConfigs.GenericOauth.Scopes,
-			RoleAttributePath:   grafanaConfigs.GenericOauth.RoleAttributePath,
-			EmailAttributePath:  grafanaConfigs.GenericOauth.EmailAttributePath,
-			LoginAttributePath:  grafanaConfigs.GenericOauth.LoginAttributePath,
+			OauthClientId:       gc.GenericOauth.OauthClientId,
+			PublicReadAccess:    gc.PublicReadAccess,
+			Enabled:             gc.GenericOauth.Enabled,
+			RoleAttributeStrict: gc.GenericOauth.RoleAttributeStrict,
+			Scopes:              gc.GenericOauth.Scopes,
+			RoleAttributePath:   gc.GenericOauth.RoleAttributePath,
+			EmailAttributePath:  gc.GenericOauth.EmailAttributePath,
+			LoginAttributePath:  gc.GenericOauth.LoginAttributePath,
 		}
 	}
 
 	// print the output_table
-	if outputType != "wide" {
+	if outputType != "wide" && outputType != "wide-table" {
 		//remove attributes that are not needed for default output_table
 		table := output_table.RemoveColumnsFromTable(wideTable,
 			[]string{"RoleAttributePath", "EmailAttributePath", "LoginAttributePath", "Scopes"})
-		output_table.PrintTable(table)
+		output_table.PrintTable(table, outputType)
 	} else {
-		output_table.PrintTable(wideTable)
+		output_table.PrintTable(wideTable, outputType)
 	}
 
 	return nil
@@ -99,7 +99,7 @@ var GrafanaConfigsCmd = &cobra.Command{
 		}
 
 		// print output_table output
-		if body != nil && (outputType == "" || outputType == "wide") {
+		if body != nil && outputType != "yaml" && outputType != "json" {
 			if err := printGrafanaConfigsTable(body, outputType); err != nil {
 				cmd.SilenceUsage = true
 				return err

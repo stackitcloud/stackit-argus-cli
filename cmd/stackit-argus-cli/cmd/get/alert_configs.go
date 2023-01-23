@@ -58,53 +58,58 @@ func countRoutes(routes []route, res *int) {
 	}
 }
 
+// printWideAlertConfigs prints more information about alert configs
+func printWideAlertConfigs(alertConfigs alertConfigs, outputType config2.OutputType) {
+	var table []alertConfigsWideTable
+
+	for _, data := range alertConfigs.Data.InhibitRules {
+		sourceMatchSeverity := ""
+		targetMatchSeverity := ""
+		if data.SourceMatch != nil {
+			sourceMatchSeverity = data.SourceMatch.Severity
+		}
+		if data.TargetMatch != nil {
+			targetMatchSeverity = data.TargetMatch.Severity
+		}
+		table = append(table, alertConfigsWideTable{
+			SourceMatchSeverity: sourceMatchSeverity,
+			TargetMatchSeverity: targetMatchSeverity,
+			Equal:               data.Equal,
+		})
+	}
+
+	if len(table) > 0 {
+		fmt.Println("\nINHIBIT RULES")
+		output_table.PrintTable(table, outputType)
+	}
+}
+
 // printAlertConfigsTable prints alert configs response body as output_table
 func printAlertConfigsTable(body []byte, outputType config2.OutputType) error {
-	var alertConfigs alertConfigs
+	var ac alertConfigs
 	var routes int
 
 	// unmarshal response body
-	if err := json.Unmarshal(body, &alertConfigs); err != nil {
+	if err := json.Unmarshal(body, &ac); err != nil {
 		return err
 	}
 
-	countRoutes(alertConfigs.Data.Route.Routes, &routes)
+	countRoutes(ac.Data.Route.Routes, &routes)
 
 	// print the output_table
 	table := alertConfigsTable{
-		Receivers: len(alertConfigs.Data.Receivers),
+		Receivers: len(ac.Data.Receivers),
 		Routes:    routes + 1,
 	}
-	if alertConfigs.Data.Global != nil {
-		table.SmtpFrom = alertConfigs.Data.Global.SmtpFrom
-		table.SmtpSmarthost = alertConfigs.Data.Global.SmtpSmarthost
+	if ac.Data.Global != nil {
+		table.SmtpFrom = ac.Data.Global.SmtpFrom
+		table.SmtpSmarthost = ac.Data.Global.SmtpSmarthost
 	}
-	output_table.PrintTable(table)
+	output_table.PrintTable(table, outputType)
 
 	// print wide output_table
-	if outputType == "wide" {
-		var table []alertConfigsWideTable
-
-		for _, data := range alertConfigs.Data.InhibitRules {
-			sourceMatchSeverity := ""
-			targetMatchSeverity := ""
-			if data.SourceMatch != nil {
-				sourceMatchSeverity = data.SourceMatch.Severity
-			}
-			if data.TargetMatch != nil {
-				targetMatchSeverity = data.TargetMatch.Severity
-			}
-			table = append(table, alertConfigsWideTable{
-				SourceMatchSeverity: sourceMatchSeverity,
-				TargetMatchSeverity: targetMatchSeverity,
-				Equal:               data.Equal,
-			})
-		}
-
-		if len(table) > 0 {
-			fmt.Println("\nINHIBIT RULES")
-			output_table.PrintTable(table)
-		}
+	if outputType == "wide" || outputType == "wide-table" {
+		printWideAlertConfigs(ac, outputType)
 	}
 
 	return nil
@@ -130,7 +135,7 @@ var AlertConfigsCmd = &cobra.Command{
 		}
 
 		// print output_table output
-		if body != nil && (outputType == "" || outputType == "wide") {
+		if body != nil && outputType != "yaml" && outputType != "json" {
 			if err := printAlertConfigsTable(body, outputType); err != nil {
 				cmd.SilenceUsage = true
 				return err

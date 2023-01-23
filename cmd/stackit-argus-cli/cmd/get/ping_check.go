@@ -18,17 +18,17 @@ type pingCheck struct {
 	} `json:"pingChecks"`
 }
 
-// printPingCheckTable prints ping checks as a output_table
-func printPingCheckTable(body []byte) error {
-	var pingCheck pingCheck
+// printPingCheckTable prints ping checks as an output_table
+func printPingCheckTable(body []byte, outputType config2.OutputType) error {
+	var pc pingCheck
 
 	// unmarshal response body
-	if err := json.Unmarshal(body, &pingCheck); err != nil {
+	if err := json.Unmarshal(body, &pc); err != nil {
 		return err
 	}
 
 	// print the output_table
-	output_table.PrintTable(pingCheck.PingChecks)
+	output_table.PrintTable(pc.PingChecks, outputType)
 
 	return nil
 }
@@ -53,8 +53,8 @@ var PingCheckCmd = &cobra.Command{
 		}
 
 		// print output_table output
-		if body != nil && (outputType == "" || outputType == "wide") {
-			if err := printPingCheckTable(body); err != nil {
+		if body != nil && outputType != "yaml" && outputType != "json" {
+			if err := printPingCheckTable(body, outputType); err != nil {
 				cmd.SilenceUsage = true
 				return err
 			}

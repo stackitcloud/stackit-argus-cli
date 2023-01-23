@@ -40,10 +40,10 @@ type plans struct {
 
 // printPlansTable prints plans response body as output_table
 func printPlansTable(body []byte, outputType config2.OutputType) error {
-	var plans plans
+	var p plans
 
 	// unmarshal response body
-	if err := json.Unmarshal(body, &plans); err != nil {
+	if err := json.Unmarshal(body, &p); err != nil {
 		return err
 	}
 
@@ -51,13 +51,13 @@ func printPlansTable(body []byte, outputType config2.OutputType) error {
 	if outputType != "wide" {
 		var table []interface{}
 
-		for _, plan := range plans.Plans {
+		for _, plan := range p.Plans {
 			table = append(table, output_table.RemoveColumnsFromTable(plan,
 				[]string{"BucketSize", "AlertRules", "SamplesPerScrape", "TargetNumber", "Amount", "LogsAlert"}))
 		}
-		output_table.PrintTable(table)
+		output_table.PrintTable(table, outputType)
 	} else {
-		output_table.PrintTable(plans.Plans)
+		output_table.PrintTable(p.Plans, outputType)
 	}
 
 	return nil
@@ -83,7 +83,7 @@ var PlansCmd = &cobra.Command{
 		}
 
 		// print output_table output
-		if body != nil && (outputType == "" || outputType == "wide") {
+		if body != nil && outputType != "yaml" && outputType != "json" {
 			if err := printPlansTable(body, outputType); err != nil {
 				cmd.SilenceUsage = true
 				return err

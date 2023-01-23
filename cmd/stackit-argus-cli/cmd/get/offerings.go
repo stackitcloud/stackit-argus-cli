@@ -22,18 +22,18 @@ type offerings struct {
 
 // printOfferingsTable prints offerings response body as output_table
 func printOfferingsTable(body []byte, outputType config2.OutputType) error {
-	var offerings offerings
+	var o offerings
 
 	// unmarshal response body
-	if err := json.Unmarshal(body, &offerings); err != nil {
+	if err := json.Unmarshal(body, &o); err != nil {
 		return err
 	}
 
 	// print the output_table
-	if outputType != "wide" {
-		output_table.PrintTable(output_table.RemoveColumnsFromTable(offerings, []string{"DocumentationUrl", "Tags"}))
+	if outputType != "wide" && outputType != "wide-table" {
+		output_table.PrintTable(output_table.RemoveColumnsFromTable(o, []string{"DocumentationUrl", "Tags"}), outputType)
 	} else {
-		output_table.PrintTable(offerings)
+		output_table.PrintTable(o, outputType)
 	}
 
 	return nil
@@ -59,7 +59,7 @@ var OfferingsCmd = &cobra.Command{
 		}
 
 		// print output_table output
-		if body != nil && (outputType == "" || outputType == "wide") {
+		if body != nil && outputType != "yaml" && outputType != "json" {
 			if err := printOfferingsTable(body, outputType); err != nil {
 				cmd.SilenceUsage = true
 				return err

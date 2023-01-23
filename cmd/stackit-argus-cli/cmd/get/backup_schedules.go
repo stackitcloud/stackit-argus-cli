@@ -33,50 +33,50 @@ type backupSchedulesTable struct {
 }
 
 // printBackupSchedulesTable prints backup schedules response body as output_table
-func printBackupSchedulesTable(body []byte) error {
+func printBackupSchedulesTable(body []byte, outputType config2.OutputType) error {
 	var check [4]bool
-	var backupSchedules backupSchedules
+	var bs backupSchedules
 	var table []backupSchedulesTable
 
 	// unmarshal response body
-	if err := json.Unmarshal(body, &backupSchedules); err != nil {
+	if err := json.Unmarshal(body, &bs); err != nil {
 		return err
 	}
 
 	// fill the output_table
 	for i := 0; !check[0] && !check[1] && !check[2] && !check[3]; i++ {
-		if i < len(backupSchedules.AlertConfig) {
+		if i < len(bs.AlertConfig) {
 			table = append(table, backupSchedulesTable{
 				Resource:   "Alert Config",
-				Schedule:   backupSchedules.AlertConfig[i].Schedule,
-				ScheduleId: backupSchedules.AlertConfig[i].ScheduleId,
+				Schedule:   bs.AlertConfig[i].Schedule,
+				ScheduleId: bs.AlertConfig[i].ScheduleId,
 			})
 		} else {
 			check[0] = true
 		}
-		if i < len(backupSchedules.AlertRules) {
+		if i < len(bs.AlertRules) {
 			table = append(table, backupSchedulesTable{
 				Resource:   "Alert Rules",
-				Schedule:   backupSchedules.AlertRules[i].Schedule,
-				ScheduleId: backupSchedules.AlertRules[i].ScheduleId,
+				Schedule:   bs.AlertRules[i].Schedule,
+				ScheduleId: bs.AlertRules[i].ScheduleId,
 			})
 		} else {
 			check[1] = true
 		}
-		if i < len(backupSchedules.ScrapeConfig) {
+		if i < len(bs.ScrapeConfig) {
 			table = append(table, backupSchedulesTable{
 				Resource:   "Scrape Config",
-				Schedule:   backupSchedules.ScrapeConfig[i].Schedule,
-				ScheduleId: backupSchedules.ScrapeConfig[i].ScheduleId,
+				Schedule:   bs.ScrapeConfig[i].Schedule,
+				ScheduleId: bs.ScrapeConfig[i].ScheduleId,
 			})
 		} else {
 			check[2] = true
 		}
-		if i < len(backupSchedules.Grafana) {
+		if i < len(bs.Grafana) {
 			table = append(table, backupSchedulesTable{
 				Resource:   "Grafana",
-				Schedule:   backupSchedules.Grafana[i].Schedule,
-				ScheduleId: backupSchedules.Grafana[i].ScheduleId,
+				Schedule:   bs.Grafana[i].Schedule,
+				ScheduleId: bs.Grafana[i].ScheduleId,
 			})
 		} else {
 			check[3] = true
@@ -84,7 +84,7 @@ func printBackupSchedulesTable(body []byte) error {
 	}
 
 	// print the output_table
-	output_table.PrintTable(table)
+	output_table.PrintTable(table, outputType)
 
 	return nil
 }
@@ -109,8 +109,8 @@ var BackupSchedulesCmd = &cobra.Command{
 		}
 
 		// print output_table output
-		if body != nil && (outputType == "" || outputType == "wide") {
-			if err := printBackupSchedulesTable(body); err != nil {
+		if body != nil && outputType != "yaml" && outputType != "json" {
+			if err := printBackupSchedulesTable(body, outputType); err != nil {
 				cmd.SilenceUsage = true
 				return err
 			}

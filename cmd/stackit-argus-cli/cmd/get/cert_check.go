@@ -19,16 +19,16 @@ type certCheck struct {
 }
 
 // printCertCheckTable prints cert checks as a output_table
-func printCertCheckTable(body []byte) error {
-	var certCheck certCheck
+func printCertCheckTable(body []byte, outputType config2.OutputType) error {
+	var cc certCheck
 
 	// unmarshal response body
-	if err := json.Unmarshal(body, &certCheck); err != nil {
+	if err := json.Unmarshal(body, &cc); err != nil {
 		return err
 	}
 
 	// print the output_table
-	output_table.PrintTable(certCheck.CertChecks)
+	output_table.PrintTable(cc.CertChecks, outputType)
 
 	return nil
 }
@@ -53,8 +53,8 @@ var CertCheckCmd = &cobra.Command{
 		}
 
 		// print output_table output
-		if body != nil && (outputType == "" || outputType == "wide") {
-			if err := printCertCheckTable(body); err != nil {
+		if body != nil && outputType != "yaml" && outputType != "json" {
+			if err := printCertCheckTable(body, outputType); err != nil {
 				cmd.SilenceUsage = true
 				return err
 			}

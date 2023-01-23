@@ -34,22 +34,22 @@ type alertRule struct {
 
 // printAlertRulesTable prints alert rules output_table
 func printAlertRulesTable(body []byte, outputType config2.OutputType) error {
-	var alertRules alertRules
+	var ar alertRules
 
 	// unmarshal response body
-	if err := json.Unmarshal(body, &alertRules); err != nil {
+	if err := json.Unmarshal(body, &ar); err != nil {
 		return err
 	}
 
 	// print the output_table
-	if outputType == "wide" {
-		output_table.PrintTable(alertRules.Data)
+	if outputType == "wide" || outputType == "wide-table" {
+		output_table.PrintTable(ar.Data, outputType)
 	} else {
 		var table []interface{}
-		for _, data := range alertRules.Data {
+		for _, data := range ar.Data {
 			table = append(table, output_table.RemoveColumnsFromTable(data, []string{"Labels", "Annotations"}))
 		}
-		output_table.PrintTable(table)
+		output_table.PrintTable(table, outputType)
 	}
 
 	return nil
@@ -57,19 +57,19 @@ func printAlertRulesTable(body []byte, outputType config2.OutputType) error {
 
 // printAlertRuleTable prints alert rule output_table
 func printAlertRuleTable(body []byte, outputType config2.OutputType) error {
-	var alertRule alertRule
+	var ar alertRule
 
 	// unmarshal response body
-	if err := json.Unmarshal(body, &alertRule); err != nil {
+	if err := json.Unmarshal(body, &ar); err != nil {
 		return err
 	}
 
 	// print the output_table
-	if outputType == "wide" {
-		output_table.PrintTable(alertRule.Data)
+	if outputType == "wide" || outputType == "wide-table" {
+		output_table.PrintTable(ar.Data, outputType)
 	} else {
-		table := output_table.RemoveColumnsFromTable(alertRule.Data, []string{"Labels", "Annotations"})
-		output_table.PrintTable(table)
+		table := output_table.RemoveColumnsFromTable(ar.Data, []string{"Labels", "Annotations"})
+		output_table.PrintTable(table, outputType)
 	}
 
 	return nil
@@ -103,7 +103,7 @@ var AlertRulesCmd = &cobra.Command{
 		}
 
 		// print output_table output
-		if body != nil && (outputType == "" || outputType == "wide") {
+		if body != nil && outputType != "yaml" && outputType != "json" {
 			if len(args) == 1 {
 				if err := printAlertRulesTable(body, outputType); err != nil {
 					cmd.SilenceUsage = true

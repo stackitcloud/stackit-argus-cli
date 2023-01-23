@@ -53,35 +53,35 @@ type scrapeConfigsTable struct {
 
 // printScrapeConfigTable prints scrape config response body as output_table
 func printScrapeConfigTable(body []byte, outputType config2.OutputType) error {
-	var scrapeConfig scrapeConfig
+	var sc scrapeConfig
 	var targets []string
 
 	// unmarshal response body
-	if err := json.Unmarshal(body, &scrapeConfig); err != nil {
+	if err := json.Unmarshal(body, &sc); err != nil {
 		return err
 	}
 
 	// fill the output_table
-	for _, sc := range scrapeConfig.Data.StaticConfigs {
+	for _, sc := range sc.Data.StaticConfigs {
 		targets = append(targets, sc.Targets...)
 	}
 	table := scrapeConfigsTable{
-		ScrapeInterval:  scrapeConfig.Data.ScrapeInterval,
-		ScrapeTimeout:   scrapeConfig.Data.ScrapeTimeout,
-		SampleLimit:     scrapeConfig.Data.SampleLimit,
+		ScrapeInterval:  sc.Data.ScrapeInterval,
+		ScrapeTimeout:   sc.Data.ScrapeTimeout,
+		SampleLimit:     sc.Data.SampleLimit,
 		Targets:         targets,
-		MetricsPath:     scrapeConfig.Data.MetricsPath,
-		HonorLabels:     scrapeConfig.Data.HonorLabels,
-		HonorTimeStamps: scrapeConfig.Data.HonorTimeStamps,
+		MetricsPath:     sc.Data.MetricsPath,
+		HonorLabels:     sc.Data.HonorLabels,
+		HonorTimeStamps: sc.Data.HonorTimeStamps,
 	}
 
 	// print the output_table
 	if outputType != "wide" {
 		output_table.PrintTable(output_table.RemoveColumnsFromTable(table,
-			[]string{"MetricsPath", "HonorLabels", "HonorTimeStamps", "JobName"}))
+			[]string{"MetricsPath", "HonorLabels", "HonorTimeStamps", "JobName"}), outputType)
 	} else {
 		output_table.PrintTable(output_table.RemoveColumnsFromTable(table,
-			[]string{"JobName"}))
+			[]string{"JobName"}), outputType)
 	}
 
 	return nil
@@ -117,16 +117,16 @@ func printScrapeConfigsListTable(body []byte, outputType config2.OutputType) err
 	}
 
 	// print the output_table
-	if outputType != "wide" {
+	if outputType != "wide" && outputType != "wide-table" {
 		var newTable []interface{}
 
 		for _, data := range table {
 			newTable = append(newTable, output_table.RemoveColumnsFromTable(data,
 				[]string{"MetricsPath", "HonorLabels", "HonorTimeStamps"}))
 		}
-		output_table.PrintTable(newTable)
+		output_table.PrintTable(newTable, outputType)
 	} else {
-		output_table.PrintTable(table)
+		output_table.PrintTable(table, outputType)
 	}
 
 	return nil
@@ -160,7 +160,7 @@ var ScrapeConfigsCmd = &cobra.Command{
 		}
 
 		// print output_table output
-		if body != nil && (outputType == "" || outputType == "wide") {
+		if body != nil && outputType != "yaml" && outputType != "json" {
 			if len(args) == 0 {
 				if err := printScrapeConfigsListTable(body, outputType); err != nil {
 					cmd.SilenceUsage = true

@@ -83,7 +83,7 @@ func Init(cmd *cobra.Command) {
 	cmd.PersistentFlags().StringSliceVarP(&targets, "target", "t", nil,
 		"defines targets of the backup schedules, possible targets: alertConfig, alertRules, scrapeConfig or grafana")
 	cmd.PersistentFlags().BoolVarP(&remoteWriteLimits, "remote-write-limits", "r", false, "delete remote write config for credentials")
-	cmd.PersistentFlags().VarP(&flagOutputType, "output", "o", "defines output format: yaml, json or wide")
+	cmd.PersistentFlags().VarP(&flagOutputType, "output", "o", "defines output format: yaml, json, table, wide or wide-table")
 
 	// init flag possible values
 	err = cmd.RegisterFlagCompletionFunc("output", outputFlagCompletion)

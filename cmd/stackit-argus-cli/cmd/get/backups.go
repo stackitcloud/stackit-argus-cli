@@ -21,36 +21,36 @@ type backups struct {
 	Grafana      []string `json:"grafanaBackups" header:"grafana"`
 }
 
-// printBackupsTable prints backups response body as a output_table
+// printBackupsTable prints backups response body as an output_table
 func printBackupsTable(body []byte, outputType config2.OutputType) error {
-	var backups backups
+	var b backups
 
 	// unmarshal response body
-	if err := json.Unmarshal(body, &backups); err != nil {
+	if err := json.Unmarshal(body, &b); err != nil {
 		return err
 	}
 
-	if outputType != "wide" {
-		l := len(backups.Grafana)
+	if outputType != "wide" && outputType != "wide-table" {
+		l := len(b.Grafana)
 		if l > numberOfBackups {
-			backups.Grafana = backups.Grafana[l-numberOfBackups : l]
+			b.Grafana = b.Grafana[l-numberOfBackups : l]
 		}
-		l = len(backups.AlertConfig)
+		l = len(b.AlertConfig)
 		if l > numberOfBackups {
-			backups.AlertConfig = backups.AlertConfig[l-numberOfBackups : l]
+			b.AlertConfig = b.AlertConfig[l-numberOfBackups : l]
 		}
-		l = len(backups.ScrapeConfig)
+		l = len(b.ScrapeConfig)
 		if l > numberOfBackups {
-			backups.ScrapeConfig = backups.ScrapeConfig[l-numberOfBackups : l]
+			b.ScrapeConfig = b.ScrapeConfig[l-numberOfBackups : l]
 		}
-		l = len(backups.AlertRules)
+		l = len(b.AlertRules)
 		if l > numberOfBackups {
-			backups.AlertRules = backups.AlertRules[l-numberOfBackups : l]
+			b.AlertRules = b.AlertRules[l-numberOfBackups : l]
 		}
 	}
 
 	// print the output_table
-	output_table.PrintTable(backups)
+	output_table.PrintTable(b, outputType)
 
 	return nil
 }
@@ -75,7 +75,7 @@ var BackupCmd = &cobra.Command{
 		}
 
 		// print output_table output
-		if body != nil && (outputType == "" || outputType == "wide") {
+		if body != nil && outputType != "yaml" && outputType != "json" {
 			if err := printBackupsTable(body, outputType); err != nil {
 				cmd.SilenceUsage = true
 				return err

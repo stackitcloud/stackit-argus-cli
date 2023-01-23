@@ -58,19 +58,19 @@ type opsgenieConfigTable struct {
 }
 
 // printReceiverTable prints receiver response body as output_table
-func printReceiverTable(body []byte) error {
-	var receiver receiver
+func printReceiverTable(body []byte, outputType config2.OutputType) error {
+	var r receiver
 
 	// unmarshal response body
-	if err := json.Unmarshal(body, &receiver); err != nil {
+	if err := json.Unmarshal(body, &r); err != nil {
 		return err
 	}
 
 	// print configs' output_table
-	if len(receiver.Data.WebHookConfigs) > 0 {
+	if len(r.Data.WebHookConfigs) > 0 {
 		var table []webHooksConfigTable
 
-		for _, data := range receiver.Data.WebHookConfigs {
+		for _, data := range r.Data.WebHookConfigs {
 			table = append(table, webHooksConfigTable{
 				Url:          data.Url,
 				MsTeams:      data.MsTeams,
@@ -78,13 +78,13 @@ func printReceiverTable(body []byte) error {
 			})
 
 			fmt.Println("\nWEB HOOK CONFIGS")
-			output_table.PrintTable(table)
+			output_table.PrintTable(table, outputType)
 		}
 	}
-	if len(receiver.Data.EmailConfigs) > 0 {
+	if len(r.Data.EmailConfigs) > 0 {
 		var table []emailConfigTable
 
-		for _, data := range receiver.Data.EmailConfigs {
+		for _, data := range r.Data.EmailConfigs {
 			table = append(table, emailConfigTable{
 				To:        data.To,
 				From:      data.From,
@@ -92,13 +92,13 @@ func printReceiverTable(body []byte) error {
 			})
 
 			fmt.Println("\nEMAIL CONFIGS")
-			output_table.PrintTable(table)
+			output_table.PrintTable(table, outputType)
 		}
 	}
-	if len(receiver.Data.OpsgenieConfigs) > 0 {
+	if len(r.Data.OpsgenieConfigs) > 0 {
 		var table []opsgenieConfigTable
 
-		for _, data := range receiver.Data.OpsgenieConfigs {
+		for _, data := range r.Data.OpsgenieConfigs {
 			table = append(table, opsgenieConfigTable{
 				ApiKey: data.ApiKey,
 				ApiUrl: data.ApiUrl,
@@ -106,7 +106,7 @@ func printReceiverTable(body []byte) error {
 			})
 
 			fmt.Println("\nOPSGENIE CONFIGS")
-			output_table.PrintTable(table)
+			output_table.PrintTable(table, outputType)
 		}
 	}
 
@@ -135,17 +135,17 @@ type receiversListTable struct {
 }
 
 // printReceiversListTable prints receivers list response body as output_table
-func printReceiversListTable(body []byte) error {
-	var receiversList receiversList
+func printReceiversListTable(body []byte, outputType config2.OutputType) error {
+	var rl receiversList
 	var table []receiversListTable
 
 	// unmarshal response body
-	if err := json.Unmarshal(body, &receiversList); err != nil {
+	if err := json.Unmarshal(body, &rl); err != nil {
 		return err
 	}
 
 	// fill the output_table with values
-	for _, data := range receiversList.Data {
+	for _, data := range rl.Data {
 		table = append(table, receiversListTable{
 			Name:            data.Name,
 			EmailConfigs:    len(data.EmailConfigs),
@@ -155,7 +155,7 @@ func printReceiversListTable(body []byte) error {
 	}
 
 	// print the output_table
-	output_table.PrintTable(table)
+	output_table.PrintTable(table, outputType)
 
 	return nil
 }
@@ -188,14 +188,14 @@ var ReceiversCmd = &cobra.Command{
 		}
 
 		// print output_table output
-		if body != nil && (outputType == "" || outputType == "wide") {
+		if body != nil && outputType != "yaml" && outputType != "json" {
 			if len(args) == 0 {
-				if err := printReceiversListTable(body); err != nil {
+				if err := printReceiversListTable(body, outputType); err != nil {
 					cmd.SilenceUsage = true
 					return err
 				}
 			} else {
-				if err := printReceiverTable(body); err != nil {
+				if err := printReceiverTable(body, outputType); err != nil {
 					cmd.SilenceUsage = true
 					return err
 				}

@@ -55,16 +55,16 @@ func printRoutesListTable(body []byte, outputType config2.OutputType) error {
 	table = append(table, routes.Data)
 
 	// print the output_table
-	if outputType != "wide" {
+	if outputType != "wide" && outputType != "wide-table" {
 		var newTable []interface{}
 
 		for _, data := range table {
 			newTable = append(newTable, output_table.RemoveColumnsFromTable(data,
 				[]string{"GroupBy", "Match", "MatchRe", "Matchers"}))
 		}
-		output_table.PrintTable(newTable)
+		output_table.PrintTable(newTable, outputType)
 	} else {
-		output_table.PrintTable(table)
+		output_table.PrintTable(table, outputType)
 	}
 
 	return nil
@@ -98,7 +98,7 @@ var RoutesCmd = &cobra.Command{
 		}
 
 		// print output_table output
-		if body != nil && (outputType == "" || outputType == "wide") {
+		if body != nil && outputType != "yaml" && outputType != "json" {
 			if err := printRoutesListTable(body, outputType); err != nil {
 				cmd.SilenceUsage = true
 				return err

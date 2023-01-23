@@ -19,16 +19,16 @@ type metricsStorageRetention struct {
 }
 
 // printMetricsStorageRetentionTable prints routes response body as output_table
-func printMetricsStorageRetentionTable(body []byte) error {
-	var metricsStorageRetention metricsStorageRetention
+func printMetricsStorageRetentionTable(body []byte, outputType config2.OutputType) error {
+	var msr metricsStorageRetention
 
 	// unmarshal response body
-	if err := json.Unmarshal(body, &metricsStorageRetention); err != nil {
+	if err := json.Unmarshal(body, &msr); err != nil {
 		return err
 	}
 
 	// print the output_table
-	output_table.PrintTable(metricsStorageRetention)
+	output_table.PrintTable(msr, outputType)
 
 	return nil
 }
@@ -53,8 +53,8 @@ var MetricsStorageRetentionCmd = &cobra.Command{
 		}
 
 		// print output_table output
-		if body != nil && (outputType == "" || outputType == "wide") {
-			if err := printMetricsStorageRetentionTable(body); err != nil {
+		if body != nil && outputType != "yaml" && outputType != "json" {
+			if err := printMetricsStorageRetentionTable(body, outputType); err != nil {
 				cmd.SilenceUsage = true
 				return err
 			}

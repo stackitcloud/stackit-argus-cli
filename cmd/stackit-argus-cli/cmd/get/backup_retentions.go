@@ -20,16 +20,16 @@ type backupRetentions struct {
 }
 
 // printBackupRetentionsTable prints backup retentions
-func printBackupRetentionsTable(body []byte) error {
-	var backupRetentions backupRetentions
+func printBackupRetentionsTable(body []byte, outputType config2.OutputType) error {
+	var br backupRetentions
 
 	// unmarshal response body
-	if err := json.Unmarshal(body, &backupRetentions); err != nil {
+	if err := json.Unmarshal(body, &br); err != nil {
 		return err
 	}
 
 	// print the output_table
-	output_table.PrintTable(backupRetentions)
+	output_table.PrintTable(br, outputType)
 
 	return nil
 }
@@ -54,8 +54,8 @@ var BackupRetentionsCmd = &cobra.Command{
 		}
 
 		// print output_table output
-		if body != nil && (outputType == "" || outputType == "wide") {
-			if err := printBackupRetentionsTable(body); err != nil {
+		if body != nil && outputType != "yaml" && outputType != "json" {
+			if err := printBackupRetentionsTable(body, outputType); err != nil {
 				cmd.SilenceUsage = true
 				return err
 			}

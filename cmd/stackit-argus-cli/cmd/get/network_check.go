@@ -18,17 +18,17 @@ type networkCheck struct {
 	} `json:"networkChecks"`
 }
 
-// printNetworkCheckTable prints network checks as a output_table
-func printNetworkCheckTable(body []byte) error {
-	var networkCheck networkCheck
+// printNetworkCheckTable prints network checks as an output_table
+func printNetworkCheckTable(body []byte, outputType config2.OutputType) error {
+	var nc networkCheck
 
 	// unmarshal response body
-	if err := json.Unmarshal(body, &networkCheck); err != nil {
+	if err := json.Unmarshal(body, &nc); err != nil {
 		return err
 	}
 
 	// print the output_table
-	output_table.PrintTable(networkCheck.NetworkChecks)
+	output_table.PrintTable(nc.NetworkChecks, outputType)
 
 	return nil
 }
@@ -53,8 +53,8 @@ var NetworkCheckCmd = &cobra.Command{
 		}
 
 		// print output_table output
-		if body != nil && (outputType == "" || outputType == "wide") {
-			if err := printNetworkCheckTable(body); err != nil {
+		if body != nil && outputType != "yaml" && outputType != "json" {
+			if err := printNetworkCheckTable(body, outputType); err != nil {
 				cmd.SilenceUsage = true
 				return err
 			}

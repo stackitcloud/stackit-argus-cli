@@ -19,16 +19,16 @@ type tracesConfigs struct {
 }
 
 // printTracesConfigsListTable prints traces configs response body as output_table
-func printTracesConfigsListTable(body []byte) error {
-	var tracesConfigs tracesConfigs
+func printTracesConfigsListTable(body []byte, outputType config2.OutputType) error {
+	var tc tracesConfigs
 
 	// unmarshal response body
-	if err := json.Unmarshal(body, &tracesConfigs); err != nil {
+	if err := json.Unmarshal(body, &tc); err != nil {
 		return err
 	}
 
 	// print the output_table
-	output_table.PrintTable(tracesConfigs.Config)
+	output_table.PrintTable(tc.Config, outputType)
 
 	return nil
 }
@@ -53,8 +53,8 @@ var TracesConfigsCmd = &cobra.Command{
 		}
 
 		// print output_table output
-		if body != nil && (outputType == "" || outputType == "wide") {
-			if err := printTracesConfigsListTable(body); err != nil {
+		if body != nil && outputType != "yaml" && outputType != "json" {
+			if err := printTracesConfigsListTable(body, outputType); err != nil {
 				cmd.SilenceUsage = true
 				return err
 			}

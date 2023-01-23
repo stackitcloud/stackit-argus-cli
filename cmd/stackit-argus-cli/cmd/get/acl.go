@@ -22,22 +22,22 @@ type aclTable struct {
 }
 
 // printAclTable prints acl response body as output_table
-func printAclTable(body []byte) error {
-	var acl acl
+func printAclTable(body []byte, outputType config2.OutputType) error {
+	var a acl
 	var table []aclTable
 
 	// unmarshal response body
-	if err := json.Unmarshal(body, &acl); err != nil {
+	if err := json.Unmarshal(body, &a); err != nil {
 		return err
 	}
 
 	// fill output_table with values
-	for _, a := range acl.Acl {
-		table = append(table, aclTable{a})
+	for _, i := range a.Acl {
+		table = append(table, aclTable{i})
 	}
 
 	// print the output_table
-	output_table.PrintTable(table)
+	output_table.PrintTable(table, outputType)
 
 	return nil
 }
@@ -62,8 +62,8 @@ var AclCmd = &cobra.Command{
 		}
 
 		// print output_table output
-		if body != nil && (outputType == "" || outputType == "wide") {
-			if err := printAclTable(body); err != nil {
+		if body != nil && outputType != "yaml" && outputType != "json" {
+			if err := printAclTable(body, outputType); err != nil {
 				cmd.SilenceUsage = true
 				return err
 			}

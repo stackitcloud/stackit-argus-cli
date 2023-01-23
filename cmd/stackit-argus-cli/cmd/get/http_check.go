@@ -19,16 +19,16 @@ type httpCheck struct {
 }
 
 // printHttpCheckTable prints http checks as a output_table
-func printHttpCheckTable(body []byte) error {
-	var httpCheck httpCheck
+func printHttpCheckTable(body []byte, outputType config2.OutputType) error {
+	var hc httpCheck
 
 	// unmarshal response body
-	if err := json.Unmarshal(body, &httpCheck); err != nil {
+	if err := json.Unmarshal(body, &hc); err != nil {
 		return err
 	}
 
 	// print the output_table
-	output_table.PrintTable(httpCheck.HttpChecks)
+	output_table.PrintTable(hc.HttpChecks, outputType)
 
 	return nil
 }
@@ -53,8 +53,8 @@ var HttpCheckCmd = &cobra.Command{
 		}
 
 		// print output_table output
-		if body != nil && (outputType == "" || outputType == "wide") {
-			if err := printHttpCheckTable(body); err != nil {
+		if body != nil && outputType != "yaml" && outputType != "json" {
+			if err := printHttpCheckTable(body, outputType); err != nil {
 				cmd.SilenceUsage = true
 				return err
 			}

@@ -21,11 +21,11 @@ func (o *OutputType) String() string {
 // Set must have pointer receiver, so it doesn't change the value of a copy
 func (o *OutputType) Set(s string) error {
 	switch s {
-	case "json", "yaml", "wide":
+	case "json", "yaml", "wide", "table", "wide-table":
 		*o = OutputType(s)
 		return nil
 	default:
-		return errors.New("output type should be one of these: \"json\", \"yaml\" or \"wide\"")
+		return errors.New("output type should be one of these: \"json\", \"yaml\", \"table\", \"wide\" or \"wide-table\"")
 	}
 }
 
@@ -40,12 +40,14 @@ func outputFlagCompletion(cmd *cobra.Command, args []string, toComplete string) 
 		"json",
 		"yaml",
 		"wide",
+		"table",
+		"wide-table",
 	}, cobra.ShellCompDirectiveDefault
 }
 
 // InitOutput inits output type that should be used for showing get response
 func InitOutput(cmd *cobra.Command) {
-	cmd.PersistentFlags().VarP(&flagOutputType, "output", "o", "defines output format: yaml, json or wide")
+	cmd.PersistentFlags().VarP(&flagOutputType, "output", "o", "defines output format: yaml, json, table, wide or wide-table")
 	err := cmd.RegisterFlagCompletionFunc("output", outputFlagCompletion)
 	cobra.CheckErr(err)
 }
