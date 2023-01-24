@@ -7,7 +7,7 @@ package update
 import (
 	"errors"
 	"github.com/spf13/cobra"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
+	"github.com/stackitcloud/stackit-argus-cli/internal/config"
 )
 
 // LogsConfigsCmd represents the logsConfigs command

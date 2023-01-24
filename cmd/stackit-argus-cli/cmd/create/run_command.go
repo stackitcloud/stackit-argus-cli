@@ -7,9 +7,9 @@ package create
 import (
 	"bytes"
 	"fmt"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/yaml_to_json"
+	"github.com/stackitcloud/stackit-argus-cli/internal/config"
+	"github.com/stackitcloud/stackit-argus-cli/internal/services/yaml_to_json"
+	"github.com/stackitcloud/stackit-argus-cli/internal/utils"
 	"net/http"
 	"os"
 	"path"

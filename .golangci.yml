@@ -58,9 +58,9 @@ issues:
 
 run:
   skip-dirs:
-    - pkg/argus
+    - internal/services/argus
   exclude:
-    - pkg/argus/*
+    - internal/services/argus/*
   timeout: 10m
   issues-exit-code: 1
   tests: true

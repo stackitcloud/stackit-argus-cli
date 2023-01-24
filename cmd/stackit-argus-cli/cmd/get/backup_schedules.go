@@ -7,8 +7,8 @@ package get
 import (
 	"encoding/json"
 	"github.com/spf13/cobra"
-	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output_table"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output"
+	"github.com/stackitcloud/stackit-argus-cli/internal/config"
 )
 
 // schedule is used to unmarshal backup schedules response
@@ -25,66 +25,66 @@ type backupSchedules struct {
 	Grafana      []schedule `json:"grafanaBackupSchedules"`
 }
 
-// backupSchedulesTable holds structure of backup schedules output_table
+// backupSchedulesTable holds structure of backup schedules output
 type backupSchedulesTable struct {
 	Resource   string `header:"resource"`
 	Schedule   string `header:"schedule"`
 	ScheduleId string `header:"scheduleId"`
 }
 
-// printBackupSchedulesTable prints backup schedules response body as output_table
-func printBackupSchedulesTable(body []byte) error {
+// printBackupSchedulesTable prints backup schedules response body as output
+func printBackupSchedulesTable(body []byte, outputType config.OutputType) error {
 	var check [4]bool
-	var backupSchedules backupSchedules
+	var bs backupSchedules
 	var table []backupSchedulesTable
 
 	// unmarshal response body
-	if err := json.Unmarshal(body, &backupSchedules); err != nil {
+	if err := json.Unmarshal(body, &bs); err != nil {
 		return err
 	}
 
-	// fill the output_table
+	// fill the output
 	for i := 0; !check[0] && !check[1] && !check[2] && !check[3]; i++ {
-		if i < len(backupSchedules.AlertConfig) {
+		if i < len(bs.AlertConfig) {
 			table = append(table, backupSchedulesTable{
 				Resource:   "Alert Config",
-				Schedule:   backupSchedules.AlertConfig[i].Schedule,
-				ScheduleId: backupSchedules.AlertConfig[i].ScheduleId,
+				Schedule:   bs.AlertConfig[i].Schedule,
+				ScheduleId: bs.AlertConfig[i].ScheduleId,
 			})
 		} else {
 			check[0] = true
 		}
-		if i < len(backupSchedules.AlertRules) {
+		if i < len(bs.AlertRules) {
 			table = append(table, backupSchedulesTable{
 				Resource:   "Alert Rules",
-				Schedule:   backupSchedules.AlertRules[i].Schedule,
-				ScheduleId: backupSchedules.AlertRules[i].ScheduleId,
+				Schedule:   bs.AlertRules[i].Schedule,
+				ScheduleId: bs.AlertRules[i].ScheduleId,
 			})
 		} else {
 			check[1] = true
 		}
-		if i < len(backupSchedules.ScrapeConfig) {
+		if i < len(bs.ScrapeConfig) {
 			table = append(table, backupSchedulesTable{
 				Resource:   "Scrape Config",
-				Schedule:   backupSchedules.ScrapeConfig[i].Schedule,
-				ScheduleId: backupSchedules.ScrapeConfig[i].ScheduleId,
+				Schedule:   bs.ScrapeConfig[i].Schedule,
+				ScheduleId: bs.ScrapeConfig[i].ScheduleId,
 			})
 		} else {
 			check[2] = true
 		}
-		if i < len(backupSchedules.Grafana) {
+		if i < len(bs.Grafana) {
 			table = append(table, backupSchedulesTable{
 				Resource:   "Grafana",
-				Schedule:   backupSchedules.Grafana[i].Schedule,
-				ScheduleId: backupSchedules.Grafana[i].ScheduleId,
+				Schedule:   bs.Grafana[i].Schedule,
+				ScheduleId: bs.Grafana[i].ScheduleId,
 			})
 		} else {
 			check[3] = true
 		}
 	}
 
-	// print the output_table
-	output_table.PrintTable(table)
+	// print the output
+	output.PrintTable(table, string(outputType))
 
 	return nil
 }
@@ -96,10 +96,10 @@ var BackupSchedulesCmd = &cobra.Command{
 	Args:  cobra.NoArgs,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
-		url := config2.GetBaseUrl() + "backup-schedules"
+		url := config.GetBaseUrl() + "backup-schedules"
 
 		// get output flag
-		outputType := config2.GetOutputType()
+		outputType := config.GetOutputType()
 
 		// call the command
 		body, err := runCommand(url, "backup schedules", outputType)
@@ -108,9 +108,9 @@ var BackupSchedulesCmd = &cobra.Command{
 			return err
 		}
 
-		// print output_table output
-		if body != nil && (outputType == "" || outputType == "wide") {
-			if err := printBackupSchedulesTable(body); err != nil {
+		// print output output
+		if body != nil && outputType != "yaml" && outputType != "json" {
+			if err := printBackupSchedulesTable(body, outputType); err != nil {
 				cmd.SilenceUsage = true
 				return err
 			}

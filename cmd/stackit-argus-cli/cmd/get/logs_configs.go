@@ -7,8 +7,8 @@ package get
 import (
 	"encoding/json"
 	"github.com/spf13/cobra"
-	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output_table"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output"
+	"github.com/stackitcloud/stackit-argus-cli/internal/config"
 )
 
 // logsConfigs is used to unmarshal logs configs response body
@@ -18,17 +18,17 @@ type logsConfigs struct {
 	} `json:"config"`
 }
 
-// printLogsConfigsTable prints logs configs response body as output_table
-func printLogsConfigsTable(body []byte) error {
-	var logsConfigs logsConfigs
+// printLogsConfigsTable prints logs configs response body as output
+func printLogsConfigsTable(body []byte, outputType config.OutputType) error {
+	var lc logsConfigs
 
 	// unmarshal response body
-	if err := json.Unmarshal(body, &logsConfigs); err != nil {
+	if err := json.Unmarshal(body, &lc); err != nil {
 		return err
 	}
 
-	// print the output_table
-	output_table.PrintTable(logsConfigs.Config)
+	// print the output
+	output.PrintTable(lc.Config, string(outputType))
 
 	return nil
 }
@@ -40,10 +40,10 @@ var LogsConfigsCmd = &cobra.Command{
 	Args:  cobra.NoArgs,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
-		url := config2.GetBaseUrl() + "logs-configs"
+		url := config.GetBaseUrl() + "logs-configs"
 
 		// get output flag
-		outputType := config2.GetOutputType()
+		outputType := config.GetOutputType()
 
 		// call the command
 		body, err := runCommand(url, "logs configs", outputType)
@@ -52,9 +52,9 @@ var LogsConfigsCmd = &cobra.Command{
 			return err
 		}
 
-		// print output_table output
-		if body != nil && (outputType == "" || outputType == "wide") {
-			if err := printLogsConfigsTable(body); err != nil {
+		// print output output
+		if body != nil && outputType != "yaml" && outputType != "json" {
+			if err := printLogsConfigsTable(body, outputType); err != nil {
 				cmd.SilenceUsage = true
 				return err
 			}

@@ -7,8 +7,8 @@ package get
 import (
 	"encoding/json"
 	"github.com/spf13/cobra"
-	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output_table"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output"
+	"github.com/stackitcloud/stackit-argus-cli/internal/config"
 )
 
 // acl is used to unmarshal acl response body
@@ -17,7 +17,7 @@ type plans struct {
 		Id          string `json:"id" header:"id"`
 		Description string `json:"description" header:"description"`
 		Name        string `json:"name" header:"name"`
-		// wide output_table attributes
+		// wide output attributes
 		BucketSize    int `json:"bucketSize" header:"metrics storage(GB)"`
 		AlertRules    int `json:"alertRules" header:"alert rules"`
 		TargetNumber  int `json:"targetNumber" header:"target number"`
@@ -38,26 +38,26 @@ type plans struct {
 	} `json:"plans"`
 }
 
-// printPlansTable prints plans response body as output_table
-func printPlansTable(body []byte, outputType config2.OutputType) error {
-	var plans plans
+// printPlansTable prints plans response body as output
+func printPlansTable(body []byte, outputType config.OutputType) error {
+	var p plans
 
 	// unmarshal response body
-	if err := json.Unmarshal(body, &plans); err != nil {
+	if err := json.Unmarshal(body, &p); err != nil {
 		return err
 	}
 
-	// print the output_table
+	// print the output
 	if outputType != "wide" {
 		var table []interface{}
 
-		for _, plan := range plans.Plans {
-			table = append(table, output_table.RemoveColumnsFromTable(plan,
+		for _, plan := range p.Plans {
+			table = append(table, output.RemoveColumnsFromTable(plan,
 				[]string{"BucketSize", "AlertRules", "SamplesPerScrape", "TargetNumber", "Amount", "LogsAlert"}))
 		}
-		output_table.PrintTable(table)
+		output.PrintTable(table, string(outputType))
 	} else {
-		output_table.PrintTable(plans.Plans)
+		output.PrintTable(p.Plans, string(outputType))
 	}
 
 	return nil
@@ -70,10 +70,10 @@ var PlansCmd = &cobra.Command{
 	Args:  cobra.NoArgs,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
-		url := config2.GetProjectUrl() + "/plans"
+		url := config.GetProjectUrl() + "/plans"
 
 		// get output flag
-		outputType := config2.GetOutputType()
+		outputType := config.GetOutputType()
 
 		// call the command
 		body, err := runCommand(url, "plans", outputType)
@@ -82,8 +82,8 @@ var PlansCmd = &cobra.Command{
 			return err
 		}
 
-		// print output_table output
-		if body != nil && (outputType == "" || outputType == "wide") {
+		// print output output
+		if body != nil && outputType != "yaml" && outputType != "json" {
 			if err := printPlansTable(body, outputType); err != nil {
 				cmd.SilenceUsage = true
 				return err

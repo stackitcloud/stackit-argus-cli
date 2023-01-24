@@ -8,11 +8,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/spf13/cobra"
-	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output_table"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output"
+	"github.com/stackitcloud/stackit-argus-cli/internal/config"
 )
 
-// recordsList is used to unmarshal records list response body and generate a output_table out of it
+// recordsList is used to unmarshal records list response body and generate a output out of it
 type recordsList struct {
 	Data []struct {
 		Record string            `json:"record" header:"record"`
@@ -21,7 +21,7 @@ type recordsList struct {
 	} `json:"data" validate:"required"`
 }
 
-// record is used to unmarshal record response body and generate a output_table out of it
+// record is used to unmarshal record response body and generate a output out of it
 type record struct {
 	Data struct {
 		Record string            `json:"record" header:"record"`
@@ -30,8 +30,8 @@ type record struct {
 	} `json:"data" validate:"required"`
 }
 
-// printRecordsListTable prints records list response body as output_table
-func printRecordsListTable(body []byte, outputType config2.OutputType) error {
+// printRecordsListTable prints records list response body as output
+func printRecordsListTable(body []byte, outputType config.OutputType) error {
 	var records recordsList
 
 	// unmarshal response body
@@ -39,35 +39,35 @@ func printRecordsListTable(body []byte, outputType config2.OutputType) error {
 		return err
 	}
 
-	// print the output_table
+	// print the output
 	if outputType != "wide" {
 		var table []interface{}
 
 		for _, d := range records.Data {
-			table = append(table, output_table.RemoveColumnsFromTable(d, []string{"Labels"}))
+			table = append(table, output.RemoveColumnsFromTable(d, []string{"Labels"}))
 		}
-		output_table.PrintTable(table)
+		output.PrintTable(table, string(outputType))
 	} else {
-		output_table.PrintTable(records.Data)
+		output.PrintTable(records.Data, string(outputType))
 	}
 
 	return nil
 }
 
-// printRecordTable prints record response body as output_table
-func printRecordTable(body []byte, outputType config2.OutputType) error {
-	var record record
+// printRecordTable prints record response body as output
+func printRecordTable(body []byte, outputType config.OutputType) error {
+	var r record
 
 	// unmarshal response body
-	if err := json.Unmarshal(body, &record); err != nil {
+	if err := json.Unmarshal(body, &r); err != nil {
 		return err
 	}
 
-	// print the output_table
-	if outputType != "wide" {
-		output_table.PrintTable(output_table.RemoveColumnsFromTable(record.Data, []string{"Labels"}))
+	// print the output
+	if outputType != "wide" && outputType != "wide-table" {
+		output.PrintTable(output.RemoveColumnsFromTable(r.Data, []string{"Labels"}), string(outputType))
 	} else {
-		output_table.PrintTable(record.Data)
+		output.PrintTable(r.Data, string(outputType))
 	}
 
 	return nil
@@ -81,7 +81,7 @@ var RecordsCmd = &cobra.Command{
 	Args:  cobra.RangeArgs(1, 2),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
-		url := config2.GetBaseUrl() + fmt.Sprintf("alertgroups/%s/records", args[0])
+		url := config.GetBaseUrl() + fmt.Sprintf("alertgroups/%s/records", args[0])
 
 		// modify url and debug message depend on arguments
 		resource := "alert records"
@@ -91,7 +91,7 @@ var RecordsCmd = &cobra.Command{
 		}
 
 		// get output flag
-		outputType := config2.GetOutputType()
+		outputType := config.GetOutputType()
 
 		// call the command
 		body, err := runCommand(url, resource, outputType)
@@ -100,8 +100,8 @@ var RecordsCmd = &cobra.Command{
 			return err
 		}
 
-		// print output_table output
-		if body != nil && (outputType == "" || outputType == "wide") {
+		// print output output
+		if body != nil && outputType != "yaml" && outputType != "json" {
 			if len(args) == 1 {
 				if err := printRecordsListTable(body, outputType); err != nil {
 					cmd.SilenceUsage = true

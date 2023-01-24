@@ -7,8 +7,8 @@ package get
 import (
 	"encoding/json"
 	"github.com/spf13/cobra"
-	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output_table"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output"
+	"github.com/stackitcloud/stackit-argus-cli/internal/config"
 )
 
 // pingCheck struct is used to unmarshal ping check response body
@@ -18,17 +18,17 @@ type pingCheck struct {
 	} `json:"pingChecks"`
 }
 
-// printPingCheckTable prints ping checks as a output_table
-func printPingCheckTable(body []byte) error {
-	var pingCheck pingCheck
+// printPingCheckTable prints ping checks as an output
+func printPingCheckTable(body []byte, outputType config.OutputType) error {
+	var pc pingCheck
 
 	// unmarshal response body
-	if err := json.Unmarshal(body, &pingCheck); err != nil {
+	if err := json.Unmarshal(body, &pc); err != nil {
 		return err
 	}
 
-	// print the output_table
-	output_table.PrintTable(pingCheck.PingChecks)
+	// print the output
+	output.PrintTable(pc.PingChecks, string(outputType))
 
 	return nil
 }
@@ -40,10 +40,10 @@ var PingCheckCmd = &cobra.Command{
 	Args:  cobra.NoArgs,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
-		url := config2.GetBaseUrl() + "ping-checks"
+		url := config.GetBaseUrl() + "ping-checks"
 
 		// get output flag
-		outputType := config2.GetOutputType()
+		outputType := config.GetOutputType()
 
 		// call the command
 		body, err := runCommand(url, "ping check", outputType)
@@ -52,9 +52,9 @@ var PingCheckCmd = &cobra.Command{
 			return err
 		}
 
-		// print output_table output
-		if body != nil && (outputType == "" || outputType == "wide") {
-			if err := printPingCheckTable(body); err != nil {
+		// print output output
+		if body != nil && outputType != "yaml" && outputType != "json" {
+			if err := printPingCheckTable(body, outputType); err != nil {
 				cmd.SilenceUsage = true
 				return err
 			}

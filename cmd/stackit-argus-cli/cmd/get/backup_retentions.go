@@ -7,8 +7,8 @@ package get
 import (
 	"encoding/json"
 	"github.com/spf13/cobra"
-	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output_table"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output"
+	"github.com/stackitcloud/stackit-argus-cli/internal/config"
 )
 
 // backupRetentions is used to unmarshal backup retentions response body
@@ -20,16 +20,16 @@ type backupRetentions struct {
 }
 
 // printBackupRetentionsTable prints backup retentions
-func printBackupRetentionsTable(body []byte) error {
-	var backupRetentions backupRetentions
+func printBackupRetentionsTable(body []byte, outputType config.OutputType) error {
+	var br backupRetentions
 
 	// unmarshal response body
-	if err := json.Unmarshal(body, &backupRetentions); err != nil {
+	if err := json.Unmarshal(body, &br); err != nil {
 		return err
 	}
 
-	// print the output_table
-	output_table.PrintTable(backupRetentions)
+	// print the output
+	output.PrintTable(br, string(outputType))
 
 	return nil
 }
@@ -41,10 +41,10 @@ var BackupRetentionsCmd = &cobra.Command{
 	Args:  cobra.NoArgs,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
-		url := config2.GetBaseUrl() + "backup-retentions"
+		url := config.GetBaseUrl() + "backup-retentions"
 
 		// get output flag
-		outputType := config2.GetOutputType()
+		outputType := config.GetOutputType()
 
 		// call the command
 		body, err := runCommand(url, "backup retentions", outputType)
@@ -53,9 +53,9 @@ var BackupRetentionsCmd = &cobra.Command{
 			return err
 		}
 
-		// print output_table output
-		if body != nil && (outputType == "" || outputType == "wide") {
-			if err := printBackupRetentionsTable(body); err != nil {
+		// print output output
+		if body != nil && outputType != "yaml" && outputType != "json" {
+			if err := printBackupRetentionsTable(body, outputType); err != nil {
 				cmd.SilenceUsage = true
 				return err
 			}

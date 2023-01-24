@@ -8,8 +8,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/spf13/cobra"
-	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output_table"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output"
+	"github.com/stackitcloud/stackit-argus-cli/internal/config"
 )
 
 var remoteWriteLimits string
@@ -33,38 +33,38 @@ type credentials struct {
 	} `json:"credentials" validate:"required"`
 }
 
-// credentialsTable holds structure of credentials output_table
+// credentialsTable holds structure of credentials output
 type credentialsTable struct {
 	UserName string `header:"username"`
 }
 
-// printRemoteWriteLimitsTable prints remote write limits response body as output_table
-func printRemoteWriteLimitsTable(body []byte) error {
-	var remoteWriteLimit remoteWriteLimit
+// printRemoteWriteLimitsTable prints remote write limits response body as output
+func printRemoteWriteLimitsTable(body []byte, outputType config.OutputType) error {
+	var rwl remoteWriteLimit
 
 	// unmarshal response body
-	if err := json.Unmarshal(body, &remoteWriteLimit); err != nil {
+	if err := json.Unmarshal(body, &rwl); err != nil {
 		return err
 	}
 
-	// print the output_table
-	output_table.PrintTable(remoteWriteLimits)
+	// print the output
+	output.PrintTable(remoteWriteLimits, string(outputType))
 
 	return nil
 }
 
 // printCredentialsListTable prints credentials
-func printCredentialsListTable(body []byte) error {
-	var credentials credentials
+func printCredentialsListTable(body []byte, outputType config.OutputType) error {
+	var c credentials
 	var table []credentialsTable
 
 	// unmarshal response body
-	if err := json.Unmarshal(body, &credentials); err != nil {
+	if err := json.Unmarshal(body, &c); err != nil {
 		return err
 	}
 
-	// fill output_table with values
-	for _, data := range credentials.Credentials {
+	// fill output with values
+	for _, data := range c.Credentials {
 		if data.CredentialsInfo != nil {
 			table = append(table, credentialsTable{
 				UserName: data.CredentialsInfo.Username,
@@ -74,8 +74,8 @@ func printCredentialsListTable(body []byte) error {
 		}
 	}
 
-	// print the output_table
-	output_table.PrintTable(table)
+	// print the output
+	output.PrintTable(table, string(outputType))
 
 	return nil
 }
@@ -88,7 +88,7 @@ var CredentialsCmd = &cobra.Command{
 	Args:  cobra.NoArgs,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
-		url := config2.GetBaseUrl() + "credentials"
+		url := config.GetBaseUrl() + "credentials"
 
 		// modify url and debug message depend on argument and flag
 		resource := "credentials"
@@ -98,7 +98,7 @@ var CredentialsCmd = &cobra.Command{
 		}
 
 		// get output flag
-		outputType := config2.GetOutputType()
+		outputType := config.GetOutputType()
 
 		// call the command
 		body, err := runCommand(url, resource, outputType)
@@ -107,15 +107,15 @@ var CredentialsCmd = &cobra.Command{
 			return err
 		}
 
-		// print output_table output
-		if body != nil && (outputType == "" || outputType == "wide") {
+		// print output output
+		if body != nil && outputType != "yaml" && outputType != "json" {
 			if remoteWriteLimits != "" {
-				if err := printRemoteWriteLimitsTable(body); err != nil {
+				if err := printRemoteWriteLimitsTable(body, outputType); err != nil {
 					cmd.SilenceUsage = true
 					return err
 				}
 			} else {
-				if err := printCredentialsListTable(body); err != nil {
+				if err := printCredentialsListTable(body, outputType); err != nil {
 					cmd.SilenceUsage = true
 					return err
 				}

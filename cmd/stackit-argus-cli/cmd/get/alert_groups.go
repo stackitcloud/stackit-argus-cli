@@ -8,8 +8,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/spf13/cobra"
-	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output_table"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output"
+	"github.com/stackitcloud/stackit-argus-cli/internal/config"
 )
 
 // show number of rules
@@ -32,49 +32,49 @@ type alertGroup struct {
 	} `json:"data" validate:"required"`
 }
 
-// alertGroupTable holds structure of alert group output_table
+// alertGroupTable holds structure of alert group output
 type alertGroupTable struct {
 	Interval string `header:"interval"`
 	Rules    int    `header:"rules"`
 }
 
-// alertGroupsTable holds structure of alert groups output_table
+// alertGroupsTable holds structure of alert groups output
 type alertGroupsTable struct {
 	Name     string `header:"name"`
 	Interval string `header:"interval"`
 	Rules    int    `header:"rules"`
 }
 
-// printAlertGroupTable prints alert group response body as a output_table
-func printAlertGroupTable(body []byte) error {
-	var alertGroup alertGroup
+// printAlertGroupTable prints alert group response body as a output
+func printAlertGroupTable(body []byte, outputType config.OutputType) error {
+	var ag alertGroup
 
 	// unmarshal response body
-	if err := json.Unmarshal(body, &alertGroup); err != nil {
+	if err := json.Unmarshal(body, &ag); err != nil {
 		return err
 	}
 
-	// print the output_table
-	output_table.PrintTable(alertGroupTable{
-		Interval: alertGroup.Data.Interval,
-		Rules:    len(alertGroup.Data.Rules),
-	})
+	// print the output
+	output.PrintTable(alertGroupTable{
+		Interval: ag.Data.Interval,
+		Rules:    len(ag.Data.Rules),
+	}, string(outputType))
 
 	return nil
 }
 
-// printAlertGroupsListTable prints alert groups response body as a output_table
-func printAlertGroupsListTable(body []byte) error {
-	var alertGroups alertGroups
+// printAlertGroupsListTable prints alert groups response body as a output
+func printAlertGroupsListTable(body []byte, outputType config.OutputType) error {
+	var ag alertGroups
 	var table []alertGroupsTable
 
 	// unmarshal response body
-	if err := json.Unmarshal(body, &alertGroups); err != nil {
+	if err := json.Unmarshal(body, &ag); err != nil {
 		return err
 	}
 
-	// fill the output_table with values
-	for _, data := range alertGroups.Data {
+	// fill the output with values
+	for _, data := range ag.Data {
 		table = append(table, alertGroupsTable{
 			Name:     data.Name,
 			Interval: data.Interval,
@@ -82,8 +82,8 @@ func printAlertGroupsListTable(body []byte) error {
 		})
 	}
 
-	// print the output_table
-	output_table.PrintTable(table)
+	// print the output
+	output.PrintTable(table, string(outputType))
 
 	return nil
 }
@@ -96,7 +96,7 @@ var AlertGroupsCmd = &cobra.Command{
 	Args:  cobra.MaximumNArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
-		url := config2.GetBaseUrl() + "alertgroups"
+		url := config.GetBaseUrl() + "alertgroups"
 
 		// modify url and resource depend on arguments
 		resource := "alert groups"
@@ -106,7 +106,7 @@ var AlertGroupsCmd = &cobra.Command{
 		}
 
 		// get output flag
-		outputType := config2.GetOutputType()
+		outputType := config.GetOutputType()
 
 		// call the command
 		body, err := runCommand(url, resource, outputType)
@@ -115,15 +115,15 @@ var AlertGroupsCmd = &cobra.Command{
 			return err
 		}
 
-		// print output_table output
-		if body != nil && (outputType == "" || outputType == "wide") {
+		// print output output
+		if body != nil && outputType != "yaml" && outputType != "json" {
 			if len(args) == 0 {
-				if err := printAlertGroupsListTable(body); err != nil {
+				if err := printAlertGroupsListTable(body, outputType); err != nil {
 					cmd.SilenceUsage = true
 					return err
 				}
 			} else {
-				if err := printAlertGroupTable(body); err != nil {
+				if err := printAlertGroupTable(body, outputType); err != nil {
 					cmd.SilenceUsage = true
 					return err
 				}

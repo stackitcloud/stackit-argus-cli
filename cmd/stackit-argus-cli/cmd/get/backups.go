@@ -7,8 +7,8 @@ package get
 import (
 	"encoding/json"
 	"github.com/spf13/cobra"
-	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output_table"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output"
+	"github.com/stackitcloud/stackit-argus-cli/internal/config"
 )
 
 var numberOfBackups = 10
@@ -21,36 +21,36 @@ type backups struct {
 	Grafana      []string `json:"grafanaBackups" header:"grafana"`
 }
 
-// printBackupsTable prints backups response body as a output_table
-func printBackupsTable(body []byte, outputType config2.OutputType) error {
-	var backups backups
+// printBackupsTable prints backups response body as an output
+func printBackupsTable(body []byte, outputType config.OutputType) error {
+	var b backups
 
 	// unmarshal response body
-	if err := json.Unmarshal(body, &backups); err != nil {
+	if err := json.Unmarshal(body, &b); err != nil {
 		return err
 	}
 
-	if outputType != "wide" {
-		l := len(backups.Grafana)
+	if outputType != "wide" && outputType != "wide-table" {
+		l := len(b.Grafana)
 		if l > numberOfBackups {
-			backups.Grafana = backups.Grafana[l-numberOfBackups : l]
+			b.Grafana = b.Grafana[l-numberOfBackups : l]
 		}
-		l = len(backups.AlertConfig)
+		l = len(b.AlertConfig)
 		if l > numberOfBackups {
-			backups.AlertConfig = backups.AlertConfig[l-numberOfBackups : l]
+			b.AlertConfig = b.AlertConfig[l-numberOfBackups : l]
 		}
-		l = len(backups.ScrapeConfig)
+		l = len(b.ScrapeConfig)
 		if l > numberOfBackups {
-			backups.ScrapeConfig = backups.ScrapeConfig[l-numberOfBackups : l]
+			b.ScrapeConfig = b.ScrapeConfig[l-numberOfBackups : l]
 		}
-		l = len(backups.AlertRules)
+		l = len(b.AlertRules)
 		if l > numberOfBackups {
-			backups.AlertRules = backups.AlertRules[l-numberOfBackups : l]
+			b.AlertRules = b.AlertRules[l-numberOfBackups : l]
 		}
 	}
 
-	// print the output_table
-	output_table.PrintTable(backups)
+	// print the output
+	output.PrintTable(b, string(outputType))
 
 	return nil
 }
@@ -62,10 +62,10 @@ var BackupCmd = &cobra.Command{
 	Args:  cobra.NoArgs,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
-		url := config2.GetBaseUrl() + "backups"
+		url := config.GetBaseUrl() + "backups"
 
 		// get output flag
-		outputType := config2.GetOutputType()
+		outputType := config.GetOutputType()
 
 		// call the command
 		body, err := runCommand(url, "backups", outputType)
@@ -74,8 +74,8 @@ var BackupCmd = &cobra.Command{
 			return nil
 		}
 
-		// print output_table output
-		if body != nil && (outputType == "" || outputType == "wide") {
+		// print output output
+		if body != nil && outputType != "yaml" && outputType != "json" {
 			if err := printBackupsTable(body, outputType); err != nil {
 				cmd.SilenceUsage = true
 				return err

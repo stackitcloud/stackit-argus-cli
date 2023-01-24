@@ -8,8 +8,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/spf13/cobra"
-	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output_table"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output"
+	"github.com/stackitcloud/stackit-argus-cli/internal/config"
 )
 
 type scrapeConfigData struct {
@@ -17,7 +17,7 @@ type scrapeConfigData struct {
 	ScrapeInterval string `json:"scrapeInterval"`
 	ScrapeTimeout  string `json:"scrapeTimeout"`
 	MetricsPath    string `json:"metricsPath"`
-	// wide output_table attributes
+	// wide output attributes
 	Scheme          string `json:"scheme"`
 	SampleLimit     int    `json:"sampleLimit"`
 	HonorLabels     bool   `json:"honorLabels"`
@@ -38,57 +38,57 @@ type scrapeConfigsList struct {
 	Data []scrapeConfigData `json:"data" validate:"required"`
 }
 
-// scrapeConfigsTable holds structure of scrape configs output_table
+// scrapeConfigsTable holds structure of scrape configs output
 type scrapeConfigsTable struct {
 	JobName        string   `header:"job name"`
 	ScrapeInterval string   `header:"scrape interval"`
 	ScrapeTimeout  string   `header:"scrape timeout"`
 	SampleLimit    int      `header:"sample limit"`
 	Targets        []string `header:"targets"`
-	// wide output_table attributes
+	// wide output attributes
 	MetricsPath     string `header:"metrics path"`
 	HonorLabels     bool   `header:"honor labels"`
 	HonorTimeStamps bool   `header:"honor time stamps"`
 }
 
-// printScrapeConfigTable prints scrape config response body as output_table
-func printScrapeConfigTable(body []byte, outputType config2.OutputType) error {
-	var scrapeConfig scrapeConfig
+// printScrapeConfigTable prints scrape config response body as output
+func printScrapeConfigTable(body []byte, outputType config.OutputType) error {
+	var sc scrapeConfig
 	var targets []string
 
 	// unmarshal response body
-	if err := json.Unmarshal(body, &scrapeConfig); err != nil {
+	if err := json.Unmarshal(body, &sc); err != nil {
 		return err
 	}
 
-	// fill the output_table
-	for _, sc := range scrapeConfig.Data.StaticConfigs {
+	// fill the output
+	for _, sc := range sc.Data.StaticConfigs {
 		targets = append(targets, sc.Targets...)
 	}
 	table := scrapeConfigsTable{
-		ScrapeInterval:  scrapeConfig.Data.ScrapeInterval,
-		ScrapeTimeout:   scrapeConfig.Data.ScrapeTimeout,
-		SampleLimit:     scrapeConfig.Data.SampleLimit,
+		ScrapeInterval:  sc.Data.ScrapeInterval,
+		ScrapeTimeout:   sc.Data.ScrapeTimeout,
+		SampleLimit:     sc.Data.SampleLimit,
 		Targets:         targets,
-		MetricsPath:     scrapeConfig.Data.MetricsPath,
-		HonorLabels:     scrapeConfig.Data.HonorLabels,
-		HonorTimeStamps: scrapeConfig.Data.HonorTimeStamps,
+		MetricsPath:     sc.Data.MetricsPath,
+		HonorLabels:     sc.Data.HonorLabels,
+		HonorTimeStamps: sc.Data.HonorTimeStamps,
 	}
 
-	// print the output_table
+	// print the output
 	if outputType != "wide" {
-		output_table.PrintTable(output_table.RemoveColumnsFromTable(table,
-			[]string{"MetricsPath", "HonorLabels", "HonorTimeStamps", "JobName"}))
+		output.PrintTable(output.RemoveColumnsFromTable(table,
+			[]string{"MetricsPath", "HonorLabels", "HonorTimeStamps", "JobName"}), string(outputType))
 	} else {
-		output_table.PrintTable(output_table.RemoveColumnsFromTable(table,
-			[]string{"JobName"}))
+		output.PrintTable(output.RemoveColumnsFromTable(table,
+			[]string{"JobName"}), string(outputType))
 	}
 
 	return nil
 }
 
-// printScrapeConfigsListTable prints scrape configs response body as output_table
-func printScrapeConfigsListTable(body []byte, outputType config2.OutputType) error {
+// printScrapeConfigsListTable prints scrape configs response body as output
+func printScrapeConfigsListTable(body []byte, outputType config.OutputType) error {
 	var scrapeConfigs scrapeConfigsList
 	var table []scrapeConfigsTable
 	var targets []string
@@ -98,7 +98,7 @@ func printScrapeConfigsListTable(body []byte, outputType config2.OutputType) err
 		return err
 	}
 
-	// fill the output_table
+	// fill the output
 	for _, data := range scrapeConfigs.Data {
 		for _, sc := range data.StaticConfigs {
 			targets = append(targets, sc.Targets...)
@@ -116,17 +116,17 @@ func printScrapeConfigsListTable(body []byte, outputType config2.OutputType) err
 		targets = nil
 	}
 
-	// print the output_table
-	if outputType != "wide" {
+	// print the output
+	if outputType != "wide" && outputType != "wide-table" {
 		var newTable []interface{}
 
 		for _, data := range table {
-			newTable = append(newTable, output_table.RemoveColumnsFromTable(data,
+			newTable = append(newTable, output.RemoveColumnsFromTable(data,
 				[]string{"MetricsPath", "HonorLabels", "HonorTimeStamps"}))
 		}
-		output_table.PrintTable(newTable)
+		output.PrintTable(newTable, string(outputType))
 	} else {
-		output_table.PrintTable(table)
+		output.PrintTable(table, string(outputType))
 	}
 
 	return nil
@@ -140,7 +140,7 @@ var ScrapeConfigsCmd = &cobra.Command{
 	Args:  cobra.MaximumNArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
-		url := config2.GetBaseUrl() + "scrapeconfigs"
+		url := config.GetBaseUrl() + "scrapeconfigs"
 
 		// modify url and debug message depend on arguments
 		resource := "scrape configs"
@@ -150,7 +150,7 @@ var ScrapeConfigsCmd = &cobra.Command{
 		}
 
 		// get output flag
-		outputType := config2.GetOutputType()
+		outputType := config.GetOutputType()
 
 		// call the command
 		body, err := runCommand(url, resource, outputType)
@@ -159,8 +159,8 @@ var ScrapeConfigsCmd = &cobra.Command{
 			return err
 		}
 
-		// print output_table output
-		if body != nil && (outputType == "" || outputType == "wide") {
+		// print output output
+		if body != nil && outputType != "yaml" && outputType != "json" {
 			if len(args) == 0 {
 				if err := printScrapeConfigsListTable(body, outputType); err != nil {
 					cmd.SilenceUsage = true

@@ -8,8 +8,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/spf13/cobra"
-	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output_table"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output"
+	"github.com/stackitcloud/stackit-argus-cli/internal/config"
 )
 
 // receiver is used to unmarshal receiver response body
@@ -36,41 +36,41 @@ type receiver struct {
 	} `json:"data" validate:"required"`
 }
 
-// webHooksConfigTable holds structure of web hook config output_table
+// webHooksConfigTable holds structure of web hook config output
 type webHooksConfigTable struct {
 	Url          string `header:"url"`
 	MsTeams      bool   `header:"MS teams"`
 	SendResolved bool   `header:"send resolved"`
 }
 
-// emailConfigTable holds structure of email config output_table
+// emailConfigTable holds structure of email config output
 type emailConfigTable struct {
 	To        string `header:"to"`
 	From      string `header:"from"`
 	SmartHost string `header:"smart host"`
 }
 
-// opsgenieConfigTable holds structure of opsgenie config output_table
+// opsgenieConfigTable holds structure of opsgenie config output
 type opsgenieConfigTable struct {
 	ApiKey string `header:"api key"`
 	ApiUrl string `header:"api url"`
 	Tags   string `header:"tags"`
 }
 
-// printReceiverTable prints receiver response body as output_table
-func printReceiverTable(body []byte) error {
-	var receiver receiver
+// printReceiverTable prints receiver response body as output
+func printReceiverTable(body []byte, outputType config.OutputType) error {
+	var r receiver
 
 	// unmarshal response body
-	if err := json.Unmarshal(body, &receiver); err != nil {
+	if err := json.Unmarshal(body, &r); err != nil {
 		return err
 	}
 
-	// print configs' output_table
-	if len(receiver.Data.WebHookConfigs) > 0 {
+	// print configs' output
+	if len(r.Data.WebHookConfigs) > 0 {
 		var table []webHooksConfigTable
 
-		for _, data := range receiver.Data.WebHookConfigs {
+		for _, data := range r.Data.WebHookConfigs {
 			table = append(table, webHooksConfigTable{
 				Url:          data.Url,
 				MsTeams:      data.MsTeams,
@@ -78,13 +78,13 @@ func printReceiverTable(body []byte) error {
 			})
 
 			fmt.Println("\nWEB HOOK CONFIGS")
-			output_table.PrintTable(table)
+			output.PrintTable(table, string(outputType))
 		}
 	}
-	if len(receiver.Data.EmailConfigs) > 0 {
+	if len(r.Data.EmailConfigs) > 0 {
 		var table []emailConfigTable
 
-		for _, data := range receiver.Data.EmailConfigs {
+		for _, data := range r.Data.EmailConfigs {
 			table = append(table, emailConfigTable{
 				To:        data.To,
 				From:      data.From,
@@ -92,13 +92,13 @@ func printReceiverTable(body []byte) error {
 			})
 
 			fmt.Println("\nEMAIL CONFIGS")
-			output_table.PrintTable(table)
+			output.PrintTable(table, string(outputType))
 		}
 	}
-	if len(receiver.Data.OpsgenieConfigs) > 0 {
+	if len(r.Data.OpsgenieConfigs) > 0 {
 		var table []opsgenieConfigTable
 
-		for _, data := range receiver.Data.OpsgenieConfigs {
+		for _, data := range r.Data.OpsgenieConfigs {
 			table = append(table, opsgenieConfigTable{
 				ApiKey: data.ApiKey,
 				ApiUrl: data.ApiUrl,
@@ -106,7 +106,7 @@ func printReceiverTable(body []byte) error {
 			})
 
 			fmt.Println("\nOPSGENIE CONFIGS")
-			output_table.PrintTable(table)
+			output.PrintTable(table, string(outputType))
 		}
 	}
 
@@ -126,7 +126,7 @@ type receiversList struct {
 	} `json:"data"`
 }
 
-// receiversListTable holds structure of receivers list output_table
+// receiversListTable holds structure of receivers list output
 type receiversListTable struct {
 	Name            string `header:"name"`
 	EmailConfigs    int    `header:"email configs"`
@@ -134,18 +134,18 @@ type receiversListTable struct {
 	OpsgenieConfigs int    `header:"opsgenie configs"`
 }
 
-// printReceiversListTable prints receivers list response body as output_table
-func printReceiversListTable(body []byte) error {
-	var receiversList receiversList
+// printReceiversListTable prints receivers list response body as output
+func printReceiversListTable(body []byte, outputType config.OutputType) error {
+	var rl receiversList
 	var table []receiversListTable
 
 	// unmarshal response body
-	if err := json.Unmarshal(body, &receiversList); err != nil {
+	if err := json.Unmarshal(body, &rl); err != nil {
 		return err
 	}
 
-	// fill the output_table with values
-	for _, data := range receiversList.Data {
+	// fill the output with values
+	for _, data := range rl.Data {
 		table = append(table, receiversListTable{
 			Name:            data.Name,
 			EmailConfigs:    len(data.EmailConfigs),
@@ -154,8 +154,8 @@ func printReceiversListTable(body []byte) error {
 		})
 	}
 
-	// print the output_table
-	output_table.PrintTable(table)
+	// print the output
+	output.PrintTable(table, string(outputType))
 
 	return nil
 }
@@ -168,7 +168,7 @@ var ReceiversCmd = &cobra.Command{
 	Args:  cobra.MaximumNArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
-		url := config2.GetBaseUrl() + "alertconfigs/receivers"
+		url := config.GetBaseUrl() + "alertconfigs/receivers"
 
 		// modify url and debug message depend on arguments
 		resource := "alert config receivers"
@@ -178,7 +178,7 @@ var ReceiversCmd = &cobra.Command{
 		}
 
 		// get output flag
-		outputType := config2.GetOutputType()
+		outputType := config.GetOutputType()
 
 		// call the command
 		body, err := runCommand(url, resource, outputType)
@@ -187,15 +187,15 @@ var ReceiversCmd = &cobra.Command{
 			return err
 		}
 
-		// print output_table output
-		if body != nil && (outputType == "" || outputType == "wide") {
+		// print output output
+		if body != nil && outputType != "yaml" && outputType != "json" {
 			if len(args) == 0 {
-				if err := printReceiversListTable(body); err != nil {
+				if err := printReceiversListTable(body, outputType); err != nil {
 					cmd.SilenceUsage = true
 					return err
 				}
 			} else {
-				if err := printReceiverTable(body); err != nil {
+				if err := printReceiverTable(body, outputType); err != nil {
 					cmd.SilenceUsage = true
 					return err
 				}
