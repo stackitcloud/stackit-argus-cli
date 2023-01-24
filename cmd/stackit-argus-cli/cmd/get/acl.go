@@ -7,8 +7,8 @@ package get
 import (
 	"encoding/json"
 	"github.com/spf13/cobra"
-	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output_table"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output"
+	"github.com/stackitcloud/stackit-argus-cli/internal/config"
 )
 
 // acl is used to unmarshal acl response body
@@ -16,13 +16,13 @@ type acl struct {
 	Acl []string `json:"acl"`
 }
 
-// aclTable holds structure of acl output_table
+// aclTable holds structure of acl output
 type aclTable struct {
 	Acl string `header:"acl"`
 }
 
-// printAclTable prints acl response body as output_table
-func printAclTable(body []byte, outputType config2.OutputType) error {
+// printAclTable prints acl response body as output
+func printAclTable(body []byte, outputType config.OutputType) error {
 	var a acl
 	var table []aclTable
 
@@ -31,13 +31,13 @@ func printAclTable(body []byte, outputType config2.OutputType) error {
 		return err
 	}
 
-	// fill output_table with values
+	// fill output with values
 	for _, i := range a.Acl {
 		table = append(table, aclTable{i})
 	}
 
-	// print the output_table
-	output_table.PrintTable(table, outputType)
+	// print the output
+	output.PrintTable(table, string(outputType))
 
 	return nil
 }
@@ -49,10 +49,10 @@ var AclCmd = &cobra.Command{
 	Args:  cobra.NoArgs,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
-		url := config2.GetBaseUrl() + "acl"
+		url := config.GetBaseUrl() + "acl"
 
 		// get output flag
-		outputType := config2.GetOutputType()
+		outputType := config.GetOutputType()
 
 		// call the command
 		body, err := runCommand(url, "acl", outputType)
@@ -61,7 +61,7 @@ var AclCmd = &cobra.Command{
 			return err
 		}
 
-		// print output_table output
+		// print output output
 		if body != nil && outputType != "yaml" && outputType != "json" {
 			if err := printAclTable(body, outputType); err != nil {
 				cmd.SilenceUsage = true

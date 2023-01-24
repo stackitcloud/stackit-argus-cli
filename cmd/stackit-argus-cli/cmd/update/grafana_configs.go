@@ -6,7 +6,7 @@ package update
 
 import (
 	"github.com/spf13/cobra"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
+	"github.com/stackitcloud/stackit-argus-cli/internal/config"
 )
 
 // GrafanaConfigsCmd represents the grafanaConfigs command

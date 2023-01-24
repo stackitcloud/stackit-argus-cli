@@ -7,8 +7,8 @@ package get
 import (
 	"encoding/json"
 	"github.com/spf13/cobra"
-	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output_table"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output"
+	"github.com/stackitcloud/stackit-argus-cli/internal/config"
 )
 
 var numberOfBackups = 10
@@ -21,8 +21,8 @@ type backups struct {
 	Grafana      []string `json:"grafanaBackups" header:"grafana"`
 }
 
-// printBackupsTable prints backups response body as an output_table
-func printBackupsTable(body []byte, outputType config2.OutputType) error {
+// printBackupsTable prints backups response body as an output
+func printBackupsTable(body []byte, outputType config.OutputType) error {
 	var b backups
 
 	// unmarshal response body
@@ -49,8 +49,8 @@ func printBackupsTable(body []byte, outputType config2.OutputType) error {
 		}
 	}
 
-	// print the output_table
-	output_table.PrintTable(b, outputType)
+	// print the output
+	output.PrintTable(b, string(outputType))
 
 	return nil
 }
@@ -62,10 +62,10 @@ var BackupCmd = &cobra.Command{
 	Args:  cobra.NoArgs,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
-		url := config2.GetBaseUrl() + "backups"
+		url := config.GetBaseUrl() + "backups"
 
 		// get output flag
-		outputType := config2.GetOutputType()
+		outputType := config.GetOutputType()
 
 		// call the command
 		body, err := runCommand(url, "backups", outputType)
@@ -74,7 +74,7 @@ var BackupCmd = &cobra.Command{
 			return nil
 		}
 
-		// print output_table output
+		// print output output
 		if body != nil && outputType != "yaml" && outputType != "json" {
 			if err := printBackupsTable(body, outputType); err != nil {
 				cmd.SilenceUsage = true

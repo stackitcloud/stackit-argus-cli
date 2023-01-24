@@ -6,8 +6,9 @@ package get
 
 import (
 	"fmt"
-	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/utils"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output"
+	"github.com/stackitcloud/stackit-argus-cli/internal/config"
+	"github.com/stackitcloud/stackit-argus-cli/internal/utils"
 	"io"
 	"net/http"
 	"time"
@@ -15,7 +16,7 @@ import (
 
 // getRequest implements get request and returns a status code with response body
 func getRequest(url string) (int, []byte, error) {
-	authHeader := config2.GetAuthHeader()
+	authHeader := config.GetAuthHeader()
 	client := &http.Client{
 		Timeout: time.Second * 10,
 	}
@@ -41,7 +42,7 @@ func getRequest(url string) (int, []byte, error) {
 		return 0, nil, err
 	}
 
-	if config2.IsDebugMode() {
+	if config.IsDebugMode() {
 		fmt.Println("response status: ", res.Status)
 	}
 
@@ -49,9 +50,9 @@ func getRequest(url string) (int, []byte, error) {
 }
 
 // err := runCommand call the url
-func runCommand(url, resource string, outputType config2.OutputType) ([]byte, error) {
+func runCommand(url, resource string, outputType config.OutputType) ([]byte, error) {
 	// print debug messages if debug mode is turned on
-	if config2.IsDebugMode() {
+	if config.IsDebugMode() {
 		fmt.Printf("get %s command called\n", resource)
 		fmt.Printf("url to call - %s\n", url)
 	}
@@ -70,7 +71,7 @@ func runCommand(url, resource string, outputType config2.OutputType) ([]byte, er
 	// print response body
 	if status == 200 {
 		if outputType == "json" || outputType == "yaml" {
-			if err := utils.PrintYamlOrJson(body, string(outputType)); err != nil {
+			if err := output.PrintYamlOrJson(body, string(outputType)); err != nil {
 				return nil, err
 			}
 		}

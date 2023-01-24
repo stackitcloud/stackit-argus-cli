@@ -7,19 +7,19 @@ package get
 import (
 	"encoding/json"
 	"github.com/spf13/cobra"
-	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output_table"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output"
+	"github.com/stackitcloud/stackit-argus-cli/internal/config"
 )
 
-// tracesConfigs is used to unmarshal traces configs response body and generate a output_table out of it
+// tracesConfigs is used to unmarshal traces configs response body and generate a output out of it
 type tracesConfigs struct {
 	Config struct {
 		Retention string `json:"retention" header:"retention"`
 	} `json:"config"`
 }
 
-// printTracesConfigsListTable prints traces configs response body as output_table
-func printTracesConfigsListTable(body []byte, outputType config2.OutputType) error {
+// printTracesConfigsListTable prints traces configs response body as output
+func printTracesConfigsListTable(body []byte, outputType config.OutputType) error {
 	var tc tracesConfigs
 
 	// unmarshal response body
@@ -27,8 +27,8 @@ func printTracesConfigsListTable(body []byte, outputType config2.OutputType) err
 		return err
 	}
 
-	// print the output_table
-	output_table.PrintTable(tc.Config, outputType)
+	// print the output
+	output.PrintTable(tc.Config, string(outputType))
 
 	return nil
 }
@@ -40,10 +40,10 @@ var TracesConfigsCmd = &cobra.Command{
 	Args:  cobra.NoArgs,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
-		url := config2.GetBaseUrl() + "traces-configs"
+		url := config.GetBaseUrl() + "traces-configs"
 
 		// get output flag
-		outputType := config2.GetOutputType()
+		outputType := config.GetOutputType()
 
 		// call the command
 		body, err := runCommand(url, "traces configs", outputType)
@@ -52,7 +52,7 @@ var TracesConfigsCmd = &cobra.Command{
 			return err
 		}
 
-		// print output_table output
+		// print output output
 		if body != nil && outputType != "yaml" && outputType != "json" {
 			if err := printTracesConfigsListTable(body, outputType); err != nil {
 				cmd.SilenceUsage = true

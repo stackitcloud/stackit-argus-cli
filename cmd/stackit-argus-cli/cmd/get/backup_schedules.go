@@ -7,8 +7,8 @@ package get
 import (
 	"encoding/json"
 	"github.com/spf13/cobra"
-	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output_table"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output"
+	"github.com/stackitcloud/stackit-argus-cli/internal/config"
 )
 
 // schedule is used to unmarshal backup schedules response
@@ -25,15 +25,15 @@ type backupSchedules struct {
 	Grafana      []schedule `json:"grafanaBackupSchedules"`
 }
 
-// backupSchedulesTable holds structure of backup schedules output_table
+// backupSchedulesTable holds structure of backup schedules output
 type backupSchedulesTable struct {
 	Resource   string `header:"resource"`
 	Schedule   string `header:"schedule"`
 	ScheduleId string `header:"scheduleId"`
 }
 
-// printBackupSchedulesTable prints backup schedules response body as output_table
-func printBackupSchedulesTable(body []byte, outputType config2.OutputType) error {
+// printBackupSchedulesTable prints backup schedules response body as output
+func printBackupSchedulesTable(body []byte, outputType config.OutputType) error {
 	var check [4]bool
 	var bs backupSchedules
 	var table []backupSchedulesTable
@@ -43,7 +43,7 @@ func printBackupSchedulesTable(body []byte, outputType config2.OutputType) error
 		return err
 	}
 
-	// fill the output_table
+	// fill the output
 	for i := 0; !check[0] && !check[1] && !check[2] && !check[3]; i++ {
 		if i < len(bs.AlertConfig) {
 			table = append(table, backupSchedulesTable{
@@ -83,8 +83,8 @@ func printBackupSchedulesTable(body []byte, outputType config2.OutputType) error
 		}
 	}
 
-	// print the output_table
-	output_table.PrintTable(table, outputType)
+	// print the output
+	output.PrintTable(table, string(outputType))
 
 	return nil
 }
@@ -96,10 +96,10 @@ var BackupSchedulesCmd = &cobra.Command{
 	Args:  cobra.NoArgs,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
-		url := config2.GetBaseUrl() + "backup-schedules"
+		url := config.GetBaseUrl() + "backup-schedules"
 
 		// get output flag
-		outputType := config2.GetOutputType()
+		outputType := config.GetOutputType()
 
 		// call the command
 		body, err := runCommand(url, "backup schedules", outputType)
@@ -108,7 +108,7 @@ var BackupSchedulesCmd = &cobra.Command{
 			return err
 		}
 
-		// print output_table output
+		// print output output
 		if body != nil && outputType != "yaml" && outputType != "json" {
 			if err := printBackupSchedulesTable(body, outputType); err != nil {
 				cmd.SilenceUsage = true

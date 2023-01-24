@@ -7,21 +7,21 @@ package get
 import (
 	"encoding/json"
 	"github.com/spf13/cobra"
-	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output_table"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output"
+	"github.com/stackitcloud/stackit-argus-cli/internal/config"
 )
 
 // offerings struct is used to unmarshal offerings response body
 type offerings struct {
 	Name        string `json:"name" header:"name"`
 	Description string `json:"description" header:"description"`
-	// wide output_table attributes
+	// wide output attributes
 	DocumentationUrl string   `json:"documentationUrl" header:"documentation url"`
 	Tags             []string `json:"tags" header:"tags"`
 }
 
-// printOfferingsTable prints offerings response body as output_table
-func printOfferingsTable(body []byte, outputType config2.OutputType) error {
+// printOfferingsTable prints offerings response body as output
+func printOfferingsTable(body []byte, outputType config.OutputType) error {
 	var o offerings
 
 	// unmarshal response body
@@ -29,11 +29,11 @@ func printOfferingsTable(body []byte, outputType config2.OutputType) error {
 		return err
 	}
 
-	// print the output_table
+	// print the output
 	if outputType != "wide" && outputType != "wide-table" {
-		output_table.PrintTable(output_table.RemoveColumnsFromTable(o, []string{"DocumentationUrl", "Tags"}), outputType)
+		output.PrintTable(output.RemoveColumnsFromTable(o, []string{"DocumentationUrl", "Tags"}), string(outputType))
 	} else {
-		output_table.PrintTable(o, outputType)
+		output.PrintTable(o, string(outputType))
 	}
 
 	return nil
@@ -46,10 +46,10 @@ var OfferingsCmd = &cobra.Command{
 	Args:  cobra.NoArgs,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
-		url := config2.GetProjectUrl() + "/offerings"
+		url := config.GetProjectUrl() + "/offerings"
 
 		// get output flag
-		outputType := config2.GetOutputType()
+		outputType := config.GetOutputType()
 
 		// call the command
 		body, err := runCommand(url, "offerings", outputType)
@@ -58,7 +58,7 @@ var OfferingsCmd = &cobra.Command{
 			return err
 		}
 
-		// print output_table output
+		// print output output
 		if body != nil && outputType != "yaml" && outputType != "json" {
 			if err := printOfferingsTable(body, outputType); err != nil {
 				cmd.SilenceUsage = true

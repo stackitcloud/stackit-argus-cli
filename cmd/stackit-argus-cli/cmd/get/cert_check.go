@@ -7,8 +7,8 @@ package get
 import (
 	"encoding/json"
 	"github.com/spf13/cobra"
-	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output_table"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output"
+	"github.com/stackitcloud/stackit-argus-cli/internal/config"
 )
 
 // certCheck struct is used to unmarshal cert check response body
@@ -18,8 +18,8 @@ type certCheck struct {
 	} `json:"certChecks"`
 }
 
-// printCertCheckTable prints cert checks as a output_table
-func printCertCheckTable(body []byte, outputType config2.OutputType) error {
+// printCertCheckTable prints cert checks as a output
+func printCertCheckTable(body []byte, outputType config.OutputType) error {
 	var cc certCheck
 
 	// unmarshal response body
@@ -27,8 +27,8 @@ func printCertCheckTable(body []byte, outputType config2.OutputType) error {
 		return err
 	}
 
-	// print the output_table
-	output_table.PrintTable(cc.CertChecks, outputType)
+	// print the output
+	output.PrintTable(cc.CertChecks, string(outputType))
 
 	return nil
 }
@@ -40,10 +40,10 @@ var CertCheckCmd = &cobra.Command{
 	Args:  cobra.NoArgs,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
-		url := config2.GetBaseUrl() + "cert-checks"
+		url := config.GetBaseUrl() + "cert-checks"
 
 		// get output flag
-		outputType := config2.GetOutputType()
+		outputType := config.GetOutputType()
 
 		// call the command
 		body, err := runCommand(url, "cert check", outputType)
@@ -52,7 +52,7 @@ var CertCheckCmd = &cobra.Command{
 			return err
 		}
 
-		// print output_table output
+		// print output output
 		if body != nil && outputType != "yaml" && outputType != "json" {
 			if err := printCertCheckTable(body, outputType); err != nil {
 				cmd.SilenceUsage = true

@@ -7,7 +7,7 @@ package get
 import (
 	"fmt"
 	"github.com/spf13/cobra"
-	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
+	"github.com/stackitcloud/stackit-argus-cli/internal/config"
 )
 
 // LogsAlertGroupsCmd represents the logsAlertGroups command
@@ -18,7 +18,7 @@ var LogsAlertGroupsCmd = &cobra.Command{
 	Args:  cobra.MaximumNArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
-		url := config2.GetBaseUrl() + "logs-alertgroups"
+		url := config.GetBaseUrl() + "logs-alertgroups"
 
 		// modify url and debug message depend on arguments
 		resource := "logs alert groups"
@@ -28,7 +28,7 @@ var LogsAlertGroupsCmd = &cobra.Command{
 		}
 
 		// get output flag
-		outputType := config2.GetOutputType()
+		outputType := config.GetOutputType()
 
 		// call the command
 		body, err := runCommand(url, resource, outputType)

@@ -8,8 +8,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/spf13/cobra"
-	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output_table"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output"
+	"github.com/stackitcloud/stackit-argus-cli/internal/config"
 )
 
 // alertConfigs is used to unmarshal alert configs response body
@@ -35,7 +35,7 @@ type alertConfigs struct {
 	} `json:"data" validate:"required"`
 }
 
-// alertConfigsTable holds structure of alert configs output_table
+// alertConfigsTable holds structure of alert configs output
 type alertConfigsTable struct {
 	SmtpSmarthost string `header:"smtp smarthost"`
 	SmtpFrom      string `header:"smtp from"`
@@ -43,7 +43,7 @@ type alertConfigsTable struct {
 	Routes        int    `header:"routes"`
 }
 
-// alertConfigsWideTable holds structure of alert configs wide output_table
+// alertConfigsWideTable holds structure of alert configs wide output
 type alertConfigsWideTable struct {
 	SourceMatchSeverity string   `header:"source match severity"`
 	TargetMatchSeverity string   `header:"target match severity"`
@@ -59,7 +59,7 @@ func countRoutes(routes []route, res *int) {
 }
 
 // printWideAlertConfigs prints more information about alert configs
-func printWideAlertConfigs(alertConfigs alertConfigs, outputType config2.OutputType) {
+func printWideAlertConfigs(alertConfigs alertConfigs, outputType config.OutputType) {
 	var table []alertConfigsWideTable
 
 	for _, data := range alertConfigs.Data.InhibitRules {
@@ -80,12 +80,12 @@ func printWideAlertConfigs(alertConfigs alertConfigs, outputType config2.OutputT
 
 	if len(table) > 0 {
 		fmt.Println("\nINHIBIT RULES")
-		output_table.PrintTable(table, outputType)
+		output.PrintTable(table, string(outputType))
 	}
 }
 
-// printAlertConfigsTable prints alert configs response body as output_table
-func printAlertConfigsTable(body []byte, outputType config2.OutputType) error {
+// printAlertConfigsTable prints alert configs response body as output
+func printAlertConfigsTable(body []byte, outputType config.OutputType) error {
 	var ac alertConfigs
 	var routes int
 
@@ -96,7 +96,7 @@ func printAlertConfigsTable(body []byte, outputType config2.OutputType) error {
 
 	countRoutes(ac.Data.Route.Routes, &routes)
 
-	// print the output_table
+	// print the output
 	table := alertConfigsTable{
 		Receivers: len(ac.Data.Receivers),
 		Routes:    routes + 1,
@@ -105,9 +105,9 @@ func printAlertConfigsTable(body []byte, outputType config2.OutputType) error {
 		table.SmtpFrom = ac.Data.Global.SmtpFrom
 		table.SmtpSmarthost = ac.Data.Global.SmtpSmarthost
 	}
-	output_table.PrintTable(table, outputType)
+	output.PrintTable(table, string(outputType))
 
-	// print wide output_table
+	// print wide output
 	if outputType == "wide" || outputType == "wide-table" {
 		printWideAlertConfigs(ac, outputType)
 	}
@@ -122,10 +122,10 @@ var AlertConfigsCmd = &cobra.Command{
 	Args:  cobra.NoArgs,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
-		url := config2.GetBaseUrl() + "alertconfigs"
+		url := config.GetBaseUrl() + "alertconfigs"
 
 		// get output flag
-		outputType := config2.GetOutputType()
+		outputType := config.GetOutputType()
 
 		// call the command
 		body, err := runCommand(url, "alert configs", outputType)
@@ -134,7 +134,7 @@ var AlertConfigsCmd = &cobra.Command{
 			return err
 		}
 
-		// print output_table output
+		// print output output
 		if body != nil && outputType != "yaml" && outputType != "json" {
 			if err := printAlertConfigsTable(body, outputType); err != nil {
 				cmd.SilenceUsage = true

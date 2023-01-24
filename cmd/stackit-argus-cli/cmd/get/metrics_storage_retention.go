@@ -7,8 +7,8 @@ package get
 import (
 	"encoding/json"
 	"github.com/spf13/cobra"
-	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output_table"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output"
+	"github.com/stackitcloud/stackit-argus-cli/internal/config"
 )
 
 // metricsStorageRetention is used to unmarshal metrics storage retention response body
@@ -18,8 +18,8 @@ type metricsStorageRetention struct {
 	MetricsRetentionTime1H  string `json:"metricsRetentionTime1h" header:"metrics retention time 1h"`
 }
 
-// printMetricsStorageRetentionTable prints routes response body as output_table
-func printMetricsStorageRetentionTable(body []byte, outputType config2.OutputType) error {
+// printMetricsStorageRetentionTable prints routes response body as output
+func printMetricsStorageRetentionTable(body []byte, outputType config.OutputType) error {
 	var msr metricsStorageRetention
 
 	// unmarshal response body
@@ -27,8 +27,8 @@ func printMetricsStorageRetentionTable(body []byte, outputType config2.OutputTyp
 		return err
 	}
 
-	// print the output_table
-	output_table.PrintTable(msr, outputType)
+	// print the output
+	output.PrintTable(msr, string(outputType))
 
 	return nil
 }
@@ -40,10 +40,10 @@ var MetricsStorageRetentionCmd = &cobra.Command{
 	Args:  cobra.NoArgs,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
-		url := config2.GetBaseUrl() + "metrics-storage-retentions"
+		url := config.GetBaseUrl() + "metrics-storage-retentions"
 
 		// get output flag
-		outputType := config2.GetOutputType()
+		outputType := config.GetOutputType()
 
 		// call the command
 		body, err := runCommand(url, "metrics storage retentions", outputType)
@@ -52,7 +52,7 @@ var MetricsStorageRetentionCmd = &cobra.Command{
 			return err
 		}
 
-		// print output_table output
+		// print output output
 		if body != nil && outputType != "yaml" && outputType != "json" {
 			if err := printMetricsStorageRetentionTable(body, outputType); err != nil {
 				cmd.SilenceUsage = true

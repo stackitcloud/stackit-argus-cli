@@ -8,7 +8,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/spf13/cobra"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
+	"github.com/stackitcloud/stackit-argus-cli/internal/config"
 )
 
 // ScrapeConfigsCmd represents the scrapeConfigs command

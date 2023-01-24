@@ -63,6 +63,7 @@ out/lint.xml: $(GOLANGCI_LINT) out download
 .PHONY: test
 test: ## Runs all tests
 	go test $(ARGS) ./cmd/stackit-argus-cli/...
+	go test $(ARGS) $(shell go list ./internal/... | grep -v /argus)
 
 .PHONY: coverage
 coverage: out/report.json ## Displays coverage per func on cli
@@ -92,13 +93,13 @@ ci: lint-reports test-reports ## Executes lint and test and generates reports
 
 .PHONY: clean-generate-client
 clean-generate-client: ## Remove generated APIT client code
-	rm -f ./pkg/argus/api_default.go
-	rm -f ./pkg/argus/configuration.go
-	rm -f ./pkg/argus/client.go
-	rm -f ./pkg/argus/model_*.go
-	rm -f ./pkg/argus/response.go
-	rm -f ./pkg/argus/utils.go
-	rm -rf ./pkg/argus/docs
+	rm -f ./internal/services/argus/api_default.go
+	rm -f ./internal/services/argus/configuration.go
+	rm -f ./internal/services/argus/client.go
+	rm -f ./internal/services/argus/model_*.go
+	rm -f ./internal/services/argus/response.go
+	rm -f ./internal/services/argus/utils.go
+	rm -rf ./internal/services/argus/docs
 
 .PHONY: generate-client-code
 generate-client-code: clean-generate-client ## generate API client code
@@ -107,7 +108,7 @@ generate-client-code: clean-generate-client ## generate API client code
 		-i /local/api/ARGUS.openapi.v1.yml \
 		-g go \
 		--additional-properties=packageName=argus \
-		-o /local/pkg/argus
+		-o /local/internal/services/argus
 
 .PHONY: generate-client
 generate-client: generate-client-code tidy ## genarte API client & run go mod tidy

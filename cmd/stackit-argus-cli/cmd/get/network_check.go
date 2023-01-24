@@ -7,8 +7,8 @@ package get
 import (
 	"encoding/json"
 	"github.com/spf13/cobra"
-	config2 "github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/config"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output_table"
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output"
+	"github.com/stackitcloud/stackit-argus-cli/internal/config"
 )
 
 // networkCheck struct is used to unmarshal network check response body
@@ -18,8 +18,8 @@ type networkCheck struct {
 	} `json:"networkChecks"`
 }
 
-// printNetworkCheckTable prints network checks as an output_table
-func printNetworkCheckTable(body []byte, outputType config2.OutputType) error {
+// printNetworkCheckTable prints network checks as an output
+func printNetworkCheckTable(body []byte, outputType config.OutputType) error {
 	var nc networkCheck
 
 	// unmarshal response body
@@ -27,8 +27,8 @@ func printNetworkCheckTable(body []byte, outputType config2.OutputType) error {
 		return err
 	}
 
-	// print the output_table
-	output_table.PrintTable(nc.NetworkChecks, outputType)
+	// print the output
+	output.PrintTable(nc.NetworkChecks, string(outputType))
 
 	return nil
 }
@@ -40,10 +40,10 @@ var NetworkCheckCmd = &cobra.Command{
 	Args:  cobra.NoArgs,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// generate an url
-		url := config2.GetBaseUrl() + "network-checks"
+		url := config.GetBaseUrl() + "network-checks"
 
 		// get output flag
-		outputType := config2.GetOutputType()
+		outputType := config.GetOutputType()
 
 		// call the command
 		body, err := runCommand(url, "network check", outputType)
@@ -52,7 +52,7 @@ var NetworkCheckCmd = &cobra.Command{
 			return err
 		}
 
-		// print output_table output
+		// print output output
 		if body != nil && outputType != "yaml" && outputType != "json" {
 			if err := printNetworkCheckTable(body, outputType); err != nil {
 				cmd.SilenceUsage = true
