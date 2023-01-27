@@ -57,7 +57,7 @@ To get your setup up and running the only thing you have to do is
 make
 ```
 
-This will initialize a git repo, download the dependencies in the latest versions, install all needed tools and generate binary in ./out/bin directory.
+This will initialize a git repo, download the dependencies in the latest versions, install all needed tools and generate binary in "./out/bin" directory.
 
 ## Test & lint
 
