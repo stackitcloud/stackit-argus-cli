@@ -22,7 +22,7 @@ RUN --mount=target=. \
     go build -ldflags="-w -s" -o /app/stackit-argus-cli ./cmd/stackit-argus-cli/*.go
 
 # Import the binary from build stage
-FROM gcr.io/distroless/static:nonroot@sha256:116ec02427430e69f5692bf9408d9331ae1ae019749e41f3064ff1bb7482c73e as prd
+FROM gcr.io/distroless/static:nonroot@sha256:9ec950c09380320e203369982691eb821df6a6974edf9f4bb8e661d4b77b9d99 as prd
 COPY --from=build /app/stackit-argus-cli /
 # this is the numeric version of user nonroot:nonroot to check runAsNonRoot in kubernetes
 USER 65532:65532
