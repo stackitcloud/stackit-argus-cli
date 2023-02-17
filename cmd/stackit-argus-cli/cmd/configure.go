@@ -8,8 +8,11 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	"golang.org/x/term"
 	"os"
 )
+
+var baseUrl = "https://argus.api.eu01.stackit.cloud/v1"
 
 // configureCmd represents the configure command
 var configureCmd = &cobra.Command{
@@ -45,11 +48,12 @@ var configureCmd = &cobra.Command{
 		}
 		viper.Set("project_id", conf)
 		fmt.Print("Authorization token: ")
-		if _, err := fmt.Scanf("%s", &conf); err != nil {
+		conf, err = readLongString()
+		if err != nil {
 			return err
 		}
 		viper.Set("token", conf)
-		viper.Set("base_url", "https://argus.api.eu01.stackit.cloud/v1")
+		viper.Set("base_url", baseUrl)
 
 		if err := viper.WriteConfig(); err != nil {
 			return err
@@ -57,4 +61,30 @@ var configureCmd = &cobra.Command{
 
 		return nil
 	},
+}
+
+// readLongString provides a way to read more than 1024 characters from the terminal by switching the terminal into
+// raw mode. Otherwise, long strings like the authentication token would be truncated to 1024 characters because of
+// canonical input mode for terminals.
+func readLongString() (string, error) {
+	termStateBackup, _ := term.MakeRaw(int(os.Stdin.Fd()))
+	defer term.Restore(int(os.Stdin.Fd()), termStateBackup) // nolint:errcheck
+
+	result := ""
+	characters := make([]byte, 1024)
+	for {
+		n, err := os.Stdin.Read(characters)
+		if err != nil {
+			return result, err
+		}
+		for i := 0; i < n; i++ {
+			if characters[i] == 0x03 || // Ctrl+C
+				characters[i] == 0x0d { // Enter
+				fmt.Print("\r\n")
+				return result, nil
+			}
+			fmt.Printf("%s", string(characters[i]))
+			result = result + string(characters[i])
+		}
+	}
 }
