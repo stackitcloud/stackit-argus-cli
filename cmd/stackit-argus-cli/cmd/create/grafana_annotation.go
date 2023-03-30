@@ -141,6 +141,10 @@ func getDashboardUID(url, authHeader, title string) (string, error) {
 		return "", err
 	}
 
+	if res.StatusCode != 200 {
+		return "", errors.New(fmt.Sprintf("cannot get dashboards list, response: %s", res.Status))
+	}
+
 	var dashboards []dashboard
 	if err := json.Unmarshal(body, &dashboards); err != nil {
 		return "", err

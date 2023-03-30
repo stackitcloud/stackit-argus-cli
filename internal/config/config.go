@@ -154,20 +154,29 @@ func setGrafanaInfo() error {
 }
 
 func GetGrafanaUrl() string {
-	if err := setGrafanaInfo(); err != nil {
-		cobra.CheckErr(err.Error())
-	}
 	if grafanaUrl == "" {
-		cobra.CheckErr("please, set grafana configurations. To set grafana configurations run \"configure\" command.")
+		if err := setGrafanaInfo(); err != nil {
+			cobra.CheckErr(err.Error())
+		}
 	}
 	return grafanaUrl
 }
 
 func GetGrafanaUsername() string {
+	if grafanaUsername == "" {
+		if err := setGrafanaInfo(); err != nil {
+			cobra.CheckErr(err.Error())
+		}
+	}
 	return grafanaUsername
 }
 
 func GetGrafanaPassword() string {
+	if grafanaPassword == "" {
+		if err := setGrafanaInfo(); err != nil {
+			cobra.CheckErr(err.Error())
+		}
+	}
 	return grafanaPassword
 }
 
