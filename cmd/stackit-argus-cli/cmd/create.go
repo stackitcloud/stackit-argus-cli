@@ -34,4 +34,5 @@ func init() {
 	createCmd.AddCommand(create.HttpCheckCmd)
 	createCmd.AddCommand(create.NetworkCheckCmd)
 	createCmd.AddCommand(create.PingCheckCmd)
+	createCmd.AddCommand(create.GrafanaAnnotationCmd)
 }
