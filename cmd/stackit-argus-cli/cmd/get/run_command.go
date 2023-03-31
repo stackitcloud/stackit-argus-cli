@@ -14,8 +14,8 @@ import (
 	"time"
 )
 
-// getRequest implements get request and returns a status code with response body
-func getRequest(url string) (int, []byte, error) {
+// GetRequest implements get request and returns a status code with response body
+func GetRequest(url string) (int, []byte, error) {
 	authHeader := config.GetAuthHeader()
 	client := &http.Client{
 		Timeout: time.Second * 10,
@@ -58,7 +58,7 @@ func runCommand(url, resource string, outputType config.OutputType) ([]byte, err
 	}
 
 	// get response
-	status, body, err := getRequest(url)
+	status, body, err := GetRequest(url)
 	if err != nil {
 		return nil, err
 	}

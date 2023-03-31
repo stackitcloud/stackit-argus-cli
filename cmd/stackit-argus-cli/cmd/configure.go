@@ -5,11 +5,13 @@ package cmd
  */
 
 import (
+	"bufio"
 	"fmt"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"golang.org/x/term"
 	"os"
+	"strings"
 )
 
 var baseUrl = "https://argus.api.eu01.stackit.cloud/v1"
@@ -22,41 +24,61 @@ var configureCmd = &cobra.Command{
 		" will be create in your home directory with \".stackit-argus-cli.yaml\" name.",
 	Args: cobra.NoArgs,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		var conf string
-
-		confFilePath, err := os.UserHomeDir()
+		homePath, err := os.UserHomeDir()
 		if err != nil {
 			return err
 		}
 
 		// create configuration file in the HOME directory
-		if _, err := os.OpenFile(confFilePath+"/.stackit-argus-cli.yaml", os.O_CREATE|os.O_RDWR, 0644); err != nil {
+		if _, err := os.OpenFile(homePath+"/.stackit-argus-cli.yaml", os.O_CREATE|os.O_RDWR, 0644); err != nil {
 			return err
 		}
 
-		viper.SetConfigFile(confFilePath + "/.stackit-argus-cli.yaml")
+		viper.SetConfigFile(homePath + "/.stackit-argus-cli.yaml")
 
+		reader := bufio.NewReaderSize(os.Stdin, 32*1024)
+
+		var input string
 		// ask user for configurations and put them into the conf file
 		fmt.Print("Instance id: ")
-		if _, err := fmt.Scanf("%s", &conf); err != nil {
-			return err
-		}
-		viper.Set("instance_id", conf)
-		fmt.Print("Project id: ")
-		if _, err := fmt.Scanf("%s", &conf); err != nil {
-			return err
-		}
-		viper.Set("project_id", conf)
-		fmt.Print("Authorization token: ")
-		conf, err = readLongString()
+		input, err = reader.ReadString('\n')
 		if err != nil {
-			return err
+			return fmt.Errorf("failed to read user input, err: %v", err)
 		}
-		viper.Set("token", conf)
+		viper.Set("instance_id", strings.TrimSpace(input))
+
+		fmt.Print("Project id: ")
+		input, err = reader.ReadString('\n')
+		if err != nil {
+			return fmt.Errorf("failed to read user input, err: %v", err)
+		}
+		viper.Set("project_id", strings.TrimSpace(input))
+
+		fmt.Print("Authorization token: ")
+		input, err = readLongString()
+		if err != nil {
+			return fmt.Errorf("failed to read user input, err: %v", err)
+		}
+		viper.Set("token", strings.TrimSpace(input))
+
 		viper.Set("base_url", baseUrl)
 
+		fmt.Print("Grafana username(optional): ")
+		input, err = reader.ReadString('\n')
+		if err != nil {
+			return fmt.Errorf("failed to read user input, err: %v", err)
+		}
+		viper.Set("grafana_username", strings.TrimSpace(input))
+
+		fmt.Print("Grafana password(optional): ")
+		input, err = reader.ReadString('\n')
+		if err != nil {
+			return fmt.Errorf("failed to read user input, err: %v", err)
+		}
+		viper.Set("grafana_password", strings.TrimSpace(input))
+
 		if err := viper.WriteConfig(); err != nil {
-			return err
+			return fmt.Errorf("failed to write configurations, err: %v", err)
 		}
 
 		return nil
