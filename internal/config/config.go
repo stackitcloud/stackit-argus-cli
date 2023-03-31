@@ -133,6 +133,7 @@ func setGrafanaInfo() error {
 	if res.StatusCode != 200 {
 		return errors.New("cannot get instance info, response: " + res.Status)
 	}
+
 	var i instance
 	if err := json.Unmarshal(body, &i); err != nil {
 		return err
