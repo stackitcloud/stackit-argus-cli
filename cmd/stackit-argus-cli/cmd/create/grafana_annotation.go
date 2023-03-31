@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/stackitcloud/stackit-argus-cli/internal/config"
+	"github.com/stackitcloud/stackit-argus-cli/internal/utils"
 	"io"
 	"net/http"
 	"time"
@@ -113,8 +114,8 @@ func createAnnotation(url, authHeader string, body []byte) error {
 		return err
 	}
 
-	if res.StatusCode != 200 {
-		return errors.New("cannot create an annotation, status: " + res.Status)
+	if err := utils.ResponseMessage(res.StatusCode, "grafana annotation", "create"); err != nil {
+		return err
 	}
 	return nil
 }

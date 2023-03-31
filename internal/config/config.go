@@ -115,6 +115,7 @@ func setGrafanaInfo() error {
 	authHeader := GetAuthHeader()
 	req, err := http.NewRequest(http.MethodGet, strings.TrimSuffix(GetBaseUrl(), "/"), nil)
 	if err != nil {
+		println("!!!!!")
 		return err
 	}
 	req.Header.Set("Authorization", authHeader)
@@ -124,6 +125,7 @@ func setGrafanaInfo() error {
 	}
 	res, err := client.Do(req)
 	if err != nil {
+		println("?????")
 		return err
 	}
 	body, err := io.ReadAll(res.Body)
@@ -133,7 +135,6 @@ func setGrafanaInfo() error {
 	if res.StatusCode != 200 {
 		return errors.New("cannot get instance info, response: " + res.Status)
 	}
-
 	var i instance
 	if err := json.Unmarshal(body, &i); err != nil {
 		return err
