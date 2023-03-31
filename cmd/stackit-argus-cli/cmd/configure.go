@@ -6,7 +6,6 @@ package cmd
 
 import (
 	"bufio"
-	"errors"
 	"fmt"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -44,21 +43,21 @@ var configureCmd = &cobra.Command{
 		fmt.Print("Instance id: ")
 		input, err = reader.ReadString('\n')
 		if err != nil {
-			return errors.New(fmt.Sprintf("failed to read user input, err: %v", err))
+			return fmt.Errorf("failed to read user input, err: %v", err)
 		}
 		viper.Set("instance_id", strings.TrimSpace(input))
 
 		fmt.Print("Project id: ")
 		input, err = reader.ReadString('\n')
 		if err != nil {
-			return errors.New(fmt.Sprintf("failed to read user input, err: %v", err))
+			return fmt.Errorf("failed to read user input, err: %v", err)
 		}
 		viper.Set("project_id", strings.TrimSpace(input))
 
 		fmt.Print("Authorization token: ")
 		input, err = readLongString()
 		if err != nil {
-			return errors.New(fmt.Sprintf("failed to read user input, err: %v", err))
+			return fmt.Errorf("failed to read user input, err: %v", err)
 		}
 		viper.Set("token", strings.TrimSpace(input))
 
@@ -67,19 +66,19 @@ var configureCmd = &cobra.Command{
 		fmt.Print("Grafana username(optional): ")
 		input, err = reader.ReadString('\n')
 		if err != nil {
-			return errors.New(fmt.Sprintf("failed to read user input, err: %v", err))
+			return fmt.Errorf("failed to read user input, err: %v", err)
 		}
 		viper.Set("grafana_username", strings.TrimSpace(input))
 
 		fmt.Print("Grafana password(optional): ")
 		input, err = reader.ReadString('\n')
 		if err != nil {
-			return errors.New(fmt.Sprintf("failed to read user input, err: %v", err))
+			return fmt.Errorf("failed to read user input, err: %v", err)
 		}
 		viper.Set("grafana_password", strings.TrimSpace(input))
 
 		if err := viper.WriteConfig(); err != nil {
-			return errors.New(fmt.Sprintf("failed to write configurations, err: %v", err))
+			return fmt.Errorf("failed to write configurations, err: %v", err)
 		}
 
 		return nil

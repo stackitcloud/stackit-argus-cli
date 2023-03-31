@@ -143,7 +143,7 @@ func getDashboardUID(url, authHeader, title string) (string, error) {
 	}
 
 	if res.StatusCode != 200 {
-		return "", errors.New(fmt.Sprintf("cannot get dashboards list, response: %s", res.Status))
+		return "", fmt.Errorf("cannot get dashboards list, response: %s", res.Status)
 	}
 
 	var dashboards []dashboard
@@ -156,5 +156,5 @@ func getDashboardUID(url, authHeader, title string) (string, error) {
 			return d.Uid, nil
 		}
 	}
-	return "", errors.New(fmt.Sprintf("dashboard \"%s\" doesn't exist", title))
+	return "", fmt.Errorf("dashboard \"%s\" doesn't exist", title)
 }
