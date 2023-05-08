@@ -27,7 +27,7 @@ go install github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli@lates
 
 ### From the released binaries
 
-Download the desired version for your operating system and processor architecture from the [STACKIT ARGUS CLI](https://github.com/stackitcloud/stackit-argus-cli/releases/tag/v1.0.1). Make the file executable and place it in a directory available in your $PATH.
+Download the desired version for your operating system and processor architecture from the [STACKIT ARGUS CLI](https://github.com/stackitcloud/stackit-argus-cli/releases/tag/v1.0.3). Make the file executable and place it in a directory available in your $PATH.
 
 ## Configuration
 
