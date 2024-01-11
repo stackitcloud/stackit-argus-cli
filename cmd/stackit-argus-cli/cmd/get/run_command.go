@@ -6,16 +6,20 @@ package get
 
 import (
 	"fmt"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output"
-	"github.com/stackitcloud/stackit-argus-cli/internal/config"
-	"github.com/stackitcloud/stackit-argus-cli/internal/utils"
 	"io"
 	"net/http"
 	"time"
+
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output"
+	"github.com/stackitcloud/stackit-argus-cli/internal/config"
+	"github.com/stackitcloud/stackit-argus-cli/internal/utils"
 )
 
-// GetRequest implements get request and returns a status code with response body
-func GetRequest(url string) (int, []byte, error) {
+var status = 0
+var responseBody []byte
+
+// GetRequest implements get request and returns error
+func GetRequest(url string, resource string) error {
 	authHeader := config.GetAuthHeader()
 	client := &http.Client{
 		Timeout: time.Second * 10,
@@ -23,30 +27,33 @@ func GetRequest(url string) (int, []byte, error) {
 
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
-		return 0, nil, err
+		return err
 	}
 
 	req.Header.Set("Authorization", authHeader)
 
 	res, err := client.Do(req)
 	if err != nil {
-		return 0, nil, err
+		return err
 	}
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		return 0, nil, err
+		return err
+	}
+
+	status = res.StatusCode
+	responseBody = body
+
+	if err := utils.ResponseMessage(res.StatusCode, resource, req.Method, res.Body); err != nil {
+		return err
 	}
 
 	if err := res.Body.Close(); err != nil {
-		return 0, nil, err
+		return err
 	}
 
-	if config.IsDebugMode() {
-		fmt.Println("response status: ", res.Status)
-	}
-
-	return res.StatusCode, body, nil
+	return nil
 }
 
 // err := runCommand call the url
@@ -58,25 +65,19 @@ func runCommand(url, resource string, outputType config.OutputType) ([]byte, err
 	}
 
 	// get response
-	status, body, err := GetRequest(url)
-	if err != nil {
-		return nil, err
-	}
-
-	// print response status
-	if err := utils.ResponseMessage(status, resource, "get"); err != nil {
+	if err := GetRequest(url, resource); err != nil {
 		return nil, err
 	}
 
 	// print response body
 	if status == 200 {
 		if outputType == "json" || outputType == "yaml" {
-			if err := output.PrintYamlOrJson(body, string(outputType)); err != nil {
+			if err := output.PrintYamlOrJson(responseBody, string(outputType)); err != nil {
 				return nil, err
 			}
 		}
 
-		return body, nil
+		return responseBody, nil
 	}
 
 	return nil, nil

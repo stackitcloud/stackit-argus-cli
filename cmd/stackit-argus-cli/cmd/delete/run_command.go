@@ -6,14 +6,15 @@ package delete
 
 import (
 	"fmt"
-	"github.com/stackitcloud/stackit-argus-cli/internal/config"
-	"github.com/stackitcloud/stackit-argus-cli/internal/utils"
 	"net/http"
 	"time"
+
+	"github.com/stackitcloud/stackit-argus-cli/internal/config"
+	"github.com/stackitcloud/stackit-argus-cli/internal/utils"
 )
 
-// deleteRequest implements delete request and returns a status code
-func deleteRequest(url string) (int, error) {
+// deleteRequest implements delete request and returns error
+func deleteRequest(url string, resource string) error {
 	authHeader := config.GetAuthHeader()
 	client := &http.Client{
 		Timeout: time.Second * 10,
@@ -21,24 +22,25 @@ func deleteRequest(url string) (int, error) {
 
 	req, err := http.NewRequest(http.MethodDelete, url, nil)
 	if err != nil {
-		return 0, err
+		return err
 	}
 
 	req.Header.Set("Authorization", authHeader)
 
 	res, err := client.Do(req)
 	if err != nil {
-		return 0, err
+		return err
 	}
+
+	if err := utils.ResponseMessage(res.StatusCode, resource, req.Method, res.Body); err != nil {
+		return err
+	}
+
 	if err := res.Body.Close(); err != nil {
-		return 0, err
+		return err
 	}
 
-	if config.IsDebugMode() {
-		fmt.Println("response status: ", res.Status)
-	}
-
-	return res.StatusCode, nil
+	return nil
 }
 
 // runCommand call the url
@@ -50,15 +52,5 @@ func runCommand(url, resource string) error {
 	}
 
 	// create the alert group
-	status, err := deleteRequest(url)
-	if err != nil {
-		return err
-	}
-
-	// print response status
-	if err := utils.ResponseMessage(status, resource, "delete"); err != nil {
-		return err
-	}
-
-	return nil
+	return deleteRequest(url, resource)
 }

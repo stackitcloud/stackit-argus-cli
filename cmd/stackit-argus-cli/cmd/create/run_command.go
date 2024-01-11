@@ -7,13 +7,14 @@ package create
 import (
 	"bytes"
 	"fmt"
-	"github.com/stackitcloud/stackit-argus-cli/internal/config"
-	"github.com/stackitcloud/stackit-argus-cli/internal/services/yaml_to_json"
-	"github.com/stackitcloud/stackit-argus-cli/internal/utils"
 	"net/http"
 	"os"
 	"path"
 	"time"
+
+	"github.com/stackitcloud/stackit-argus-cli/internal/config"
+	"github.com/stackitcloud/stackit-argus-cli/internal/services/yaml_to_json"
+	"github.com/stackitcloud/stackit-argus-cli/internal/utils"
 )
 
 // convertToJson converts yaml request body to json
@@ -40,8 +41,8 @@ func convertToJson(body []byte, file, resource string) ([]byte, error) {
 	return body, nil
 }
 
-// postRequest implements post request and returns a status code
-func postRequest(url, keyTarget string, targets []string, body []byte) (int, error) {
+// postRequest implements post request and returns error
+func postRequest(url, keyTarget string, resource string, targets []string, body []byte) error {
 	authHeader := config.GetAuthHeader()
 	client := &http.Client{
 		Timeout: time.Second * 10,
@@ -50,7 +51,7 @@ func postRequest(url, keyTarget string, targets []string, body []byte) (int, err
 	bodyReader := bytes.NewReader(body)
 	req, err := http.NewRequest(http.MethodPost, url, bodyReader)
 	if err != nil {
-		return 0, err
+		return err
 	}
 
 	// set auth header
@@ -69,17 +70,18 @@ func postRequest(url, keyTarget string, targets []string, body []byte) (int, err
 
 	res, err := client.Do(req)
 	if err != nil {
-		return 0, err
+		return err
 	}
+
+	if err := utils.ResponseMessage(res.StatusCode, resource, req.Method, res.Body); err != nil {
+		return err
+	}
+
 	if err := res.Body.Close(); err != nil {
-		return 0, err
+		return err
 	}
 
-	if config.IsDebugMode() {
-		fmt.Println("response status: ", res.Status)
-	}
-
-	return res.StatusCode, nil
+	return nil
 }
 
 // runCommand call the url
@@ -110,15 +112,6 @@ func runCommand(url, resource, keyTarget string, targets []string) error {
 	}
 
 	// create the alert group
-	status, err := postRequest(url, keyTarget, targets, body)
-	if err != nil {
-		return err
-	}
 
-	// print response status
-	if err := utils.ResponseMessage(status, resource, "create"); err != nil {
-		return err
-	}
-
-	return nil
+	return postRequest(url, keyTarget, resource, targets, body)
 }
