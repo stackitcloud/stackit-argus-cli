@@ -1,8 +1,12 @@
 package utils
 
 import (
+	"bytes"
+	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
+	"net/http"
 )
 
 // ResponseMessage generates a response message depending on response status code
@@ -28,4 +32,29 @@ func ResponseMessage(status int, resource, action string) error {
 	default:
 		return fmt.Errorf("something went wrong. status code - %d\033[0m", status)
 	}
+}
+
+func ResponseMessageNew(responseStatusCode int, resource string, action string, body io.ReadCloser) error {
+	fmt.Printf("%s: %s", action, resource)
+	fmt.Printf("status code: %v", responseStatusCode)
+	if responseStatusCode >= http.StatusBadRequest {
+		bodyByte, err := io.ReadAll(body)
+		if err != nil {
+			return err
+		}
+		prettyBody, err := prettyString(string(bodyByte))
+		if err != nil {
+			return err
+		}
+		return fmt.Errorf("body: %s", prettyBody)
+	}
+	return nil
+}
+
+func prettyString(str string) (string, error) {
+    var prettyJSON bytes.Buffer
+    if err := json.Indent(&prettyJSON, []byte(str), "", "    "); err != nil {
+        return "", err
+    }
+    return prettyJSON.String(), nil
 }
