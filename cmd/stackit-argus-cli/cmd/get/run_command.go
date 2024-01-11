@@ -60,11 +60,6 @@ func runCommand(url, resource string, outputType config.OutputType) ([]byte, err
 		return nil, err
 	}
 
-	// print response status
-	if err := utils.ResponseMessage(status, resource, "get"); err != nil {
-		return nil, err
-	}
-
 	// print response body
 	if status == 200 {
 		if outputType == "json" || outputType == "yaml" {
