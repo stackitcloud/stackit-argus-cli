@@ -72,15 +72,7 @@ func postRequest(url, keyTarget string, resource string, targets []string, body 
 		return err
 	}
 
-	if err := utils.ResponseMessageNew(res.StatusCode, resource, req.Method, res.Body); err != nil {
-		return err
-	}
-
-	if config.IsDebugMode() {
-		fmt.Println("response status: ", res.Status)
-	}
-
-	return nil
+	return utils.ResponseMessageNew(res.StatusCode, resource, req.Method, res.Body)
 }
 
 // runCommand call the url
@@ -112,9 +104,5 @@ func runCommand(url, resource, keyTarget string, targets []string) error {
 
 	// create the alert group
 	
-	if err := postRequest(url, keyTarget, resource, targets, body); err != nil {
-		return err
-	}
-
-	return nil
+	return postRequest(url, keyTarget, resource, targets, body)
 }

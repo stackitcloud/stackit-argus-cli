@@ -39,7 +39,7 @@ func convertToJson(body []byte, file, resource string) ([]byte, error) {
 }
 
 // updateRequest implements put and patch request and returns a status code
-func updateRequest(url string, method string, body []byte) (int, error) {
+func updateRequest(url string, method string, resource string, body []byte) error {
 	authHeader := config.GetAuthHeader()
 	client := &http.Client{
 		Timeout: time.Second * 10,
@@ -48,7 +48,7 @@ func updateRequest(url string, method string, body []byte) (int, error) {
 	bodyReader := bytes.NewReader(body)
 	req, err := http.NewRequest(method, url, bodyReader)
 	if err != nil {
-		return 0, err
+		return err
 	}
 
 	// set header
@@ -57,17 +57,18 @@ func updateRequest(url string, method string, body []byte) (int, error) {
 
 	res, err := client.Do(req)
 	if err != nil {
-		return 0, err
-	}
-	if err := res.Body.Close(); err != nil {
-		return 0, err
+		return err
 	}
 
-	if config.IsDebugMode() {
-		fmt.Println("response status: ", res.Status)
+	if err := utils.ResponseMessageNew(res.StatusCode, resource, req.Method, res.Body); err != nil {
+		return err
 	}
 
-	return res.StatusCode, nil
+	//if config.IsDebugMode() {
+	//	fmt.Println("response status: ", res.Status)
+	//}
+
+	return nil
 }
 
 // runCommand call the url
@@ -98,15 +99,5 @@ func runCommand(url, resource, method string) error {
 	}
 
 	// create the alert group
-	status, err := updateRequest(url, method, body)
-	if err != nil {
-		return err
-	}
-
-	// print response status
-	if err := utils.ResponseMessage(status, resource, "update"); err != nil {
-		return err
-	}
-
-	return err
+	return updateRequest(url, method, resource, body)
 }

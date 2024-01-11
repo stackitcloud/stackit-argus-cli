@@ -13,7 +13,7 @@ import (
 )
 
 // deleteRequest implements delete request and returns a status code
-func deleteRequest(url string) (int, error) {
+func deleteRequest(url string, resource string) error {
 	authHeader := config.GetAuthHeader()
 	client := &http.Client{
 		Timeout: time.Second * 10,
@@ -21,24 +21,17 @@ func deleteRequest(url string) (int, error) {
 
 	req, err := http.NewRequest(http.MethodDelete, url, nil)
 	if err != nil {
-		return 0, err
+		return err
 	}
 
 	req.Header.Set("Authorization", authHeader)
 
 	res, err := client.Do(req)
 	if err != nil {
-		return 0, err
+		return err
 	}
-	if err := res.Body.Close(); err != nil {
-		return 0, err
-	}
-
-	if config.IsDebugMode() {
-		fmt.Println("response status: ", res.Status)
-	}
-
-	return res.StatusCode, nil
+	
+	return utils.ResponseMessageNew(res.StatusCode, resource, req.Method, res.Body)
 }
 
 // runCommand call the url
@@ -50,15 +43,5 @@ func runCommand(url, resource string) error {
 	}
 
 	// create the alert group
-	status, err := deleteRequest(url)
-	if err != nil {
-		return err
-	}
-
-	// print response status
-	if err := utils.ResponseMessage(status, resource, "delete"); err != nil {
-		return err
-	}
-
-	return nil
+	return deleteRequest(url, resource)
 }
