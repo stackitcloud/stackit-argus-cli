@@ -41,7 +41,7 @@ func convertToJson(body []byte, file, resource string) ([]byte, error) {
 	return body, nil
 }
 
-// postRequest implements post request and returns a status code
+// postRequest implements post request and returns error
 func postRequest(url, keyTarget string, resource string, targets []string, body []byte) error {
 	authHeader := config.GetAuthHeader()
 	client := &http.Client{

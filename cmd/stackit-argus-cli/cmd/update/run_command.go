@@ -39,7 +39,7 @@ func convertToJson(body []byte, file, resource string) ([]byte, error) {
 	return body, nil
 }
 
-// updateRequest implements put and patch request and returns a status code
+// updateRequest implements put request and returns error
 func updateRequest(url string, method string, resource string, body []byte) error {
 	authHeader := config.GetAuthHeader()
 	client := &http.Client{

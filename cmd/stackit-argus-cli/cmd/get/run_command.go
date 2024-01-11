@@ -18,7 +18,7 @@ import (
 var status = 0
 var responseBody []byte
 
-// GetRequest implements get request and returns a status code with response body
+// GetRequest implements get request and returns error
 func GetRequest(url string, resource string) error {
 	authHeader := config.GetAuthHeader()
 	client := &http.Client{

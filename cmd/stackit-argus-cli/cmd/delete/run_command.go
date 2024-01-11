@@ -13,7 +13,7 @@ import (
 	"github.com/stackitcloud/stackit-argus-cli/internal/utils"
 )
 
-// deleteRequest implements delete request and returns a status code
+// deleteRequest implements delete request and returns error
 func deleteRequest(url string, resource string) error {
 	authHeader := config.GetAuthHeader()
 	client := &http.Client{
