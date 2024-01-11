@@ -6,11 +6,12 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/stackitcloud/stackit-argus-cli/internal/config"
-	"github.com/stackitcloud/stackit-argus-cli/internal/utils"
 	"io"
 	"net/http"
 	"time"
+
+	"github.com/stackitcloud/stackit-argus-cli/internal/config"
+	"github.com/stackitcloud/stackit-argus-cli/internal/utils"
 
 	"github.com/spf13/cobra"
 )
@@ -111,7 +112,7 @@ func createAnnotation(url, authHeader string, body []byte) error {
 		return errors.New("failed to make a \"create annotation\" request, err: " + err.Error())
 	}
 
-	return utils.ResponseMessageNew(res.StatusCode, "grafana annotation", req.Method, res.Body)
+	return utils.ResponseMessage(res.StatusCode, "grafana annotation", req.Method, res.Body)
 }
 
 func getDashboardUID(url, authHeader, title string) (string, error) {

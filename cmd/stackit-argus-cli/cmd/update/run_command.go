@@ -7,13 +7,14 @@ package update
 import (
 	"bytes"
 	"fmt"
-	"github.com/stackitcloud/stackit-argus-cli/internal/config"
-	"github.com/stackitcloud/stackit-argus-cli/internal/services/yaml_to_json"
-	"github.com/stackitcloud/stackit-argus-cli/internal/utils"
 	"net/http"
 	"os"
 	"path"
 	"time"
+
+	"github.com/stackitcloud/stackit-argus-cli/internal/config"
+	"github.com/stackitcloud/stackit-argus-cli/internal/services/yaml_to_json"
+	"github.com/stackitcloud/stackit-argus-cli/internal/utils"
 )
 
 // convertToJson converts yaml request body to json
@@ -60,7 +61,7 @@ func updateRequest(url string, method string, resource string, body []byte) erro
 		return err
 	}
 
-	if err := utils.ResponseMessageNew(res.StatusCode, resource, req.Method, res.Body); err != nil {
+	if err := utils.ResponseMessage(res.StatusCode, resource, req.Method, res.Body); err != nil {
 		return err
 	}
 

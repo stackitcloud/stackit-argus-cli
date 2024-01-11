@@ -7,13 +7,14 @@ package create
 import (
 	"bytes"
 	"fmt"
-	"github.com/stackitcloud/stackit-argus-cli/internal/config"
-	"github.com/stackitcloud/stackit-argus-cli/internal/services/yaml_to_json"
-	"github.com/stackitcloud/stackit-argus-cli/internal/utils"
 	"net/http"
 	"os"
 	"path"
 	"time"
+
+	"github.com/stackitcloud/stackit-argus-cli/internal/config"
+	"github.com/stackitcloud/stackit-argus-cli/internal/services/yaml_to_json"
+	"github.com/stackitcloud/stackit-argus-cli/internal/utils"
 )
 
 // convertToJson converts yaml request body to json
@@ -72,7 +73,7 @@ func postRequest(url, keyTarget string, resource string, targets []string, body 
 		return err
 	}
 
-	return utils.ResponseMessageNew(res.StatusCode, resource, req.Method, res.Body)
+	return utils.ResponseMessage(res.StatusCode, resource, req.Method, res.Body)
 }
 
 // runCommand call the url
@@ -103,6 +104,6 @@ func runCommand(url, resource, keyTarget string, targets []string) error {
 	}
 
 	// create the alert group
-	
+
 	return postRequest(url, keyTarget, resource, targets, body)
 }

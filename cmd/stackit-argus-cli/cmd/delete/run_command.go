@@ -6,10 +6,11 @@ package delete
 
 import (
 	"fmt"
-	"github.com/stackitcloud/stackit-argus-cli/internal/config"
-	"github.com/stackitcloud/stackit-argus-cli/internal/utils"
 	"net/http"
 	"time"
+
+	"github.com/stackitcloud/stackit-argus-cli/internal/config"
+	"github.com/stackitcloud/stackit-argus-cli/internal/utils"
 )
 
 // deleteRequest implements delete request and returns a status code
@@ -30,8 +31,8 @@ func deleteRequest(url string, resource string) error {
 	if err != nil {
 		return err
 	}
-	
-	return utils.ResponseMessageNew(res.StatusCode, resource, req.Method, res.Body)
+
+	return utils.ResponseMessage(res.StatusCode, resource, req.Method, res.Body)
 }
 
 // runCommand call the url

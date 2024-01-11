@@ -6,12 +6,13 @@ package get
 
 import (
 	"fmt"
-	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output"
-	"github.com/stackitcloud/stackit-argus-cli/internal/config"
-	"github.com/stackitcloud/stackit-argus-cli/internal/utils"
 	"io"
 	"net/http"
 	"time"
+
+	"github.com/stackitcloud/stackit-argus-cli/cmd/stackit-argus-cli/pkg/output"
+	"github.com/stackitcloud/stackit-argus-cli/internal/config"
+	"github.com/stackitcloud/stackit-argus-cli/internal/utils"
 )
 
 var status = 0
@@ -44,7 +45,7 @@ func GetRequest(url string, resource string) error {
 	status = res.StatusCode
 	responseBody = body
 
-	return utils.ResponseMessageNew(res.StatusCode, resource, req.Method, res.Body)
+	return utils.ResponseMessage(res.StatusCode, resource, req.Method, res.Body)
 }
 
 // err := runCommand call the url
