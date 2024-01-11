@@ -19,7 +19,7 @@ func ResponseMessage(responseStatusCode int, resource string, action string, bod
 		if err != nil {
 			return err
 		}
-		prettyBody, err := prettyString(string(bodyByte))
+		prettyBody, err := prettyJSONString(string(bodyByte))
 		if err != nil {
 			return err
 		}
@@ -31,7 +31,7 @@ func ResponseMessage(responseStatusCode int, resource string, action string, bod
 	return nil
 }
 
-func prettyString(str string) (string, error) {
+func prettyJSONString(str string) (string, error) {
 	var prettyJSON bytes.Buffer
 	if err := json.Indent(&prettyJSON, []byte(str), "", "    "); err != nil {
 		return "", err
