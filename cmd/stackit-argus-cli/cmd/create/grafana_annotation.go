@@ -112,7 +112,15 @@ func createAnnotation(url, authHeader string, body []byte) error {
 		return errors.New("failed to make a \"create annotation\" request, err: " + err.Error())
 	}
 
-	return utils.ResponseMessage(res.StatusCode, "grafana annotation", req.Method, res.Body)
+	if err := utils.ResponseMessage(res.StatusCode, "grafana annotation", req.Method, res.Body); err != nil {
+		return err
+	}
+
+	if err := res.Body.Close(); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func getDashboardUID(url, authHeader, title string) (string, error) {

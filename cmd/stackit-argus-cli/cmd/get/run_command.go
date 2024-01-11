@@ -45,7 +45,15 @@ func GetRequest(url string, resource string) error {
 	status = res.StatusCode
 	responseBody = body
 
-	return utils.ResponseMessage(res.StatusCode, resource, req.Method, res.Body)
+	if err := utils.ResponseMessage(res.StatusCode, resource, req.Method, res.Body); err != nil {
+		return err
+	}
+
+	if err := res.Body.Close(); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // err := runCommand call the url

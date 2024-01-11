@@ -65,9 +65,9 @@ func updateRequest(url string, method string, resource string, body []byte) erro
 		return err
 	}
 
-	//if config.IsDebugMode() {
-	//	fmt.Println("response status: ", res.Status)
-	//}
+	if err := res.Body.Close(); err != nil {
+		return err
+	}
 
 	return nil
 }

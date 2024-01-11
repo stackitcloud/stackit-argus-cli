@@ -73,7 +73,15 @@ func postRequest(url, keyTarget string, resource string, targets []string, body 
 		return err
 	}
 
-	return utils.ResponseMessage(res.StatusCode, resource, req.Method, res.Body)
+	if err := utils.ResponseMessage(res.StatusCode, resource, req.Method, res.Body); err != nil {
+		return err
+	}
+
+	if err := res.Body.Close(); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // runCommand call the url
