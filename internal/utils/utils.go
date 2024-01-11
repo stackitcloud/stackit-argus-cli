@@ -14,7 +14,7 @@ func ResponseMessage(responseStatusCode int, resource string, action string, bod
 		fmt.Printf("status code: %v\n", responseStatusCode)
 	}
 
-	if responseStatusCode >= http.StatusBadRequest {
+	if responseStatusCode != http.StatusOK && responseStatusCode != http.StatusAccepted {
 		bodyByte, err := io.ReadAll(body)
 		if err != nil {
 			return err
