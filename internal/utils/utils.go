@@ -35,8 +35,11 @@ func ResponseMessage(status int, resource, action string) error {
 }
 
 func ResponseMessageNew(responseStatusCode int, resource string, action string, body io.ReadCloser) error {
-	fmt.Printf("%s: %s", action, resource)
-	fmt.Printf("status code: %v", responseStatusCode)
+	fmt.Printf("%s: %s \n", action, resource)
+	if responseStatusCode != http.StatusUnauthorized {
+		fmt.Printf("status code: %v\n", responseStatusCode)
+	}
+	
 	if responseStatusCode >= http.StatusBadRequest {
 		bodyByte, err := io.ReadAll(body)
 		if err != nil {
@@ -46,7 +49,10 @@ func ResponseMessageNew(responseStatusCode int, resource string, action string, 
 		if err != nil {
 			return err
 		}
-		return fmt.Errorf("body: %s", prettyBody)
+		if err := body.Close(); err != nil {
+			return err
+		}
+		return fmt.Errorf("\n\033[31m%s\033[0m", prettyBody)
 	}
 	return nil
 }
