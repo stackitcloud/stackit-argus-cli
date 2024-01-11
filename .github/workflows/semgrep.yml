@@ -23,7 +23,7 @@ jobs:
       # Fetch project source
       - uses: actions/checkout@v3
 
-      - uses: returntocorp/semgrep-action@v1
+      - uses: returntocorp/semgrep-action
         with:
           config: >- # more at semgrep.dev/explore
             p/security-audit
